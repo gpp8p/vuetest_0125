@@ -207,34 +207,35 @@
 </script>
 
 <style scoped>
-    .hdrBarDiv {
-        display: grid;
-        grid-template-columns: 18% 59.5% 18%;
-        grid-template-rows: 7vh;
-        grid-column-gap: 2%;
-        height: 100%;
-    }
-    .contextArea{
-        background-color: #ffcd90;
-        color:white;
-        height: 100%;
-    }
-    .tabArea {
-        display:grid;
-        grid-template-rows: 50% 50%;
-        background-color: #ffcd90;
-        color:white;
-        height: 100%;
-    }
-    .messageArea{
-        display: flex;
-        justify-content: center;
-        color:blue;
-    }
-    .loginArea {
-        background-color: #ffcd90;
-        color:blue;
-        height: 100%;
-    }
+
+.hdrBarDiv {
+  display: grid;
+  grid-template-columns: 18% 59.5% 18%;
+  grid-template-rows: 7vh;
+  grid-column-gap: 2%;
+  height: 100%;
+}
+.contextArea{
+  background-color: #ffcd90;
+  color:white;
+  height: 100%;
+}
+.tabArea {
+  display:grid;
+  grid-template-rows: 50% 50%;
+  background-color: #ffcd90;
+  color:white;
+  height: 100%;
+}
+.messageArea{
+  display: flex;
+  justify-content: center;
+  color:blue;
+}
+.loginArea {
+  background-color: #ffcd90;
+  color:blue;
+  height: 100%;
+}
 
 </style>

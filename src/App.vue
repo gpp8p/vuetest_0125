@@ -36,24 +36,61 @@ Vue.use(Oruga);
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+:root {
+  --oruga-table-color: blue;
+  --oruga-table-background-color: #dbddd0;
+  --oruga-color-primary: green;
+  --oruga-color-danger: red;
+  --oruga-table-row-active-background-color:green;
+  --oruga-table-hoverable-background-color:red;
+  --oruga-table-row-active-color:red;
+  --oruga-button-height:18px;
 }
 
-#nav {
-  padding: 30px;
+.layoutScreen {
+  position: fixed;
+}
+section {
+
+  padding: 0 0%;
+  display: table;
+  margin: 0;
+
+
+}
+.content {
+  margin-left: 2%;
+  margin-top: 2px;
+  background-color: #dbddd0;
+  height:87vh;
+  width:97vw;
+  border-radius: 4px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #0a3aff;
+  padding-top: 8px;
+  padding-left: 5px;
+}
+.navbar {
+  margin-left: 2%;
+  background-color: #ffcd90;
+  height:7vh;
+  width:97vw;
+  border-radius: 4px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #0a3aff;
+  text-align: left;
+  padding-top: 8px;
+  padding-left: 5px;
+}
+#infoi {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+#infoi {
+  z-index: 10;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
