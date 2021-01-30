@@ -1,12 +1,39 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+          <span class="layoutScreen">
+          <section class="navbar">
+              <header-bar :message="message" :cmd="thisCmd" @register="register" @tabSelected="tabSelected" @login="login" @logError="logError" @viewStatusChangeFunction="viewStatusChange"></header-bar>
+          </section>
+          <section class="content">
+            <h2>Content Section will go here!</h2>
+          </section>
+
+        </span>
+
+
   </div>
 </template>
+<script>
+import Vue from 'vue';
+import Oruga from '@oruga-ui/oruga';
+import '@oruga-ui/oruga/dist/oruga.css';
+import '@oruga-ui/oruga/dist/oruga-vars.css'
+//import '@mdi/font/css/materialdesignicons.css'
+import headerBar from "./components/headerBar.vue";
+import store from './store';
+
+export default {
+  name: 'App',
+  store,
+  components: {headerBar}
+
+}
+
+
+Vue.use(Oruga);
+
+
+</script>
 
 <style>
 #app {
