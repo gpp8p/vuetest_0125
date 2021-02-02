@@ -186,7 +186,7 @@
       loadCardConfiguration(cardId){
  //       debugger;
         axios
-          .get("http://localhost:8000/getCardDataById?cardId=" + cardId+"&&XDEBUG_SESSION_START=15122")
+          .get("http://localhost:8000/api/shan/getCardDataById?cardId=" + cardId+"&&XDEBUG_SESSION_START=15122")
           .then(response => {
             // JSON responses are automatically parsed.
 //          debugger;
@@ -225,9 +225,9 @@
       },
 
       saveCardConfiguration(){
+        debugger;
         var cardConfigurationPackage = [this.cardId, this.styling, this.content];
         var jsonCardConfigurationPackage = JSON.stringify(cardConfigurationPackage);
-        debugger;
         axios.post('http://localhost:8000/api/shan/saveCardParameters?XDEBUG_SESSION_START=14252', {
           cardParams: jsonCardConfigurationPackage,
         }).then(response=>
@@ -241,9 +241,9 @@
         console.log(jsonCardConfigurationPackage);
       },
       saveCardContent(){
+        debugger;
         var cardConfigurationPackage = [this.cardId, this.content];
         var jsonCardConfigurationPackage = JSON.stringify(cardConfigurationPackage);
-        debugger;
         axios.post('http://localhost:8000/api/shan/saveCardContent?XDEBUG_SESSION_START=14252', {
           cardParams: jsonCardConfigurationPackage,
         }).then(response=>
