@@ -43,11 +43,15 @@ name: "selectPicker",
     }
   },
   mounted(){
-    if(this.setValue.length>0){
+    debugger;
+    if(this.setValue === undefined){
+      this.optSelected = this.getCurrentValue();
+    }else if(this.setValue.length>0 ){
       this.optSelected=this.setValue;
     }else{
       this.optSelected = this.getCurrentValue();
     }
+//    console.log('selectPicker optSelected -', this.optSelected);
 
   },
   watch:{
