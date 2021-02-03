@@ -42,6 +42,20 @@
                  v-bind:style='this.styleObject'
         ></Dialog>
 
+              <rt-editor-dialog v-if="this.RICH_TEXT_EDITOR==true"
+                                :dialog-type="dialogType"
+                                :key="dialogKey"
+                                :currentValues=this.cardCurrentConfigurationValues
+                                :selectedCardConfigurationValues = this.selectedCardConfigurationValues
+                                :dialogKey = "this.dialogKey"
+                                :cardData = "cardData"
+                                @dragStart="dragStart"
+                                @moved="dialogMoved"
+                                @configSelected = "configSelected"
+                                @saveCardData="saveCardData"
+                                :cmd="cmd"
+                                v-bind:style='this.styleObject'
+              ></rt-editor-dialog>
 
 
 
@@ -53,12 +67,12 @@
     import axios from "axios";
     import genericCard from '../components/genericCard.vue';
     import Dialog from "../components/Dialog.vue";
-//    import rtEditorDialog from "./rtEditorDialog.vue";
+    import rtEditorDialog from "./rtEditorDialog.vue";
 
 //    import simpleCkDialog from "../components/simpleCk.vue";
     export default {
         name: "editLayout",
-        components:{ genericCard, Dialog},
+        components:{ genericCard, Dialog, rtEditorDialog},
         props:{
           cmd:{
             type: String,
