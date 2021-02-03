@@ -263,7 +263,7 @@ export default {
     getCardProps() {
 //      debugger;
       if ((typeof this.cardProperties === "undefined") | (this.cardProperties == "")) {
-        return "Click on this card to set it up (green card)";
+        return "";
       }else {
         var colonDelimiterLocatedAt= this.cardProperties.indexOf(":");
         var thisProp = this.cardProperties.substr(colonDelimiterLocatedAt+1);
