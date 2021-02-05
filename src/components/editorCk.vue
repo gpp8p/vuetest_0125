@@ -142,7 +142,7 @@ export default {
           ]
         },
         simpleUpload: {
-          uploadUrl: 'http://localhost:8000/imageUploadCk?XDEBUG_SESSION_START=19403'
+          uploadUrl: 'http://localhost:8000/api/shan/imageUploadCk?XDEBUG_SESSION_START=19403'
         },
         fontFamily: {
           options: [
