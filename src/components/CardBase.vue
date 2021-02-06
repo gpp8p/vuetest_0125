@@ -246,6 +246,7 @@
         var jsonCardConfigurationPackage = JSON.stringify(cardConfigurationPackage);
         axios.post('http://localhost:8000/api/shan/saveCardContent?XDEBUG_SESSION_START=14252', {
           cardParams: jsonCardConfigurationPackage,
+          org: this.$store.getters.getOrgId
         }).then(response=>
         {
           console.log(response);
