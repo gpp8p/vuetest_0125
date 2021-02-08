@@ -224,8 +224,10 @@
                     case 'cancel':{
                         this.dialogType=0;
                         this.cardCurrentConfigurationValues={};
+                      this.RICH_TEXT_EDITOR=false;
                         this.$emit('tabSelected', msg[0]);
                         this.cancelLayoutEdit();
+
                         break;
                     }
                     case 'save':{
