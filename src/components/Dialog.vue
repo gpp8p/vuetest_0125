@@ -49,7 +49,7 @@
         <register-user v-if="dialogType==this.DIALOG_REGISTER" :cmd="cmd" @registrationSaved="registrationSaved" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted" @userExists="userExists"></register-user>
         <user-exists v-if="dialogType==this.DIALOG_USER_EXISTS" ></user-exists>
         <organizations :cmd="cmd" v-if="dialogType==this.DIALOG_ORGANIZATIONS" :selectedMenuOption="currentSelectedMenuOption" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted" @orgSelected="orgSelected" @clearCmd="clearCmd"></organizations>
-
+        <layout-list v-if="dialogType==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected"></layout-list>
       </div>
       <div class="dialogComponentFooter">
           <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -69,13 +69,14 @@
     import organizations from "../components/organizations.vue";
     import userExists from "../components/userExists.vue";
     import cardConfigurationSettings from "../components/cardConfigurationSettings.vue";
+    import layoutList from "../components/layoutList.vue";
 
 
  //   import store from "@/store";
     import RegisterUser from "@/components/registerUser";
     export default {
         name: "Dialog",
-        components :{RegisterUser, menuOpt, newCardCreate, newLayout, AreYouSure, PermList, organizations, userExists, cardConfigurationSettings},
+        components :{RegisterUser, menuOpt, newCardCreate, newLayout, AreYouSure, PermList, organizations, userExists, cardConfigurationSettings, layoutList},
         props:{
             dialogType:{
                 type: Number,
@@ -111,12 +112,15 @@
           if(this.cmd=='greenComponent'){
             this.currentMenuOpts = ['Appearence', 'Text', 'Save', 'Cancel' ];
             this.currentSelectedMenuOption = 'Appearence';
-
+          }
+          if(this.cmd=='layoutListLink'){
+            this.currentMenuOpts = [ 'Cancel Linking' ];
+            this.currentSelectedMenuOption = 'Cancel Linking';
           }
         },
         watch:{
           dialogType: function(){
-            console.log(this.selectedCardConfigurationValues);
+            console.log('dialogType changed -',this.selectedCardConfigurationValues);
 //            debugger;
 
           },
@@ -168,6 +172,11 @@
 //                  store.commit('setRegister', false);
                   break;
                 }
+                case 'Cancel Linking':{
+                  this.$emit('configSelected',['Cancel Linking'])
+                  break;
+                }
+
                 case 'Done':{
                   this.currentSelectedMenuOption = msg;
                   this.$emit('configSelected',['cancel']);

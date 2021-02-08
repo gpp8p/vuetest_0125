@@ -175,7 +175,8 @@
                   break;
                 }
                 case 'Link to Another Space':{
-                  this.cmd='cacheCurrentContent';
+//                  this.cmd='cacheCurrentContent';
+                  this.$emit('configSelected',['link']);
                   break;
                 }
                 case 'Insert the Link':{

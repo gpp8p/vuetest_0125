@@ -39,7 +39,7 @@
                  @configSelected = "configSelected"
                  @cardSaved="cardSaved"
                  :cmd="dialogCmd"
-                 v-bind:style='this.styleObject'
+                 v-bind:style='this.dialogStyleObject'
         ></Dialog>
 
               <rt-editor-dialog v-if="this.RICH_TEXT_EDITOR==true"
@@ -100,9 +100,15 @@
                 dialogKey:0,
                 dragStartX:0,
                 dragStartY:0,
+                dialogStyleObject:{
+                  top: '-400px',
+                  left: '300px',
+
+                },
                 styleObject: {
                     top: '-800px',
                     left: '400px',
+
                 },
                 cardDataFunction: null,
 
@@ -230,12 +236,31 @@
 
                         break;
                     }
+                    case 'Cancel Linking':{
+                      this.styleObject = {
+                        top: '-800px',
+                        left: '400px',
+                      },
+                      this.dialogType = 0;
+                      break;
+                    }
+
                     case 'save':{
                       this.dialogType=0;
                       this.cardDataFunction("", "saveConfiguration");
                       break;
                     }
                     case 'layoutList':{
+                      this.dialogType = this.DIALOG_LAYOUT_LIST;
+                      break;
+                    }
+                    case 'link':{
+                      console.log('configSelected - link');
+                      this.styleObject = {
+                        top: '-1063px',
+                        left: '269px'
+                      }
+                      this.dialogCmd = 'layoutListLink';
                       this.dialogType = this.DIALOG_LAYOUT_LIST;
                       break;
                     }
