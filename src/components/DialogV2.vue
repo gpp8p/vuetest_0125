@@ -38,6 +38,7 @@
             v-if = "dialogType==this.DIALOG_NEW_LAYOUT"
             @componentSettingsMounted="componentSettingsMounted"
             @layoutData="layoutData"
+            @error="showError"
             :cmd="cmd"
         ></new-layout>
         <PermList v-if="dialogType==this.DIALOG_PERMS"
@@ -60,10 +61,10 @@
 
 <script>
 //    import greenComponentSettings from "../components/greenComponentSettings.vue";
-    import menuOpt from "../components/menuOpt.vue";
+    import menuOpt from "../components/menuOptV2.vue";
     import newCardCreate from "../components/newCardCreate.vue";
 //    import newLayout from "../components/newLayout.vue";
-    import newLayout from "../components/createLayoutOld.vue";
+    import newLayout from "../components/createLayout.vue";
     import AreYouSure from "../components/AreYouSure.vue";
     import PermList from "../components/PermList.vue";
     import organizations from "../components/organizations.vue";
@@ -100,23 +101,10 @@
           }
         },
         mounted(){
-          this.getTitle();
-          if(this.cmd=='register'){
-            this.currentMenuOpts = ['Cancel', 'Save Registration'];
-            this.currentSelectedMenuOption = 'Cancel';
-          }
-          if(this.cmd=='textShow'){
-            this.currentMenuOpts = ['Appearence', 'Save', 'Cancel'];
-            this.currentSelectedMenuOption = 'Appearence';
-          }
-          if(this.cmd=='greenComponent'){
-            this.currentMenuOpts = ['Appearence', 'Text', 'Save', 'Cancel' ];
-            this.currentSelectedMenuOption = 'Appearence';
-          }
-          if(this.cmd=='layoutListLink'){
-            this.currentMenuOpts = [ 'Cancel Linking', 'New Space' ];
-            this.currentSelectedMenuOption = 'Cancel Linking';
-          }
+          var mOpts = this.getMenuOpts(this.cmd);
+          console.log('mOpts -', mOpts);
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
         },
         watch:{
           dialogType: function(){
@@ -129,6 +117,10 @@
           },
         },
         methods: {
+            showError(msg){
+              debugger;
+              this.setTitle(msg);
+            },
             cardSaved(msg){
               this.$emit('cardSaved', msg);
             },
@@ -137,9 +129,6 @@
             },
             registrationSaved(){
               this.$emit('configSelected',['cancel']);
-            },
-            spaceSelected(msg){
-              this.$emit('configSelected', ['layoutSelected',msg])
             },
             saveClicked(){
                 //        debugger;
@@ -153,9 +142,13 @@
 //                debugger;
                 this.$emit('dragStart',[evt.screenX, evt.screenY])
             },
+            spaceSelected(msg){
+              this.$emit('configSelected', ['layoutSelected',msg])
+            },
             layoutData(msg){
  //             debugger;
               console.log('layoutData',msg);
+              this.clearCmd();
               this.$emit('configSelected',['layoutSaved', msg[0]]);
             },
             menuOptSelected(msg){
@@ -181,8 +174,14 @@
                 }
 
                 case 'New Space':{
-                  this.currentMenuOpts = ['Cancel Linking', 'Save']
+                  var mOpts = this.getMenuOpts('createNewLayout');
+                  this.currentMenuOpts = mOpts.currentMenuOpts;
+                  this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
                   this.dialogType=this.DIALOG_NEW_LAYOUT;
+                  break;
+                }
+                case 'saveSpace':{
+                  this.cmd='saveSpace';
                   break;
                 }
 
@@ -228,6 +227,68 @@
                 }
               }
             },
+            getMenuOpts(menuContext){
+              debugger;
+              switch(menuContext){
+                case 'register':{
+                  return {
+                    currentMenuOpts: [
+                      ['Cancel','Cancel'],
+                      ['Save','Save Registration']
+                    ],
+                    currentSelectedMenuOption: 'Cancel'
+                  }
+                }
+                case 'newCard':{
+                  return {
+                    currentMenuOpts: [
+                      ['Cancel','Cancel'],
+                      ['Create New Card','Create New Card']
+                    ],
+                    currentSelectedMenuOption: 'Create New Card'
+                  }
+                }
+                case 'textShow':{
+                  return {
+                    currentMenuOpts: [
+                      ['Appearence','Appearence'],
+                      ['Save','Save'],
+                      ['Cancel', 'Cancel']
+                    ],
+                    currentSelectedMenuOption: 'Appearence'
+                  }
+                }
+                case 'greenComponent':{
+                  return {
+                    currentMenuOpts:[
+                      ['Appearence','Appearence'],
+                      ['Text', 'Text'] ,
+                      ['Save','Save'],
+                      ['Cancel', 'Cancel']
+                    ],
+                    currentSelectedMenuOption: 'Appearence'
+                  }
+                }
+                case 'layoutListLink':{
+                  return {
+                    currentMenuOpts: [
+                      ['Cancel', 'Cancel Linking'],
+                      ['New', 'New Space']
+                    ],
+                    currentSelectedMenuOption: 'Cancel'
+                  }
+                }
+                case 'createNewLayout':{
+                  return {
+                    currentMenuOpts: [
+                      ['Cancel', 'Cancel'],
+                      ['Save', 'saveSpace']
+                    ],
+                    currentSelectedMenuOption: 'Cancel'
+                  }
+                }
+              }
+            },
             orgSelected(msg){
               console.log('orgSelected:', msg);
             },
@@ -252,8 +313,8 @@
               debugger;
               console.log("register=", this.$store.getters.getRegister);
               console.log(msg);
-              this.currentMenuOpts = msg[0];
-              this.currentSelectedMenuOption = msg[1];
+//              this.currentMenuOpts = msg[0];
+//              this.currentSelectedMenuOption = msg[1];
 
 /*
               if(this.$store.getters.getRegister){

@@ -83,7 +83,16 @@
 
           },
           cmd: function(){
+            debugger;
             console.log('Dialog cmd changed:',this.cmd);
+            var cmdElements = this.cmd.split(':');
+            switch(cmdElements[0]){
+              case 'layoutSelected':{
+                this.spaceSelected(cmdElements[1]);
+                this.clearCmd();
+                break;
+              }
+            }
           },
         },
         methods: {
@@ -114,10 +123,10 @@
                 this.dialogDataChanged = true;
                 this.$emit('configSelected', msg);
             },
-            spaceSelected(msg){
+            spaceSelected(selectedSpace){
                 debugger;
-                console.log(msg);
-                this.layoutLink=msg;
+                console.log(selectedSpace);
+                this.layoutLink=selectedSpace;
                 this.cardData = this.currentEditorContent;
                 this.mode=this.DIALOG_EDIT;
                 this.titleMsg='Select portion of text for the link';

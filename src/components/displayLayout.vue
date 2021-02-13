@@ -39,7 +39,7 @@
     import store from "../store";
 //    import testCard from "../components/testCard.vue"
     import genericCard from '../components/genericCard.vue';
-    import Dialog from "../components/Dialog.vue";
+    import Dialog from "../components/DialogV2.vue";
     export default {
         name: "displayLayout",
         components:{genericCard, Dialog},

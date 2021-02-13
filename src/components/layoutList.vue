@@ -60,7 +60,7 @@ export default {
       sortIcon: 'arrow-up',
       sortIconSize: 'small',
       currentPage: 1,
-      perPage: 7,
+      perPage: 4,
       nxtPage: 'Next Page',
       selected:'',
       columns: [
