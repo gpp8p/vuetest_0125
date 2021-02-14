@@ -24,7 +24,7 @@
               :key="dialogKey"
               :currentValues=this.currentValues
               :dialogKey = "this.dialogKey"
-              :cmd = "this.cmd"
+              :cmd = "this.dialogCmd"
               @dragStart="dragStart"
               @moved="dialogMoved"
               @configSelected = "configSelected"
@@ -64,6 +64,7 @@
                 break;
               }
               case 'access':{
+                this.dialogCmd='topMenu';
                 this.dialogType = this.DIALOG_PERMS;
                 this.$emit('viewStatusChangeFunction', ['clearCmd'])
                 break;
@@ -113,6 +114,7 @@
               displayStatus: true,
 
               dialogType:0,
+              dialogCmd: '',
               DIALOG_CONFIGURE_GREEN_CARD:1,
               DIALOG_CONFIGURE_TEXT_CARD:2,
               DIALOG_CREATE_CARD:3,

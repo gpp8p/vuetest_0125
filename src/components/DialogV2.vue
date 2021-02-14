@@ -113,7 +113,21 @@
 
           },
           cmd: function(){
+            debugger;
             console.log('Dialog cmd changed:',this.cmd);
+/*
+            var cmdElements = this.cmd.split(':');
+            switch(cmdElements[0]){
+              case 'setMenu':{
+                var mOpts = this.getMenuOpts(cmdElements[1]);
+                console.log('mOpts -', mOpts);
+                this.currentMenuOpts = mOpts.currentMenuOpts;
+                this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+                this.clearCmd();
+                break;
+              }
+            }
+ */
           },
         },
         methods: {
@@ -285,6 +299,44 @@
                       ['Save', 'saveSpace']
                     ],
                     currentSelectedMenuOption: 'Cancel'
+                  }
+                }
+                case 'topMenu':{
+                  return {
+                    currentMenuOpts: [
+                        ['Add Group', 'Add Group'],
+                        ['Remove Group', 'Remove Group'],
+                        ['Done', 'Done']
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'topMenuB':{
+                  return {
+                    currentMenuOpts: [
+                      ['Add Group', 'Add Group'],
+                      ['Clear Remove', 'Clear Remove'],
+                      ['Done', 'Done']
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'adminGroupMenu':{
+                  return {
+                    currentMenuOpts:[
+                        ['Add Member', 'Add Member'],
+                        ['Back', 'Back'],
+                        ['Done', 'Done']
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'groupMenu':{
+                  return {
+                    currentMenuOpts:[
+                      ['Back', 'Back'],
+                      ['Done', 'Done']
+                    ]
                   }
                 }
               }

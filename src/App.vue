@@ -191,6 +191,7 @@
             break;
           }
           case 'clearCmd':{
+            console.log(this.thisCmd, ' has been cleared');
             this.thisCmd='';
             break;
           }
