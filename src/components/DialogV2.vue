@@ -42,14 +42,14 @@
             :cmd="cmd"
         ></new-layout>
         <PermList v-if="dialogType==this.DIALOG_PERMS"
-                  @componentSettingsMounted="componentSettingsMounted"
+                  @setMenu = "setMenu"
                   @setTitle="setTitle"
                   :selectedMenuOption="currentSelectedMenuOption"
                   :cmd="cmd"
         ></PermList>
         <register-user v-if="dialogType==this.DIALOG_REGISTER" :cmd="cmd" @registrationSaved="registrationSaved" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted" @userExists="userExists"></register-user>
         <user-exists v-if="dialogType==this.DIALOG_USER_EXISTS" ></user-exists>
-        <organizations :cmd="cmd" v-if="dialogType==this.DIALOG_ORGANIZATIONS" :selectedMenuOption="currentSelectedMenuOption" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted" @orgSelected="orgSelected" @clearCmd="clearCmd"></organizations>
+        <organizations :cmd="cmd" v-if="dialogType==this.DIALOG_ORGANIZATIONS" :selectedMenuOption="currentSelectedMenuOption" @setTitle="setTitle" @setMenu = "setMenu" @componentSettingsMounted="componentSettingsMounted" @orgSelected="orgSelected" @clearCmd="clearCmd"></organizations>
         <layout-list v-if="dialogType==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected"></layout-list>
       </div>
       <div class="dialogComponentFooter">
@@ -331,12 +331,101 @@
                     currentSelectedMenuOption: 'Done'
                   }
                 }
+                case 'adminAddMemberMenu':{
+                  return {
+                    currentMenuOpts:[
+                      ['Add Member To Group', 'Add Member To Group'],
+                      ['Back', 'Back'],
+                      ['Done', 'Done']
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'adminRemoveMemberMenu':{
+                  return {
+                    currentMenuOpts:[
+                      ['Remove Member From Group', 'Remove Member From Group'],
+                      ['Back', 'Back'],
+                      ['Done', 'Done']
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
                 case 'groupMenu':{
                   return {
                     currentMenuOpts:[
                       ['Back', 'Back'],
                       ['Done', 'Done']
-                    ]
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'addNewOrg':{
+                  return {
+                    currentMenuOpts:[
+                      ['Done', 'Done'],
+                      ['Add New Organization','Add New Organization']
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'saveNewOrg':{
+                  return {
+                    currentMenuOpts:[
+                      ['Back', 'Back'],
+                      ['Done', 'Done'],
+                      ['Save', 'Save']
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'orgMembersSuperAdmin':{
+                  return {
+                    currentMenuOpts:[
+                      ['Add Member','Add Member'],
+                      ['Remove', 'Remove'],
+                      ['Back', 'Back'],
+                      ['Done', 'Done'],
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'orgMembersAdmin':{
+                  return {
+                    currentMenuOpts:[
+                      ['Add Member','Add Member'],
+                      ['Back', 'Back'],
+                      ['Done', 'Done'],
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'orgMemberNoAdmin':{
+                  return {
+                    currentMenuOpts:[
+                      ['Back', 'Back'],
+                      ['Done', 'Done']
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'orgNewUser':{
+                  return {
+                    currentMenuOpts:[
+                      ['Save Registration','Save Registration'],
+                      ['Back', 'Return to New Organization'],
+                      ['Done', 'Done'],
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'existingOrgUser':{
+                  return {
+                    currentMenuOpts:[
+                      ['Back', 'Return to New Organization'],
+                      ['Done', 'Done'],
+                    ],
+                    currentSelectedMenuOption: 'Done'
                   }
                 }
               }
@@ -360,6 +449,13 @@
                 this.lastMouseX = evt.screenX;
                 this.lastMouseY = evt.screenY;
                 this.$emit('moved', [evt.screenY , evt.screenX]);
+            },
+            setMenu(msg){
+              console.log('setMenu - ', msg);
+              var mOpts = this.getMenuOpts(msg);
+              console.log('mOpts -', mOpts);
+              this.currentMenuOpts = mOpts.currentMenuOpts;
+              this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
             },
             componentSettingsMounted(msg){
               debugger;

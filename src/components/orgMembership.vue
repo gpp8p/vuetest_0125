@@ -24,15 +24,18 @@ name: "orgMembership",
   mounted(){
     if(this.orgId>0){
       if(this.$store.getters.getIsAdmin==1){
-        this.$emit('componentSettingsMounted',[['Back','Done', 'Add Member', 'Remove'],'Done']);
+        this.$emit('setMenu','orgMembersSuperAdmin');
+//        this.$emit('componentSettingsMounted',[['Back','Done', 'Add Member', 'Remove'],'Done']);
         this.$emit('setTitle','Organization Members - Click to Select');
       }else{
         this.getOrgPerms(this.orgId);
         if(this.orgPermissions.admin){
-          this.$emit('componentSettingsMounted',[['Back','Done', 'Add Member'],'Done']);
+          this.$emit('setMenu','orgMembersAdmin');
+//          this.$emit('componentSettingsMounted',[['Back','Done', 'Add Member'],'Done']);
           this.$emit('setTitle','Organization Members - Click to Select');
         }else{
-          this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
+//          this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
+          this.$emit('setMenu','orgMemberNoAdmin');
           this.$emit('setTitle','Organization Members');
         }
       }

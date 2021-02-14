@@ -248,12 +248,14 @@ export default {
   methods:{
     newUserTypeSelected(msg){
       console.log('new user selected',msg);
-      this.$emit('componentSettingsMounted',[['Return to New Organization','Save Registration'],'Done']);
+//      this.$emit('componentSettingsMounted',[['Return to New Organization','Save Registration'],'Done']);
+      this.$emit('setMenu','orgNewUser');
       this.$emit('setTitle','New Organization Administrator');
       this.viewStatus=this.NEWORG_NEWUSER;
     },
     existingUserTypeSelected(msg){
-      this.$emit('componentSettingsMounted',[['Return to New Organization','Done'],'Done']);
+//      this.$emit('componentSettingsMounted',[['Return to New Organization','Done'],'Done']);
+      this.$emit('setMenu', 'existingOrgUser');
       this.$emit('setTitle','Select User to be Organization Administrator');
       this.viewStatus=this.NEWORG_EXISTING_USER;
       console.log('existingUserSelected', msg);
