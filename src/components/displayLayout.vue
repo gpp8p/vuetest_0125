@@ -74,6 +74,10 @@
                 this.$emit('viewStatusChangeFunction', ['clearCmd'])
                 break;
               }
+              case 'saveRegistration':{
+                this.dialogCmd='saveRegistration';
+                break;
+              }
             }
 
           }
