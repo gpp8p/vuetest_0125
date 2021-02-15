@@ -182,7 +182,7 @@
             break;
           }
           case 'Save Registration':{
-            this.thisCmd = 'saveRegistration';
+            this.thisCmd = 'newUserOnlyRegistration';
             break;
           }
           case 'cancel':{
