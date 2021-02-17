@@ -8,6 +8,8 @@
                 :current-page.sync="currentPage"
                 :pagination-simple="isPaginationSimple"
                 :pagination-position="paginationPosition"
+                :icon-prev="prevIcon"
+                :icon-next="nextIcon"
                 aria-next-label="Next page"
                 aria-previous-label="Previous page"
                 aria-page-label="Page"
@@ -41,6 +43,8 @@ name: "orgList",
       currentOrgUserPage: 1,
       perPage: 4,
       nxtPage: 'Next Page',
+      prevIcon: 'chevron-left',
+      nextIcon: 'chevron-right',
       selected: '',
       selectedUser:'',
       orgColumns: [
@@ -107,5 +111,15 @@ name: "orgList",
 </script>
 
 <style scoped>
+span {
+  font-family: Arial;
+  font-size: medium;
+  --oruga-table-color: green;
+  --oruga-table-background-color: #ab97ff;
+  --oruga-table-background: #ab97ff;
+  --oruga-table-detail-background: #ab97ff;
+  --oruga-pagination-link-current-background-color: green;
+  --oruga-pagination-link-current-color:white;
 
+}
 </style>

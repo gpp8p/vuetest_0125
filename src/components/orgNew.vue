@@ -59,7 +59,7 @@
       ></register-user>
     </span>
     <span v-if="this.viewStatus==this.NEWORG_EXISTING_USER">
-      <org-membership :orgId="allUserId" @memberSelected="memberSelected" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle" ></org-membership>
+      <org-membership :orgId="allUserId" @memberSelected="memberSelected" @componentSettingsMounted="componentSettingsMounted" @setMenu="setMenu" @setTitle="setTitle" ></org-membership>
     </span>
 
   </span>
@@ -150,8 +150,9 @@ export default {
     },
     cmd: function(){
       switch(this.cmd){
-        case 'save':{
+        case 'newOrg':{
           if(this.errs.allOk()){
+            debugger;
             axios.post('http://localhost:8000/api/shan/newOrg?XDEBUG_SESSION_START=14668', {
               params:{
                 name: this.orgName,
@@ -169,6 +170,7 @@ export default {
             .then(response => {
 // eslint-disable-next-line no-debugger
               // JSON responses are automatically parsed.
+              this.$emit('clearCmd');
               this.$emit('orgCreated');
               console.log(response);
             })
@@ -248,17 +250,20 @@ export default {
   methods:{
     newUserTypeSelected(msg){
       console.log('new user selected',msg);
-      this.$emit('componentSettingsMounted',[['Return to New Organization','Save Registration'],'Done']);
+//      this.$emit('componentSettingsMounted',[['Return to New Organization','Save Registration'],'Done']);
+      this.$emit('setMenu','orgNewUser');
       this.$emit('setTitle','New Organization Administrator');
       this.viewStatus=this.NEWORG_NEWUSER;
     },
     existingUserTypeSelected(msg){
-      this.$emit('componentSettingsMounted',[['Return to New Organization','Done'],'Done']);
+//      this.$emit('componentSettingsMounted',[['Return to New Organization','Done'],'Done']);
+      this.$emit('setMenu', 'existingOrgUser');
       this.$emit('setTitle','Select User to be Organization Administrator');
       this.viewStatus=this.NEWORG_EXISTING_USER;
       console.log('existingUserSelected', msg);
     },
     memberSelected(msg){
+      debugger;
       console.log('mewmberSelected in orgNew', msg);
       this.orgAdminName=msg[1].name;
       this.orgAdminEmail=msg[1].email;
@@ -278,7 +283,7 @@ export default {
       this.orgAdminName = msg[1];
       this.orgAdminEmail = msg[2];
       this.orgAmdinId = msg[3];
-      this.$emit('componentSettingsMounted',[['Back','Done','Save'],'Done']);
+      this.$emit('setMenu','saveNewOrg');
       this.viewStatus=this.NEWORG_ORGINFO;
       this.adminIdentified=true;
     },
@@ -291,6 +296,9 @@ export default {
       this.adminIdentified=true;
       this.viewStatus=this.NEWORG_ORGINFO;
 
+    },
+    setMenu(msg){
+      this.$emit('setMenu', msg);
     },
     showAdminEntryLinks(){
       this.adminIdentified=false;

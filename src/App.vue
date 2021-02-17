@@ -25,7 +25,7 @@
   import Oruga from '@oruga-ui/oruga';
   import '@oruga-ui/oruga/dist/oruga.css';
   import '@oruga-ui/oruga/dist/oruga-vars.css'
-//  import '@mdi/font/css/materialdesignicons.css'
+  import '@mdi/font/css/materialdesignicons.css'
   import headerBar from "./components/headerBar.vue";
   import store from './store';
 
@@ -182,7 +182,7 @@
             break;
           }
           case 'Save Registration':{
-            this.thisCmd = 'saveRegistration';
+            this.thisCmd = 'newUserOnlyRegistration';
             break;
           }
           case 'cancel':{
@@ -191,6 +191,7 @@
             break;
           }
           case 'clearCmd':{
+            console.log(this.thisCmd, ' has been cleared');
             this.thisCmd='';
             break;
           }

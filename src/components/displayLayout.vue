@@ -24,7 +24,7 @@
               :key="dialogKey"
               :currentValues=this.currentValues
               :dialogKey = "this.dialogKey"
-              :cmd = "this.cmd"
+              :cmd = "this.dialogCmd"
               @dragStart="dragStart"
               @moved="dialogMoved"
               @configSelected = "configSelected"
@@ -39,7 +39,7 @@
     import store from "../store";
 //    import testCard from "../components/testCard.vue"
     import genericCard from '../components/genericCard.vue';
-    import Dialog from "../components/Dialog.vue";
+    import Dialog from "../components/DialogV2.vue";
     export default {
         name: "displayLayout",
         components:{genericCard, Dialog},
@@ -64,6 +64,7 @@
                 break;
               }
               case 'access':{
+                this.dialogCmd='topMenu';
                 this.dialogType = this.DIALOG_PERMS;
                 this.$emit('viewStatusChangeFunction', ['clearCmd'])
                 break;
@@ -71,6 +72,14 @@
               case 'organizations':{
                 this.dialogType = this.DIALOG_ORGANIZATIONS;
                 this.$emit('viewStatusChangeFunction', ['clearCmd'])
+                break;
+              }
+              case 'newUserOnlyRegistration':{
+                this.dialogCmd = 'newUserOnlyRegistration';
+                break;
+              }
+              case 'saveRegistration':{
+                this.dialogCmd='saveRegistration';
                 break;
               }
             }
@@ -113,6 +122,7 @@
               displayStatus: true,
 
               dialogType:0,
+              dialogCmd: '',
               DIALOG_CONFIGURE_GREEN_CARD:1,
               DIALOG_CONFIGURE_TEXT_CARD:2,
               DIALOG_CREATE_CARD:3,

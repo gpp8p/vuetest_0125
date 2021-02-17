@@ -169,6 +169,30 @@ name: "registerUser",
             console.log(error);
           });
         }
+      }else if(this.cmd=='newUserOnlyRegistration'){
+        if(this.checkEntryFields()){
+          axios.post('http://localhost:8000/api/shan/createUser?XDEBUG_SESSION_START=17516', {
+            params:{
+              name:this.userName,
+              email:this.userEmail,
+              password:this.userPassword,
+              org: this.$store.getters.getOrgId
+            }
+          }).then(response=>
+          {
+//            debugger;
+            if(response.data.result=='ok'){
+              console.log('registration has been saved');
+              this.$emit('registrationSaved',['ok',response.data.userName, response.data.email, response.data.userId]);
+            }
+            if(response.data.result=='userFound'){
+              this.$emit('registrationSaved',['userFound',response.data.userName, response.data.email, response.data.userId]);
+            }
+
+          }).catch(function(error) {
+            console.log(error);
+          });
+        }
       }
     }
   }

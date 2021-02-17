@@ -53,7 +53,8 @@
                                 @moved="dialogMoved"
                                 @configSelected = "configSelected"
                                 @saveCardData="saveCardData"
-                                :cmd="cmd"
+                                @clearCmd="clearRtCmd"
+                                :cmd="rtCmd"
                                 v-bind:style='this.styleObject'
               ></rt-editor-dialog>
 
@@ -66,7 +67,7 @@
 <script>
     import axios from "axios";
     import genericCard from '../components/genericCard.vue';
-    import Dialog from "../components/Dialog.vue";
+    import Dialog from "../components/DialogV2.vue";
     import rtEditorDialog from "./rtEditorDialog.vue";
 
 //    import simpleCkDialog from "../components/simpleCk.vue";
@@ -114,6 +115,7 @@
 
                 dialogCmd:'',
                 cardCmd:'',
+                rtCmd:'',
 
                 cardCurrentConfigurationValues:{},
                 selectedCardConfigurationValues:{},
@@ -242,6 +244,26 @@
                         left: '400px',
                       },
                       this.dialogType = 0;
+                      break;
+                    }
+                    case 'layoutSelected':{
+                      this.styleObject = {
+                        top: '-800px',
+                        left: '400px',
+                      },
+                      this.dialogType = 0;
+                      this.rtCmd = 'layoutSelected:'+msg[1];
+
+                      break;
+                    }
+                    case 'layoutSaved':{
+                      this.styleObject = {
+                        top: '-800px',
+                        left: '400px',
+                      },
+                      this.dialogType = 0;
+                      this.rtCmd = 'layoutSelected:'+msg[1];
+
                       break;
                     }
 
@@ -540,6 +562,7 @@
 //            this.cardInstances.forEach(this.fillInCell);
                             this.fillSelectedCells(this.cardInstances,this.topLeftCol,this.topLeftRow,this.bottomRightCol,this.bottomRightRow, '#66bb6a');
  //                           this.$emit('layoutMessage', ['bottomRight', this.bottomRightRow,this.bottomRightCol ]);
+                            this.dialogCmd = 'newCard';
                             this.dialogType=this.DIALOG_CREATE_CARD;
                         }else{
                             this.$emit('layoutMessage', ['error', 'You must click and to the right',0 ]);
@@ -651,6 +674,9 @@
                     this.$emit('layoutMessage', ['error', 'There was an error saving this card',0 ]);
                     console.log(error);
                 });
+            },
+            clearRtCmd(){
+              this.rtCmd = '';
             },
             cancelLayoutEdit(){
 //      console.log('noButton clicked');

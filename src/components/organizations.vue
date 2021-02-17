@@ -1,11 +1,13 @@
 <template>
   <span>
     <org-list v-if="orgView==this.ORG_LIST" :cmd="cmd" @orgSelected="orgSelected" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle"></org-list>
-    <org-membership :cmd="cmd" :orgId="selectedOrgId" v-if="orgView==this.ORG_MEMBERS" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle" @clearCmd="clearCmd"></org-membership>
+    <org-membership :cmd="cmd" :orgId="selectedOrgId" v-if="orgView==this.ORG_MEMBERS" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle" @setMenu="setMenu" @clearCmd="clearCmd"></org-membership>
     <org-new :cmd="cmd" v-if="orgView==this.ORG_NEW"
              @componentSettingsMounted="componentSettingsMounted"
              @setTitle="setTitle"
+             @setMenu="setMenu"
              @orgCreated="orgCreated"
+             @clearCmd="clearCmd"
              :selectedMenuOption="selectedMenuOption"
     ></org-new>
   </span>
@@ -37,14 +39,15 @@ export default {
         switch(this.selectedMenuOption){
           case 'Back':{
             this.orgView=this.ORG_LIST;
-            this.$emit('componentSettingsMounted',[['Done', 'Add New Organization'],'Done']);
+//            this.$emit('componentSettingsMounted',[['Done', 'Add New Organization'],'Done']);
             this.$emit('setTitle','Click on Organization to See Members');
             break;
           }
           case 'Add New Organization':{
             this.orgView=this.ORG_NEW;
             this.$emit('setTitle','New Organization');
-            this.$emit('componentSettingsMounted',[['Back','Done', 'Save'],'Done']);
+            this.$emit('setMenu','saveNewOrg');
+//            this.$emit('componentSettingsMounted',[['Back','Done', 'Save'],'Done']);
           }
         }
       },
@@ -96,6 +99,7 @@ export default {
     }
   },
   mounted(){
+    this.$emit('setMenu','addNewOrg');
     this.orgView = this.ORG_LIST;
 //    this.getOrgs();
   },
@@ -109,7 +113,7 @@ export default {
 //            debugger;
             console.log(response);
             this.orgs=response.data;
-            this.$emit('componentSettingsMounted',[['Done', 'Add New Organization'],'Done']);
+//            this.$emit('componentSettingsMounted',[['Done', 'Add New Organization'],'Done']);
             this.$emit('setTitle','Click on Organization to See Members');
 
           })
@@ -123,7 +127,9 @@ export default {
       this.orgView=this.ORG_MEMBERS;
     },
     orgCreated(){
+      debugger;
       this.getOrgs();
+      this.$emit('clearCmd');
       this.orgView=this.ORG_LIST;
     },
     componentSettingsMounted(msg){
@@ -134,6 +140,9 @@ export default {
     },
     clearCmd(){
       this.$emit('clearCmd');
+    },
+    setMenu(msg){
+      this.$emit('setMenu', msg);
     }
   }
 }
@@ -147,6 +156,7 @@ span {
   --oruga-table-background-color: #ab97ff;
   --oruga-table-background: #ab97ff;
   --oruga-table-detail-background: #ab97ff;
+  --oruga-pagination-link-current-background-color: green;
 
 }
 </style>

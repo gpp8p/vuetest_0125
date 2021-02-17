@@ -53,7 +53,7 @@ export default {
 name: "createLayout",
   components: {backgroundPicker},
   mounted(){
-    this.$emit("componentSettingsMounted",[this.menuOptions,this.openMenuOption])
+//    this.$emit("componentSettingsMounted",[this.menuOptions,this.openMenuOption])
   },
   data(){
     return {
@@ -86,21 +86,41 @@ name: "createLayout",
       console.log('createLayout cmd changed - ', this.cmd);
       switch(this.cmd){
         case 'Save':{
-          this.saveClicked();
+          this.saveData();
           break;
         }
         case 'saveSpace':{
-          this.saveClicked();
+          this.saveData();
           break;
         }
       }
     }
   },
   methods:{
-    getEnteredData(){
-      this.saveClicked();
+
+    checkEntry(){
+      var errorMsg = '';
+      if(this.layoutName==0){
+        errorMsg = errorMsg + 'Layout Name, ';
+      }
+      if(this.layoutDescription==0){
+        errorMsg = errorMsg + 'Layout Description, ';
+      }
+      if(this.layoutRows==0){
+        errorMsg = errorMsg + 'Rows , ';
+      }
+      if(this.layoutName==0){
+        errorMsg = errorMsg + 'Columns, ';
+      }
+      if(errorMsg.length >0){
+        return errorMsg + 'need to be enetered!';
+      } else {
+        return 'Ok';
+      }
+
 
     },
+
     configSelected(msg){
       debugger;
       switch(msg[0]){
@@ -139,29 +159,35 @@ name: "createLayout",
     getColorVal(){
 
     },
-    saveClicked(){
-//        debugger;
-      axios.post('http://localhost:8000/api/shan/createLayoutNoBlanks?XDEBUG_SESSION_START=17516', {
-        name: this.layoutName,
-        description: this.layoutDescription,
-        height: this.layoutRows,
-        width: this.layoutColumns,
-        backgroundColor: this.updatedColor,
-        backgroundType: this.backgroundType,
-        backgroundImage: this.backgroundImageFile,
-        userId: this.$store.getters.getLoggedInUserId,
-        user: this.$store.getters.getLoggedInUser,
-        orgId: this.$store.getters.getOrgId
-      }).then(response=>
-      {
+    saveData(){
+        debugger;
+      var err = this.checkEntry();
+      if(err=='Ok'){
+        axios.post('http://localhost:8000/api/shan/createLayoutNoBlanks?XDEBUG_SESSION_START=17516', {
+          name: this.layoutName,
+          description: this.layoutDescription,
+          height: this.layoutRows,
+          width: this.layoutColumns,
+          backgroundColor: this.updatedColor,
+          backgroundType: this.backgroundType,
+          backgroundImage: this.backgroundImageFile,
+          userId: this.$store.getters.getLoggedInUserId,
+          user: this.$store.getters.getLoggedInUser,
+          orgId: this.$store.getters.getOrgId
+        }).then(response=>
+        {
 //            debugger;
-        this.layoutId=response.data;
-        this.$emit('layoutData', [this.layoutId,this.layoutName, this.layoutDescription, this.layoutRows, this.layoutColumns, this.val, this.updatedColor]);
+          this.layoutId=response.data;
+          this.$emit('layoutData', [this.layoutId,this.layoutName, this.layoutDescription, this.layoutRows, this.layoutColumns, this.val, this.updatedColor]);
 //        this.$emit('layoutSaved', [this.layoutId, this.layoutRows, this.layoutColumns, this.layoutDescription, this.layoutName, this.val]);
 //                this.$refs.editGrid.createBlankLayout(msg[2],msg[3],msg[1],msg[0]);
-      }).catch(function(error) {
-        console.log(error);
-      });
+        }).catch(function(error) {
+          console.log(error);
+        });
+
+      } else {
+        this.$emit('error', err);
+      }
     },
   }
 }

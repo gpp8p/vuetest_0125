@@ -38,17 +38,18 @@
             v-if = "dialogType==this.DIALOG_NEW_LAYOUT"
             @componentSettingsMounted="componentSettingsMounted"
             @layoutData="layoutData"
+            @error="showError"
             :cmd="cmd"
         ></new-layout>
         <PermList v-if="dialogType==this.DIALOG_PERMS"
-                  @componentSettingsMounted="componentSettingsMounted"
+                  @setMenu = "setMenu"
                   @setTitle="setTitle"
                   :selectedMenuOption="currentSelectedMenuOption"
                   :cmd="cmd"
         ></PermList>
         <register-user v-if="dialogType==this.DIALOG_REGISTER" :cmd="cmd" @registrationSaved="registrationSaved" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted" @userExists="userExists"></register-user>
         <user-exists v-if="dialogType==this.DIALOG_USER_EXISTS" ></user-exists>
-        <organizations :cmd="cmd" v-if="dialogType==this.DIALOG_ORGANIZATIONS" :selectedMenuOption="currentSelectedMenuOption" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted" @orgSelected="orgSelected" @clearCmd="clearCmd"></organizations>
+        <organizations :cmd="cmd" v-if="dialogType==this.DIALOG_ORGANIZATIONS" :selectedMenuOption="currentSelectedMenuOption" @setTitle="setTitle" @setMenu = "setMenu" @componentSettingsMounted="componentSettingsMounted" @orgSelected="orgSelected" @clearCmd="clearCmd"></organizations>
         <layout-list v-if="dialogType==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected"></layout-list>
       </div>
       <div class="dialogComponentFooter">
@@ -60,10 +61,10 @@
 
 <script>
 //    import greenComponentSettings from "../components/greenComponentSettings.vue";
-    import menuOpt from "../components/menuOpt.vue";
+    import menuOpt from "../components/menuOptV2.vue";
     import newCardCreate from "../components/newCardCreate.vue";
 //    import newLayout from "../components/newLayout.vue";
-    import newLayout from "../components/createLayoutOld.vue";
+    import newLayout from "../components/createLayout.vue";
     import AreYouSure from "../components/AreYouSure.vue";
     import PermList from "../components/PermList.vue";
     import organizations from "../components/organizations.vue";
@@ -100,23 +101,10 @@
           }
         },
         mounted(){
-          this.getTitle();
-          if(this.cmd=='register'){
-            this.currentMenuOpts = ['Cancel', 'Save Registration'];
-            this.currentSelectedMenuOption = 'Cancel';
-          }
-          if(this.cmd=='textShow'){
-            this.currentMenuOpts = ['Appearence', 'Save', 'Cancel'];
-            this.currentSelectedMenuOption = 'Appearence';
-          }
-          if(this.cmd=='greenComponent'){
-            this.currentMenuOpts = ['Appearence', 'Text', 'Save', 'Cancel' ];
-            this.currentSelectedMenuOption = 'Appearence';
-          }
-          if(this.cmd=='layoutListLink'){
-            this.currentMenuOpts = [ 'Cancel Linking', 'New Space' ];
-            this.currentSelectedMenuOption = 'Cancel Linking';
-          }
+          var mOpts = this.getMenuOpts(this.cmd);
+          console.log('mOpts -', mOpts);
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
         },
         watch:{
           dialogType: function(){
@@ -125,10 +113,28 @@
 
           },
           cmd: function(){
+            debugger;
             console.log('Dialog cmd changed:',this.cmd);
+/*
+            var cmdElements = this.cmd.split(':');
+            switch(cmdElements[0]){
+              case 'setMenu':{
+                var mOpts = this.getMenuOpts(cmdElements[1]);
+                console.log('mOpts -', mOpts);
+                this.currentMenuOpts = mOpts.currentMenuOpts;
+                this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+                this.clearCmd();
+                break;
+              }
+            }
+ */
           },
         },
         methods: {
+            showError(msg){
+              debugger;
+              this.setTitle(msg);
+            },
             cardSaved(msg){
               this.$emit('cardSaved', msg);
             },
@@ -137,9 +143,6 @@
             },
             registrationSaved(){
               this.$emit('configSelected',['cancel']);
-            },
-            spaceSelected(msg){
-              this.$emit('configSelected', ['layoutSelected',msg])
             },
             saveClicked(){
                 //        debugger;
@@ -153,9 +156,13 @@
 //                debugger;
                 this.$emit('dragStart',[evt.screenX, evt.screenY])
             },
+            spaceSelected(msg){
+              this.$emit('configSelected', ['layoutSelected',msg])
+            },
             layoutData(msg){
  //             debugger;
               console.log('layoutData',msg);
+              this.clearCmd();
               this.$emit('configSelected',['layoutSaved', msg[0]]);
             },
             menuOptSelected(msg){
@@ -181,8 +188,14 @@
                 }
 
                 case 'New Space':{
-                  this.currentMenuOpts = ['Cancel Linking', 'Save']
+                  var mOpts = this.getMenuOpts('createNewLayout');
+                  this.currentMenuOpts = mOpts.currentMenuOpts;
+                  this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
                   this.dialogType=this.DIALOG_NEW_LAYOUT;
+                  break;
+                }
+                case 'saveSpace':{
+                  this.cmd='saveSpace';
                   break;
                 }
 
@@ -192,7 +205,11 @@
                   break;
                 }
                 case 'Save':{
-                  this.cmd='Save';
+                  this.cmd='save';
+                  break;
+                }
+                case 'SaveOrganization':{
+                  this.cmd = 'newOrg';
                   break;
                 }
 /*
@@ -228,6 +245,195 @@
                 }
               }
             },
+            getMenuOpts(menuContext){
+              debugger;
+              switch(menuContext){
+                case 'register':{
+                  return {
+                    currentMenuOpts: [
+                      ['Cancel','Cancel'],
+                      ['Save','Save Registration']
+                    ],
+                    currentSelectedMenuOption: 'Cancel'
+                  }
+                }
+                case 'newCard':{
+                  return {
+                    currentMenuOpts: [
+                      ['Cancel','Cancel'],
+                      ['Create New Card','Create New Card']
+                    ],
+                    currentSelectedMenuOption: 'Create New Card'
+                  }
+                }
+                case 'textShow':{
+                  return {
+                    currentMenuOpts: [
+                      ['Appearence','Appearence'],
+                      ['Save','Save'],
+                      ['Cancel', 'Cancel']
+                    ],
+                    currentSelectedMenuOption: 'Appearence'
+                  }
+                }
+                case 'greenComponent':{
+                  return {
+                    currentMenuOpts:[
+                      ['Appearence','Appearence'],
+                      ['Text', 'Text'] ,
+                      ['Save','Save'],
+                      ['Cancel', 'Cancel']
+                    ],
+                    currentSelectedMenuOption: 'Appearence'
+                  }
+                }
+                case 'layoutListLink':{
+                  return {
+                    currentMenuOpts: [
+                      ['Cancel', 'Cancel Linking'],
+                      ['New', 'New Space']
+                    ],
+                    currentSelectedMenuOption: 'Cancel'
+                  }
+                }
+                case 'createNewLayout':{
+                  return {
+                    currentMenuOpts: [
+                      ['Cancel', 'Cancel'],
+                      ['Save', 'saveSpace']
+                    ],
+                    currentSelectedMenuOption: 'Cancel'
+                  }
+                }
+                case 'topMenu':{
+                  return {
+                    currentMenuOpts: [
+                        ['Add Group', 'Add Group'],
+                        ['Remove Group', 'Remove Group'],
+                        ['Done', 'Done']
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'topMenuB':{
+                  return {
+                    currentMenuOpts: [
+                      ['Add Group', 'Add Group'],
+                      ['Clear Remove', 'Clear Remove'],
+                      ['Done', 'Done']
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'adminGroupMenu':{
+                  return {
+                    currentMenuOpts:[
+                        ['Add Member', 'Add Member'],
+                        ['Back', 'Back'],
+                        ['Done', 'Done']
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'adminAddMemberMenu':{
+                  return {
+                    currentMenuOpts:[
+                      ['Add Member To Group', 'Add Member To Group'],
+                      ['Back', 'Back'],
+                      ['Done', 'Done']
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'adminRemoveMemberMenu':{
+                  return {
+                    currentMenuOpts:[
+                      ['Remove Member From Group', 'Remove Member From Group'],
+                      ['Back', 'Back'],
+                      ['Done', 'Done']
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'groupMenu':{
+                  return {
+                    currentMenuOpts:[
+                      ['Back', 'Back'],
+                      ['Done', 'Done']
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'addNewOrg':{
+                  return {
+                    currentMenuOpts:[
+                      ['Done', 'Done'],
+                      ['Add New Organization','Add New Organization']
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'saveNewOrg':{
+                  return {
+                    currentMenuOpts:[
+                      ['Back', 'Back'],
+                      ['Done', 'Done'],
+                      ['Save', 'SaveOrganization']
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'orgMembersSuperAdmin':{
+                  return {
+                    currentMenuOpts:[
+                      ['Add Member','Add Member'],
+                      ['Remove', 'Remove'],
+                      ['Back', 'Back'],
+                      ['Done', 'Done'],
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'orgMembersAdmin':{
+                  return {
+                    currentMenuOpts:[
+                      ['Add Member','Add Member'],
+                      ['Back', 'Back'],
+                      ['Done', 'Done'],
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'orgMemberNoAdmin':{
+                  return {
+                    currentMenuOpts:[
+                      ['Back', 'Back'],
+                      ['Done', 'Done']
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'orgNewUser':{
+                  return {
+                    currentMenuOpts:[
+                      ['Save Registration','Save Registration'],
+                      ['Back', 'Return to New Organization'],
+                      ['Done', 'Done'],
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'existingOrgUser':{
+                  return {
+                    currentMenuOpts:[
+                      ['Back', 'Return to New Organization'],
+                      ['Done', 'Done'],
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+              }
+            },
             orgSelected(msg){
               console.log('orgSelected:', msg);
             },
@@ -248,12 +454,19 @@
                 this.lastMouseY = evt.screenY;
                 this.$emit('moved', [evt.screenY , evt.screenX]);
             },
+            setMenu(msg){
+              console.log('setMenu - ', msg);
+              var mOpts = this.getMenuOpts(msg);
+              console.log('mOpts -', mOpts);
+              this.currentMenuOpts = mOpts.currentMenuOpts;
+              this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+            },
             componentSettingsMounted(msg){
               debugger;
               console.log("register=", this.$store.getters.getRegister);
               console.log(msg);
-              this.currentMenuOpts = msg[0];
-              this.currentSelectedMenuOption = msg[1];
+//              this.currentMenuOpts = msg[0];
+//              this.currentSelectedMenuOption = msg[1];
 
 /*
               if(this.$store.getters.getRegister){
