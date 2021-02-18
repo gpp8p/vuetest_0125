@@ -460,6 +460,7 @@
               console.log('mOpts -', mOpts);
               this.currentMenuOpts = mOpts.currentMenuOpts;
               this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+              this.clearCmd();
             },
             componentSettingsMounted(msg){
               debugger;
@@ -523,6 +524,7 @@
             },
             clearCmd(){
               this.cmd='';
+              this.dialogCmd='';
               this.$emit('clearCmd');
             }
         },

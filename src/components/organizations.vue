@@ -129,7 +129,8 @@ export default {
     orgCreated(){
       debugger;
       this.getOrgs();
-      this.$emit('clearCmd');
+      this.clearCmd();
+      this.$emit('setMenu','addNewOrg');
       this.orgView=this.ORG_LIST;
     },
     componentSettingsMounted(msg){
@@ -139,6 +140,7 @@ export default {
       this.$emit('setTitle', msg);
     },
     clearCmd(){
+      this.cmd="";
       this.$emit('clearCmd');
     },
     setMenu(msg){

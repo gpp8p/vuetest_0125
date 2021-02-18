@@ -170,6 +170,7 @@ export default {
             .then(response => {
 // eslint-disable-next-line no-debugger
               // JSON responses are automatically parsed.
+              debugger;
               this.$emit('clearCmd');
               this.$emit('orgCreated');
               console.log(response);
@@ -283,6 +284,7 @@ export default {
       this.orgAdminName = msg[1];
       this.orgAdminEmail = msg[2];
       this.orgAmdinId = msg[3];
+      this.$emit('clearCmd');
       this.$emit('setMenu','saveNewOrg');
       this.viewStatus=this.NEWORG_ORGINFO;
       this.adminIdentified=true;
@@ -294,6 +296,7 @@ export default {
       this.orgAmdinId=msg.id;
       this.orgIsAdmin=msg.is_admin;
       this.adminIdentified=true;
+      this.$emit('clearCmd');
       this.viewStatus=this.NEWORG_ORGINFO;
 
     },

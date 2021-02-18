@@ -66,15 +66,18 @@
               case 'access':{
                 this.dialogCmd='topMenu';
                 this.dialogType = this.DIALOG_PERMS;
-                this.$emit('viewStatusChangeFunction', ['clearCmd'])
+                this.clearCmd();
+//                this.$emit('viewStatusChangeFunction', ['clearCmd'])
                 break;
               }
               case 'organizations':{
                 this.dialogType = this.DIALOG_ORGANIZATIONS;
-                this.$emit('viewStatusChangeFunction', ['clearCmd'])
+                this.clearCmd();
+//                this.$emit('viewStatusChangeFunction', ['clearCmd'])
                 break;
               }
               case 'newUserOnlyRegistration':{
+                debugger;
                 this.dialogCmd = 'newUserOnlyRegistration';
                 break;
               }
@@ -144,6 +147,8 @@
         },
         methods: {
             clearCmd(){
+              this.cmd='';
+              this.dialogCmd='';
               this.$emit('viewStatusChangeFunction', ['clearCmd'])
             },
             layoutGridParameters(height, width, backgroundColor, backgroundImageUrl, backgroundType) {
