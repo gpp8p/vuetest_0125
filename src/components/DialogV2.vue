@@ -376,7 +376,7 @@
                 case 'saveNewOrg':{
                   return {
                     currentMenuOpts:[
-                      ['Back', 'Back'],
+                      ['Back', 'OrgTopBack'],
                       ['Done', 'Done'],
                       ['Save', 'SaveOrganization']
                     ],
