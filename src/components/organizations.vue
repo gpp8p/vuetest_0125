@@ -43,6 +43,11 @@ export default {
             this.$emit('setTitle','Click on Organization to See Members');
             break;
           }
+          case 'OrgTopBack':{
+            this.orgView=this.ORG_LIST;
+            this.$emit('setMenu','addNewOrg');
+            break;
+          }
           case 'Add New Organization':{
             this.orgView=this.ORG_NEW;
             this.$emit('setTitle','New Organization');

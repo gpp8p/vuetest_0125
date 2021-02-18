@@ -388,7 +388,7 @@
                     currentMenuOpts:[
                       ['Add Member','Add Member'],
                       ['Remove', 'Remove'],
-                      ['Back', 'Back'],
+                      ['Back', 'OrgTopBack'],
                       ['Done', 'Done'],
                     ],
                     currentSelectedMenuOption: 'Done'
