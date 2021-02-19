@@ -144,7 +144,7 @@
                 this.$forceUpdate();
             },
             sendLogin(email, password, setStatus){
-//                debugger;
+                debugger;
                 console.log('sendLogin - ',email,password, setStatus, this.$store.getters.getDefaultOrg);
                 axios.post('http://localhost:8000/api/auth/login?XDEBUG_SESSION_START=14427', {
                     email: email,
@@ -153,6 +153,7 @@
                 }).then(response=>
                 {
                     if(response.data.resultType==='Ok'){
+//                        debugger;
                         this.credentials.bearerToken = response.data.access_token;
                         this.credentials.loggedInUser = response.data.userName;
                         this.credentials.loggedInUserId = response.data.userId;

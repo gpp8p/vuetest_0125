@@ -42,6 +42,7 @@
     store,
     created(){
       var pathArray=this.$route.path.substring(1).split('/');
+      console.log('pathArray is:', pathArray);
 //    debugger;
       if(pathArray[0].length>0){
         store.commit('setDefaultOrg', pathArray[0]);
@@ -206,7 +207,7 @@
         this.message=msg[1];
       },
       login(msg){
-        console.log(msg[0]);
+        console.log('login event recieved at App',msg[0]);
         this.$router.push({
           name: 'displayLayout',
           params: { layoutId: msg[0] }

@@ -103,6 +103,7 @@ name: "orgMembership",
           break
         }
         case 'Remove':{
+          debugger;
           axios.get('http://localhost:8000/api/shan/removeUserFromOrg?XDEBUG_SESSION_START=14668', {
             params: {
               userId:this.selectedUserId,
