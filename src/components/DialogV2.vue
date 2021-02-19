@@ -208,6 +208,11 @@
                   this.cmd='save';
                   break;
                 }
+                case 'SaveConfiguration':{
+                  this.cmd='save';
+                  this.$emit('configSelected', ['save']);
+                  break;
+                }
                 case 'SaveOrganization':{
                   this.cmd = 'newOrg';
                   break;
@@ -281,7 +286,7 @@
                     currentMenuOpts:[
                       ['Appearence','Appearence'],
                       ['Text', 'Text'] ,
-                      ['Save','Save'],
+                      ['Save','SaveConfiguration'],
                       ['Cancel', 'Cancel']
                     ],
                     currentSelectedMenuOption: 'Appearence'
