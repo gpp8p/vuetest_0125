@@ -55,6 +55,7 @@
             console.log('displayLayout - cmd property changed:', this.cmd);
             switch(this.cmd){
               case 'register':{
+                this.dialogCmd = 'register';
                 this.dialogType = this.DIALOG_REGISTER;
                 break;
               }

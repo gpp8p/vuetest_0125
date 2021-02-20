@@ -101,6 +101,7 @@
           }
         },
         mounted(){
+          debugger;
           var mOpts = this.getMenuOpts(this.cmd);
           console.log('mOpts -', mOpts);
           this.currentMenuOpts = mOpts.currentMenuOpts;
@@ -275,7 +276,7 @@
                   return {
                     currentMenuOpts: [
                       ['Appearence','Appearence'],
-                      ['Save','Save'],
+                      ['Save','SaveConfiguration'],
                       ['Cancel', 'Cancel']
                     ],
                     currentSelectedMenuOption: 'Appearence'
