@@ -186,6 +186,10 @@
             this.thisCmd = 'newUserOnlyRegistration';
             break;
           }
+          case 'Save OrgRegistration':{
+            this.thisCmd = 'saveRegistration';
+            break;
+          }
           case 'cancel':{
             debugger;
             this.thisCmd='';

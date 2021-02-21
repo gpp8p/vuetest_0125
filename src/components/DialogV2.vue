@@ -244,6 +244,10 @@
                   this.$emit('configSelected', ['Save Registration']);
                   break;
                 }
+                case 'Save OrgRegistration':{
+                  this.$emit('configSelected', ['Save OrgRegistration']);
+                  break;
+                }
                 default:{
                   this.currentSelectedMenuOption = msg;
                   this.cmd = msg;
@@ -258,7 +262,7 @@
                   return {
                     currentMenuOpts: [
                       ['Cancel','Cancel'],
-                      ['Save','Save Registration']
+                      ['Save','Save OrgRegistration']
                     ],
                     currentSelectedMenuOption: 'Cancel'
                   }
