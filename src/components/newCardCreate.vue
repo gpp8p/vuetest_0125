@@ -30,7 +30,7 @@
         cardType:'',
         cardTypeLabel: 'Card Type:',
         cardPtypeReference: 'cardType',
-        cardTypeOptions: ['Headline', 'RichText'],
+        cardTypeOptions: ['Headline', 'RichText', 'linkMenu'],
         dKey:0,
         newCardParams:{}
       }

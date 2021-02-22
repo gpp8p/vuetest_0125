@@ -30,6 +30,11 @@
                    @cardPropertySet="cardPropertySet"
                    ref="cardKey"
         ></text-show>
+        <link-menu v-if="cardType=='linkMenu'"
+                   :displayStatus = displayStatus
+                   @cardClick="processCardClick"
+        ></link-menu>
+
 </span>
 
 
@@ -44,11 +49,12 @@
   import GreenComponent from "../components/greenComponent";
   import GenericCardBase from "../components/GenericCardBase.vue";
   import textShow from "./textShow.vue";
+  import linkMenu from "../components/LinkMenu";
 
   export default {
     name: "genericCard",
     extends: GenericCardBase,
-    components: {GreenComponent, textShow},
+    components: {GreenComponent, textShow, linkMenu},
     props: {
       cardType: {
         type: String,
