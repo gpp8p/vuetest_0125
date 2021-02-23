@@ -21,12 +21,57 @@ export default {
 name: "LinkMenu",
   extends: CardBase,
   props:{
-    displayStatus:{
-      type: Boolean,
+    cardStyle: {
+      type: String,
+      required: true
+    },
+    cardId: {
+      type: String,
+      required: true
+    },
+    cardKey: {
+      type: String,
+      required: true
+    },
+    cardPosition: {
+      type: Array,
+      required: true
+    },
+    cardProperties: {
+      type: String,
       required: false
     },
+    displayStatus: {
+      type: Boolean,
+      required: true
+    },
+    cmd: {
+      type: String,
+      required: false
+    }
   },
-  methods:{
+  watch:{
+    cmd: function() {
+      console.log('green component cmd changed-', this.cmd);
+    }
+  },
+  data() {
+    return {
+      cardMessage: this.getCardProps(),
+      cardHasBeenSetup: false,
+      cstyle: this.cardStyle,
+      cardTitle: this.getCardProps(),
+      styling: {},
+      content: {},
+      configurationCurrentValues: {},
+      dialog: false,
+      testProp: false,
+      tdialogMsg: '',
+      editStatus: false,
+      currentMenuOpts: ['Save', 'Cancel'],
+    }
+  },
+      methods:{
     configureClicked() {
 //      debugger;
       this.styling={};
@@ -59,6 +104,16 @@ name: "LinkMenu",
         this.configurationCurrentValues,
       ]);
     },
+        getCardProps() {
+//      debugger;
+          if ((typeof this.cardProperties === "undefined") | (this.cardProperties == "")) {
+            return "";
+          }else {
+            var colonDelimiterLocatedAt= this.cardProperties.indexOf(":");
+            var thisProp = this.cardProperties.substr(colonDelimiterLocatedAt+1);
+            return thisProp;
+          }
+        }
   }
 
 }

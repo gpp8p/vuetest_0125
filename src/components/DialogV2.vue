@@ -297,6 +297,17 @@
                     currentSelectedMenuOption: 'Appearence'
                   }
                 }
+                case 'linkMenu':{
+                  return {
+                    currentMenuOpts:[
+                      ['Appearence','Appearence'],
+                      ['Text', 'Text'] ,
+                      ['Save','SaveConfiguration'],
+                      ['Cancel', 'Cancel']
+                    ],
+                    currentSelectedMenuOption: 'Appearence'
+                  }
+                }
                 case 'layoutListLink':{
                   return {
                     currentMenuOpts: [

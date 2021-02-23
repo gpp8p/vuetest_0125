@@ -31,8 +31,19 @@
                    ref="cardKey"
         ></text-show>
         <link-menu v-if="cardType=='linkMenu'"
+                   :card-style=cardStyle
+                   :card-id=cardId
+                   :card-key=cardKey
+                   :card-position=cardPosition
+                   :cardProperties = cardProperties
                    :displayStatus = displayStatus
+                   :cmd = cmd
                    @cardClick="processCardClick"
+                   @textEditor="textEditor"
+                   @configurationHasBeenSaved="configurationHasBeenSaved"
+                   @cardDataLoaded="cardDataLoaded"
+                   @cardPropertySet="cardPropertySet"
+                   ref="cardKey"
         ></link-menu>
 
 </span>
