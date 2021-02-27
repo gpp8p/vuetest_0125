@@ -269,7 +269,7 @@
 
                     case 'save':{
                       this.dialogType=0;
-                      this.cardDataFunction("", "saveConfiguration");
+                      this.cardDataFunction("", "saveConfiguration","main");
                       break;
                     }
                     case 'layoutList':{
