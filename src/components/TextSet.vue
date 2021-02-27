@@ -41,6 +41,10 @@ export default {
     dialogKey:{
       type: Number,
       required:true
+    },
+    domElement:{
+      type: String,
+      required: true
     }
   },
   data(){
@@ -67,7 +71,9 @@ export default {
   },
   methods:{
     configSelected(msg){
+      debugger;
       console.log(msg);
+      msg.push(this.domElement);
       this.$emit('configSelected', msg);
     }
   }

@@ -60,7 +60,9 @@
                 break;
               }
               case 'createNewLayout':{
+                debugger;
                 console.log('displayLayout createNewLayout triggered');
+                this.dialogCmd = 'createNewLayout';
                 this.dialogType = this.DIALOG_NEW_LAYOUT;
                 break;
               }

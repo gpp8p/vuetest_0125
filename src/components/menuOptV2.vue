@@ -33,9 +33,9 @@ name: "menuOpt",
 <style scoped>
   .linkStyle{
     font-family: Arial;
-    font-size: medium;
+    font-size:smaller;
     color: #0a3aff;
-    margin-left: 10%;
+    margin-left: 5%;
     margin-right: 5%;
   }
 </style>

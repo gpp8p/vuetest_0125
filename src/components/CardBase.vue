@@ -4,16 +4,18 @@
   export default {
     name: "CardBase",
     methods: {
-      setCardData(cardData, cardDataElement) {
+      setCardData(cardData, cardDataElement, domElement) {
       debugger;
+      console.log('domElement - ',domElement);
+      if(domElement=='main'){
         switch (cardDataElement) {
           case "saveConfiguration":
             debugger;
             this.saveCardConfiguration();
             break;
           case "saveCardContent":
-              this.saveCardContent(cardData);
-              break;
+            this.saveCardContent(cardData);
+            break;
           case "loadConfiguration":
             this.loadCardConfiguration(cardData);
             break;
@@ -167,6 +169,183 @@
             this.$emit('cardPropertySet',[borderColorSet, 'borderColor']);
             break;
         }
+      }else {
+        switch (cardDataElement) {
+            /*
+          case "saveConfiguration":
+            debugger;
+            this.saveCardConfiguration();
+            break;
+          case "saveCardContent":
+            this.saveCardContent(cardData);
+            break;
+
+
+          case "loadConfiguration":
+            this.loadCardConfiguration(cardData);
+            break;
+
+          case "title":
+            this.cardTitle = cardData;
+            this.configurationValues[domElement]['title']=cardData;
+            this.content.title = "title:"+cardData;
+            delete this.styling.title;
+            break;
+
+          case "cardText":
+            this.cardData = cardData;
+            this.content.cardText = "cardText:" + cardData;
+            break;
+
+          case "backgroundType":
+            this.configurationValues[domElement]['backgroundType']="checked";
+            this.styling.backgroundType="backgroundType:checked;";
+            break;
+          case 'backgroundTypeColor':
+            this.configurationValues[domElement]['backgroundTypeColor']="checked";
+            this.styling.backgroundTypeImage="backgroundTypeColor:checked;"
+            delete this.styling.backgroundTypeImage;
+            break;
+
+          case "backgroundColor":
+//            this.$el.style.backgroundColor=cardData;
+            this.$emit('cardPropertySet',[cardData, cardDataElement]);
+            this.configurationValues[domElement]['backgroundColor']=cardData;
+            this.styling.backgroundColor="background-color:"+cardData+";";
+            break
+          case "backgroundImage":
+            debugger;
+            var backGroundImageReference = "url(http://localhost:8000/storage/"+cardData+")";
+//            var backGroundImageReference = "url('" + cardData + "')";
+//            this.$el.style.backgroundImage = backGroundImageReference;
+            this.configurationValues[domElement]['backgroundImage']=backGroundImageReference;
+            this.styling.backgroundImage = "background-image:"+ backGroundImageReference+";";
+//            this.$el.style.backgroundSize="100% 100%";
+            this.configurationValues[domElement]['backgroundSize']="100% 100%";
+            this.styling.backgroundSize="background-size:100% 100%;";
+            this.$emit('cardPropertySet',[backGroundImageReference, cardDataElement]);
+            break;
+          case 'backgroundTypeImage':
+            this.configurationValues[domElement]['backgroundTypeImage']="checked";
+            this.styling.backgroundTypeImage="backgroundTypeImage:checked;"
+            delete this.styling.backgroundTypeColor;
+            break;
+
+ */
+          case "fontFamily":
+//            this.$el.style.fontFamily=cardData;
+            this.subContentConfiguration[domElement]['fontFamily'] = cardData;
+            this.subContentStyling[domElement].fontFamily = "font-family:" + cardData + ";";
+            this.$emit('cardSubPropertySet', [cardData, cardDataElement]);
+            break;
+          case "fontSize":
+//            this.$el.style.fontSize=cardData;
+            this.subContentConfiguration[domElement]['fontSize'] = cardData;
+            this.subContentStyling[domElement].fontSize = "font-size:" + cardData + ";";
+            this.$emit('cardSubPropertySet', [cardData, cardDataElement, domElement]);
+            break;
+          case "fontWeight":
+//            this.$el.style.fontWeight=cardData;
+            this.subContentConfiguration[domElement]['fontWeight'] = cardData;
+            this.subContentStyling[domElement].fontWeight = "font-weight:" + cardData + ";";
+            this.$emit('cardSubPropertySet', [cardData, cardDataElement, domElement]);
+            break;
+          case "fontStyle":
+//            this.$el.style.fontStyle=cardData;
+            this.subContentConfiguration[domElement]['fontStyle'] = cardData;
+            this.subContentStyling[domElement].fontStyle = "font-style:" + cardData + ";";
+            this.$emit('cardSubPropertySet', [cardData, cardDataElement, domElement]);
+            break;
+          case "color":
+//            this.$el.style.color=cardData;
+            this.subContentConfiguration[domElement]['color'] = cardData;
+            this.subContentStyling[domElement].color = "color:" + cardData + ";";
+            this.$emit('cardSubPropertySet', [cardData, cardDataElement, domElement]);
+            break;
+          case "textAlign":
+//            this.$el.style.textAlign=cardData;
+            this.subContentConfiguration[domElement]['textAlign'] = cardData;
+            this.subContentStyling[domElement].textAlign = "text-align:" + cardData + ";";
+            this.$emit('cardSubPropertySet', [cardData, cardDataElement, domElement]);
+            break;
+            /*
+          case "roundIncluded":
+            if(cardData=="activated") {
+              this.configurationValues[domElement]['roundIncluded'] = "checked";
+//              this.$el.style.borderRadius = "8px";
+              this.styling.borderRadius = "border-radius:8px;";
+              this.styling.roundIncluded = "roundIncluded:checked;";
+            }else{
+              this.configurationValues[domElement]['roundIncluded'] = "";
+//              this.$el.style.borderRadius = "";
+              delete this.styling.borderRadius;
+              delete this.styling.roundIncluded;
+            }
+            this.$emit('cardPropertySet',[cardData, cardDataElement]);
+            break;
+          case "shadow":
+            if(cardData=="activated"){
+              this.configurationValues[domElement]['shadow']="checked";
+//              this.$el.style.boxShadow="10px 20px 30px black";
+              this.configurationValues[domElement]['shadowSize']="default"
+              this.styling.boxShadow = "box-shadow:10px 20px 30px black;";
+              this.styling.shadow="shadow:checked;";
+            }else{
+//              this.$el.style.boxShadow="";
+              delete this.styling.boxShadow;
+              delete this.styling.shadow;
+              this.configurationValues[domElement]['shadowSize']="";
+              this.configurationValues[domElement]['shadow']="";
+            }
+            this.$emit('cardPropertySet',[cardData, cardDataElement]);
+            break;
+          case "border":
+            if(cardData=='activated'){
+              this.configurationValues[domElement]['borderInclude']="checked";
+              this.styling.borderInclude="borderInclude:checked;";
+              this.configurationValues[domElement]['borderColor']='#0000FF';
+              this.configurationValues[domElement]['border']="border:thin solid #0000FF";
+//              this.$el.style.border="thin solid #0000FF";
+              this.styling.border="border:thin solid #0000FF;";
+            }else{
+              this.configurationValues[domElement]['borderSize']='';
+              this.configurationValues[domElement]['borderColor']='#0000FF';
+              this.configurationValues[domElement]['borderInclude']="";
+              this.configurationValues[domElement]['border']="";
+//              this.$el.style.border=null;
+//              this.$el.style.borderWidth=null;
+//              this.$el.style.borderColor=null;
+              delete this.styling.border;
+              delete this.styling.borderSize;
+              delete this.styling.borderColor;
+              delete this.styling.borderInclude;
+            }
+            this.$emit('cardPropertySet',[cardData, cardDataElement]);
+            break;
+          case "borderSize":
+            this.configurationValues[domElement]['borderSize']=cardData;
+            this.styling.borderSize="border-width:"+cardData+";";
+
+            this.styling.border = "border:"+cardData+" solid "+this.configurationValues[domElement]['borderColor']+";";
+            var borderSet = cardData+" solid "+this.configurationValues[domElement]['borderColor'];
+//            this.$el.style.borderWidth = cardData;
+            this.$emit('cardPropertySet',[borderSet, 'borderSize']);
+            break;
+          case "borderColor":
+            this.configurationValues[domElement]['borderColor']=cardData;
+            var borderColorSet = this.configurationValues[domElement]['borderSize']+" solid "+this.configurationValues[domElement]['borderColor'];
+//            this.$el.style.borderColor = cardData;
+            this.styling.borderColor="border-color:"+cardData+";";
+            this.styling.border = "border:"+borderColorSet+";";
+            this.$emit('cardPropertySet',[borderColorSet, 'borderColor']);
+            break;
+        }
+
+ */
+        }
+        this.subStyleChange++;
+      }
+
         return this.cardKey;
       },
 
@@ -189,7 +368,7 @@
           .get("http://localhost:8000/api/shan/getCardDataById?cardId=" + cardId+"&&XDEBUG_SESSION_START=15122")
           .then(response => {
             // JSON responses are automatically parsed.
-//          debugger;
+          debugger;
             this.cardConfigParams = response.data[0];
             this.cardContent = response.data[1];
 

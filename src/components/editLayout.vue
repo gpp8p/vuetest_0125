@@ -318,7 +318,8 @@
 //                      debugger;
                       var cdElement = msg[0];
                       var cData = msg[1];
-                      this.cardDataFunction(cData, cdElement);
+                      var domElement = msg[2];
+                      this.cardDataFunction(cData, cdElement, domElement);
 
                     }
                 }
@@ -353,6 +354,7 @@
               this.cardCurrentConfigurationValues = msg[1];
             },
             editClick(msg){
+              debugger;
               this.cardDataFunction = msg[0][3];
               this.selectedCardConfigurationValues ={
                 cardTypeBeingConfigured: msg[0][2],

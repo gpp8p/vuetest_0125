@@ -38,8 +38,9 @@
                    :cardProperties = cardProperties
                    :displayStatus = displayStatus
                    :cmd = cmd
+                   @configSelected="configSelected"
                    @cardClick="processCardClick"
-                   @textEditor="textEditor"
+                   @editClick = editClick
                    @configurationHasBeenSaved="configurationHasBeenSaved"
                    @cardDataLoaded="cardDataLoaded"
                    @cardPropertySet="cardPropertySet"

@@ -1,10 +1,13 @@
 <template>
   <span class="settings">
     <span v-if="selectedMenuOption=='Appearence'">
-      <card-appearence-set :currentValues="currentValues" :dialogKey="dialogKey" @configSelected="configSelected"></card-appearence-set>
+      <card-appearence-set :currentValues="currentValues" :domElement="mainDomElement" :dialogKey="dialogKey" @configSelected="configSelected"></card-appearence-set>
     </span>
     <span v-if="selectedMenuOption=='Text'">
-      <text-set :currentValues="currentValues" :dialogKey="dialogKey" @configSelected="configSelected"></text-set>
+      <text-set :currentValues="currentValues" :domElement="mainDomElement" :dialogKey="dialogKey" @configSelected="configSelected"></text-set>
+    </span>
+    <span v-if="selectedMenuOption=='SubText'">
+      <text-set :currentValues="currentValues" :domElement="subDomElement" :dialogKey="dialogKey" @configSelected="configSelected"></text-set>
     </span>
   </span>
 </template>
@@ -20,6 +23,8 @@ import TextSet from "@/components/TextSet";
         checkbox: false,
         checkboxCustom: 'Yes',
         isClicked: false,
+        mainDomElement: 'main',
+        subDomElement: 'sub'
 //        menuOptions: ['Appearence', 'Text', 'Save', 'Cancel' ],
 //        openMenuOption:'Appearence'
       }

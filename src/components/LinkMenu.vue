@@ -1,6 +1,6 @@
 <template>
   <div >
-    <div class="cardStyle" v-if="this.displayStatus==false">
+    <div class="cardStyle" v-if="this.editStatus==false">
       <div class="cardHeader" v-if="displayStatus==false">
         <span class="textLeft">
           <a href="#" v-on:click="configureClicked" >Configure</a>
@@ -9,18 +9,37 @@
           <a href="#"  v-on:click="editClicked" >Edit</a>
         </span>
       </div>
-      <div class="cardBody"  v-html="this.cardData">
+      {{ this.cardTitle }}
+      <div v-bind:style='subStyle'>Some more text here</div>
+    </div>
+    <div class="cardStyle" v-if="this.editStatus==true">
+      <div class="cardHeader" v-if="displayStatus==false">
+        <span class="textLeft">
+          <a href="#" v-on:click="configureClicked" >Configure</a>
+        </span>
+        <span class="textRight">
+          <a href="#"  v-on:click="editClicked" >Edit</a>
+        </span>
       </div>
+      <span>
+        <textarea type="textarea" v-model="cardTitle" width="100%"></textarea>
+        <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
+      </span>
+
+
     </div>
   </div>
 </template>
 
 <script>
+/* eslint-disable no-console,no-debugger */
 import CardBase from "../components/CardBase.vue";
+import menuOpt from "../components/menuOpt.vue";
 export default {
-name: "LinkMenu",
+  name: "linkMenu",
+  components: {menuOpt},
   extends: CardBase,
-  props:{
+  props: {
     cardStyle: {
       type: String,
       required: true
@@ -52,7 +71,17 @@ name: "LinkMenu",
   },
   watch:{
     cmd: function() {
-      console.log('green component cmd changed-', this.cmd);
+      console.log('linkMenu cmd changed-', this.cmd);
+    },
+    subStyleChange(){
+      debugger;
+      var subStyleKeys = Object.keys(this.subContentStyling.sub);
+      var combinedSubstyles = "";
+      for(var s=0;s<subStyleKeys.length;s++){
+        var thisSubstyleKey = subStyleKeys[s];
+        combinedSubstyles = combinedSubstyles+this.subContentStyling.sub[thisSubstyleKey];
+      }
+      this.subStyle = combinedSubstyles;
     }
   },
   data() {
@@ -60,18 +89,138 @@ name: "LinkMenu",
       cardMessage: this.getCardProps(),
       cardHasBeenSetup: false,
       cstyle: this.cardStyle,
-      cardTitle: this.getCardProps(),
+      cardTitle:this.getCardProps(),
       styling: {},
+      subContentStyling:{
+        sub:{}
+      },
+      subContentConfiguration:{
+        sub:{}
+      },
       content: {},
-      configurationCurrentValues: {},
+      configurationCurrentValues:{},
       dialog: false,
       testProp: false,
-      tdialogMsg: '',
-      editStatus: false,
+      tdialogMsg:'',
+      editStatus:false,
+      subStyle: '',
+      subStyleChange:0,
       currentMenuOpts: ['Save', 'Cancel'],
+      /*
+            configurationCurrentValues:{
+              "backgroundTypeColor":'checked',
+              "backgroundColor":"#FFFFFF",
+              "fontSize":"12pt",
+              "fontWeight":"bold",
+              "border":"checked",
+              "borderColor":"#cc0521",
+              "borderSize":"medium",
+              "shadow":"checked",
+              "shadowSize":"10px",
+              "shadowSizeSetAt":"10px",
+              "shadowColor":"#BBBBBB",
+              "textInput":"Have a nice Day!",
+              "fontFamily":"Helvetica",
+              "fontStyle":"oblique",
+              "textAlign":"left",
+              "color":"#0537aa"
+            },
+      */
+      cardConfiguration: [
+        {
+          "label": "Card Appearance",
+          "configurationElements": [
+
+            {
+              "type": "radio",
+              "element": "backgroundTypeColor",
+              "fieldName": "backgroundType",
+              "prompt": "Background Type ?",
+              "valueFrom":"backgroundTypeColor",
+              "radioOptions": ['Color'],
+              "onClick": [{ "type": "color", "element": "backgroundColor", "valueFrom":"backgroundColor", "prompt": "Background Color" }]
+            },
+            {
+              "type": "radio",
+              "element": "backgroundTypeImage",
+              "fieldName": "backgroundType",
+              "prompt": "Background Type ?",
+              "valueFrom":"backgroundTypeImage",
+              "radioOptions": ['Image'],
+              "onClick": [{ "type": "file", "element": "backgroundImage", "prompt": "Upload -" }]
+            },
+            {
+              "type": "checkbox", "element": "border", "valueFrom":"borderInclude", "prompt": "Include Border?",
+              "onClick": [{
+                "type": "select",
+                "selectOptions": ['thin', 'medium', 'thick'],
+                "valueFrom":"borderSize",
+                "element": "borderSize",
+                "prompt": "Size?"
+              },
+                { "type": "color", "valueFrom":"borderColor", "element": "borderColor", "prompt": "Color ?" }]
+            },
+            {
+              "type": "checkbox", "element": "shadow", "valueFrom":"shadow", "prompt": "Shadow ?"
+            },
+            { "type": "checkbox", "element": "roundIncluded", "valueFrom":"roundIncluded", "prompt": "Round Corners ?" }
+          ]
+        },
+        {
+          "label": "Headline",
+          "configurationElements": [
+            { "type": "input", "element": "title", "valueFrom":"title", "fieldSize": "40", "prompt": "Enter Text:" }
+          ]
+        },
+        {
+          "label": "Text Attributes",
+          "configurationElements": [
+            { "type": "fontSelect", "valueFrom":"fontFamily", "element": "fontFamily", "prompt": "Select Font:" },
+            {
+              "type": "select",
+              "selectOptions": ['10pt', '12pt', '18pt', '24pt', '36pt', '48pt', '72pt'],
+              "valueFrom":"fontSize",
+              "element": "fontSize",
+              "prompt": "Size"
+            },
+            {
+              "type": "select",
+              "selectOptions": ['normal', 'bold', 'bolder', 'lighter'],
+              "valueFrom":"fontWeight",
+              "element": "fontWeight",
+              "prompt": "Weight"
+            },
+            {
+              "type": "select",
+              "selectOptions": ['normal', 'italic', 'oblique'],
+              "valueFrom":"fontStyle",
+              "element": "fontStyle",
+              "prompt": "Style"
+            },
+            {
+              "type": "select",
+              "selectOptions": ['left', 'center', 'right'],
+              "valueFrom":"textAlign",
+              "element": "textAlign",
+              "prompt": "Align"
+            },
+            { "type": "color", "valueFrom":"color", "element": "color", "prompt": "Color:" }
+          ]
+        }
+      ],
     }
+
+
+
   },
-      methods:{
+
+
+  methods: {
+    showMsg(){
+      debugger;
+      this.tdialogMsg='message recieved';
+    },
+
     configureClicked() {
 //      debugger;
       this.styling={};
@@ -104,19 +253,46 @@ name: "LinkMenu",
         this.configurationCurrentValues,
       ]);
     },
-        getCardProps() {
-//      debugger;
-          if ((typeof this.cardProperties === "undefined") | (this.cardProperties == "")) {
-            return "";
-          }else {
-            var colonDelimiterLocatedAt= this.cardProperties.indexOf(":");
-            var thisProp = this.cardProperties.substr(colonDelimiterLocatedAt+1);
-            return thisProp;
-          }
-        }
-  }
+    menuOptSelected(msg){
+      debugger;
+      console.log(msg);
+      switch(msg){
+        case 'Cancel':{
 
-}
+          this.editStatus=false;
+          break;
+        }
+        case 'Save':{
+          this.$emit('configSelected', ['title', this.cardTitle]);
+          this.$emit('configSelected',['saveCardContent', this.cardTitle]);
+          this.editStatus=false;
+          break;
+        }
+      }
+    },
+    dialogMenuSelected(msg){
+      switch(msg[0]) {
+        case 'Cancel':
+          this.openDialog = false;
+          break;
+      }
+    },
+
+    refId: function() {
+      return "card" + this.cardId;
+    },
+    getCardProps() {
+//      debugger;
+      if ((typeof this.cardProperties === "undefined") | (this.cardProperties == "")) {
+        return "";
+      }else {
+        var colonDelimiterLocatedAt= this.cardProperties.indexOf(":");
+        var thisProp = this.cardProperties.substr(colonDelimiterLocatedAt+1);
+        return thisProp;
+      }
+    }
+  }
+};
 </script>
 
 <style scoped>
@@ -156,6 +332,10 @@ textarea {
   border: 3px solid #cccccc;
   padding: 5px;
   font-family: Tahoma, sans-serif;
+}
+.sub1 {
+  font-family: Helvetica;
+  font-size: small;
 }
 
 </style>

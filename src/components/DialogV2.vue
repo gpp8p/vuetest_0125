@@ -103,14 +103,22 @@
         mounted(){
           debugger;
           var mOpts = this.getMenuOpts(this.cmd);
+          switch(this.cmd){
+            case 'createNewLayout':{
+              this.setTitle('Set Up New Space');
+              break;
+            }
+          }
           console.log('mOpts -', mOpts);
           this.currentMenuOpts = mOpts.currentMenuOpts;
           this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
         },
         watch:{
           dialogType: function(){
-            console.log('dialogType changed -',this.selectedCardConfigurationValues);
+            console.log('dialogType changed -',this.dialogType);
 //            debugger;
+
+            }
 
           },
           cmd: function(){
@@ -129,7 +137,7 @@
               }
             }
  */
-          },
+
         },
         methods: {
             showError(msg){
@@ -248,6 +256,10 @@
                   this.$emit('configSelected', ['Save OrgRegistration']);
                   break;
                 }
+                case 'SubText':{
+                  this.currentSelectedMenuOption = 'SubText';
+                  break;
+                }
                 default:{
                   this.currentSelectedMenuOption = msg;
                   this.cmd = msg;
@@ -301,7 +313,8 @@
                   return {
                     currentMenuOpts:[
                       ['Appearence','Appearence'],
-                      ['Text', 'Text'] ,
+                      ['Headline Text', 'Text'] ,
+                      ['Link Text', 'SubText'],
                       ['Save','SaveConfiguration'],
                       ['Cancel', 'Cancel']
                     ],
@@ -599,7 +612,7 @@
 <style scoped>
     .dialogComponent {
         height:325px;
-        width:650px;
+        width:750px;
         position: relative;
         background-color: #ab97ff;
         border: 2px solid blue;
@@ -637,8 +650,6 @@
     .dialogComponentFooter {
       height: 10%;
       width:100%;
-      margin-left: auto;
-      margin-right: auto;
       text-align: center
     }
     .linkStyle{

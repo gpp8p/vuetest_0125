@@ -36,6 +36,10 @@
           dialogKey:{
             type: Number,
             required:true
+          },
+          domElement:{
+            type: String,
+            required: true
           }
         },
         data(){
@@ -49,6 +53,7 @@
         methods:{
             configSelected(msg){
 //                debugger;
+              msg.push(this.domElement);
                 this.$emit('configSelected', msg);
             }
         }
