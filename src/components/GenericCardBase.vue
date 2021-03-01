@@ -6,7 +6,8 @@
     name: "GenericCardBase",
     methods:{
       setCardData(cardData, cardDataElement) {
-        debugger;
+//        debugger;
+        console.log('GenericCardBase setCardData - cardData:', cardData, 'cardDataElement', cardDataElement);
         switch (cardDataElement) {
           case "backgroundColor":
             this.$el.style.backgroundColor=cardData;

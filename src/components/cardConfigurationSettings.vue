@@ -61,7 +61,11 @@ import TextSet from "@/components/TextSet";
       selectedCardConfigurationValues:{
         type: Object,
         required: true
-      }
+      },
+      subElementValues:{
+        type: Object,
+        required: false
+      },
     },
     watch:{
       selectedMenuOption: function(){

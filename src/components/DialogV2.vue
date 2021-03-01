@@ -19,6 +19,7 @@
             :selectedMenuOption="currentSelectedMenuOption"
             :selectedCardConfigurationValues="selectedCardConfigurationValues"
             :currentValues=currentValues
+            :subElementValues=subElementValues
             :dialogKey="dialogKey"
             :cmd="cmd"
         ></card-configuration-settings>
@@ -87,6 +88,10 @@
               type: Object,
               required:true
             },
+          subElementValues:{
+              type: Object,
+              required: false
+          },
           dialogKey:{
             type: Number,
             required:true
@@ -101,7 +106,8 @@
           }
         },
         mounted(){
-          debugger;
+//          debugger;
+          console.log('Dialog2 mounted');
           var mOpts = this.getMenuOpts(this.cmd);
           switch(this.cmd){
             case 'createNewLayout':{
@@ -175,9 +181,9 @@
               this.$emit('configSelected',['layoutSaved', msg[0]]);
             },
             menuOptSelected(msg){
-              console.log(msg);
+              console.log('menuOptSelected in Dialog2-',msg);
               this.cmd='';
-              debugger;
+ //             debugger;
               switch(msg){
                 case 'Cancel':{
                   if(this.dialogDataChanged){
@@ -268,7 +274,8 @@
               }
             },
             getMenuOpts(menuContext){
-              debugger;
+//              debugger;
+              console.log('Dialog2 getMenuOpts menuContext:', menuContext);
               switch(menuContext){
                 case 'register':{
                   return {
@@ -497,9 +504,9 @@
               this.clearCmd();
             },
             componentSettingsMounted(msg){
-              debugger;
+//              debugger;
               console.log("register=", this.$store.getters.getRegister);
-              console.log(msg);
+              console.log('Dialog2 componentSettingsMounted - ',msg);
 //              this.currentMenuOpts = msg[0];
 //              this.currentSelectedMenuOption = msg[1];
 

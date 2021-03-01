@@ -32,6 +32,7 @@
                  :dialog-type="dialogType"
                  :key="dialogKey"
                  :currentValues=this.cardCurrentConfigurationValues
+                 :subElementValues=this.subElementValues
                  :selectedCardConfigurationValues = this.selectedCardConfigurationValues
                  :dialogKey = "this.dialogKey"
                  @dragStart="dragStart"
@@ -119,6 +120,7 @@
 
                 cardCurrentConfigurationValues:{},
                 selectedCardConfigurationValues:{},
+                subElementValues:{},
                 newCardBeingAdded:false,
                 topLeftClicked: 0,
                 bottomRightClicked: 0,
@@ -227,7 +229,8 @@
               }
             },
             configSelected(msg){
-                debugger;
+//                debugger;
+                console.log('editLayout configSelected - ', msg);
                 switch(msg[0]){
                     case 'cancel':{
                         this.dialogType=0;
@@ -352,6 +355,7 @@
             cardDataLoaded(msg){
               console.log('cardDataLoaded',msg);
               this.cardCurrentConfigurationValues = msg[1];
+              this.subElementValues = msg[2];
             },
             editClick(msg){
               debugger;

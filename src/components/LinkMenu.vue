@@ -74,7 +74,8 @@ export default {
       console.log('linkMenu cmd changed-', this.cmd);
     },
     subStyleChange(){
-      debugger;
+//      debugger;
+      console.log('LinkMenu - watch on subStyleChange triggered. this.subContentStyling.sub:', this.subContentStyling.sub);
       var subStyleKeys = Object.keys(this.subContentStyling.sub);
       var combinedSubstyles = "";
       for(var s=0;s<subStyleKeys.length;s++){
@@ -97,6 +98,7 @@ export default {
       subContentConfiguration:{
         sub:{}
       },
+      cardSubConfig:{},
       content: {},
       configurationCurrentValues:{},
       dialog: false,

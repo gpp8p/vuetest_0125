@@ -71,8 +71,8 @@ export default {
   },
   methods:{
     configSelected(msg){
-      debugger;
-      console.log(msg);
+//      debugger;
+      console.log('textSet configSelected-',msg);
       msg.push(this.domElement);
       this.$emit('configSelected', msg);
     }

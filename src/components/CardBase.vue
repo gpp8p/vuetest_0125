@@ -5,8 +5,8 @@
     name: "CardBase",
     methods: {
       setCardData(cardData, cardDataElement, domElement) {
-      debugger;
-      console.log('domElement - ',domElement);
+//      debugger;
+      console.log('Card Base setCardData -','cardData:',cardData,'cardDataElement:', cardDataElement,'domElement - ',domElement);
       if(domElement=='main'){
         switch (cardDataElement) {
           case "saveConfiguration":
@@ -368,9 +368,11 @@
           .get("http://localhost:8000/api/shan/getCardDataById?cardId=" + cardId+"&&XDEBUG_SESSION_START=15122")
           .then(response => {
             // JSON responses are automatically parsed.
-          debugger;
+//          debugger;
+            console.log('CardBase lodCardConfiguration returns response:', response);
             this.cardConfigParams = response.data[0];
             this.cardContent = response.data[1];
+            this.cardSubConfig =response.data[2];
 
             this.configurationCurrentValues={};
             var cardConfigurationDelimiterAt;
@@ -391,7 +393,8 @@
               this.content[thisCarContentKey]=thisCardContentValue;
               this.configurationCurrentValues[thisCarContentKey]= thisCardContentValue;
             }
-            this.$emit('cardDataLoaded',[this.styling, this.configurationCurrentValues]);
+//            debugger;
+            this.$emit('cardDataLoaded',[this.styling, this.configurationCurrentValues, response.data[2]]);
 
 
 //            debugger;
@@ -404,7 +407,7 @@
       },
 
       saveCardConfiguration() {
-        debugger;
+//        debugger;
         if (typeof this.subContentStyling === 'undefined'){
           var cardConfigurationPackage = [this.cardId, this.styling, this.content, []];
         }else{

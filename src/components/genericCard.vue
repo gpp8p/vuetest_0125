@@ -149,7 +149,7 @@
       },
       cardPropertySet(msg){
 //        debugger;
-        console.log(msg);
+        console.log('GenericCard recieved a cardPropertySet - ',msg);
         this.setCardData(msg[0], msg[1]);
       },
       linkHelperRequested(){

@@ -43,7 +43,7 @@ name: "selectPicker",
     }
   },
   mounted(){
-    debugger;
+//    debugger;
     if(this.setValue === undefined){
       this.optSelected = this.getCurrentValue();
     }else if(this.setValue.length>0 ){
