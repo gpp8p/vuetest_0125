@@ -403,9 +403,23 @@
 
       },
 
-      saveCardConfiguration(){
+      saveCardConfiguration() {
         debugger;
-        var cardConfigurationPackage = [this.cardId, this.styling, this.content];
+        if (typeof this.subContentStyling === 'undefined'){
+          var cardConfigurationPackage = [this.cardId, this.styling, this.content, []];
+        }else{
+          var domElementKeys = Object.keys(this.subContentStyling);
+          var subElements = [];
+          for(var o=0;o<domElementKeys.length;o++){
+            var thisDomElement = {
+              elementName: domElementKeys[o],
+              elementStyles:this.subContentStyling[domElementKeys[o]],
+              elementConfiguration:this.subContentConfiguration[domElementKeys[o]]
+            }
+            subElements.push(thisDomElement)
+          }
+          cardConfigurationPackage = [this.cardId, this.styling, this.content, subElements];
+        }
         var jsonCardConfigurationPackage = JSON.stringify(cardConfigurationPackage);
         axios.post('http://localhost:8000/api/shan/saveCardParameters?XDEBUG_SESSION_START=14252', {
           cardParams: jsonCardConfigurationPackage,
