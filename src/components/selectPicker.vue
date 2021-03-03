@@ -10,7 +10,7 @@
 
 <script>
 export default {
-name: "selectPicker",
+  name: "selectPicker",
   props:{
     currentValues: {
       type: Object,
@@ -52,29 +52,23 @@ name: "selectPicker",
       this.optSelected = this.getCurrentValue();
     }
 //    console.log('selectPicker optSelected -', this.optSelected);
-
   },
   watch:{
-
-
     currentValues: function(){
       this.getCurrentValues();
     },
-
 //                debugger;
     dialogKey: function(){
       this.refreshCurrentValues();
     }
   },
   methods:{
-
     refreshCurrentValues(){
       this.optSelected = this.getCurrentValue();
     },
     optionSelected(){
       this.$emit('configSelected', [this.pType, this.$refs.sel.value]);
     },
-
     getCurrentValue(){
 //        debugger;
       if(typeof(this.currentValues[this.pType])=='undefined'){
@@ -85,8 +79,6 @@ name: "selectPicker",
 //          return currentValuesEntriesParts[1].replace(';','');
       }
     }
-
-
   }
 }
 </script>
@@ -115,5 +107,4 @@ name: "selectPicker",
   margin-top: 3px;
   grid-template-columns: 20% 80%;
 }
-
 </style>

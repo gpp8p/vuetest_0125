@@ -7,7 +7,7 @@
       <text-set :currentValues="currentValues" :domElement="mainDomElement" :dialogKey="dialogKey" @configSelected="configSelected"></text-set>
     </span>
     <span v-if="selectedMenuOption=='SubText'">
-      <text-set :currentValues="currentValues" :domElement="subDomElement" :dialogKey="dialogKey" @configSelected="configSelected"></text-set>
+      <LinkMenuConfiguration :currentValues="subElementValues" :domElement="subDomElement" :dialogKey="dialogKey" @configSelected="configSelected"></LinkMenuConfiguration>
     </span>
   </span>
 </template>
@@ -15,9 +15,10 @@
 <script>
 import CardAppearenceSet from "@/components/CardAppearenceSet";
 import TextSet from "@/components/TextSet";
+import LinkMenuConfiguration from "@/components/LinkMenuConfiguration.vue"
   export default {
     name: "cardConfigurationSettings",
-    components: {CardAppearenceSet, TextSet},
+    components: {CardAppearenceSet, TextSet, LinkMenuConfiguration},
     data() {
       return {
         checkbox: false,

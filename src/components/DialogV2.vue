@@ -19,7 +19,7 @@
             :selectedMenuOption="currentSelectedMenuOption"
             :selectedCardConfigurationValues="selectedCardConfigurationValues"
             :currentValues=currentValues
-            :subElementValues=subElementValues
+            :subElementValues=subValue
             :dialogKey="dialogKey"
             :cmd="cmd"
         ></card-configuration-settings>
@@ -122,6 +122,7 @@
         watch:{
           dialogType: function(){
             console.log('dialogType changed -',this.dialogType);
+
 //            debugger;
 
             }
@@ -263,6 +264,16 @@
                   break;
                 }
                 case 'SubText':{
+                  console.log('Dialog subElementValues - ', this.subElementValues);
+                  var retrievedSubElements = this.subElementValues.sub;
+                  debugger;
+                  for(var s = 0;s<retrievedSubElements.length;s++){
+                    var thisSubElementValue = retrievedSubElements[s];
+                    var thisSubElementComponents = thisSubElementValue[1].split(':');
+                    var componentVal = thisSubElementComponents[1].slice(0, -1);
+                    this.subValue[thisSubElementComponents[0]]=componentVal;
+                  }
+                  console.log('subValue - ', this.subValue);
                   this.currentSelectedMenuOption = 'SubText';
                   break;
                 }
@@ -605,7 +616,8 @@
                   eventType:'',
                   eventArgs:[]
                 },
-                dialogDataChanged: false
+                dialogDataChanged: false,
+                subValue: {}
 
 
 
