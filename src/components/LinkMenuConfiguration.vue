@@ -1,16 +1,16 @@
 <template>
   <span class="textSetWrapper">
     <span class="fontSet">
-      <flex-font-select :pType="this.fontFamilyReference" :currentValues="currentValues" @configSelected="configSelected"></flex-font-select>
+      <flex-font-select :pType="this.fontFamilyReference" :currentValues="currentValues.sub" @configSelected="configSelected"></flex-font-select>
     </span>
     <span class="sizeSet">
-      <select-picker :pType="fontSizeReference" :label="fontSizeLabel" :options="fontSizeOptions" :currentValues="currentValues" @configSelected="configSelected"></select-picker>
+      <select-picker :pType="fontSizeReference" :label="fontSizeLabel" :options="fontSizeOptions" :currentValues="currentValues.sub" @configSelected="configSelected"></select-picker>
     </span>
     <span class="weightSet">
-      <select-picker :pType="fontWeightReference" :label="fontWeightLabel" :options="fontWeightOptions" :currentValues="currentValues" @configSelected="configSelected"></select-picker>
+      <select-picker :pType="fontWeightReference" :label="fontWeightLabel" :options="fontWeightOptions" :currentValues="currentValues.sub" @configSelected="configSelected"></select-picker>
     </span>
     <span class="styleSet">
-      <select-picker :pType="fontStyleReference" :label="fontStyleLabel" :options="fontStyleOptions" :currentValues="currentValues" @configSelected="configSelected"></select-picker>
+      <select-picker :pType="fontStyleReference" :label="fontStyleLabel" :options="fontStyleOptions" :currentValues="currentValues.sub" @configSelected="configSelected"></select-picker>
     </span>
     <span class="colorSet">
       <font-color-picker :pType="colorReference" :currentValues="currentValues" @configSelected="configSelected"></font-color-picker>
@@ -47,17 +47,17 @@ export default {
   data(){
     return {
       fontFamilyReference:'font-family',
-      fontSizeReference: 'font-size',
+      fontSizeReference: 'fontSize',
       fontSizeLabel: 'Font Size:',
       fontSizeOptions: ['10pt', '12pt', '18pt', '24pt', '36pt', '48pt', '72pt'],
 
       fontWeightOptions: ['normal', 'bold', 'bolder', 'lighter'],
       fontWeightLabel: 'Font Weight:',
-      fontWeightReference: 'font-weight',
+      fontWeightReference: 'fontWeight',
 
       fontStyleOptions:['normal', 'italic', 'oblique'],
       fontStyleLabel: 'Font Style:',
-      fontStyleReference: 'font-style',
+      fontStyleReference: 'fontStyle',
 
       fontAlignOptions: ['left', 'center', 'right'],
       fontAlignReference: 'textAlign',

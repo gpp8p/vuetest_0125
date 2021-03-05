@@ -386,6 +386,26 @@
               configValue = configValue.replace(';', '');
               this.configurationCurrentValues[thisCarConfigurationKey]= configValue;
             }
+            console.log('domElement response-',response.data[2]);
+            var domElementKeys = Object.keys(response.data[2]);
+            var thisDomElement = response.data[2];
+            console.log(domElementKeys);
+            var subElements = {};
+            for(var k = 0;k<domElementKeys.length;k++){
+              console.log(thisDomElement[domElementKeys[k]]);
+              var subElementDom = thisDomElement[domElementKeys[k]];
+              subElements[domElementKeys[k]]={}
+              console.log('subElementDom - ',subElementDom);
+
+              for(var s = 0;s<subElementDom.length;s++){
+                var thisRawElement = subElementDom[s];
+                var thisRawElementCss = thisRawElement[1].split(':');
+//                subElements[thisRawElement[0]]= thisRawElementCss[1];
+                var rawElementValue = thisRawElementCss[1].replace(';','');
+                subElements[domElementKeys[k]][thisRawElement[0]] = rawElementValue;
+              }
+            }
+            console.log('subElements - ',subElements);
             this.content={};
             for( c=0;c<this.cardContent.length;c++){
               var thisCarContentKey = this.cardContent[c][0];
@@ -394,7 +414,8 @@
               this.configurationCurrentValues[thisCarContentKey]= thisCardContentValue;
             }
 //            debugger;
-            this.$emit('cardDataLoaded',[this.styling, this.configurationCurrentValues, response.data[2]]);
+//            this.$emit('cardDataLoaded',[this.styling, this.configurationCurrentValues, response.data[2]]);
+            this.$emit('cardDataLoaded',[this.styling, this.configurationCurrentValues, subElements]);
 
 
 //            debugger;

@@ -19,7 +19,7 @@
             :selectedMenuOption="currentSelectedMenuOption"
             :selectedCardConfigurationValues="selectedCardConfigurationValues"
             :currentValues=currentValues
-            :subElementValues=subValue
+            :subElementValues=subElementValues
             :dialogKey="dialogKey"
             :cmd="cmd"
         ></card-configuration-settings>
@@ -265,6 +265,7 @@
                 }
                 case 'SubText':{
                   console.log('Dialog subElementValues - ', this.subElementValues);
+/*
                   var retrievedSubElements = this.subElementValues.sub;
                   debugger;
                   for(var s = 0;s<retrievedSubElements.length;s++){
@@ -274,6 +275,7 @@
                     this.subValue[thisSubElementComponents[0]]=componentVal;
                   }
                   console.log('subValue - ', this.subValue);
+*/
                   this.currentSelectedMenuOption = 'SubText';
                   break;
                 }
