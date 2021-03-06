@@ -391,10 +391,12 @@
             var thisDomElement = response.data[2];
             console.log(domElementKeys);
             var subElements = {};
+            var subStyles = {};
             for(var k = 0;k<domElementKeys.length;k++){
               console.log(thisDomElement[domElementKeys[k]]);
               var subElementDom = thisDomElement[domElementKeys[k]];
               subElements[domElementKeys[k]]={}
+              subStyles[domElementKeys[k]]={}
               console.log('subElementDom - ',subElementDom);
 
               for(var s = 0;s<subElementDom.length;s++){
@@ -403,9 +405,12 @@
 //                subElements[thisRawElement[0]]= thisRawElementCss[1];
                 var rawElementValue = thisRawElementCss[1].replace(';','');
                 subElements[domElementKeys[k]][thisRawElement[0]] = rawElementValue;
+                subStyles[domElementKeys[k]][thisRawElement[0]] = thisRawElement[1];
               }
             }
             console.log('subElements - ',subElements);
+            this.subContentConfiguration = subElements;
+            this.subContentStyling = subStyles;
             this.content={};
             for( c=0;c<this.cardContent.length;c++){
               var thisCarContentKey = this.cardContent[c][0];

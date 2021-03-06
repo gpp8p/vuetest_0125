@@ -148,7 +148,7 @@
         this.$emit('cardDataLoaded', msg);
       },
       cardPropertySet(msg){
-//        debugger;
+        debugger;
         console.log('GenericCard recieved a cardPropertySet - ',msg);
         this.setCardData(msg[0], msg[1]);
       },
