@@ -10,7 +10,7 @@
         </span>
       </div>
       {{ this.cardTitle }}
-      <div v-bind:style='subStyle'>Some more text here</div>
+      <div v-bind:style='elementStyles.sub[0]'>Some more text here</div>
     </div>
     <div class="cardStyle" v-if="this.editStatus==true">
       <div class="cardHeader" v-if="displayStatus==false">
@@ -67,6 +67,10 @@ export default {
     cmd: {
       type: String,
       required: false
+    },
+    elementStyles:{
+      type: Object,
+      required:false
     }
   },
   watch:{

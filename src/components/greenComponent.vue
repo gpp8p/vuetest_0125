@@ -66,6 +66,10 @@ export default {
     cmd: {
       type: String,
       required: false
+    },
+    elementStyles:{
+      type: Object,
+      required:false
     }
   },
   watch:{
