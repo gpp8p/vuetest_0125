@@ -10,7 +10,7 @@
         </span>
       </div>
       {{ this.cardTitle }}
-      <div v-bind:style='elementStyles.sub[0]'>Some more text here</div>
+      <div v-bind:style='subStyle'>Some more text here</div>
     </div>
     <div class="cardStyle" v-if="this.editStatus==true">
       <div class="cardHeader" v-if="displayStatus==false">
@@ -73,6 +73,9 @@ export default {
       required:false
     }
   },
+  mounted(){
+      this.subStyle = this.elementStyles.sub[0];
+  },
   watch:{
     cmd: function() {
       console.log('linkMenu cmd changed-', this.cmd);
@@ -87,6 +90,7 @@ export default {
         combinedSubstyles = combinedSubstyles+this.subContentStyling.sub[thisSubstyleKey];
       }
       this.subStyle = combinedSubstyles;
+
     }
   },
   data() {
@@ -99,9 +103,12 @@ export default {
       subContentStyling:{
         sub:{}
       },
+
       subContentConfiguration:{
         sub:{}
       },
+
+
       cardSubConfig:{},
       content: {},
       configurationCurrentValues:{},

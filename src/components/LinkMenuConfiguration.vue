@@ -46,7 +46,7 @@ export default {
   },
   data(){
     return {
-      fontFamilyReference:'font-family',
+      fontFamilyReference:'fontFamily',
       fontSizeReference: 'fontSize',
       fontSizeLabel: 'Font Size:',
       fontSizeOptions: ['10pt', '12pt', '18pt', '24pt', '36pt', '48pt', '72pt'],

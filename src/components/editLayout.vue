@@ -14,6 +14,7 @@
                                 :gridCss="gridParamDefinition"
                                 :cardProperties="instance.card_parameters.properties"
                                 :displayStatus="displayStatus"
+                                :elementStyles="instance.elementStyles"
                                 :cmd = "cardCmd"
                                 @configSelected="configSelected"
                                 @storeValue="processClick"
