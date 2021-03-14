@@ -193,8 +193,8 @@
             },
             saveCardData(msg){
               debugger;
-              this.updateCallback(msg, 'cardText');
-              this.updateCallback(msg, 'saveCardContent');
+              this.updateCallback(msg, 'cardText', 'main');
+              this.updateCallback(msg, 'saveCardContent', 'main');
               console.log('editLayout.saveCardData', msg);
 
 //              this.cardDataFunction(msg, "saveCardContent");
@@ -291,7 +291,7 @@
                       break;
                     }
                     case 'Create New Card':{
-//                      debugger;
+                      debugger;
                       var currentLayoutId = this.$store.getters.getCurrentLayoutId;
                       console.log(msg);
                       console.log(currentLayoutId, msg[1], msg[2], this.topLeftRow, this.topLeftCol, this.bottomRightRow, this.bottomRightCol);

@@ -14,7 +14,7 @@
             this.saveCardConfiguration();
             break;
           case "saveCardContent":
-            this.saveCardContent(cardData);
+            this.saveCardContent(cardData, domElement);
             break;
           case "loadConfiguration":
             this.loadCardConfiguration(cardData);
@@ -268,6 +268,11 @@
             this.subContentStyling[domElement].textAlign = "text-align:" + cardData + ";";
             this.$emit('cardSubPropertySet', [cardData, cardDataElement, domElement]);
             break;
+          case "optionDirection":
+            this.subContentConfiguration[domElement]['optionDirection'] = cardData;
+            this.subContentStyling[domElement].optionDirection  = "option-direction:" + cardData + ";";
+            this.$emit('cardSubPropertySet', [cardData, cardDataElement, domElement]);
+            break;
             /*
           case "roundIncluded":
             if(cardData=="activated") {
@@ -462,12 +467,14 @@
 
         console.log(jsonCardConfigurationPackage);
       },
-      saveCardContent(){
+      saveCardContent(cardContent, domElement){
         debugger;
+        console.log(cardContent);
         var cardConfigurationPackage = [this.cardId, this.content];
         var jsonCardConfigurationPackage = JSON.stringify(cardConfigurationPackage);
         axios.post('http://localhost:8000/api/shan/saveCardContent?XDEBUG_SESSION_START=14252', {
           cardParams: jsonCardConfigurationPackage,
+          domElement: domElement,
           org: this.$store.getters.getOrgId
         }).then(response=>
         {

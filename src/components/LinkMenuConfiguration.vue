@@ -12,6 +12,9 @@
     <span class="styleSet">
       <select-picker :pType="fontStyleReference" :label="fontStyleLabel" :options="fontStyleOptions" :currentValues="currentValues.sub" @configSelected="configSelected"></select-picker>
     </span>
+    <span>
+      <select-picker :pType="optionDirectionReference" :label="optionDirectionLabel" :options="optionDirection" :currentValues="currentValues.sub" @configSelected="configSelected"></select-picker>
+    </span>
     <span class="colorSet">
       <font-color-picker :pType="colorReference" :currentValues="currentValues" @configSelected="configSelected"></font-color-picker>
     </span>
@@ -59,9 +62,11 @@ export default {
       fontStyleLabel: 'Font Style:',
       fontStyleReference: 'fontStyle',
 
-      fontAlignOptions: ['left', 'center', 'right'],
-      fontAlignReference: 'textAlign',
-      fontAlignLabel: 'Alignment:',
+      optionDirection: ['vertical', 'horozontal'],
+      optionDirectionLabel: 'Direction',
+      optionDirectionReference: 'optionDirection',
+
+
 
       colorReference: 'color'
     }

@@ -92,7 +92,7 @@
         return this.cardType;
       },
       insertCard(layoutId, title, cardType, tlrow, tlcol, brrow, brcol){
-//                debugger;
+                debugger;
         axios.post('http://localhost:8000/api/shan/saveCardOnly?XDEBUG_SESSION_START=12016', {
           layoutId: layoutId,
           cardTitle: title,
