@@ -51,6 +51,8 @@
                                 :selectedCardConfigurationValues = this.selectedCardConfigurationValues
                                 :dialogKey = "this.dialogKey"
                                 :cardData = "cardData"
+                                :cardToEditType = "cardToEditType"
+                                :cardId = "this.selectedCardId"
                                 @dragStart="dragStart"
                                 @moved="dialogMoved"
                                 @configSelected = "configSelected"
@@ -146,7 +148,8 @@
                 cardData: '',
                 selectedCardId:0,
                 layoutLink:'',
-                RICH_TEXT_EDITOR: false
+                RICH_TEXT_EDITOR: false,
+                cardToEditType:''
 
 
 
@@ -184,6 +187,7 @@
             this.updateCallback = msg[0][1];
             this.cardData = msg[0][3];
             this.selectedCardId = msg[0][4];
+            this.cardToEditType = msg[0][5];
             this.RICH_TEXT_EDITOR=true;
           },
             cardSaved(msg){

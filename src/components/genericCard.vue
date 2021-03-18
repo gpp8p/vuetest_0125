@@ -43,7 +43,7 @@
                    :cmd = cmd
                    @configSelected="configSelected"
                    @cardClick="processCardClick"
-                   @editClick = editClick
+                   @textEditor="textEditor"
                    @configurationHasBeenSaved="configurationHasBeenSaved"
                    @cardDataLoaded="cardDataLoaded"
                    @cardPropertySet="cardPropertySet"

@@ -11,6 +11,7 @@
         <br/>
 
       <div class="dialogComponentBody">
+        <link-master v-if="mode==this.LINK_MENU_EDIT" :cardId = "this.cardId"></link-master>
         <editor-ck v-if="mode==this.DIALOG_EDIT" :cardData="cardData" :cmd="cmd" @saveContent="cardSaved" @editorReady="editorReady" @currentContent="currentContent"></editor-ck>
         <layout-list v-if="mode==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected"></layout-list>
         <create-layout v-if="mode==this.DIALOG_NEW_LAYOUT" :cmd="cmd" @layoutData="layoutData"></create-layout>
@@ -32,6 +33,7 @@
     import editorCk from '../components/editorCk.vue'
     import layoutList from "../components/layoutList.vue";
     import createLayout from "../components/createLayout.vue";
+    import linkMaster from "../components/linkMaster.vue";
 
 
 
@@ -42,7 +44,7 @@
 
     export default {
         name: "rtEditorDialog",
-        components :{ menuOpt,   AreYouSure, editorCk, layoutList, createLayout },
+        components :{ menuOpt,   AreYouSure, editorCk, layoutList, createLayout, linkMaster },
         props:{
             dialogType:{
                 type: Number,
@@ -67,13 +69,31 @@
           cardData:{
             type: String,
             required: true
+          },
+          cardToEditType:{
+              type: String,
+              required: true
+          },
+          cardId:{
+              type: Number,
+              required: false
           }
         },
         mounted(){
           this.titleMsg='Edit This Card';
           this.currentMenuOpts = ['Cancel', 'Link to Another Space',  'Save'];
           this.currentSelectedMenuOption = 'Cancel';
-          this.mode=this.DIALOG_EDIT;
+          switch(this.cardToEditType){
+            case 'textShow':{
+              this.mode=this.DIALOG_EDIT;
+              break;
+            }
+            case 'linkMenu':{
+              this.mode=this.LINK_MENU_EDIT;
+              break;
+            }
+          }
+
 
         },
         watch:{
@@ -211,7 +231,37 @@
                 }
               }
             },
-            orgSelected(msg){
+          getMenuOpts(menuContext){
+//              debugger;
+            console.log('Dialog2 getMenuOpts menuContext:', menuContext);
+            switch(menuContext){
+              case 'setupMenuLink': {
+                return {
+                  currentMenuOpts: [
+                    ['Add', 'AddLink'],
+                    ['Cancel', 'Cancel'],
+                    ['Save', 'Save LinkMenu']
+                  ],
+                  currentSelectedMenuOption: 'Cancel'
+                }
+              }
+              case 'menuLinkSelected':{
+                  return {
+                    currentMenuOpts: [
+                      ['Add', 'AddLink'],
+                      ['Delete', 'DeleteLink'],
+                      ['Cancel','Cancel'],
+                      ['Save','SaveLinkMenu']
+                    ],
+                    currentSelectedMenuOption: 'Cancel'
+                  }
+              }
+            }
+          },
+
+
+
+              orgSelected(msg){
               console.log('orgSelected:', msg);
             },
             rusure(msg){
@@ -293,6 +343,7 @@
                 DIALOG_CONFIGURE_CARD:10,
                 DIALOG_LAYOUT_LIST:11,
                 DIALOG_EDIT:12,
+                LINK_MENU_EDIT:13,
                 mode:0,
 
                 titleMsg:'Headline Card',

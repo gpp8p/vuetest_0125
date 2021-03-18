@@ -153,7 +153,7 @@ export default {
     editClicked(){
       debugger;
       this.loadCardConfiguration(this.cardId);
-      this.$emit('textEditor', [this.cardKey, this.setCardData,this.configurationCurrentValues, this.cardData, this.cardId]);
+      this.$emit('textEditor', [this.cardKey, this.setCardData,this.configurationCurrentValues, this.cardData, this.cardId, 'textShow']);
     },
     refId: function() {
       return "card" + this.cardId;

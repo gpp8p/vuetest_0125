@@ -139,88 +139,6 @@ export default {
               "color":"#0537aa"
             },
       */
-      cardConfiguration: [
-        {
-          "label": "Card Appearance",
-          "configurationElements": [
-
-            {
-              "type": "radio",
-              "element": "backgroundTypeColor",
-              "fieldName": "backgroundType",
-              "prompt": "Background Type ?",
-              "valueFrom":"backgroundTypeColor",
-              "radioOptions": ['Color'],
-              "onClick": [{ "type": "color", "element": "backgroundColor", "valueFrom":"backgroundColor", "prompt": "Background Color" }]
-            },
-            {
-              "type": "radio",
-              "element": "backgroundTypeImage",
-              "fieldName": "backgroundType",
-              "prompt": "Background Type ?",
-              "valueFrom":"backgroundTypeImage",
-              "radioOptions": ['Image'],
-              "onClick": [{ "type": "file", "element": "backgroundImage", "prompt": "Upload -" }]
-            },
-            {
-              "type": "checkbox", "element": "border", "valueFrom":"borderInclude", "prompt": "Include Border?",
-              "onClick": [{
-                "type": "select",
-                "selectOptions": ['thin', 'medium', 'thick'],
-                "valueFrom":"borderSize",
-                "element": "borderSize",
-                "prompt": "Size?"
-              },
-                { "type": "color", "valueFrom":"borderColor", "element": "borderColor", "prompt": "Color ?" }]
-            },
-            {
-              "type": "checkbox", "element": "shadow", "valueFrom":"shadow", "prompt": "Shadow ?"
-            },
-            { "type": "checkbox", "element": "roundIncluded", "valueFrom":"roundIncluded", "prompt": "Round Corners ?" }
-          ]
-        },
-        {
-          "label": "Headline",
-          "configurationElements": [
-            { "type": "input", "element": "title", "valueFrom":"title", "fieldSize": "40", "prompt": "Enter Text:" }
-          ]
-        },
-        {
-          "label": "Text Attributes",
-          "configurationElements": [
-            { "type": "fontSelect", "valueFrom":"fontFamily", "element": "fontFamily", "prompt": "Select Font:" },
-            {
-              "type": "select",
-              "selectOptions": ['10pt', '12pt', '18pt', '24pt', '36pt', '48pt', '72pt'],
-              "valueFrom":"fontSize",
-              "element": "fontSize",
-              "prompt": "Size"
-            },
-            {
-              "type": "select",
-              "selectOptions": ['normal', 'bold', 'bolder', 'lighter'],
-              "valueFrom":"fontWeight",
-              "element": "fontWeight",
-              "prompt": "Weight"
-            },
-            {
-              "type": "select",
-              "selectOptions": ['normal', 'italic', 'oblique'],
-              "valueFrom":"fontStyle",
-              "element": "fontStyle",
-              "prompt": "Style"
-            },
-            {
-              "type": "select",
-              "selectOptions": ['left', 'center', 'right'],
-              "valueFrom":"textAlign",
-              "element": "textAlign",
-              "prompt": "Align"
-            },
-            { "type": "color", "valueFrom":"color", "element": "color", "prompt": "Color:" }
-          ]
-        }
-      ],
     }
 
 
@@ -256,6 +174,12 @@ export default {
 
     },
     editClicked(){
+      debugger;
+      this.loadCardConfiguration(this.cardId);
+      this.$emit('textEditor', [this.cardKey, this.setCardData,this.configurationCurrentValues, this.cardData, this.cardId, 'linkMenu']);
+    },
+/*
+    editClicked(){
       this.editStatus = true;
       this.$emit("editClick", [
         "cardClicked",
@@ -266,6 +190,8 @@ export default {
         this.configurationCurrentValues,
       ]);
     },
+
+ */
     menuOptSelected(msg){
       debugger;
       console.log(msg);
