@@ -25,7 +25,7 @@
 
 <script>
 //    import greenComponentSettings from "../components/greenComponentSettings.vue";
-    import menuOpt from "../components/menuOpt.vue";
+    import menuOpt from "../components/menuOptV2.vue";
 
 //    import newLayout from "../components/newLayout.vue";
 
@@ -80,15 +80,23 @@
           }
         },
         mounted(){
-          this.titleMsg='Edit This Card';
-          this.currentMenuOpts = ['Cancel', 'Link to Another Space',  'Save'];
-          this.currentSelectedMenuOption = 'Cancel';
+
+//          this.currentMenuOpts = ['Cancel', 'Link to Another Space',  'Save'];
+//          this.currentSelectedMenuOption = 'Cancel';
           switch(this.cardToEditType){
             case 'textShow':{
+              this.titleMsg='Edit This Card';
+              var mOpts = this.getMenuOpts('richTextOpen');
+              this.currentMenuOpts = mOpts.currentMenuOpts;
+              this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
               this.mode=this.DIALOG_EDIT;
               break;
             }
             case 'linkMenu':{
+              this.titleMsg='Construct Menu of Links';
+              mOpts = this.getMenuOpts('setupMenuLink');
+              this.currentMenuOpts = mOpts.currentMenuOpts;
+              this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
               this.mode=this.LINK_MENU_EDIT;
               break;
             }
@@ -150,7 +158,8 @@
                 this.cardData = this.currentEditorContent;
                 this.mode=this.DIALOG_EDIT;
                 this.titleMsg='Select portion of text for the link';
-                this.currentMenuOpts = ['Cancel', 'Insert the Link',  'Back'];
+//                this.currentMenuOpts = ['Cancel', 'Insert the Link',  'Back'];
+
             },
             handleDragStart(evt){
 //                debugger;
@@ -162,7 +171,11 @@
               this.layoutLink=msg[0];
               this.mode=this.DIALOG_EDIT;
               this.titleMsg='Select portion of text for the link';
-              this.currentMenuOpts = ['Cancel', 'Insert the Link',  'Back'];
+//              this.currentMenuOpts = ['Cancel', 'Insert the Link',  'Back'];
+              var mOpts = this.getMenuOpts('insertLink');
+              this.currentMenuOpts = mOpts.currentMenuOpts;
+              this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+
 
 //              this.$emit('configSelected',['layoutSaved', msg[0]]);
             },
@@ -189,8 +202,12 @@
                 }
                 case 'Back':{
                   this.titleMsg='Edit This Card';
-                  this.currentMenuOpts = ['Cancel', 'Link to Another Space',  'Save'];
-                  this.currentSelectedMenuOption = 'Cancel';
+//                  this.currentMenuOpts = ['Cancel', 'Link to Another Space',  'Save'];
+//                  this.currentSelectedMenuOption = 'Cancel';
+                  var mOpts = this.getMenuOpts('richTextOpen');
+                  this.currentMenuOpts = mOpts.currentMenuOpts;
+                  this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+
                   this.mode=this.DIALOG_EDIT;
                   break;
                 }
@@ -224,7 +241,11 @@
                   }else{
                     this.forwardToUrl = "http://localhost:8080/displayLayout/"+this.layoutLink;
                     this.editorInUse.execute( 'link', this.forwardToUrl );
-                    this.currentMenuOpts = ['Cancel', 'Link to Another Space',  'Save'];
+  //                  this.currentMenuOpts = ['Cancel', 'Link to Another Space',  'Save'];
+                    mOpts = this.getMenuOpts('richTextOpen');
+                    this.currentMenuOpts = mOpts.currentMenuOpts;
+                    this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+
                     this.titleMsg = 'Edit This Card';
                   }
                   break;
@@ -255,6 +276,26 @@
                     ],
                     currentSelectedMenuOption: 'Cancel'
                   }
+              }
+              case 'richTextOpen':{
+                return {
+                  currentMenuOpts:[
+                    ['Cancel','Cancel'],
+                    ['Link','Link to Another Space'],
+                    ['Save', 'Save']
+                  ],
+                  currentSelectedMenuOption: 'Cancel'
+                }
+              }
+              case'insertLink':{
+                return {
+                  currentMenuOpts:[
+                    ['Cancel','Cancel'],
+                    ['Insert Link', 'Insert the Link'],
+                    ['Back', 'Back']
+                  ],
+                  currentMenuSelection: 'Cancel'
+                }
               }
             }
           },
