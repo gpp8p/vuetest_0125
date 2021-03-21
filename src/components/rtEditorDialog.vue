@@ -15,6 +15,7 @@
         <editor-ck v-if="mode==this.DIALOG_EDIT" :cardData="cardData" :cmd="cmd" @saveContent="cardSaved" @editorReady="editorReady" @currentContent="currentContent"></editor-ck>
         <layout-list v-if="mode==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected"></layout-list>
         <create-layout v-if="mode==this.DIALOG_NEW_LAYOUT" :cmd="cmd" @layoutData="layoutData"></create-layout>
+        <add-link v-if="mode==this.DIALOG_ADD_LINK"></add-link>
        </div>
       <div class="dialogComponentFooter">
           <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -34,6 +35,7 @@
     import layoutList from "../components/layoutList.vue";
     import createLayout from "../components/createLayout.vue";
     import linkMaster from "../components/linkMaster.vue";
+    import addLink from "../components/addLink.vue"
 
 
 
@@ -44,7 +46,7 @@
 
     export default {
         name: "rtEditorDialog",
-        components :{ menuOpt,   AreYouSure, editorCk, layoutList, createLayout, linkMaster },
+        components :{ menuOpt,   AreYouSure, editorCk, layoutList, createLayout, linkMaster, addLink },
         props:{
             dialogType:{
                 type: Number,
@@ -250,6 +252,14 @@
                   }
                   break;
                 }
+                case 'AddLink':{
+                  this.titleMsg = 'Add a New Link';
+                  mOpts = this.getMenuOpts('addLinkSelected');
+                  this.currentMenuOpts = mOpts.currentMenuOpts;
+                  this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+                  this.mode=this.DIALOG_ADD_LINK;
+                  break;
+                }
               }
             },
           getMenuOpts(menuContext){
@@ -276,6 +286,16 @@
                     ],
                     currentSelectedMenuOption: 'Cancel'
                   }
+              }
+              case 'addLinkSelected':{
+                return {
+                  currentMenuOpts: [
+                    ['New Space', 'NewSpace'],
+                    ['Cancel','Cancel'],
+                    ['Save','SaveLinkMenu']
+                  ],
+                  currentSelectedMenuOption: 'Cancel'
+                }
               }
               case 'richTextOpen':{
                 return {
@@ -384,6 +404,7 @@
                 DIALOG_CONFIGURE_CARD:10,
                 DIALOG_LAYOUT_LIST:11,
                 DIALOG_EDIT:12,
+                DIALOG_ADD_LINK:15,
                 LINK_MENU_EDIT:13,
                 mode:0,
 
