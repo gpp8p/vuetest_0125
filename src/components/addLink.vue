@@ -3,7 +3,7 @@
   <div class="extLinkArea">
     <span class="extLinkRow1">
       <span>
-        <input type="radio" name="linkType" value="extSelected" @click="externalLinkClicked" />
+        <input type="radio" name="linkType" value="extSelected" v-model="linkChoice" @change="linkChoiceMade" />
       </span>
       <span>
         External Link - Description:
@@ -28,7 +28,7 @@
   <div class="intLinkArea">
     <span class="intLinkHeader">
       <span>
-        <input type="radio" name="linkType" value="intSelected" @click="internalLinkClicked" />
+        <input type="radio" name="linkType" value="intSelected" v-model="linkChoice" @change="linkChoiceMade" />
       </span>
       <span>
         Internal Space:
@@ -36,8 +36,8 @@
       <span>
       </span>
     </span>
-    <span class="intLinkBody">
-      <layout-list :cmd="cmd" @spaceSelected="spaceSelected"></layout-list>
+    <span class="intLinkBody" >
+      <layout-list :cmd="cmd" @spaceSelected="spaceSelected" v-if="this.showInternalLinks==true"></layout-list>
     </span>
   </div>
 
@@ -52,7 +52,21 @@ name: "addLink",
   data(){
     return {
       extLinkDescription:'',
-      extLinkUrl:''
+      extLinkUrl:'',
+      linkChoice:'',
+      showInternalLinks: false,
+      extSelected:'external',
+      intSelected:'internal'
+    }
+  },
+  methods:{
+    linkChoiceMade(){
+      console.log(this.linkChoice);
+      if(this.linkChoice=='intSelected'){
+        this.showInternalLinks=true;
+      }else{
+        this.showInternalLinks=false;
+      }
     }
   }
 }
