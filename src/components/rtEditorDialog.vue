@@ -184,14 +184,23 @@
             },
             layoutData(msg){
               debugger;
-              console.log('layoutData',msg);
-              this.layoutLink=msg[0];
-              this.mode=this.DIALOG_EDIT;
-              this.titleMsg='Select portion of text for the link';
-//              this.currentMenuOpts = ['Cancel', 'Insert the Link',  'Back'];
-              var mOpts = this.getMenuOpts('insertLink');
-              this.currentMenuOpts = mOpts.currentMenuOpts;
-              this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+              switch(this.linkContext){
+                case this.LINK_CONTEXT_RICHTEXT:{
+                  console.log('layoutData',msg);
+                  this.layoutLink=msg[0];
+                  this.mode=this.DIALOG_EDIT;
+                  this.titleMsg='Select portion of text for the link';
+                  var mOpts = this.getMenuOpts('insertLink');
+                  this.currentMenuOpts = mOpts.currentMenuOpts;
+                  this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+                  break;
+                }
+                case this.LINK_CONTEXT_LINKMENU:{
+                  console.log('new layout created for menulink',msg);
+                  break;
+                }
+              }
+
 
 
 //              this.$emit('configSelected',['layoutSaved', msg[0]]);
@@ -230,7 +239,10 @@
                 }
                 case 'Create Linked Space':{
                   this.mode=this.DIALOG_NEW_LAYOUT;
-                  this.currentMenuOpts = ['Cancel', 'Save This Space',  'Back'];
+                  mOpts = this.getMenuOpts('creatingLayout');
+                  this.currentMenuOpts = mOpts.currentMenuOpts;
+                  this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+//                  this.currentMenuOpts = ['Cancel', 'Save This Space',  'Back'];
                   break;
                 }
                 case 'Save This Space':{
@@ -281,6 +293,15 @@
                   this.currentMenuOpts = mOpts.currentMenuOpts;
                   this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
                   this.mode=this.LINK_MENU_EDIT;
+                  break;
+                }
+                case 'NewSpace':{
+                  this.linkContext=this.LINK_CONTEXT_LINKMENU;
+                  this.mode=this.DIALOG_NEW_LAYOUT;
+                  mOpts = this.getMenuOpts('creatingLayout1');
+                  this.currentMenuOpts = mOpts.currentMenuOpts;
+                  this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+
                   break;
                 }
               }
@@ -347,6 +368,26 @@
                     ['Cancel','Cancel'],
                     ['Insert Link', 'Insert the Link'],
                     ['Back', 'Back']
+                  ],
+                  currentMenuSelection: 'Cancel'
+                }
+              }
+              case'creatingLayout':{
+                return {
+                  currentMenuOpts:[
+                    ['Cancel','Cancel'],
+                    ['Save', 'Save This Space'],
+                    ['Back', 'Back']
+                  ],
+                  currentMenuSelection: 'Cancel'
+                }
+              }
+              case'creatingLayout1':{
+                return {
+                  currentMenuOpts:[
+                    ['Cancel','Cancel'],
+                    ['Save', 'Save This Space'],
+                    ['Back', 'Backtosetup']
                   ],
                   currentMenuSelection: 'Cancel'
                 }
@@ -441,6 +482,10 @@
                 DIALOG_ADD_LINK:15,
                 LINK_MENU_EDIT:13,
                 mode:0,
+
+                linkContext:0,
+                LINK_CONTEXT_RICHTEXT:0,
+                LINK_CONTEXT_LINKMENU:1,
 
                 titleMsg:'Headline Card',
 
