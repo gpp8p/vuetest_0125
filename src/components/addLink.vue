@@ -1,5 +1,13 @@
 <template>
 <span class="addLinkWrapper">
+    <span class="labelPlusInput">
+      <span>
+        Title:
+      </span>
+      <span class="titleField">
+        <input v-model="linkMenuTitle" size="65"/>
+      </span>
+    </span>
   <div class="extLinkArea">
     <span class="extLinkRow1">
       <span>
@@ -21,9 +29,6 @@
         <input type="text" v-model="extLinkUrl" size="75" />
       </span>
     </span>
-  </div>
-  <div>
-    <hr/>
   </div>
   <div class="intLinkArea">
     <span class="intLinkHeader">
@@ -47,25 +52,60 @@
 <script>
 import layoutList from "../components/layoutList.vue";
 export default {
-name: "addLink",
+  name: "addLink",
   components: {layoutList},
-  data(){
+  data() {
     return {
-      extLinkDescription:'',
-      extLinkUrl:'',
-      linkChoice:'',
+      extLinkDescription: '',
+      extLinkUrl: '',
+      linkChoice: '',
       showInternalLinks: false,
-      extSelected:'external',
-      intSelected:'internal'
+      extSelected: 'external',
+      intSelected: 'internal',
+      extEntry:false
     }
   },
-  methods:{
-    linkChoiceMade(){
+  watch:{
+    extLinkDescription: function(){
+      if(!this.extEntry){
+        this.$emit('showSave');
+        this.extEntry = true;
+      }
+
+    },
+    extLinkUrl: function(){
+      if(!this.extEntry){
+        this.$emit('showSave');
+        this.extEntry = true;
+      }
+    }
+
+  },
+  methods: {
+    linkChoiceMade() {
       console.log(this.linkChoice);
-      if(this.linkChoice=='intSelected'){
-        this.showInternalLinks=true;
-      }else{
-        this.showInternalLinks=false;
+      if (this.linkChoice == 'intSelected') {
+        this.$emit('noShowSave');
+        this.showInternalLinks = true;
+        this.extEntry=false;
+
+      } else {
+        this.$emit('noShowSave');
+        this.showInternalLinks = false;
+      }
+    },
+    spaceSelected(msg){
+      this.extLinkDescription='';
+      this.extLinkUrl='';
+      this.$emit('showSave');
+      console.log(msg);
+    },
+    is_url(str) {
+      let regexp = /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
+      if (regexp.test(str)) {
+        return true;
+      } else {
+        return false;
       }
     }
   }
@@ -75,7 +115,7 @@ name: "addLink",
 <style scoped>
   .addLinkWrapper {
     display:grid;
-    grid-template-rows: 15% 5% 80%;
+    grid-template-rows: 15% 15% 70%;
     grid-template-columns: 100%;
   }
   .extLinkArea {

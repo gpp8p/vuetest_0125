@@ -15,7 +15,7 @@
         <editor-ck v-if="mode==this.DIALOG_EDIT" :cardData="cardData" :cmd="cmd" @saveContent="cardSaved" @editorReady="editorReady" @currentContent="currentContent"></editor-ck>
         <layout-list v-if="mode==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected"></layout-list>
         <create-layout v-if="mode==this.DIALOG_NEW_LAYOUT" :cmd="cmd" @layoutData="layoutData"></create-layout>
-        <add-link v-if="mode==this.DIALOG_ADD_LINK"></add-link>
+        <add-link v-if="mode==this.DIALOG_ADD_LINK" @showSave="showSave" @noShowSave="noShowSave" ></add-link>
        </div>
       <div class="dialogComponentFooter">
           <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -136,6 +136,21 @@
             editorReady(msg){
               this.editorInUse=msg;
             },
+            showSave(){
+              this.titleMsg = 'Add a New Link';
+              var mOpts = this.getMenuOpts('addLinkSelected1');
+              this.currentMenuOpts = mOpts.currentMenuOpts;
+              this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+              this.mode=this.DIALOG_ADD_LINK;
+            },
+          noShowSave(){
+            debugger;
+            this.titleMsg = 'Add a New Link';
+            var mOpts = this.getMenuOpts('addLinkSelected');
+            this.currentMenuOpts = mOpts.currentMenuOpts;
+            this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+            this.mode=this.DIALOG_ADD_LINK;
+          },
             currentContent(msg){
               debugger;
               this.currentEditorContent = msg[0];
@@ -260,10 +275,18 @@
                   this.mode=this.DIALOG_ADD_LINK;
                   break;
                 }
+                case 'Backtosetup':{
+                  this.titleMsg='Construct Menu of Links';
+                  mOpts = this.getMenuOpts('setupMenuLink');
+                  this.currentMenuOpts = mOpts.currentMenuOpts;
+                  this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+                  this.mode=this.LINK_MENU_EDIT;
+                  break;
+                }
               }
             },
           getMenuOpts(menuContext){
-//              debugger;
+              debugger;
             console.log('Dialog2 getMenuOpts menuContext:', menuContext);
             switch(menuContext){
               case 'setupMenuLink': {
@@ -290,6 +313,17 @@
               case 'addLinkSelected':{
                 return {
                   currentMenuOpts: [
+                    ['Back', 'Backtosetup'],
+                    ['New Space', 'NewSpace'],
+                    ['Cancel','Cancel'],
+                  ],
+                  currentSelectedMenuOption: 'Cancel'
+                }
+              }
+              case 'addLinkSelected1':{
+                return {
+                  currentMenuOpts: [
+                    ['Back', 'Backtosetup'],
                     ['New Space', 'NewSpace'],
                     ['Cancel','Cancel'],
                     ['Save','SaveLinkMenu']
