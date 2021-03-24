@@ -36,6 +36,7 @@
     import createLayout from "../components/createLayout.vue";
     import linkMaster from "../components/linkMaster.vue";
     import addLink from "../components/addLink.vue"
+import axios from "axios";
 
 
 
@@ -196,7 +197,29 @@
                   break;
                 }
                 case this.LINK_CONTEXT_LINKMENU:{
+                  debugger;
                   console.log('new layout created for menulink',msg);
+                  var targetUrl = 'http://localhost:8080/displayLayout'+msg[0];
+                  axios.post('http://localhost:8000/api/shan/createNewLink?XDEBUG_SESSION_START=17516', {
+                    org_id: this.$store.getters.getOrgId,
+                    layout_id: this.$store.getters.getCurrentLayoutId,
+                    description: msg[2],
+                    card_instance_id:this.cardId,
+                    is_external:0,
+                    layout_link_to:msg[0],
+                    linkUrl:targetUrl
+                  }).then(response=>
+                  {
+                    console.log(response);
+                    if(response.data=='ok'){
+                      this.mode=this.LINK_MENU_EDIT;
+                    }
+                  }).catch(function(error) {
+                    console.log(error);
+                  });
+
+
+
                   break;
                 }
               }
