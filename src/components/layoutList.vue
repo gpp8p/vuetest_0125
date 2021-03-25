@@ -48,6 +48,7 @@ export default {
     spaceSelected(msg){
 //      debugger;
       this.$emit('spaceSelected', msg.id);
+      this.$emit('layoutSelected', msg);
     }
   },
   data(){

@@ -7,6 +7,11 @@
       <span class="titleField">
         <input v-model="linkMenuTitle" size="65"/>
       </span>
+      <span>
+        Orientation:
+        <input type="radio" name="orientation" value="vertical" v-model="orient" />-Vertical
+        <input type="radio" name="orientation" value="horozontal" v-model="orient" />-Horizontal
+      </span>
     </span>
     <span>
     <o-table :data="linkData"
@@ -74,6 +79,12 @@ name: "linkMaster",
         }
 
       ],
+      orient:'vertical'
+    }
+  },
+  watch:{
+    orient: function(){
+      this.$emit('linkMenuOrient', this.orient);
     }
   },
   methods:{
@@ -99,9 +110,10 @@ name: "linkMaster",
     grid-template-rows: 10% 90%;
   }
   .labelPlusInput {
+    width:100%;
     display:grid;
     margin-top: 3px;
-    grid-template-columns: 10% 90%;
+    grid-template-columns: 10% 50% 40%;
     font-family: Arial;
     font-size: medium;
     color: #0a3aff;

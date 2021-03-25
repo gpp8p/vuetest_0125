@@ -7,6 +7,11 @@
       <span class="titleField">
         <input v-model="linkMenuTitle" size="65"/>
       </span>
+      <span>
+        Orientation:
+        <input type="radio" name="orientation" value="vertical" v-model="orient"  />-Vertical
+        <input type="radio" name="orientation" value="horozontal" v-model="orient" />-Horizontal
+      </span>
     </span>
   <div class="extLinkArea">
     <span class="extLinkRow1">
@@ -42,7 +47,7 @@
       </span>
     </span>
     <span class="intLinkBody" >
-      <layout-list :cmd="cmd" @spaceSelected="spaceSelected" v-if="this.showInternalLinks==true"></layout-list>
+      <layout-list :cmd="cmd" @layoutSelected="layoutSelected" v-if="this.showInternalLinks==true"></layout-list>
     </span>
   </div>
 
@@ -62,7 +67,9 @@ export default {
       showInternalLinks: false,
       extSelected: 'external',
       intSelected: 'internal',
-      extEntry:false
+      extEntry:false,
+      orient:'vertical',
+      linkMenuTitle:''
     }
   },
   watch:{
@@ -72,6 +79,9 @@ export default {
         this.extEntry = true;
       }
 
+    },
+    linkMenuTitle: function(){
+      this.$emit('showSave');
     },
     extLinkUrl: function(){
       if(!this.extEntry){
@@ -85,7 +95,7 @@ export default {
     linkChoiceMade() {
       console.log(this.linkChoice);
       if (this.linkChoice == 'intSelected') {
-        this.$emit('noShowSave');
+        this.$emit('showSave');
         this.showInternalLinks = true;
         this.extEntry=false;
 
@@ -94,10 +104,11 @@ export default {
         this.showInternalLinks = false;
       }
     },
-    spaceSelected(msg){
+    layoutSelected(msg){
+      console.log('layoutSelected in addLink',msg);
       this.extLinkDescription='';
       this.extLinkUrl='';
-      this.$emit('showSave');
+      this.$emit('targetLayoutSelected',msg);
       console.log(msg);
     },
     is_url(str) {
@@ -148,6 +159,15 @@ export default {
     display:grid;
     grid-template-rows: 100%;
     grid-template-columns: 100%;
+  }
+  .labelPlusInput {
+    width:100%;
+    display:grid;
+    margin-top: 3px;
+    grid-template-columns: 10% 50% 40%;
+    font-family: Arial;
+    font-size: medium;
+    color: #0a3aff;
   }
 
 

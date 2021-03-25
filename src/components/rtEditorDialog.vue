@@ -11,11 +11,11 @@
         <br/>
 
       <div class="dialogComponentBody">
-        <link-master v-if="mode==this.LINK_MENU_EDIT" :cardId = "this.cardId"></link-master>
+        <link-master v-if="mode==this.LINK_MENU_EDIT" :cardId = "this.cardId" @linkMenuOrient="linkMenuOrient"></link-master>
         <editor-ck v-if="mode==this.DIALOG_EDIT" :cardData="cardData" :cmd="cmd" @saveContent="cardSaved" @editorReady="editorReady" @currentContent="currentContent"></editor-ck>
         <layout-list v-if="mode==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected"></layout-list>
         <create-layout v-if="mode==this.DIALOG_NEW_LAYOUT" :cmd="cmd" @layoutData="layoutData"></create-layout>
-        <add-link v-if="mode==this.DIALOG_ADD_LINK" @showSave="showSave" @noShowSave="noShowSave" ></add-link>
+        <add-link v-if="mode==this.DIALOG_ADD_LINK" @showSave="showSave" @noShowSave="noShowSave" @targetLayoutSelected="targetLayoutSelected"></add-link>
        </div>
       <div class="dialogComponentFooter">
           <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -152,6 +152,12 @@ import axios from "axios";
             this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
             this.mode=this.DIALOG_ADD_LINK;
           },
+          targetLayoutSelected(msg){
+            this.currentlySelectedLayout = msg.id;
+            this.currentlySelectedLayoutDescription = msg.description;
+            this.showSave();
+          },
+
             currentContent(msg){
               debugger;
               this.currentEditorContent = msg[0];
@@ -171,12 +177,21 @@ import axios from "axios";
             },
             spaceSelected(selectedSpace){
                 debugger;
-                console.log(selectedSpace);
-                this.layoutLink=selectedSpace;
-                this.cardData = this.currentEditorContent;
-                this.mode=this.DIALOG_EDIT;
-                this.titleMsg='Select portion of text for the link';
+              switch(this.linkContext){
+                case this.LINK_CONTEXT_RICHTEXT:{
+                  console.log(selectedSpace);
+                  this.layoutLink=selectedSpace;
+                  this.cardData = this.currentEditorContent;
+                  this.mode=this.DIALOG_EDIT;
+                  this.titleMsg='Select portion of text for the link';
 //                this.currentMenuOpts = ['Cancel', 'Insert the Link',  'Back'];
+                  break;
+                }
+                case this.LINK_CONTEXT_LINKMENU:{
+                  console.log('spaceSelected',selectedSpace);
+                  break;
+                }
+              }
 
             },
             handleDragStart(evt){
@@ -199,7 +214,11 @@ import axios from "axios";
                 case this.LINK_CONTEXT_LINKMENU:{
                   debugger;
                   console.log('new layout created for menulink',msg);
-                  var targetUrl = 'http://localhost:8080/displayLayout'+msg[0];
+                  this.saveLayoutLink(msg[0],msg[2]);
+
+
+ /*
+                  var targetUrl = 'http://localhost:8080/displayLayout/'+msg[0];
                   axios.post('http://localhost:8000/api/shan/createNewLink?XDEBUG_SESSION_START=17516', {
                     org_id: this.$store.getters.getOrgId,
                     layout_id: this.$store.getters.getCurrentLayoutId,
@@ -217,7 +236,7 @@ import axios from "axios";
                   }).catch(function(error) {
                     console.log(error);
                   });
-
+*/
 
 
                   break;
@@ -327,6 +346,10 @@ import axios from "axios";
 
                   break;
                 }
+                case 'SaveLinkMenu':{
+                  this.saveLayoutLink(this.currentlySelectedLayout, this.currentlySelectedLayoutDescription);
+                  break;
+                }
               }
             },
           getMenuOpts(menuContext){
@@ -338,7 +361,7 @@ import axios from "axios";
                   currentMenuOpts: [
                     ['Add', 'AddLink'],
                     ['Cancel', 'Cancel'],
-                    ['Save', 'Save LinkMenu']
+                    ['Save', 'LinkMasterSave']
                   ],
                   currentSelectedMenuOption: 'Cancel'
                 }
@@ -475,6 +498,27 @@ import axios from "axios";
             clearCmd(){
               this.cmd='';
               this.$emit('clearCmd');
+            },
+            saveLayoutLink(targetId, targetDescription){
+              var targetUrl = 'http://localhost:8080/displayLayout/'+targetId;
+              axios.post('http://localhost:8000/api/shan/createNewLink?XDEBUG_SESSION_START=17516', {
+                org_id: this.$store.getters.getOrgId,
+                layout_id: this.$store.getters.getCurrentLayoutId,
+                description: targetDescription,
+                card_instance_id:this.cardId,
+                is_external:0,
+                layout_link_to:targetId,
+                linkUrl:targetUrl
+              }).then(response=>
+              {
+                console.log(response);
+                if(response.data=='ok'){
+                  this.mode=this.LINK_MENU_EDIT;
+                }
+              }).catch(function(error) {
+                console.log(error);
+              });
+
             }
         },
 
@@ -528,7 +572,10 @@ import axios from "axios";
                 layoutLink:0,
                 currentEditorContent:'',
                 currentSelectedRange:{},
-                currentSelection:{}
+                currentSelection:{},
+
+                currentlySelectedLayout:0,
+                currentlySelectedLayoutDescription:''
 
 
 
