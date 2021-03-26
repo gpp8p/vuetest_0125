@@ -5,12 +5,12 @@
         Title:
       </span>
       <span class="titleField">
-        <input v-model="linkMenuTitle" size="65"/>
+        <input v-model="linkContent.linkMenuTitle" size="65"/>
       </span>
       <span>
         Orientation:
-        <input type="radio" name="orientation" value="vertical" v-model="orient" />-Vertical
-        <input type="radio" name="orientation" value="horozontal" v-model="orient" />-Horizontal
+        <input type="radio" name="orientation" value="vertical" v-model="linkContent.orient" />-Vertical
+        <input type="radio" name="orientation" value="horozontal" v-model="linkContent.orient" />-Horizontal
       </span>
     </span>
     <span>
@@ -42,14 +42,21 @@ name: "linkMaster",
     cardId:{
       type: Number,
       required: true
+    },
+    cmd:{
+      type: String,
+      required: true
     }
   },
   mounted(){
     this.getLinksForCard(this.cardId);
   },
+
+
   data(){
     return {
       linkMenuTitle:'',
+      linkContent:{},
       linkData:[],
       columns: [
         {
@@ -83,8 +90,14 @@ name: "linkMaster",
     }
   },
   watch:{
-    orient: function(){
-      this.$emit('linkMenuOrient', this.orient);
+    cmd: function(){
+      console.log('linkMaster cmd changed-', this.cmd);
+      switch(this.cmd){
+        case 'save':{
+          this.$emit('saveCardContent', [this.linkContent, 'linkContent', 'main'] );
+          break;
+        }
+      }
     }
   },
   methods:{

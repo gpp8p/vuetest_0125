@@ -57,6 +57,7 @@
                                 @moved="dialogMoved"
                                 @configSelected = "configSelected"
                                 @saveCardData="saveCardData"
+                                @saveCardContent="saveCardContent"
                                 @clearCmd="clearRtCmd"
                                 :cmd="rtCmd"
                                 v-bind:style='this.styleObject'
@@ -202,6 +203,16 @@
               console.log('editLayout.saveCardData', msg);
 
 //              this.cardDataFunction(msg, "saveCardContent");
+            },
+//          A substitute for saveCardData with greater flexability
+            saveCardContent(msg){
+              var updateContent = msg[0];
+              Object.keys(updateContent).forEach(key => {
+                this.updateCallback(updateContent[key], 'saveCardContent', msg[2]);
+                console.log('updating ',updateContent[key]);
+              });
+              this.updateCallback(msg, 'saveCardContent', msg[2]);
+              console.log('editLayout.saveCardContent', msg);
             },
             layoutGridParameters(height, width, backgroundColor) {
                 var heightSize = (95 / height).toFixed(2);

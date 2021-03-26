@@ -11,7 +11,7 @@
         <br/>
 
       <div class="dialogComponentBody">
-        <link-master v-if="mode==this.LINK_MENU_EDIT" :cardId = "this.cardId" @linkMenuOrient="linkMenuOrient"></link-master>
+        <link-master v-if="mode==this.LINK_MENU_EDIT" :cardId = "this.cardId" :cmd="cmd" @saveCardContent="saveCardContent"></link-master>
         <editor-ck v-if="mode==this.DIALOG_EDIT" :cardData="cardData" :cmd="cmd" @saveContent="cardSaved" @editorReady="editorReady" @currentContent="currentContent"></editor-ck>
         <layout-list v-if="mode==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected"></layout-list>
         <create-layout v-if="mode==this.DIALOG_NEW_LAYOUT" :cmd="cmd" @layoutData="layoutData"></create-layout>
@@ -136,6 +136,9 @@ import axios from "axios";
             },
             editorReady(msg){
               this.editorInUse=msg;
+            },
+            saveCardContent(msg){
+              this.$emit('saveCardContent', msg);
             },
             showSave(){
               this.titleMsg = 'Add a New Link';
@@ -350,6 +353,11 @@ import axios from "axios";
                   this.saveLayoutLink(this.currentlySelectedLayout, this.currentlySelectedLayoutDescription);
                   break;
                 }
+                case 'linkMasterSave':{
+                  this.cmd="save";
+//                  this.clearCmd();
+                  break;
+                }
               }
             },
           getMenuOpts(menuContext){
@@ -361,7 +369,7 @@ import axios from "axios";
                   currentMenuOpts: [
                     ['Add', 'AddLink'],
                     ['Cancel', 'Cancel'],
-                    ['Save', 'LinkMasterSave']
+                    ['Save', 'linkMasterSave']
                   ],
                   currentSelectedMenuOption: 'Cancel'
                 }
@@ -575,7 +583,8 @@ import axios from "axios";
                 currentSelection:{},
 
                 currentlySelectedLayout:0,
-                currentlySelectedLayoutDescription:''
+                currentlySelectedLayoutDescription:'',
+
 
 
 
