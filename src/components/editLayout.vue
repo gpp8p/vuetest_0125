@@ -208,10 +208,10 @@
             saveCardContent(msg){
               var updateContent = msg[0];
               Object.keys(updateContent).forEach(key => {
-                this.updateCallback(updateContent[key], 'saveCardContent', msg[2]);
+                this.updateCallback(updateContent[key], key, msg[2]);
                 console.log('updating ',updateContent[key]);
               });
-              this.updateCallback(msg, 'saveCardContent', msg[2]);
+              this.updateCallback('', 'saveCardContent', msg[2]);
               console.log('editLayout.saveCardContent', msg);
             },
             layoutGridParameters(height, width, backgroundColor) {

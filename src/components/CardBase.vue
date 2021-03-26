@@ -5,7 +5,7 @@
     name: "CardBase",
     methods: {
       setCardData(cardData, cardDataElement, domElement) {
-//      debugger;
+      debugger;
       console.log('Card Base setCardData -','cardData:',cardData,'cardDataElement:', cardDataElement,'domElement - ',domElement);
       if(domElement=='main'){
         switch (cardDataElement) {
@@ -168,6 +168,9 @@
             this.styling.border = "border:"+borderColorSet+";";
             this.$emit('cardPropertySet',[borderColorSet, 'borderColor']);
             break;
+          default:{
+            this.content[cardDataElement]=cardData;
+          }
         }
       }else {
         switch (cardDataElement) {
