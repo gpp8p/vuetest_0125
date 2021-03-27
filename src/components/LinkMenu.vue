@@ -9,7 +9,7 @@
           <a href="#"  v-on:click="editClicked" >Edit</a>
         </span>
       </div>
-      {{ this.cardTitle }}
+      {{ this.cardContent.linkMenuTitle }}
       <div v-bind:style='subStyle'>Some more text here</div>
     </div>
     <div class="cardStyle" v-if="this.editStatus==true">
@@ -71,6 +71,10 @@ export default {
     elementStyles:{
       type: Object,
       required:false
+    },
+    cardContent:{
+      type: Object,
+      required: true
     }
   },
   mounted(){

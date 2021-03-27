@@ -70,6 +70,10 @@ export default {
     elementStyles:{
       type: Object,
       required:false
+    },
+    cardContent:{
+      type: Object,
+      required: true
     }
   },
   watch:{

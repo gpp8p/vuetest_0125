@@ -12,6 +12,7 @@
                 :cardProperties="instance.card_parameters.properties"
                 :displayStatus="displayStatus"
                 :elementStyles="instance.elementStyles"
+                :cardContent="instance.card_parameters.content"
                 @storeValue="processClick"
                 @cardClick="cardClick"
                 @textEditor="textEditor"
@@ -145,7 +146,7 @@
               styleObject: {
                 top: '200px',
                 left: '400px',
-              },
+              }
 
           }
         },
@@ -275,6 +276,7 @@
                     // JSON responses are automatically parsed.
 //                    debugger;
                     console.log('getLayout-',response);
+                    console.log('getLayout content', this.cardContent);
                     this.cardInstances = response.data.cards;
                     this.gridParamDefinition = this.layoutGridParameters(
                         response.data.layout.height,

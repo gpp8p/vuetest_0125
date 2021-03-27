@@ -8,6 +8,7 @@
                           :cardProperties = cardProperties
                           :displayStatus = displayStatus
                           :elementStyles="elementStyles"
+                          :cardContent="cardContent"
                           @configSelected="configSelected"
                           @editClick = editClick
                           @cardClick="processCardClick"
@@ -24,6 +25,7 @@
                    :cardProperties = cardProperties
                    :displayStatus = displayStatus
                    :elementStyles="elementStyles"
+                   :cardContent="cardContent"
                    :cmd = cmd
                    @cardClick="processCardClick"
                    @textEditor="textEditor"
@@ -40,6 +42,7 @@
                    :cardProperties = cardProperties
                    :displayStatus = displayStatus
                    :elementStyles="elementStyles"
+                   :cardContent="cardContent"
                    :cmd = cmd
                    @configSelected="configSelected"
                    @cardClick="processCardClick"
@@ -110,6 +113,10 @@
       elementStyles:{
         type: Object,
         required:false
+      },
+      cardContent:{
+        type: Object,
+        required: true
       }
     },
     data(){

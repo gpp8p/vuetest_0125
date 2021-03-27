@@ -420,6 +420,7 @@
             this.subContentConfiguration = subElements;
             this.subContentStyling = subStyles;
             this.content={};
+            console.log('cardContent - ',this.cardContent);
             for( c=0;c<this.cardContent.length;c++){
               var thisCarContentKey = this.cardContent[c][0];
               var thisCardContentValue= this.cardContent[c][1];
