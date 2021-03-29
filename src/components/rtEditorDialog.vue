@@ -185,6 +185,10 @@ import axios from "axios";
                   console.log(selectedSpace);
                   this.layoutLink=selectedSpace;
                   this.cardData = this.currentEditorContent;
+                  var mOpts = this.getMenuOpts('insertLink');
+                  this.currentMenuOpts = mOpts.currentMenuOpts;
+                  this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+
                   this.mode=this.DIALOG_EDIT;
                   this.titleMsg='Select portion of text for the link';
 //                this.currentMenuOpts = ['Cancel', 'Insert the Link',  'Back'];

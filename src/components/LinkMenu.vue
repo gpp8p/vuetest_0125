@@ -10,7 +10,14 @@
         </span>
       </div>
       {{ this.cardContent.linkMenuTitle }}
-      <div v-bind:style='subStyle'>Some more text here</div>
+      <div v-bind:style='subStyle'>
+        <span v-if="this.cardContent.orient=='vertical'">
+          <div v-for="(link, index) in this.cardContent.availableLinks"
+               :key="index">
+            {{link.description}}
+          </div>
+        </span>
+      </div>
     </div>
     <div class="cardStyle" v-if="this.editStatus==true">
       <div class="cardHeader" v-if="displayStatus==false">
