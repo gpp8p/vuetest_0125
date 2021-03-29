@@ -84,6 +84,9 @@ export default {
     cmd: function() {
       console.log('linkMenu cmd changed-', this.cmd);
     },
+    cardContent: function(){
+      debugger;
+    },
     subStyleChange(){
 //      debugger;
       console.log('LinkMenu - watch on subStyleChange triggered. this.subContentStyling.sub:', this.subContentStyling.sub);

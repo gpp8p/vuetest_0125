@@ -173,6 +173,12 @@
           }
         }
       }else {
+        console.log('sub element - ', this.subContentConfiguration[domElement]);
+//        debugger;
+        if (typeof this.subContentConfiguration[domElement] === 'undefined') {
+          this.subContentConfiguration[domElement]=Object.create( null );
+          this.subContentStyling[domElement]=Object.create( null );
+        }
         switch (cardDataElement) {
             /*
           case "saveConfiguration":
@@ -420,6 +426,7 @@
             this.subContentConfiguration = subElements;
             this.subContentStyling = subStyles;
             this.content={};
+//            debugger;
             console.log('cardContent - ',this.cardContent);
             for( c=0;c<this.cardContent.length;c++){
               var thisCarContentKey = this.cardContent[c][0];
