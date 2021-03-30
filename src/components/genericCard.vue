@@ -47,6 +47,7 @@
                    @configSelected="configSelected"
                    @cardClick="processCardClick"
                    @textEditor="textEditor"
+                   @linkSelected="linkSelected"
                    @configurationHasBeenSaved="configurationHasBeenSaved"
                    @cardDataLoaded="cardDataLoaded"
                    @cardPropertySet="cardPropertySet"
@@ -168,7 +169,11 @@
       },
       linkHelperRequested(){
         this.$emit('linkHelperRequested');
-      }
+      },
+      linkSelected(msg){
+//        console.log('link selected', msg);
+        this.$emit('linkSelected', msg);
+      },
 
     }
   };

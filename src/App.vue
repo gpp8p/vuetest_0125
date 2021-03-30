@@ -10,8 +10,10 @@
                            @configSelected="viewStatusChange"
                            @layoutSelected="layoutSelected"
                            @layoutChanged="layoutChanged"
+                           @linkSelected="layoutSelected"
                            @viewStatusChangeFunction="viewStatusChange"
                            @cardSaved="cardSaved"
+                           :key="$route.fullPath"
                            :cmd="thisCmd"></router-view>
           </section>
 

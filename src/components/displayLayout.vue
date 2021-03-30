@@ -19,6 +19,7 @@
                 @configurationHasBeenSaved="configurationHasBeenSaved"
                 @cardDataLoaded="cardDataLoaded"
                 @linkHelperRequested="linkHelperRequested"
+                @linkSelected="linkSelected"
                 ref="key"
         ></generic-card>
       <Dialog v-if="this.dialogType>0"
@@ -314,7 +315,10 @@
 //                console.log(perms);
                 return false;
             },
-
+          linkSelected(msg){
+//            console.log('link selected', msg);
+            this.$emit('linkSelected', msg);
+          },
 
 
             computeGridCss(row, col, height, width){

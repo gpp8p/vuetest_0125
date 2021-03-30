@@ -12,10 +12,15 @@
       {{ this.cardContent.linkMenuTitle }}
       <div v-bind:style='subStyle'>
         <span v-if="this.cardContent.orient=='vertical'">
-          <div v-for="(link, index) in this.cardContent.availableLinks"
-               :key="index">
-            {{link.description}}
-          </div>
+          <ul>
+            <m-link v-for="(link, index) in this.cardContent.availableLinks"
+                    :key="index"
+                    :description="link.description"
+                    :target="link.layout_link_to"
+                    :is_external="link.is_external"
+                    @linkSelected="linkSelected"
+                    />
+          </ul>
         </span>
       </div>
     </div>
@@ -42,9 +47,10 @@
 /* eslint-disable no-console,no-debugger */
 import CardBase from "../components/CardBase.vue";
 import menuOpt from "../components/menuOpt.vue";
+import mLink from "../components/mLink.vue";
 export default {
   name: "linkMenu",
-  components: {menuOpt},
+  components: {menuOpt, mLink},
   extends: CardBase,
   props: {
     cardStyle: {
@@ -230,7 +236,10 @@ export default {
           break;
       }
     },
-
+    linkSelected(msg){
+//      console.log('link selected', msg);
+      this.$emit('linkSelected', msg);
+    },
     refId: function() {
       return "card" + this.cardId;
     },
