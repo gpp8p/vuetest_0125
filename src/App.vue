@@ -152,7 +152,7 @@
         }
       },
       viewStatusChange(msg){
-        debugger;
+//        debugger;
         switch(msg[0]){
           case 'headerBar':{
             this.headerBarViewStatusChangeFunction=msg[1];
@@ -163,6 +163,7 @@
             break;
           }
           case 'displayLayout':{
+            this.thisCmd='linkToNewLayout';
             this.displayViewStatusChangeFunction=msg[1];
             break;
           }
@@ -205,8 +206,8 @@
         }
       },
       layoutChanged(msg){
-        this.thisCmd='layoutChanged';
-        console.log('layoutChanged - ', msg);
+        this.thisCmd='layoutChanged'+':'+msg;
+        console.log('App-layoutChanged - ', msg);
       },
       showLayoutMessage(msg){
         console.log(msg);
@@ -230,6 +231,7 @@
       },
       layoutSelected(msg){
         console.log('layoutSelected',msg);
+        store.commit('setCurrentLayoutId', msg);
         this.$router.push({
           name: 'displayLayout',
           params: {layoutId: msg}

@@ -60,7 +60,7 @@
     export default {
         name: "loginComponent",
         mounted(){
-            debugger;
+//            debugger;
             if(sessionStorage.length>0) {
                 this.credentials.bearerToken = sessionStorage.getItem('bearerToken');
                 this.credentials.loggedInUser = sessionStorage.getItem('loggedInUser');

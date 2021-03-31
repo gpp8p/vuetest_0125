@@ -56,11 +56,14 @@
           }
         },
         mounted(){
+          console.log('header bar mounted');
           this.$emit('viewStatusChangeFunction', ['headerBar',this.viewStatusChange]);
         },
         watch:{
           cmd: function(){
-            switch(this.cmd){
+            var cmdElements = this.cmd.split(':');
+            console.log('headerBar cmd changed - ',cmdElements);
+            switch(cmdElements[0]){
               case 'cardSaved':{
                 this.viewContext=this.VIEW_VIEWING;
                 this.menuItems = this.getMenuItems();
@@ -69,8 +72,14 @@
               }
               case 'layoutChanged':{
                 this.layoutChanged();
+                this.nextLayout=cmdElements[1];
                 this.$emit('viewStatusChangeFunction', ['clearCmd']);
                 break;
+              }
+              case 'linkToNewLayout':{
+//                this.nextLayout = this.$store.getters.getCurrentLayoutId;
+                console.log('linkToNextLayout', this.nextLayout);
+//                debugger;
               }
             }
           }

@@ -54,7 +54,7 @@
         },
         watch:{
           cmd: function(){
-            debugger;
+//            debugger;
             console.log('displayLayout - cmd property changed:', this.cmd);
             switch(this.cmd){
               case 'register':{
@@ -100,6 +100,7 @@
             console.log('displayLayout mounted',this.$route.params.layoutId);
             this.$emit('viewStatusChangeFunction',['displayLayout', this.displayLayoutViewStatusChange])
 //          debugger;
+/*
             var thisLayoutIdStack;
             var thisStringLayoutIdStack = sessionStorage.getItem('layoutIdStack');
             if(thisStringLayoutIdStack==null){
@@ -113,7 +114,8 @@
                 thisLayoutIdStack.push(parseInt(this.$route.params.layoutId));
                 sessionStorage.setItem('layoutIdStack', JSON.stringify(thisLayoutIdStack));
             }
-
+*/
+            this.setLayoutStack();
             this.reloadLayoutForDisplay(this.$route.params.layoutId, this.$store.getters.getLoggedInUserId, this.$store.getters.getOrgId);
         },
       created() {
@@ -187,6 +189,22 @@
                       ";";
                 }
                 return gridCss;
+
+            },
+            setLayoutStack(){
+              var thisLayoutIdStack;
+              var thisStringLayoutIdStack = sessionStorage.getItem('layoutIdStack');
+              if(thisStringLayoutIdStack==null){
+                thisLayoutIdStack = [];
+              }else{
+                thisLayoutIdStack = JSON.parse(thisStringLayoutIdStack);
+              }
+              console.log(thisLayoutIdStack[thisLayoutIdStack.length-1],' - ', this.$route.params.layoutId);
+              if(thisLayoutIdStack[thisLayoutIdStack.length-1]!=this.$route.params.layoutId ){
+                console.log('pushing:',this.$route.params.layoutId);
+                thisLayoutIdStack.push(parseInt(this.$route.params.layoutId));
+                sessionStorage.setItem('layoutIdStack', JSON.stringify(thisLayoutIdStack));
+              }
 
             },
             cardDataLoaded(msg){
@@ -266,7 +284,7 @@
                 this.layoutId = layoutId;
 //      this.cancelLayoutEdit();
 //      console.log("reloading" + msg);
-                debugger;
+//                debugger;
                 axios.get('http://localhost:8000/api/shan/getLayout?XDEBUG_SESSION_START=15122"', {
                     params:{
                         orgId:orgId,

@@ -10,7 +10,8 @@
         name: "contextArea",
         data(){
             return {
-                showBackButton:false
+                showBackButton:false,
+                stackNow:''
             }
         },
         props:{
@@ -35,6 +36,7 @@
 //                debugger;
                 console.log('goBack()')
                 var thisStringLayoutIdStack = sessionStorage.getItem('layoutIdStack');
+                console.log('stack-', thisStringLayoutIdStack);
                 if(thisStringLayoutIdStack!=null){
                     var thisLayoutIdStack = JSON.parse(thisStringLayoutIdStack);
                     thisLayoutIdStack.pop();
@@ -45,6 +47,8 @@
                         sessionStorage.removeItem('layoutIdStack');
                     }
                     var stackTop = thisLayoutIdStack.length -1;
+                    console.log('stackTop', stackTop);
+                    this.stackNow = thisLayoutIdStack;
                     if(stackTop>=0){
                         var nextLayoutId = thisLayoutIdStack[stackTop]
                         thisLayoutIdStack.pop();
