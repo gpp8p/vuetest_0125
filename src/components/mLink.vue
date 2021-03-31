@@ -31,5 +31,9 @@ name: "mLink",
 </script>
 
 <style scoped>
+li:hover {
+  color:red;
+}
+
 
 </style>

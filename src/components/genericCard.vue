@@ -147,7 +147,7 @@
         this.$emit('cardClick', [msg])
       },
       textEditor(msg){
-        debugger;
+//        debugger;
         this.$emit('textEditor', [msg]);
       },
       editClick(msg){

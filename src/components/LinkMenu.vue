@@ -98,7 +98,8 @@ export default {
       console.log('linkMenu cmd changed-', this.cmd);
     },
     cardContent: function(){
-      debugger;
+      console.log('linkMenu cardContent changed-', this.cardContent);
+  //    debugger;
     },
     subStyleChange(){
 //      debugger;
@@ -194,7 +195,7 @@ export default {
 
     },
     editClicked(){
-      debugger;
+//      debugger;
       this.loadCardConfiguration(this.cardId);
       this.$emit('textEditor', [this.cardKey, this.setCardData,this.configurationCurrentValues, this.cardData, this.cardId, 'linkMenu']);
     },

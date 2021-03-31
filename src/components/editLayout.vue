@@ -185,7 +185,7 @@
         methods: {
           textEditor(msg){
             console.log('editLayout.textEditor -',msg);
-            debugger;
+//            debugger;
             this.updateCallback = msg[0][1];
             this.cardData = msg[0][3];
             this.selectedCardId = msg[0][4];

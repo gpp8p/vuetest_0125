@@ -403,6 +403,7 @@
             console.log('domElement response-',response.data[2]);
             var domElementKeys = Object.keys(response.data[2]);
             var thisDomElement = response.data[2];
+            var thisCardContent= response.data[3];
             console.log(domElementKeys);
             var subElements = {};
             var subStyles = {};
@@ -436,7 +437,7 @@
             }
 //            debugger;
 //            this.$emit('cardDataLoaded',[this.styling, this.configurationCurrentValues, response.data[2]]);
-            this.$emit('cardDataLoaded',[this.styling, this.configurationCurrentValues, subElements]);
+            this.$emit('cardDataLoaded',[this.styling, this.configurationCurrentValues, subElements, thisCardContent]);
 
 
 //            debugger;

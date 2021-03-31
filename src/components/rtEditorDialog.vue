@@ -365,7 +365,7 @@ import axios from "axios";
               }
             },
           getMenuOpts(menuContext){
-              debugger;
+//              debugger;
             console.log('Dialog2 getMenuOpts menuContext:', menuContext);
             switch(menuContext){
               case 'setupMenuLink': {
@@ -525,7 +525,8 @@ import axios from "axios";
               {
                 console.log(response);
                 if(response.data=='ok'){
-                  this.mode=this.LINK_MENU_EDIT;
+                  this.mode=this.DIALOG_OFF;
+                  this.$emit('configSelected',['cancel']);
                 }
               }).catch(function(error) {
                 console.log(error);
@@ -546,6 +547,7 @@ import axios from "axios";
                 currentMenuOpts:[],
                 currentSelectedMenuOption:'',
 
+                DIALOG_OFF:0,
                 DIALOG_CONFIGURE_GREEN_CARD:1,
                 DIALOG_CONFIGURE_TEXT_CARD:2,
                 DIALOG_CREATE_CARD:3,
