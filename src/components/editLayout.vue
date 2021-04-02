@@ -258,6 +258,16 @@
 
                         break;
                     }
+                    case 'reload':{
+                      debugger;
+                      this.dialogType=0;
+                      this.cardCurrentConfigurationValues={};
+                      this.RICH_TEXT_EDITOR=false;
+                      this.$emit('tabSelected', msg[0]);
+//                      this.cancelLayoutEdit();
+                      this.reloadLayout(this.$route.params.layoutId);
+                      break;
+                    }
                     case 'Cancel Linking':{
                       this.styleObject = {
                         top: '-800px',

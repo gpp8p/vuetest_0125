@@ -526,7 +526,7 @@ import axios from "axios";
                 console.log(response);
                 if(response.data=='ok'){
                   this.mode=this.DIALOG_OFF;
-                  this.$emit('configSelected',['cancel']);
+                  this.$emit('configSelected',['reload']);
                 }
               }).catch(function(error) {
                 console.log(error);

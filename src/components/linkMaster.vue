@@ -86,6 +86,16 @@ name: "linkMaster",
         }
 
       ],
+      isPaginated: true,
+      isPaginationSimple: false,
+      paginationPosition: 'bottom',
+      defaultSortDirection: 'asc',
+      sortIcon: 'arrow-up',
+      sortIconSize: 'small',
+      currentPage: 1,
+      perPage: 8,
+      nxtPage: 'Next Page',
+
       orient:'vertical'
     }
   },
