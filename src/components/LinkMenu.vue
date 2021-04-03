@@ -9,9 +9,12 @@
           <a href="#"  v-on:click="editClicked" >Edit</a>
         </span>
       </div>
-      {{ this.cardContent.linkMenuTitle }}
+      <span class="flex-container">
+       {{ this.cardContent.linkMenuTitle }}
+      </span>
+
       <div v-bind:style='subStyle'>
-        <span v-if="this.cardContent.orient=='vertical'">
+        <span v-if="this.cardContent.orient=='vertical'" >
           <ul>
             <m-link v-for="(link, index) in this.cardContent.availableLinks"
                     :key="index"
@@ -21,6 +24,15 @@
                     @linkSelected="linkSelected"
                     />
           </ul>
+        </span>
+        <span v-if="this.cardContent.orient=='horozontal'" class="flex-container">
+            <m-link-hz v-for="(link, index) in this.cardContent.availableLinks"
+                    :key="index"
+                    :description="link.description"
+                    :target="link.layout_link_to"
+                    :is_external="link.is_external"
+                    @linkSelected="linkSelected"
+            />
         </span>
       </div>
     </div>
@@ -48,9 +60,10 @@
 import CardBase from "../components/CardBase.vue";
 import menuOpt from "../components/menuOpt.vue";
 import mLink from "../components/mLink.vue";
+import mLinkHz from "../components/mLinkHz.vue"
 export default {
   name: "linkMenu",
-  components: {menuOpt, mLink},
+  components: {menuOpt, mLink, mLinkHz},
   extends: CardBase,
   props: {
     cardStyle: {
@@ -286,7 +299,8 @@ export default {
 }
 
 .textCenter {
-  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 textarea {
@@ -299,6 +313,17 @@ textarea {
 .sub1 {
   font-family: Helvetica;
   font-size: small;
+}
+
+
+.flex-container {
+  display: flex;
+  justify-content: space-evenly;
+  height: 100%;
+  width:100%;
+  align-items: baseline;
+  margin-top: 6px;
+  color: blue;
 }
 
 </style>
