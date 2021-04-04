@@ -435,7 +435,7 @@
               this.content[thisCarContentKey]=thisCardContentValue;
               this.configurationCurrentValues[thisCarContentKey]= thisCardContentValue;
             }
-//            debugger;
+            debugger;
 //            this.$emit('cardDataLoaded',[this.styling, this.configurationCurrentValues, response.data[2]]);
             this.$emit('cardDataLoaded',[this.styling, this.configurationCurrentValues, subElements, thisCardContent]);
 

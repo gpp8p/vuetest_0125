@@ -112,7 +112,7 @@ export default {
     },
     cardContent: function(){
       console.log('linkMenu cardContent changed-', this.cardContent);
-  //    debugger;
+      debugger;
     },
     subStyleChange(){
 //      debugger;
@@ -323,7 +323,7 @@ textarea {
   width:100%;
   align-items: baseline;
   margin-top: 6px;
-  color: blue;
+
 }
 
 </style>

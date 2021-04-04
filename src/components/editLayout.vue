@@ -384,6 +384,7 @@
               console.log('cardDataLoaded',msg);
               this.cardCurrentConfigurationValues = msg[1];
               this.subElementValues = msg[2];
+              this.cardCmd = 'loadContent';
             },
             editClick(msg){
               debugger;
