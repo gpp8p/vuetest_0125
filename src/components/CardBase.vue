@@ -386,6 +386,10 @@
             console.log('CardBase lodCardConfiguration returns response:', response);
             this.cardConfigParams = response.data[0];
             this.cardContent = response.data[1];
+            debugger;
+            if(response.data[3].availableLinks.length>0){
+              this.cardContent.availableLinks = response.data[3].availableLinks;
+            }
             this.cardSubConfig =response.data[2];
 
             this.configurationCurrentValues={};
@@ -405,6 +409,7 @@
             var thisDomElement = response.data[2];
             var thisCardContent= response.data[3];
             console.log(domElementKeys);
+            console.log('cardContent is now-', thisCardContent);
             var subElements = {};
             var subStyles = {};
             for(var k = 0;k<domElementKeys.length;k++){
@@ -428,6 +433,7 @@
             this.subContentStyling = subStyles;
             this.content={};
 //            debugger;
+/*
             console.log('cardContent - ',this.cardContent);
             for( c=0;c<this.cardContent.length;c++){
               var thisCarContentKey = this.cardContent[c][0];
@@ -435,7 +441,15 @@
               this.content[thisCarContentKey]=thisCardContentValue;
               this.configurationCurrentValues[thisCarContentKey]= thisCardContentValue;
             }
+ */
             debugger;
+            for( c=0;c<thisCardContent.availableLinks.length;c++){
+              var thisCarContentKey = thisCardContent.availableLinks[c][0];
+              var thisCardContentValue= thisCardContent.availableLinks[c][1];
+              this.content[thisCarContentKey]=thisCardContentValue;
+              this.configurationCurrentValues[thisCarContentKey]= thisCardContentValue;
+            }
+
 //            this.$emit('cardDataLoaded',[this.styling, this.configurationCurrentValues, response.data[2]]);
             this.$emit('cardDataLoaded',[this.styling, this.configurationCurrentValues, subElements, thisCardContent]);
 

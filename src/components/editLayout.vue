@@ -380,7 +380,7 @@
 
             },
             cardDataLoaded(msg){
- //             debugger;
+              debugger;
               console.log('cardDataLoaded',msg);
               this.cardCurrentConfigurationValues = msg[1];
               this.subElementValues = msg[2];
