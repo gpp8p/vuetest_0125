@@ -5,16 +5,16 @@
         Title:
       </span>
       <span class="titleField">
-        <input v-model="linkContent.linkMenuTitle" size="65"/>
+        <input v-model="currentCardData.linkMenuTitle" size="65"/>
       </span>
       <span>
         Orientation:
-        <input type="radio" name="orientation" value="vertical" v-model="linkContent.orient" />-Vertical
-        <input type="radio" name="orientation" value="horozontal" v-model="linkContent.orient" />-Horizontal
+        <input type="radio" name="orientation" value="vertical" v-model="currentCardData.orient" />-Vertical
+        <input type="radio" name="orientation" value="horozontal" v-model="currentCardData.orient" />-Horizontal
       </span>
     </span>
     <span>
-    <o-table :data="linkData"
+    <o-table :data="currentCardData.availableLinks"
              :columns="columns"
              :selected.sync="selected"
              :paginated="isPaginated"
@@ -46,10 +46,16 @@ name: "linkMaster",
     cmd:{
       type: String,
       required: true
+    },
+    cardData:{
+      type: String,
+      required: true
     }
   },
   mounted(){
-    this.getLinksForCard(this.cardId);
+//    this.getLinksForCard(this.cardId);
+    this.currentCardData= JSON.parse(this.cardData);
+
   },
 
 
@@ -57,6 +63,7 @@ name: "linkMaster",
     return {
       linkMenuTitle:'',
       linkContent:{},
+      currentCardData:'',
       linkData:[],
       columns: [
         {

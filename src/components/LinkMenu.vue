@@ -112,7 +112,7 @@ export default {
     },
     cardContent: function(){
       console.log('linkMenu cardContent changed-', this.cardContent);
-      debugger;
+//      debugger;
     },
     subStyleChange(){
 //      debugger;
@@ -210,7 +210,7 @@ export default {
     editClicked(){
 //      debugger;
       this.loadCardConfiguration(this.cardId);
-      this.$emit('textEditor', [this.cardKey, this.setCardData,this.configurationCurrentValues, this.cardData, this.cardId, 'linkMenu']);
+      this.$emit('textEditor', [this.cardKey, this.setCardData,this.configurationCurrentValues, this.cardData, this.cardId, 'linkMenu', this.cardContent]);
     },
 /*
     editClicked(){

@@ -185,12 +185,23 @@
         methods: {
           textEditor(msg){
             console.log('editLayout.textEditor -',msg);
-//            debugger;
+            debugger;
             this.updateCallback = msg[0][1];
-            this.cardData = msg[0][3];
             this.selectedCardId = msg[0][4];
             this.cardToEditType = msg[0][5];
+            switch(this.cardToEditType){
+              case 'linkMenu':{
+                this.cardData = JSON.stringify(msg[0][6]);
+                break;
+              }
+              case 'textShow':{
+                this.cardData = msg[0][3];
+                break;
+              }
+            }
+//            currentCardData:msg[0][6]
             this.RICH_TEXT_EDITOR=true;
+
           },
             cardSaved(msg){
               debugger;
@@ -380,7 +391,7 @@
 
             },
             cardDataLoaded(msg){
-              debugger;
+ //             debugger;
               console.log('cardDataLoaded',msg);
               this.cardCurrentConfigurationValues = msg[1];
               this.subElementValues = msg[2];
@@ -395,7 +406,7 @@
                 screenElementBeingConfigured: msg[0][4],
                 cardDataFunction: msg[0][3],
                 cardConfigurationElements:msg[0][4],
-                cardCurrentConfigurationValues:msg[0][5]
+                cardCurrentConfigurationValues:msg[0][5],
               }
             },
 

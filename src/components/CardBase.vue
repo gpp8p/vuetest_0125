@@ -386,7 +386,7 @@
             console.log('CardBase lodCardConfiguration returns response:', response);
             this.cardConfigParams = response.data[0];
             this.cardContent = response.data[1];
-            debugger;
+//            debugger;
             if(response.data[3].availableLinks.length>0){
               this.cardContent.availableLinks = response.data[3].availableLinks;
             }
@@ -442,7 +442,7 @@
               this.configurationCurrentValues[thisCarContentKey]= thisCardContentValue;
             }
  */
-            debugger;
+//            debugger;
             for( c=0;c<thisCardContent.availableLinks.length;c++){
               var thisCarContentKey = thisCardContent.availableLinks[c][0];
               var thisCardContentValue= thisCardContent.availableLinks[c][1];
