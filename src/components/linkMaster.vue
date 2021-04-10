@@ -109,9 +109,10 @@ name: "linkMaster",
   watch:{
     cmd: function(){
       console.log('linkMaster cmd changed-', this.cmd);
+      debugger;
       switch(this.cmd){
         case 'save':{
-          this.$emit('saveCardContent', [this.linkContent, 'linkContent', 'main'] );
+          this.$emit('saveCardContent', [this.currentCardData, 'linkContent', 'main'] );
           break;
         }
       }
