@@ -1,10 +1,10 @@
 <template>
   <div class="cardStyle ck-content">
     <div class="cardHeader" v-if="displayStatus==false">
-      <span class="textLeft">
+      <span>
         <a href="#" v-on:click="cellClicked" >Configure</a>
       </span>
-      <span class="textRight">
+      <span>
         <a href="#"  v-on:click="editClicked" >Edit</a>
       </span>
     </div>
@@ -183,6 +183,8 @@ export default {
   overflow: auto;
 }
 .cardHeader {
+  display:grid;
+  grid-template-columns: 60% 20%;
   height: 10%;
   background-color: #fff722;
   color: blue;
@@ -194,17 +196,6 @@ export default {
 .cardBody {
   height: 90%;
   margin:10px;
-}
-.textLeft {
-  margin-left: 5px;
-}
-
-.textRight {
-    margin-left: 82%;
-}
-
-.textCenter {
-  text-align: center;
 }
 
 :root {

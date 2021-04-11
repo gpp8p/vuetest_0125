@@ -38,10 +38,10 @@
     </div>
     <div class="cardStyle" v-if="this.editStatus==true">
       <div class="cardHeader" v-if="displayStatus==false">
-        <span class="textLeft">
+        <span>
           <a href="#" v-on:click="configureClicked" >Configure</a>
         </span>
-        <span class="textRight">
+        <span>
           <a href="#"  v-on:click="editClicked" >Edit</a>
         </span>
       </div>
@@ -278,6 +278,8 @@ export default {
   overflow: auto;
 }
 .cardHeader {
+  display:grid;
+  grid-template-columns: 50% 50%;
   height: 10%;
   background-color: #fff722;
   color: blue;

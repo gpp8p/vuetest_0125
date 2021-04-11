@@ -71,6 +71,8 @@
                 break;
               }
               case 'layoutChanged':{
+                debugger;
+                this.viewContext=this.VIEW_VIEWING;
                 this.layoutChanged();
                 this.nextLayout=cmdElements[1];
                 this.$emit('viewStatusChangeFunction', ['clearCmd']);
