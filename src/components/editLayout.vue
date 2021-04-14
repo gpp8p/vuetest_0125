@@ -262,11 +262,13 @@
                 console.log('editLayout configSelected - ', msg);
                 switch(msg[0]){
                     case 'cancel':{
+                        debugger;
                         this.dialogType=0;
                         this.cardCurrentConfigurationValues={};
-                      this.RICH_TEXT_EDITOR=false;
+                        this.RICH_TEXT_EDITOR=false;
                         this.$emit('tabSelected', msg[0]);
                         this.cancelLayoutEdit();
+                        this.cardCmd = 'restore';
 
                         break;
                     }
@@ -663,7 +665,18 @@
                 }
 //      console.log('done');
             },
-            editStatusChanged(msg){
+          fillInOneCell(arr, cellRow, cellColumn, colorToFill){
+            for(var i = 0; i<arr.length; i++){
+              var thisCardCol = arr[i].card_position[1];
+              var thisCardRow = arr[i].card_position[0];
+              if(thisCardCol==cellColumn && thisCardRow == cellRow){
+//          console.log('card matched');
+                this.$refs.key[i].$el.style.backgroundColor=colorToFill;
+              }
+
+            }
+          },
+          editStatusChanged(msg){
                 console.log('editStatusChange',msg);
                 switch(msg[0]){
                     case 'newCard':
@@ -730,11 +743,14 @@
                 this.cstatus = this.WAITINGFORCLICK;
                 this.scolor = this.unSelectedColor;
 //      debugger;
+
                 if(this.bottomRightCol==0 && this.bottomRightRow==0){
                     this.fillInOneCell(this.cardInstances, this.topLeftRow, this.topLeftCol, this.unSelectedColor);
                 }else{
                     this.fillSelectedCells(this.cardInstances,this.topLeftCol,this.topLeftRow,this.bottomRightCol,this.bottomRightRow, this.unSelectedColor);
                 }
+
+
 
             },
 

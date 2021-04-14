@@ -36,14 +36,14 @@
             this.$el.style.textAlign=cardData;
             break;
           case "roundIncluded":
-            if(cardData=="activated") {
+            if(cardData=="activated" | cardData=="checked") {
               this.$el.style.borderRadius = "8px";
             }else{
               this.$el.style.borderRadius = "";
             }
             break;
           case "shadow":
-            if(cardData=="activated"){
+            if(cardData=="activated"| cardData=="checked"){
               this.$el.style.boxShadow="10px 20px 30px black";
             }else{
               this.$el.style.boxShadow="";
@@ -51,7 +51,7 @@
             break;
           case "border":
 //            debugger;
-            if(cardData=='activated'){
+            if(cardData=='activated'| cardData=="checked"){
               this.$el.style.border="thin solid #0000FF";
             }else{
               this.$el.style.border=null;

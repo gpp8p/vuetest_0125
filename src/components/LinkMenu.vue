@@ -109,6 +109,12 @@ export default {
   watch:{
     cmd: function() {
       console.log('linkMenu cmd changed-', this.cmd);
+      switch(this.cmd){
+        case 'restore':{
+          this.restoreCardConfiguration();
+          break;
+        }
+      }
     },
     cardContent: function(){
       console.log('linkMenu cardContent changed-', this.cardContent);

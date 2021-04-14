@@ -3,6 +3,11 @@
   import axios from "axios";
   export default {
     name: "CardBase",
+    data() {
+      return {
+        restoreValues:''
+      }
+    },
     methods: {
       setCardData(cardData, cardDataElement, domElement) {
       debugger;
@@ -245,7 +250,7 @@
 //            this.$el.style.fontFamily=cardData;
             this.subContentConfiguration[domElement]['fontFamily'] = cardData;
             this.subContentStyling[domElement].fontFamily = "font-family:" + cardData + ";";
-            this.$emit('cardSubPropertySet', [cardData, cardDataElement]);
+            this.$emit('cardSubPropertySet', [cardData, cardDataElement, domElement]);
             break;
           case "fontSize":
 //            this.$el.style.fontSize=cardData;
@@ -452,8 +457,11 @@
                 this.configurationCurrentValues[thisCarContentKey]= thisCardContentValue;
               }
             }
-
-
+            var rValues = {};
+            rValues['configurationCurrentValues'] = this.configurationCurrentValues;
+            rValues['subContentConfiguration'] = this.subContentConfiguration;
+            this.restoreValues = JSON.stringify(rValues);
+            console.log('restoreValues-',this.restoreValues);
 //            this.$emit('cardDataLoaded',[this.styling, this.configurationCurrentValues, response.data[2]]);
             this.$emit('cardDataLoaded',[this.styling, this.configurationCurrentValues, subElements, thisCardContent]);
 
@@ -465,6 +473,32 @@
             this.errors.push(e);
           });
 
+      },
+      restoreCardConfiguration(){
+//        debugger;
+        var restoredValues = JSON.parse(this.restoreValues);
+        var restoredConfigurationCurrentValues = restoredValues.configurationCurrentValues;
+        var mainKeys = Object.keys(restoredConfigurationCurrentValues);
+        for(var k = 0;k<mainKeys.length;k++){
+          var thisConfigurationValue = restoredConfigurationCurrentValues[mainKeys[k]];
+//          this.setCardData(thisConfigurationValue, mainKeys[k], 'main');
+          console.log('resetting-', thisConfigurationValue, mainKeys[k]);
+          this.$emit('cardPropertySet',[thisConfigurationValue, mainKeys[k]]);
+        }
+        var restoredSubContentConfiguration = restoredValues.subContentConfiguration;
+        debugger;
+        var domElementKeys = Object.keys(restoredSubContentConfiguration);
+        for(var s = 0;s<domElementKeys.length;s++){
+          var thisDomElementStyles = restoredSubContentConfiguration[domElementKeys[s]];
+          var thisDomElementStyleKeys = Object.keys(thisDomElementStyles);
+          for(k = 0;k<thisDomElementStyleKeys.length;k++){
+            thisConfigurationValue = thisDomElementStyles[thisDomElementStyleKeys[k]];
+//          this.setCardData(thisConfigurationValue, mainKeys[k], 'main');
+            console.log('resetting-', thisConfigurationValue, thisDomElementStyleKeys[k]);
+            this.setCardData(thisConfigurationValue, thisDomElementStyleKeys[k], domElementKeys[s]);
+//          this.$emit('cardSubPropertySet',[thisConfigurationValue, thisDomElementStyleKeys[k], domElementKeys[s]]);
+          }
+        }
       },
 
       saveCardConfiguration() {

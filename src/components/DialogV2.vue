@@ -492,15 +492,16 @@
               console.log('orgSelected:', msg);
             },
             rusure(msg){
-//              debugger;
+              debugger;
               if(msg){
                 this.sureMsg = '';
                 this.dialogContext=this.DIALOG_TITLE;
-                this.releaseFrozenEvent();
+                this.freezeEvent('',[]);
+                this.$emit('configSelected',['cancel']);
               }else{
                 this.sureMsg = '';
                 this.dialogContext=this.DIALOG_TITLE;
-                this.freezeEvent('',[]);
+                this.releaseFrozenEvent();
               }
             },
             handleDragEnd(evt){
