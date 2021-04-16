@@ -1,5 +1,5 @@
 <template >
-<span v-bind:style='cardStyle' v-on:click="processClick" id=cardId>
+<span v-bind:style='cardStyle' v-on:click="processClick" id=cardId v-if="this.ghost==false">
         <green-component  v-if="cardType=='greenComponent' || cardType=='Headline'" class="genericCardStyle"
                           :card-style=cardStyle
                           :card-id=cardId
@@ -15,6 +15,7 @@
                           @configurationHasBeenSaved="configurationHasBeenSaved"
                           @cardDataLoaded="cardDataLoaded"
                           @cardPropertySet="cardPropertySet"
+                          @ghostCard="ghostCard"
                           ref="cardKey"
         ></green-component>
         <text-show v-if="cardType=='textShow' || cardType=='RichText'"
@@ -32,6 +33,7 @@
                    @configurationHasBeenSaved="configurationHasBeenSaved"
                    @cardDataLoaded="cardDataLoaded"
                    @cardPropertySet="cardPropertySet"
+                   @ghostCard="ghostCard"
                    ref="cardKey"
         ></text-show>
         <link-menu v-if="cardType=='linkMenu'"
@@ -51,6 +53,7 @@
                    @configurationHasBeenSaved="configurationHasBeenSaved"
                    @cardDataLoaded="cardDataLoaded"
                    @cardPropertySet="cardPropertySet"
+                   @ghostCard="ghostCard"
                    ref="cardKey"
         ></link-menu>
 
@@ -122,7 +125,8 @@
     },
     data(){
       return {
-         dataEntered:''
+         dataEntered:'',
+         ghost:false
       }
     },
     methods: {
@@ -135,6 +139,9 @@
           console.log('generic card recieved a click:'+msg);
           this.$emit('storeValue', [this.cardId])
         }
+      },
+      ghostCard(){
+        this.ghost=true;
       },
       configurationHasBeenSaved(){
         this.$emit('configurationHasBeenSaved');

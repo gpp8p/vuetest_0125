@@ -2,10 +2,13 @@
   <div >
     <div class="cardStyle" v-if="this.editStatus==false">
       <div class="cardHeader" v-if="displayStatus==false">
-        <span class="textLeft">
+        <span>
           <a href="#" v-on:click="configureClicked" >Configure</a>
         </span>
-        <span class="textRight">
+        <span>
+          <a href="#" v-on:click="moveClicked" >Resize/Move</a>
+        </span>
+        <span>
           <a href="#"  v-on:click="editClicked" >Edit</a>
         </span>
       </div>
@@ -149,6 +152,7 @@ export default {
       },
 
 
+
       cardSubConfig:{},
       content: {},
       configurationCurrentValues:{},
@@ -191,6 +195,11 @@ export default {
       debugger;
       this.tdialogMsg='message recieved';
     },
+    moveClicked(){
+      console.log('moveClicked');
+      this.$emit('ghostCard');
+    },
+
 
     configureClicked() {
 //      debugger;
@@ -284,11 +293,13 @@ export default {
   overflow: auto;
 }
 .cardHeader {
-  display:grid;
-  grid-template-columns: 50% 50%;
+  display: flex;
+  justify-content: space-evenly;
+  width:100%;
+  align-items: baseline;
+  color: blue;
   height: 10%;
   background-color: #fff722;
-  color: blue;
   font-family: Geneva;
   font-size: 12px;
   font-style: normal;

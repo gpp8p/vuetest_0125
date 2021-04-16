@@ -1,11 +1,14 @@
 <template>
-  <div >
+  <div>
     <div class="cardStyle" v-if="this.editStatus==false">
       <div class="cardHeader" v-if="displayStatus==false">
-        <span class="textLeft">
+        <span>
           <a href="#" v-on:click="configureClicked" >Configure</a>
         </span>
-        <span class="textRight">
+        <span>
+          <a href="#" v-on:click="moveClicked" >Resize/Move</a>
+        </span>
+        <span>
           <a href="#"  v-on:click="editClicked" >Edit</a>
         </span>
       </div>
@@ -230,6 +233,10 @@ export default {
 
 
     },
+    moveClicked(){
+      console.log('moveClicked');
+      this.$emit('ghostCard');
+    },
     editClicked(){
       this.editStatus = true;
       this.$emit("editClick", [
@@ -289,9 +296,13 @@ export default {
   overflow: auto;
 }
 .cardHeader {
+  display: flex;
+  justify-content: space-evenly;
+  width:100%;
+  align-items: baseline;
+  color: blue;
   height: 10%;
   background-color: #fff722;
-  color: blue;
   font-family: Geneva;
   font-size: 12px;
   font-style: normal;
