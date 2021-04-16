@@ -496,12 +496,14 @@
               if(msg){
                 this.sureMsg = '';
                 this.dialogContext=this.DIALOG_TITLE;
-                this.freezeEvent('',[]);
-                this.$emit('configSelected',['cancel']);
+
+                this.releaseFrozenEvent();
+     //           this.$emit('configSelected',['cancel']);
               }else{
+//                this.freezeEvent('',[]);
                 this.sureMsg = '';
                 this.dialogContext=this.DIALOG_TITLE;
-                this.releaseFrozenEvent();
+
               }
             },
             handleDragEnd(evt){

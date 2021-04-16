@@ -475,7 +475,7 @@
 
       },
       restoreCardConfiguration(){
-//        debugger;
+        debugger;
         var restoredValues = JSON.parse(this.restoreValues);
         var restoredConfigurationCurrentValues = restoredValues.configurationCurrentValues;
         var mainKeys = Object.keys(restoredConfigurationCurrentValues);
