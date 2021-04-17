@@ -13,7 +13,10 @@
     </div>
     <br/>
 
-    <div class="cardBody" @click="cellClicked" v-html="this.cardData">
+    <div class="cardBody" v-if="this.mode==this.SHOW_TEXT" ref="textContent" @click="cellClicked" v-html="this.cardData">
+    </div>
+    <div v-if="this.mode==this.RICH_TEXT_EDITOR">
+      <editor-ck :cardData="cardData" :cmd="cmd" @saveContent="cardSaved" @editorReady="editorReady" @currentContent="currentContent"></editor-ck>
     </div>
   </div>
 </template>
@@ -21,9 +24,14 @@
 <script>
 /* eslint-disable no-console,no-debugger */
 import CardBase from "../components/CardBase.vue";
+import editorCk from '../components/editorCk.vue'
 export default {
   name: "textShow",
   extends: CardBase,
+  components: {editorCk},
+  mounted(){
+    this.mode=this.SHOW_TEXT;
+  },
   props: {
     cardStyle: {
       type: String,
@@ -62,6 +70,14 @@ export default {
       required: true
     }
   },
+  computed: {
+    height () {
+      return this.$refs.textContent.clientHeight
+    },
+    width() {
+      return this.$refs.textContent.clientWidth
+    }
+  },
   data() {
     return {
       cardMessage: this.getCardProps(),
@@ -71,6 +87,9 @@ export default {
       styling: {},
       content: {},
       configurationCurrentValues:{},
+      mode:0,
+      RICH_TEXT_EDITOR:1,
+      SHOW_TEXT:0,
 /*
       configurationCurrentValues:{
         "backgroundTypeColor":'checked',
@@ -164,8 +183,17 @@ export default {
 
     editClicked(){
       debugger;
-      this.loadCardConfiguration(this.cardId);
-      this.$emit('textEditor', [this.cardKey, this.setCardData,this.configurationCurrentValues, this.cardData, this.cardId, 'textShow']);
+      console.log('height-',this.height);
+      var editorHeight = this.height-20;
+      var editorWidth = this.width;
+      var editorHeightParam = editorHeight+'px';
+      var editorWidthParam = editorWidth+'px';
+      let root = document.documentElement;
+      root.style.setProperty('--ck-height', editorHeightParam);
+      root.style.setProperty('--ck-width', editorWidthParam);
+      this.mode=this.RICH_TEXT_EDITOR;
+//      this.loadCardConfiguration(this.cardId);
+//      this.$emit('textEditor', [this.cardKey, this.setCardData,this.configurationCurrentValues, this.cardData, this.cardId, 'textShow']);
     },
     refId: function() {
       return "card" + this.cardId;
@@ -179,7 +207,17 @@ export default {
         var thisProp = this.cardProperties.substr(colonDelimiterLocatedAt+1);
         return thisProp;
       }
+    },
+    cardSaved(){
+      console.log('cardSaved event');
+    },
+    editorReady(){
+      console.log('editorReady event');
+    },
+    currentContent(){
+      console.log('currentContent event');
     }
+
   }
 };
 </script>

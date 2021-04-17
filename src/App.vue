@@ -255,6 +255,9 @@
   --oruga-table-hoverable-background-color:red;
   --oruga-table-row-active-color:red;
   --oruga-button-height:18px;
+
+  --ck-height: 350px;
+  --ck-width:
 }
 
 .layoutScreen {

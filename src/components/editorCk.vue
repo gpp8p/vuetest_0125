@@ -169,9 +169,9 @@ export default {
 </script>
 <style>
 .ck-editor__editable {
-  min-height: 350px;
-  max-height:350px;
-  min-width:950px;
+  min-height: var(--ck-height);
+  max-height: var(--ck-height);
+  min-width:  var(--ck-width);
 }
 .image {
   display: table;
@@ -195,6 +195,8 @@ export default {
 </style>
 
 <style scoped>
+
+
 .editorDialog{
   top:250px;
   height:530px;

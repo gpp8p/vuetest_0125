@@ -1,7 +1,7 @@
 <template>
     <div class="dialogComponent" ref="drg"    >
       <div class="dialogComponentHeader" v-if="dialogContext==this.DIALOG_TITLE">
-        <span class="headingText">{{this.titleMsg}}</span>
+        <span class="headingText">{{this.titleMsg}}</span><span @click="test1">Test</span>
       </div>
       <div class="dialogComponentHeader" v-if="dialogContext==this.DIALOG_RUSURE" >
             <span class="sure">
@@ -254,6 +254,11 @@ import axios from "axios";
 
 //              this.$emit('configSelected',['layoutSaved', msg[0]]);
             },
+          test1(){
+            console.log('test1 clicked');
+            let root = document.documentElement;
+            root.style.setProperty('--ck-height', '250px');
+          },
             menuOptSelected(msg){
               console.log(msg);
               this.cmd='';
