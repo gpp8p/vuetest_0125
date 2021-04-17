@@ -1,6 +1,6 @@
 <template>
   <div class="cardStyle ck-content">
-    <div class="cardHeader" v-if="displayStatus==false">
+    <div class="cardHeader" v-if="showOptions==true">
       <span>
         <a href="#" v-on:click="cellClicked" >Configure</a>
       </span>
@@ -15,9 +15,9 @@
 
     <div class="cardBody" v-if="this.mode==this.SHOW_TEXT" ref="textContent" @click="cellClicked" v-html="this.cardData">
     </div>
-    <div v-if="this.mode==this.RICH_TEXT_EDITOR">
+    <span v-if="this.mode==this.RICH_TEXT_EDITOR">
       <editor-ck :cardData="cardData" :cmd="cmd" @saveContent="cardSaved" @editorReady="editorReady" @currentContent="currentContent"></editor-ck>
-    </div>
+    </span>
   </div>
 </template>
 
@@ -25,12 +25,18 @@
 /* eslint-disable no-console,no-debugger */
 import CardBase from "../components/CardBase.vue";
 import editorCk from '../components/editorCk.vue'
+
 export default {
   name: "textShow",
   extends: CardBase,
   components: {editorCk},
   mounted(){
     this.mode=this.SHOW_TEXT;
+    if(this.displayStatus==true){
+      this.showOptions=false;
+    }else{
+      this.showOptions=true;
+    }
   },
   props: {
     cardStyle: {
@@ -87,9 +93,11 @@ export default {
       styling: {},
       content: {},
       configurationCurrentValues:{},
+      showOptions:false,
       mode:0,
       RICH_TEXT_EDITOR:1,
       SHOW_TEXT:0,
+      currentMenuOpts:[],
 /*
       configurationCurrentValues:{
         "backgroundTypeColor":'checked',
@@ -184,13 +192,14 @@ export default {
     editClicked(){
       debugger;
       console.log('height-',this.height);
-      var editorHeight = this.height-20;
-      var editorWidth = this.width;
+      var editorHeight = this.height+275;
+      var editorWidth = this.width+29;
       var editorHeightParam = editorHeight+'px';
       var editorWidthParam = editorWidth+'px';
       let root = document.documentElement;
       root.style.setProperty('--ck-height', editorHeightParam);
       root.style.setProperty('--ck-width', editorWidthParam);
+      this.showOptions=false;
       this.mode=this.RICH_TEXT_EDITOR;
 //      this.loadCardConfiguration(this.cardId);
 //      this.$emit('textEditor', [this.cardKey, this.setCardData,this.configurationCurrentValues, this.cardData, this.cardId, 'textShow']);
@@ -244,6 +253,13 @@ export default {
 .cardBody {
   height: 90%;
   margin:10px;
+}
+.cardFooter {
+  height: 5%;
+  width:100%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center
 }
 
 :root {

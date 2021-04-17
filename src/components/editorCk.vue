@@ -1,7 +1,7 @@
 <template>
-  <div id="app" class="editorDialog">
+  <span id="app" class="editorDialog">
     <ckeditor :editor="editor" v-model="editorData" :config="editorConfig" @ready="onEditorReady"></ckeditor>
-  </div>
+  </span>
 </template>
 
 <script>
@@ -168,10 +168,9 @@ export default {
 };
 </script>
 <style>
-.ck-editor__editable {
-  min-height: var(--ck-height);
-  max-height: var(--ck-height);
-  min-width:  var(--ck-width);
+.ck-content {
+  height: var(--ck-height);
+  width: var(--ck-width);
 }
 .image {
   display: table;
@@ -197,13 +196,13 @@ export default {
 <style scoped>
 
 
-.editorDialog{
+/* .editorDialog{
   top:250px;
   height:530px;
   width:1000px;
-
-
 }
+
+ */
 
 </style>
 
