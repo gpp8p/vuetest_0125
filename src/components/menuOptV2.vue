@@ -1,6 +1,8 @@
 <template>
-  <span>
-    <span class="linkStyle" v-for="opt in mOpts" @click="optSelected(opt)" :key="opt">{{opt[0]}}</span>
+  <span class="linkStyle">
+    <span  v-for="opt in mOpts" @click="optSelected(opt)" :key="opt">
+      <span class="linkStyleItem">{{opt[0]}}</span>
+    </span>
   </span>
 
 </template>
@@ -32,10 +34,20 @@ name: "menuOpt",
 
 <style scoped>
   .linkStyle{
-    font-family: Arial;
-    font-size:smaller;
-    color: #0a3aff;
-    margin-left: 5%;
-    margin-right: 5%;
+    display: flex;
+    justify-content: space-evenly;
+    width:100%;
+    align-items: baseline;
+
+  }
+  .linkStyleItem {
+    color: blue;
+    font-family: Geneva;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: bold;
+  }
+  .linkStyleItem:hover {
+    color:red;
   }
 </style>

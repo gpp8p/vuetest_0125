@@ -1,15 +1,7 @@
 <template>
   <div class="cardStyle ck-content">
     <div class="cardHeader" v-if="showOptions==true">
-      <span>
-        <a href="#" v-on:click="cellClicked" >Configure</a>
-      </span>
-      <span>
-          <a href="#" v-on:click="moveClicked" >Resize/Move</a>
-        </span>
-      <span>
-        <a href="#"  v-on:click="editClicked" >Edit</a>
-      </span>
+      <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
     </div>
     <br/>
 
@@ -25,18 +17,20 @@
 /* eslint-disable no-console,no-debugger */
 import CardBase from "../components/CardBase.vue";
 import editorCk from '../components/editorCk.vue'
-
+import menuOpt from "../components/menuOptV2.vue";
 export default {
   name: "textShow",
   extends: CardBase,
-  components: {editorCk},
+  components: {editorCk, menuOpt},
   mounted(){
-    this.mode=this.SHOW_TEXT;
     if(this.displayStatus==true){
       this.showOptions=false;
     }else{
       this.showOptions=true;
     }
+    this.mode=this.SHOW_TEXT;
+    var mOpts = this.getMenuOpts('entryMenu');
+    this.currentMenuOpts = mOpts.currentMenuOpts;
   },
   props: {
     cardStyle: {
@@ -89,79 +83,16 @@ export default {
       cardMessage: this.getCardProps(),
       cardHasBeenSetup: false,
       cstyle: this.cardStyle,
-      cardData:this.getCardProps(),
+      cardData: this.getCardProps(),
       styling: {},
       content: {},
-      configurationCurrentValues:{},
-      showOptions:false,
-      mode:0,
-      RICH_TEXT_EDITOR:1,
-      SHOW_TEXT:0,
-      currentMenuOpts:[],
-/*
-      configurationCurrentValues:{
-        "backgroundTypeColor":'checked',
-        "backgroundColor":"#FFFFFF",
-        "fontSize":"12pt",
-        "fontWeight":"bold",
-        "border":"checked",
-        "borderColor":"#cc0521",
-        "borderSize":"medium",
-        "shadow":"checked",
-        "shadowSize":"10px",
-        "shadowSizeSetAt":"10px",
-        "shadowColor":"#BBBBBB",
-        "textInput":"Have a nice Day!",
-        "fontFamily":"Helvetica",
-        "fontStyle":"oblique",
-        "textAlign":"left",
-        "color":"#0537aa"
-      },
-*/
-      cardConfiguration: [
-        {
-          "label": "Card Appearance",
-          "configurationElements": [
-
-            {
-              "type": "radio",
-              "element": "backgroundTypeColor",
-              "fieldName": "backgroundType",
-              "prompt": "Background Type ?",
-              "valueFrom":"backgroundTypeColor",
-              "radioOptions": ['Color'],
-              "onClick": [{ "type": "color", "element": "backgroundColor", "valueFrom":"backgroundColor", "prompt": "Background Color" }]
-            },
-            {
-              "type": "radio",
-              "element": "backgroundTypeImage",
-              "fieldName": "backgroundType",
-              "prompt": "Background Type ?",
-              "valueFrom":"backgroundTypeImage",
-              "radioOptions": ['Image'],
-              "onClick": [{ "type": "file", "element": "backgroundImage", "prompt": "Upload -" }]
-            },
-            {
-              "type": "checkbox", "element": "border", "valueFrom":"borderInclude", "prompt": "Include Border?",
-              "onClick": [{
-                "type": "select",
-                "selectOptions": ['thin', 'medium', 'thick'],
-                "valueFrom":"borderSize",
-                "element": "borderSize",
-                "prompt": "Size?"
-              },
-                { "type": "color", "valueFrom":"borderColor", "element": "borderColor", "prompt": "Color ?" }]
-            },
-            {
-              "type": "checkbox", "element": "shadow", "valueFrom":"shadow", "prompt": "Shadow ?"
-            },
-            { "type": "checkbox", "element": "roundIncluded", "valueFrom":"roundIncluded", "prompt": "Round Corners ?" }
-          ]
-        }
-      ],
+      configurationCurrentValues: {},
+      showOptions: false,
+      mode: 0,
+      RICH_TEXT_EDITOR: 1,
+      SHOW_TEXT: 0,
+      currentMenuOpts: [],
     }
-
-
 
   },
 
@@ -199,7 +130,7 @@ export default {
       let root = document.documentElement;
       root.style.setProperty('--ck-height', editorHeightParam);
       root.style.setProperty('--ck-width', editorWidthParam);
-      this.showOptions=false;
+//      this.showOptions=false;
       this.mode=this.RICH_TEXT_EDITOR;
 //      this.loadCardConfiguration(this.cardId);
 //      this.$emit('textEditor', [this.cardKey, this.setCardData,this.configurationCurrentValues, this.cardData, this.cardId, 'textShow']);
@@ -225,7 +156,84 @@ export default {
     },
     currentContent(){
       console.log('currentContent event');
-    }
+    },
+    menuOptSelected(msg) {
+      console.log(msg);
+      switch(msg){
+        case 'Edit':{
+          var mOpts = this.getMenuOpts('richTextOpen');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.editClicked();
+          break;
+        }
+        case 'Resize':{
+          this.moveClicked();
+          break;
+        }
+        case 'Configure':{
+          this.cellClicked();
+          break;
+        }
+      }
+    },
+    getMenuOpts(menuContext){
+//              debugger;
+      console.log('Dialog2 getMenuOpts menuContext:', menuContext);
+      switch(menuContext){
+        case 'richTextOpen':{
+          return {
+            currentMenuOpts:[
+              ['Cancel','Cancel'],
+              ['Link','Link to Another Space'],
+              ['Save', 'Save']
+            ],
+            currentSelectedMenuOption: 'Cancel'
+          }
+        }
+        case'insertLink':{
+          return {
+            currentMenuOpts:[
+              ['Cancel','Cancel'],
+              ['Insert Link', 'Insert the Link'],
+              ['Back', 'Back']
+            ],
+            currentMenuSelection: 'Cancel'
+          }
+        }
+        case'creatingLayout':{
+          return {
+            currentMenuOpts:[
+              ['Cancel','Cancel'],
+              ['Save', 'Save This Space'],
+              ['Back', 'Back']
+            ],
+            currentMenuSelection: 'Cancel'
+          }
+        }
+        case'creatingLayout1':{
+          return {
+            currentMenuOpts:[
+              ['Cancel','Cancel'],
+              ['Save', 'Save This Space'],
+              ['Back', 'Backtosetup']
+            ],
+            currentMenuSelection: 'Cancel'
+          }
+        }
+        case'entryMenu':{
+          return {
+            currentMenuOpts:[
+              ['Configure','Configure'],
+              ['Resize/Move', 'Resize'],
+              ['Edit', 'Edit']
+            ],
+            currentMenuSelection: 'Configure'
+          }
+        }
+
+      }
+    },
+
 
   }
 };
@@ -238,10 +246,6 @@ export default {
   overflow: auto;
 }
 .cardHeader {
-  display: flex;
-  justify-content: space-evenly;
-  width:100%;
-  align-items: baseline;
   color: blue;
   height: 10%;
   background-color: #fff722;
