@@ -80,6 +80,7 @@ export default {
   },
   data() {
     return {
+      editorInstance:{},
       cardMessage: this.getCardProps(),
       cardHasBeenSetup: false,
       cstyle: this.cardStyle,
@@ -92,8 +93,28 @@ export default {
       RICH_TEXT_EDITOR: 1,
       SHOW_TEXT: 0,
       currentMenuOpts: [],
+      linkedLayoutId:0,
     }
 
+  },
+
+  watch:{
+    cmd: function(){
+      console.log('textShow cmd changed-', this.cmd);
+      var parsedCmd = JSON.parse(this.cmd);
+      debugger;
+      switch(parsedCmd.action){
+        case 'addLink':{
+          this.linkedLayoutId = parsedCmd.linkedLayoutId;
+          var mOpts = this.getMenuOpts('insertLink');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          break;
+        }
+        case 'save':{
+          break;
+        }
+      }
+    }
   },
 
   methods: {
@@ -151,8 +172,9 @@ export default {
     cardSaved(){
       console.log('cardSaved event');
     },
-    editorReady(){
+    editorReady(msg){
       console.log('editorReady event');
+      this.editorInstance = msg;
     },
     currentContent(){
       console.log('currentContent event');
@@ -173,6 +195,42 @@ export default {
         case 'Configure':{
           this.cellClicked();
           break;
+        }
+        case 'Cancel':{
+          mOpts = this.getMenuOpts('entryMenu');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.mode=this.SHOW_TEXT;
+          break;
+        }
+        case 'Link to Another Space':{
+          this.$emit('configSelected',['rtLink']);
+          break;
+        }
+        case 'Insert the Link':{
+          debugger;
+          var textHasBeenSelected = false;
+          const selection = this.editorInstance.model.document.selection;
+          const range = selection.getFirstRange();
+//                  const range = this.currentSelectedRange;
+
+          for (const item of range.getItems()) {
+            console.log(item.data) //return the selected text
+            textHasBeenSelected = true;
+          }
+          if (!textHasBeenSelected) {
+            this.titleMsg = 'Please select some text!';
+          } else {
+            this.forwardToUrl = "http://localhost:8080/displayLayout/" + this.layoutLink;
+            this.editorInstance.execute('link', this.forwardToUrl);
+            //                  this.currentMenuOpts = ['Cancel', 'Link to Another Space',  'Save'];
+            mOpts = this.getMenuOpts('richTextOpen');
+            this.currentMenuOpts = mOpts.currentMenuOpts;
+            this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+
+//            this.titleMsg = 'Edit This Card';
+          }
+          break;
+
         }
       }
     },

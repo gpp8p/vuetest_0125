@@ -83,7 +83,7 @@ import axios from "axios";
           }
         },
         mounted(){
-
+          debugger;
 //          this.currentMenuOpts = ['Cancel', 'Link to Another Space',  'Save'];
 //          this.currentSelectedMenuOption = 'Cancel';
           switch(this.cardToEditType){
@@ -101,6 +101,11 @@ import axios from "axios";
               this.currentMenuOpts = mOpts.currentMenuOpts;
               this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
               this.mode=this.LINK_MENU_EDIT;
+              break;
+            }
+            case 'rtLink':{
+              console.log('rtLink has been selected');
+              this.$emit('configSelected',['link']);
               break;
             }
           }

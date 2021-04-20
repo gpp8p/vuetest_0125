@@ -29,6 +29,7 @@
                    :cardContent="cardContent"
                    :cmd = cmd
                    @cardClick="processCardClick"
+                   @configSelected="configSelected"
                    @textEditor="textEditor"
                    @configurationHasBeenSaved="configurationHasBeenSaved"
                    @cardDataLoaded="cardDataLoaded"

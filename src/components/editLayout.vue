@@ -198,6 +198,11 @@
                 this.cardData = msg[0][3];
                 break;
               }
+              case 'rtLink':{
+                this.cardData = JSON.stringify(msg[0][6]);
+                console.log('rtLink');
+                break;
+              }
             }
 //            currentCardData:msg[0][6]
             this.RICH_TEXT_EDITOR=true;
@@ -291,6 +296,24 @@
                       break;
                     }
                     case 'layoutSelected':{
+                      debugger;
+/*
+                      this.styleObject = {
+                        top: '-800px',
+                        left: '400px',
+                      },
+                      this.dialogType = 0;
+                      this.rtCmd = 'layoutSelected:'+msg[1];
+*/
+                      var cmdObject = {};
+                      cmdObject.action = 'addLink';
+                      cmdObject.linkedLayoutId = msg[1];
+                      this.cardCmd = JSON.stringify(cmdObject);
+                      this.dialogType=0;
+                      break;
+                    }
+                    case 'layoutSaved':{
+
                       this.styleObject = {
                         top: '-800px',
                         left: '400px',
@@ -298,15 +321,6 @@
                       this.dialogType = 0;
                       this.rtCmd = 'layoutSelected:'+msg[1];
 
-                      break;
-                    }
-                    case 'layoutSaved':{
-                      this.styleObject = {
-                        top: '-800px',
-                        left: '400px',
-                      },
-                      this.dialogType = 0;
-                      this.rtCmd = 'layoutSelected:'+msg[1];
 
                       break;
                     }
@@ -326,6 +340,11 @@
                         top: '-1063px',
                         left: '269px'
                       }
+                      this.dialogCmd = 'layoutListLink';
+                      this.dialogType = this.DIALOG_LAYOUT_LIST;
+                      break;
+                    }
+                    case 'rtLink':{
                       this.dialogCmd = 'layoutListLink';
                       this.dialogType = this.DIALOG_LAYOUT_LIST;
                       break;

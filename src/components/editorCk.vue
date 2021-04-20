@@ -54,6 +54,7 @@ export default {
     this.editorData = this.cardData;
   },
   watch:{
+/*
     cmd:function(){
       debugger;
       switch(this.cmd){
@@ -71,16 +72,16 @@ export default {
 
       }
     }
+*/
+
   },
   methods:{
     onEditorReady(editor){
-      this.editorInstance = editor;
       this.$emit('editorReady',editor);
     }
   },
   data() {
     return {
-      editorInstance:{},
       editor: ClassicEditor,
       editorData: this.cardData,
       editorConfig: {
