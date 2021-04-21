@@ -17,6 +17,8 @@
                                 :elementStyles="instance.elementStyles"
                                 :cardContent="instance.card_parameters.content"
                                 :cmd = "cardCmd"
+                                :cmdObject="cmdObject"
+                                :cmdObjectVersion="cmdObjectVersion"
                                 @configSelected="configSelected"
                                 @storeValue="processClick"
                                 @editClick="editClick"
@@ -123,6 +125,8 @@
                 cardCmd:'',
                 rtCmd:'',
 
+
+
                 cardCurrentConfigurationValues:{},
                 selectedCardConfigurationValues:{},
                 subElementValues:{},
@@ -151,7 +155,9 @@
                 selectedCardId:0,
                 layoutLink:'',
                 RICH_TEXT_EDITOR: false,
-                cardToEditType:''
+                cardToEditType:'',
+                cmdObject:{},
+                cmdObjectVersion:0
 
 
 
@@ -305,11 +311,14 @@
                       this.dialogType = 0;
                       this.rtCmd = 'layoutSelected:'+msg[1];
 */
-                      var cmdObject = {};
-                      cmdObject.action = 'addLink';
-                      cmdObject.linkedLayoutId = msg[1];
-                      this.cardCmd = JSON.stringify(cmdObject);
-                      this.dialogType=0;
+                      this.cmdObject = {};
+                      this.cmdObject.action = 'addLink';
+                      this.cmdObject.linkedLayoutId = msg[1];
+                      this.cmdObjectVersion+=1;
+                      this.dialogType = 0;
+//                      this.cardCmd = JSON.stringify(cmdObject);
+//                      this.dialogType=0;
+//                      this.cmdObject.action='addLink'
                       break;
                     }
                     case 'layoutSaved':{

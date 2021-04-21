@@ -9,6 +9,8 @@
                           :displayStatus = displayStatus
                           :elementStyles="elementStyles"
                           :cardContent="cardContent"
+                          :cmdObject="cmdObject"
+                          :cmdObjectVersion="cmdObjectVersion"
                           @configSelected="configSelected"
                           @editClick = editClick
                           @cardClick="processCardClick"
@@ -27,6 +29,8 @@
                    :displayStatus = displayStatus
                    :elementStyles="elementStyles"
                    :cardContent="cardContent"
+                   :cmdObject="cmdObject"
+                   :cmdObjectVersion="cmdObjectVersion"
                    :cmd = cmd
                    @cardClick="processCardClick"
                    @configSelected="configSelected"
@@ -46,6 +50,8 @@
                    :displayStatus = displayStatus
                    :elementStyles="elementStyles"
                    :cardContent="cardContent"
+                   :cmdObject="cmdObject"
+                   :cmdObjectVersion="cmdObjectVersion"
                    :cmd = cmd
                    @configSelected="configSelected"
                    @cardClick="processCardClick"
@@ -122,6 +128,14 @@
       cardContent:{
         type: Object,
         required: true
+      },
+      cmdObject:{
+        type:Object,
+        required: false
+      },
+      cmdObjectVersion:{
+        type: Number,
+        required:false
       }
     },
     data(){

@@ -68,6 +68,14 @@ export default {
     cardContent:{
       type: Object,
       required: true
+    },
+    cmdObject:{
+      type: Object,
+      required: false
+    },
+    cmdObjectVersion:{
+      type: Number,
+      required: false
     }
   },
   computed: {
@@ -99,6 +107,7 @@ export default {
   },
 
   watch:{
+/*
     cmd: function(){
       console.log('textShow cmd changed-', this.cmd);
       var parsedCmd = JSON.parse(this.cmd);
@@ -115,6 +124,17 @@ export default {
         }
       }
     }
+*/
+    cmdObjectVersion: function(){
+      switch(this.cmdObject.action){
+        case 'addLink':{
+          var mOpts = this.getMenuOpts('insertLink');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          break;
+        }
+      }
+    }
+
   },
 
   methods: {

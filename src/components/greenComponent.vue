@@ -77,12 +77,24 @@ export default {
     cardContent:{
       type: Object,
       required: true
+    },
+    cmdObject:{
+      type: Object,
+      required: false
+    },
+    cmdObjectVersion:{
+      type: Number,
+      required: false
     }
   },
   watch:{
     cmd: function() {
       console.log('green component cmd changed-', this.cmd);
+    },
+    cmdObjectVersion: function() {
+      console.log('cmdObvjectVersion has changed');
     }
+
   },
   data() {
     return {
@@ -98,6 +110,7 @@ export default {
       tdialogMsg:'',
       editStatus:false,
       currentMenuOpts: ['Save', 'Cancel'],
+      tCmd: this.cmdObject,
 /*
       configurationCurrentValues:{
         "backgroundTypeColor":'checked',
