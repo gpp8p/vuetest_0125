@@ -8,7 +8,7 @@
     <div class="cardBody" v-if="this.mode==this.SHOW_TEXT" ref="textContent" @click="cellClicked" v-html="this.cardData">
     </div>
     <span v-if="this.mode==this.RICH_TEXT_EDITOR">
-      <editor-ck :cardData="cardData" :cmd="cmd" @saveContent="cardSaved" @editorReady="editorReady" @currentContent="currentContent"></editor-ck>
+      <editor-ck :cardData="cardData" :cmd="cmd" :cmdObject="this.cObject" :cmdObjectVersion="cObjectVersion"  @saveContent="cardSaved" @editorReady="editorReady" @currentContent="currentContent"></editor-ck>
     </span>
   </div>
 </template>
@@ -102,6 +102,9 @@ export default {
       SHOW_TEXT: 0,
       currentMenuOpts: [],
       linkedLayoutId:0,
+      cObject:{},
+      cObjectVersion:0
+
     }
 
   },
@@ -196,8 +199,9 @@ export default {
       console.log('editorReady event');
       this.editorInstance = msg;
     },
-    currentContent(){
+    currentContent(msg){
       console.log('currentContent event');
+      this.cardContent = msg;
     },
     menuOptSelected(msg) {
       console.log(msg);
@@ -251,6 +255,21 @@ export default {
           }
           break;
 
+        }
+        case 'Save':{
+          debugger;
+          this.cObject = {};
+          this.cObject.action = 'save';
+          this.cObject.linkedLayoutId = msg[1];
+          this.cObjectVersion+=1;
+
+          this.setCardData(this.cardData, 'saveCardContent', 'main');
+          this.mode=this.SHOW_TEXT;
+          mOpts = this.getMenuOpts('entryMenu');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+
+          break;
         }
       }
     },

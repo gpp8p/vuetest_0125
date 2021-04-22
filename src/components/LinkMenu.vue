@@ -104,6 +104,14 @@ export default {
     cardContent:{
       type: Object,
       required: true
+    },
+    cmdObject:{
+      type: Object,
+      required: false
+    },
+    cmdObjectVersion:{
+      type: Number,
+      required: false
     }
   },
   mounted(){
@@ -134,6 +142,14 @@ export default {
       }
       this.subStyle = combinedSubstyles;
 
+    },
+    cmdObjectVersion: function(){
+      switch(this.cmdObject.action){
+        case 'addMLink':{
+          console.log('mlink cmdObjectVersion trigger a watch - addLink action')
+          break;
+        }
+      }
     }
   },
   data() {

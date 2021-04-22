@@ -48,12 +48,28 @@ export default {
     cmd:{
       type: String,
       required: true
+    },
+    cmdObject:{
+      type: Object,
+      required: false
+    },
+    cmdObjectVersion:{
+      type: Number,
+      required: false
     }
   },
   mounted(){
     this.editorData = this.cardData;
   },
   watch:{
+    cmdObjectVersion: function(){
+      switch(this.cmdObject.action){
+        case 'save':{
+          this.$emit('currentContent', this.editorData);
+          break;
+        }
+      }
+    }
 /*
     cmd:function(){
       debugger;

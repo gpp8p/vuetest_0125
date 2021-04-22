@@ -322,15 +322,20 @@
                       break;
                     }
                     case 'layoutSaved':{
-
+/*
                       this.styleObject = {
                         top: '-800px',
                         left: '400px',
                       },
                       this.dialogType = 0;
                       this.rtCmd = 'layoutSelected:'+msg[1];
-
-
+*/
+                      debugger;
+                      this.cmdObject = {};
+                      this.cmdObject.action = 'addLink';
+                      this.cmdObject.linkedLayoutId = msg[1];
+                      this.cmdObjectVersion+=1;
+                      this.dialogType = 0;
                       break;
                     }
 
