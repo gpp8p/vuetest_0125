@@ -53,7 +53,7 @@ export default {
       type: Object,
       required: false
     },
-    cmdObjectVersion:{
+    cmdVersion:{
       type: Number,
       required: false
     }
@@ -62,7 +62,8 @@ export default {
     this.editorData = this.cardData;
   },
   watch:{
-    cmdObjectVersion: function(){
+    cmdVersion: function(){
+      debugger;
       switch(this.cmdObject.action){
         case 'save':{
           this.$emit('currentContent', this.editorData);

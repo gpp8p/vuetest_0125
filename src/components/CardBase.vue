@@ -534,7 +534,7 @@
       saveCardContent(cardContent, domElement){
         debugger;
         console.log('saving-',cardContent);
-        var cardConfigurationPackage = [this.cardId, this.content];
+        var cardConfigurationPackage = [this.cardId, cardContent];
         var jsonCardConfigurationPackage = JSON.stringify(cardConfigurationPackage);
         axios.post('http://localhost:8000/api/shan/saveCardContent?XDEBUG_SESSION_START=14252', {
           cardParams: jsonCardConfigurationPackage,
