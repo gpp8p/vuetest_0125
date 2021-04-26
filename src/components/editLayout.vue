@@ -27,6 +27,7 @@
                                 @configurationHasBeenSaved="cardSaved"
                                 @cardDataLoaded="cardDataLoaded"
                                 @linkHelperRequested="linkHelperRequested"
+                                @ghostCard="ghostCard"
                                 ref="key"
                         ></generic-card>
 
@@ -558,7 +559,7 @@
 
 
             makeBlankLayout(height, width, description, menu_label, backgroundColor) {
-//      debugger;
+                debugger;
 
                 this.layoutGrid = [];
                 var newCards = [];
@@ -569,7 +570,7 @@
                 for (var h = 1; h < height; h++) {
                     var gridRow = [];
                     for (var w = 1; w < width; w++) {
-                        var c = this.createBlankCardInstance(h, w, 1, 1, newCardId);
+                        var c = this.createBlankCardInstance(h, w, 1, 1, newCardId,'#DBAA6E');
                         newCards.push(c);
                         gridRow.push(newCardId);
                         newCardId++;
@@ -587,10 +588,28 @@
 
                 return ['newBlankGrid', newLayout, newGridParameters, this.layoutGrid];
             },
-            createBlankCardInstance(row, col, height, width, id){
+            ghostCard(msg){
+              console.log('ghostCard', msg);
+              this.fillInBlankedCard(msg[0][0], msg[0][1], msg[0][0]+msg[0][2], msg[0][1]+msg[0][3]);
+            },
+
+            fillInBlankedCard(topLeftY, topLeftX, bottomRightY, bottomRightX){
+              debugger;
+              var newCardId = this.cardInstances.length +1;
+              for (var h = topLeftY; h < bottomRightY; h++) {
+                for (var w = topLeftX; w < bottomRightX; w++){
+                  var c = this.createBlankCardInstance(h, w, 1, 1, newCardId,'#DAA2E7');
+                  this.cardInstances.push(c);
+                }
+              }
+              debugger;
+            },
+
+
+            createBlankCardInstance(row, col, height, width, id, background){
 //      console.log('createBlankCardInstance:'+row+' '+col+' '+height+' '+width+ ' '+id);
                 var thisGridCss = this.computeGridCss(row, col, height, width);
-                var thisCardStyle = thisGridCss+";"+"background-color:#DBAA6E;color:blue;";
+                var thisCardStyle = thisGridCss+";"+"background-color:"+background+";color:blue;";
                 var thisInstance = {card_component: 'simpleCard', card_position: [row,col,height,width], id:id, toDelete: false, card_parameters: {style: thisCardStyle}};
                 return thisInstance;
 

@@ -156,6 +156,7 @@
         }
       },
       ghostCard(){
+        this.$emit('ghostCard', [this.cardPosition]);
         this.ghost=true;
       },
       configurationHasBeenSaved(){
