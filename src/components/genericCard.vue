@@ -144,15 +144,33 @@
          ghost:false
       }
     },
+    watch: {
+      cmdObjectVersion: function () {
+//        console.log(this.cmdObject.cardId,'-',this.cardId);
+        if(this.cardId!=this.cmdObject.cardId){
+          return;
+        }
+        switch (this.cmdObject.action) {
+          case 'newStyle': {
+            console.log('newStyle called on'+this.cardId);
+            break;
+          }
+        }
+      }
+    },
     methods: {
       processClick(msg){
-//        debugger;
+        debugger;
         if(this.hasChildern(this.$refs)){
           console.log('hasChildern is true');
         }else{
           console.log('no childern');
           console.log('generic card recieved a click:'+msg);
-          this.$emit('storeValue', [this.cardId])
+          var cardData = {};
+          cardData.id = this.cardId;
+          cardData.cardkey = this.cardKey;
+          cardData.location = this.cardPosition;
+          this.$emit('storeValue', [this.cardId, cardData, this.cardKey, this.cardPosition[0], this.cardPosition[1]]);
         }
       },
       ghostCard(){

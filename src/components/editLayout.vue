@@ -158,7 +158,8 @@
                 RICH_TEXT_EDITOR: false,
                 cardToEditType:'',
                 cmdObject:{},
-                cmdObjectVersion:0
+                cmdObjectVersion:0,
+                ghostArea:{}
 
 
 
@@ -591,15 +592,40 @@
             ghostCard(msg){
               console.log('ghostCard', msg);
               this.fillInBlankedCard(msg[0][0], msg[0][1], msg[0][0]+msg[0][2], msg[0][1]+msg[0][3]);
+              this.ghostArea.topleftY = msg[0][0];
+              this.ghostArea.topleftX = msg[0][1];
+              this.ghostArea.bottomRightY= msg[0][0]+msg[0][2];
+              this.ghostArea.bottomRightX= msg[0][1]+msg[0][3];
+            },
+
+            inGhostArea(y,x){
+              if(x>=this.ghostArea.topleftX && x<=this.ghostArea.bottomRightX && y>=this.ghostArea.topleftY && y<=this.ghostArea.bottomRightY){
+                return true;
+              }else{
+                return false;
+              }
+            },
+
+            adjustBlankIndex(y,x, index){
+              if(JSON.stringify(this.ghostArea)==='{}') {
+                return index;
+              }else{
+                if(this.inGhostArea(y, x)){
+                  return index-1;
+                }else{
+                  return index;
+                }
+              }
             },
 
             fillInBlankedCard(topLeftY, topLeftX, bottomRightY, bottomRightX){
               debugger;
-              var newCardId = this.cardInstances.length +1;
+              var newCardId = this.cardInstances.length+1;
               for (var h = topLeftY; h < bottomRightY; h++) {
                 for (var w = topLeftX; w < bottomRightX; w++){
                   var c = this.createBlankCardInstance(h, w, 1, 1, newCardId,'#DAA2E7');
                   this.cardInstances.push(c);
+                  newCardId++;
                 }
               }
               debugger;
@@ -635,32 +661,67 @@
                     return;
                 }
                 console.log('editLayout gets storeValue -' + msg);
-  //              debugger;
+                debugger;
                 var cardThatWasClicked = this.findCard(msg[0]);
+                var cardThatWasClicked1 = this.findCard1(msg);
+
+                var thisCardY = msg[3];
+                var thisCardX = msg[4];
+                var thisCardKey = this.adjustBlankIndex(thisCardY, thisCardX, msg[2]);
+/*
+                if(JSON.stringify(this.ghostArea)==='{}') {
+                  thisCardKey = msg[2];
+                }else{
+                  if(this.inGhostArea(thisCardY, thisCardX)){
+                    var thisCardKey = msg[2]-1
+                  }else{
+                    thisCardKey = msg[2]
+                  }
+                }
+
+ */
+                console.log('cardThatWasClicked1-',cardThatWasClicked1);
                 console.log('cardThatWasClicked:'+cardThatWasClicked);
                 switch(this.cstatus){
                     case this.CARDBEINGCONFIGED:
                         break;
                     case this.WAITINGFORCLICK:
                         this.topLeftClicked=msg[0];
-                        this.topLeftRow = this.cardInstances[cardThatWasClicked].card_position[0];
-                        this.topLeftCol = this.cardInstances[cardThatWasClicked].card_position[1];
+                        this.topLeftRow = this.cardInstances[thisCardKey].card_position[0];
+                        this.topLeftCol = this.cardInstances[thisCardKey].card_position[1];
+//                        this.topLeftRow = cardThatWasClicked1.card_position[0];
+//                        this.topLeftCol = cardThatWasClicked1.card_position[1];
+                        console.log('topLeftRow-',this.topLeftRow );
+                        console.log('topLeftCol-', this.topLeftCol);
+
 //          debugger;
                         this.cstatus=this.TOPLEFTCLICKED;
-                        this.$refs.key[cardThatWasClicked].$el.style.backgroundColor='#66bb6a';
+//                        this.$refs.key[cardThatWasClicked1.id].$el.style.backgroundColor='#66bb6a';
+//                        var cardIndex = cardThatWasClicked1.id;
+                        this.$refs.key[thisCardKey].$el.style.backgroundColor='#66bb6a';
+                        this.cmdObject.cardId=cardThatWasClicked1.id;
+                        this.cmdObject.action='newStyle';
+                        this.cmdObjectVersion=this.cmdObjectVersion+1;
                         this.$emit('LayoutMessage', ['topLeft', this.topLeftRow,this.topLeftCol ]);
                         break;
                     case this.TOPLEFTCLICKED:
                         this.bottomRightClicked = msg[0];
-                        var brClickRow = this.cardInstances[cardThatWasClicked].card_position[0];
-                        var brClickCol = this.cardInstances[cardThatWasClicked].card_position[1];
+                        var brClickRow = this.cardInstances[thisCardKey].card_position[0];
+                        var brClickCol = this.cardInstances[thisCardKey].card_position[1];
                         if(this.checkClickPos(brClickRow, brClickCol, this.topLeftRow, this.topLeftCol)){
-                            this.bottomRightRow = this.cardInstances[cardThatWasClicked].card_position[0];
-                            this.bottomRightCol = this.cardInstances[cardThatWasClicked].card_position[1];
+                            this.bottomRightRow = this.cardInstances[thisCardKey].card_position[0];
+                            this.bottomRightCol = this.cardInstances[thisCardKey].card_position[1];
+//                              this.bottomRightRow = cardThatWasClicked1.card_position[0];
+//                              this.bottomRightCol = cardThatWasClicked1.card_position[1];
+
                             this.cstatus=this.BOTTOMRIGHTCLICKED;
-                            this.$refs.key[cardThatWasClicked].$el.style.backgroundColor='#66bb6a';
+//                            cardIndex = cardThatWasClicked1.id;
+                              this.$refs.key[thisCardKey].$el.style.backgroundColor='#66bb6a';
+
+//                            this.$refs.key[cardThatWasClicked].$el.style.backgroundColor='#66bb6a';
                             this.scolor = this.selectedColor;
 //            this.cardInstances.forEach(this.fillInCell);
+//                            debugger;
                             this.fillSelectedCells(this.cardInstances,this.topLeftCol,this.topLeftRow,this.bottomRightCol,this.bottomRightRow, '#66bb6a');
  //                           this.$emit('layoutMessage', ['bottomRight', this.bottomRightRow,this.bottomRightCol ]);
                             this.dialogCmd = 'newCard';
@@ -681,12 +742,21 @@
 
             },
             findCard(cardId){
+//                debugger;
                 for(var i=0;i<this.cardInstances.length;i++){
                     if(this.cardInstances[i].id == cardId){
                         return i;
                     }
                 }
             },
+          findCard1(msg){
+ //           debugger;
+            for(var i=0;i<this.cardInstances.length;i++){
+              if(this.cardInstances[i].cardKey == msg[1].cardKey){
+                return this.cardInstances[i];
+              }
+            }
+          },
             checkClickPos(brClickRow, brClickCol, tlSelectRow, tlSelectCol){
 //      debugger;
                 if((brClickRow<tlSelectRow)||(brClickCol<tlSelectCol)){
@@ -711,7 +781,8 @@
 //        console.log('-----------------------------')
                     if(thisCardCol >= topLeftCol && thisCardRow >= topLeftRow && thisCardCol <= bottomRightCol && thisCardRow <= bottomRightRow){
 //          console.log('card matched');
-                        this.$refs.key[i].$el.style.backgroundColor=colorToFill;
+//                        this.$refs.key[i].$el.style.backgroundColor=colorToFill;
+                      this.$refs.key[i].$el.style.backgroundColor=colorToFill;
                     }
 
                 }
