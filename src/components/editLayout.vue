@@ -28,6 +28,7 @@
                                 @cardDataLoaded="cardDataLoaded"
                                 @linkHelperRequested="linkHelperRequested"
                                 @ghostCard="ghostCard"
+                                @registerCard = "registerCard"
                                 ref="key"
                         ></generic-card>
 
@@ -159,7 +160,10 @@
                 cardToEditType:'',
                 cmdObject:{},
                 cmdObjectVersion:0,
-                ghostArea:{}
+                ghostArea:{},
+                genericCardMethods:[],
+                layoutHeight:0,
+                layoutWidth:0
 
 
 
@@ -178,6 +182,7 @@
             this.displayStatus=false;
             this.$emit('viewStatusChangeFunction',['editLayout', this.viewStatusChangeFunction]);
             this.$eventHub.$emit('editStatusChanged',['openEdit',0]);
+
         },
         watch:{
           cmd: function(){
@@ -503,8 +508,10 @@
                             response.data.layout.backgroundColor
                         );
 // build a blank layout using the dimensions of the layout loaded
-
-                        var newBlankLayout = this.makeBlankLayout(response.data.layout.height, response.data.layout.width, response.data.layout.description, response.data.layout.menu_label, response.data.layout.backgroundColor)
+                        this.layoutHeight = response.data.layout.height;
+                        this.layoutWidth= response.data.layout.width;
+                        this.genericCardMethods = Array.from(Array(this.layoutHeight), ()=> Array(this.layoutWidth));
+                      var newBlankLayout = this.makeBlankLayout(response.data.layout.height, response.data.layout.width, response.data.layout.description, response.data.layout.menu_label, response.data.layout.backgroundColor)
 //          console.log(newBlankLayout);
                         var layoutGrid = newBlankLayout[3];
                         var cardsToDelete = [];
@@ -594,8 +601,8 @@
               this.fillInBlankedCard(msg[0][0], msg[0][1], msg[0][0]+msg[0][2], msg[0][1]+msg[0][3]);
               this.ghostArea.topleftY = msg[0][0];
               this.ghostArea.topleftX = msg[0][1];
-              this.ghostArea.bottomRightY= msg[0][0]+msg[0][2];
-              this.ghostArea.bottomRightX= msg[0][1]+msg[0][3];
+              this.ghostArea.bottomRightY= msg[0][0]+msg[0][2]-1;
+              this.ghostArea.bottomRightX= msg[0][1]+msg[0][3]-1;
             },
 
             inGhostArea(y,x){
@@ -664,9 +671,10 @@
                 debugger;
                 var cardThatWasClicked = this.findCard(msg[0]);
                 var cardThatWasClicked1 = this.findCard1(msg);
-
-                var thisCardY = msg[3];
-                var thisCardX = msg[4];
+                debugger;
+                var thisCardY = msg[3]-1;
+                var thisCardX = msg[4]-1;
+                this.genericCardMethods[thisCardY][thisCardX]();
                 var thisCardKey = this.adjustBlankIndex(thisCardY, thisCardX, msg[2]);
 /*
                 if(JSON.stringify(this.ghostArea)==='{}') {
@@ -698,7 +706,7 @@
                         this.cstatus=this.TOPLEFTCLICKED;
 //                        this.$refs.key[cardThatWasClicked1.id].$el.style.backgroundColor='#66bb6a';
 //                        var cardIndex = cardThatWasClicked1.id;
-                        this.$refs.key[thisCardKey].$el.style.backgroundColor='#66bb6a';
+//                        this.$refs.key[thisCardKey].$el.style.backgroundColor='#66bb6a';
                         this.cmdObject.cardId=cardThatWasClicked1.id;
                         this.cmdObject.action='newStyle';
                         this.cmdObjectVersion=this.cmdObjectVersion+1;
@@ -716,7 +724,7 @@
 
                             this.cstatus=this.BOTTOMRIGHTCLICKED;
 //                            cardIndex = cardThatWasClicked1.id;
-                              this.$refs.key[thisCardKey].$el.style.backgroundColor='#66bb6a';
+//                              this.$refs.key[thisCardKey].$el.style.backgroundColor='#66bb6a';
 
 //                            this.$refs.key[cardThatWasClicked].$el.style.backgroundColor='#66bb6a';
                             this.scolor = this.selectedColor;
@@ -876,6 +884,11 @@
 
 
             },
+          registerCard(msg){
+              var cardY = msg[1]-1;
+              var cardX = msg[2]-1;
+              this.genericCardMethods[cardY][cardX]=msg[0];
+          }
 
 
 // end of methods

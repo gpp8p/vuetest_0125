@@ -1,5 +1,5 @@
 <template >
-<span v-bind:style='cardStyle' v-on:click="processClick" id=cardId v-if="this.ghost==false">
+<span v-bind:style='thisCardStyle' v-on:click="processClick" id=cardId v-if="this.ghost==false">
         <green-component  v-if="cardType=='greenComponent' || cardType=='Headline'" class="genericCardStyle"
                           :card-style=cardStyle
                           :card-id=cardId
@@ -141,8 +141,14 @@
     data(){
       return {
          dataEntered:'',
-         ghost:false
+         ghost:false,
+         thisCardStyle:''
       }
+    },
+    mounted(){
+ //     console.log('genericCardMounted-', this.cardPosition);
+      this.thisCardStyle = this.cardStyle;
+      this.$emit('registerCard',[this.editMethod, this.cardPosition[0], this.cardPosition[1]]);
     },
     watch: {
       cmdObjectVersion: function () {
@@ -170,8 +176,14 @@
           cardData.id = this.cardId;
           cardData.cardkey = this.cardKey;
           cardData.location = this.cardPosition;
-          this.$emit('storeValue', [this.cardId, cardData, this.cardKey, this.cardPosition[0], this.cardPosition[1]]);
+          console.log('card click', cardData.location);
+          this.$emit('storeValue', [this.cardId, cardData, this.cardKey, this.cardPosition[0], this.cardPosition[1]], this.editMethod);
         }
+      },
+      editMethod(){
+        debugger;
+        this.setCardBackground('66bb6a');
+        console.log('editMethod from', this.cardPosition);
       },
       ghostCard(){
         this.$emit('ghostCard', [this.cardPosition]);
@@ -215,6 +227,13 @@
 //        console.log('link selected', msg);
         this.$emit('linkSelected', msg);
       },
+      setCardBackground(newBackground){
+        var backgroundAt = this.thisCardStyle.indexOf('background-color:#');
+        var styleBegining = this.thisCardStyle.slice(0,backgroundAt);
+        var newStyle = styleBegining+'background-color:#'+newBackground+this.thisCardStyle.slice((backgroundAt+24));
+        this.thisCardStyle= newStyle;
+        console.log('new style',newStyle);
+      }
 
     }
   };
