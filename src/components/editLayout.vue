@@ -672,10 +672,13 @@
                 var cardThatWasClicked = this.findCard(msg[0]);
                 var cardThatWasClicked1 = this.findCard1(msg);
                 debugger;
+                this.fillThisCell(msg[3], msg[4], '66bb6a');
+/*
                 var thisCardY = msg[3]-1;
                 var thisCardX = msg[4]-1;
                 this.genericCardMethods[thisCardY][thisCardX]();
-                var thisCardKey = this.adjustBlankIndex(thisCardY, thisCardX, msg[2]);
+*/
+//                var thisCardKey = this.adjustBlankIndex(thisCardY, thisCardX, msg[2]);
 /*
                 if(JSON.stringify(this.ghostArea)==='{}') {
                   thisCardKey = msg[2];
@@ -695,8 +698,10 @@
                         break;
                     case this.WAITINGFORCLICK:
                         this.topLeftClicked=msg[0];
-                        this.topLeftRow = this.cardInstances[thisCardKey].card_position[0];
-                        this.topLeftCol = this.cardInstances[thisCardKey].card_position[1];
+                          this.topLeftRow = msg[3];
+                          this.topLeftCol = msg[4];
+//                        this.topLeftRow = this.cardInstances[thisCardKey].card_position[0];
+//                        this.topLeftCol = this.cardInstances[thisCardKey].card_position[1];
 //                        this.topLeftRow = cardThatWasClicked1.card_position[0];
 //                        this.topLeftCol = cardThatWasClicked1.card_position[1];
                         console.log('topLeftRow-',this.topLeftRow );
@@ -707,18 +712,22 @@
 //                        this.$refs.key[cardThatWasClicked1.id].$el.style.backgroundColor='#66bb6a';
 //                        var cardIndex = cardThatWasClicked1.id;
 //                        this.$refs.key[thisCardKey].$el.style.backgroundColor='#66bb6a';
-                        this.cmdObject.cardId=cardThatWasClicked1.id;
-                        this.cmdObject.action='newStyle';
-                        this.cmdObjectVersion=this.cmdObjectVersion+1;
+//                        this.cmdObject.cardId=cardThatWasClicked1.id;
+//                        this.cmdObject.action='newStyle';
+//                        this.cmdObjectVersion=this.cmdObjectVersion+1;
                         this.$emit('LayoutMessage', ['topLeft', this.topLeftRow,this.topLeftCol ]);
                         break;
                     case this.TOPLEFTCLICKED:
                         this.bottomRightClicked = msg[0];
-                        var brClickRow = this.cardInstances[thisCardKey].card_position[0];
-                        var brClickCol = this.cardInstances[thisCardKey].card_position[1];
+//                      var brClickRow = this.cardInstances[thisCardKey].card_position[0];
+//                        var brClickCol = this.cardInstances[thisCardKey].card_position[1];
+                        var brClickRow = msg[3];
+                        var brClickCol = msg[4];
                         if(this.checkClickPos(brClickRow, brClickCol, this.topLeftRow, this.topLeftCol)){
-                            this.bottomRightRow = this.cardInstances[thisCardKey].card_position[0];
-                            this.bottomRightCol = this.cardInstances[thisCardKey].card_position[1];
+//                            this.bottomRightRow = this.cardInstances[thisCardKey].card_position[0];
+//                            this.bottomRightCol = this.cardInstances[thisCardKey].card_position[1];
+                              this.bottomRightRow = msg[3];
+                              this.bottomRightCol = msg[4];
 //                              this.bottomRightRow = cardThatWasClicked1.card_position[0];
 //                              this.bottomRightCol = cardThatWasClicked1.card_position[1];
 
@@ -730,7 +739,10 @@
                             this.scolor = this.selectedColor;
 //            this.cardInstances.forEach(this.fillInCell);
 //                            debugger;
-                            this.fillSelectedCells(this.cardInstances,this.topLeftCol,this.topLeftRow,this.bottomRightCol,this.bottomRightRow, '#66bb6a');
+
+                          this.fillSelectedArea(this.genericCardMethods,this.topLeftRow,this.topLeftCol,this.bottomRightRow,this.bottomRightCol, '66BB6A');
+
+//                            this.fillSelectedCells(this.cardInstances,this.topLeftCol,this.topLeftRow,this.bottomRightCol,this.bottomRightRow, '#66bb6a');
  //                           this.$emit('layoutMessage', ['bottomRight', this.bottomRightRow,this.bottomRightCol ]);
                             this.dialogCmd = 'newCard';
                             this.dialogType=this.DIALOG_CREATE_CARD;
@@ -796,6 +808,30 @@
                 }
 //      console.log('done');
             },
+
+          fillSelectedArea(cellFunctionArray,tlRow,tlCol,brRow,brCol, colorToFill){
+            debugger;
+            var areaTlY  =  tlRow -1;
+            var areaTlX =   tlCol -1;
+            var areaBrY = brRow;
+            var areaBrX = brCol;
+            for(var py = areaTlY; py<areaBrY; py++ ){
+              for(var px = areaTlX; px < areaBrX; px++){
+                console.log('filling-', py, '-', px, colorToFill);
+                cellFunctionArray[py][px](colorToFill);
+              }
+            }
+          },
+
+
+
+          fillThisCell(thisCardY, thisCardX, backgroundColor){
+
+            var y = thisCardY-1;
+            var x = thisCardX-1;
+            console.log('fillThisCell called-', y,x);
+            this.genericCardMethods[y][x](backgroundColor);
+          },
           fillInOneCell(arr, cellRow, cellColumn, colorToFill){
             for(var i = 0; i<arr.length; i++){
               var thisCardCol = arr[i].card_position[1];

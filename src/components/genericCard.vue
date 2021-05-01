@@ -180,9 +180,9 @@
           this.$emit('storeValue', [this.cardId, cardData, this.cardKey, this.cardPosition[0], this.cardPosition[1]], this.editMethod);
         }
       },
-      editMethod(){
+      editMethod(background){
         debugger;
-        this.setCardBackground('66bb6a');
+        this.setCardBackground(background);
         console.log('editMethod from', this.cardPosition);
       },
       ghostCard(){
