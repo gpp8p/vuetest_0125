@@ -133,6 +133,7 @@
                 selectedCardConfigurationValues:{},
                 subElementValues:{},
                 newCardBeingAdded:false,
+                cardBeingResized:false,
                 topLeftClicked: 0,
                 bottomRightClicked: 0,
                 cstatus: 0,
@@ -150,6 +151,8 @@
                 WAITINGTOSAVE:8,
                 CANCELLAYOUTUPDATE:7,
                 CARDBEINGCONFIGED:8,
+                CARDBEINGRESIZEDCLICK1:9,
+                CARDBEINGRESIZEDCLICK2:10,
 
                 newCardCoords: [],
                 updateCallback: null,
@@ -285,8 +288,14 @@
                         this.cardCurrentConfigurationValues={};
                         this.RICH_TEXT_EDITOR=false;
                         this.$emit('tabSelected', msg[0]);
-                        this.cancelLayoutEdit();
-                        this.cardCmd = 'restore';
+//                        this.cancelLayoutEdit();
+//                        this.cardCmd = 'restore';
+                      this.newCardBeingAdded = false;
+                      this.cardBeingResized = false;
+                      this.reloadLayout(this.$route.params.layoutId);
+                      this.displayStatus=false;
+                      this.$emit('viewStatusChangeFunction',['editLayout', this.viewStatusChangeFunction]);
+                      this.$eventHub.$emit('editStatusChanged',['openEdit',0]);
 
                         break;
                     }
@@ -603,6 +612,7 @@
               this.ghostArea.topleftX = msg[0][1];
               this.ghostArea.bottomRightY= msg[0][0]+msg[0][2]-1;
               this.ghostArea.bottomRightX= msg[0][1]+msg[0][3]-1;
+              this.cardBeingResized=true;
             },
 
             inGhostArea(y,x){
@@ -664,7 +674,7 @@
 
             },
             processClick(msg) {
-                if(!this.newCardBeingAdded){
+                if(!this.newCardBeingAdded && !this.cardBeingResized){
                     return;
                 }
                 console.log('editLayout gets storeValue -' + msg);
