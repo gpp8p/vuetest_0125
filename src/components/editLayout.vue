@@ -166,7 +166,8 @@
                 ghostArea:{},
                 genericCardMethods:[],
                 layoutHeight:0,
-                layoutWidth:0
+                layoutWidth:0,
+                resizeCardId:0
 
 
 
@@ -613,6 +614,8 @@
               this.ghostArea.bottomRightY= msg[0][0]+msg[0][2]-1;
               this.ghostArea.bottomRightX= msg[0][1]+msg[0][3]-1;
               this.cardBeingResized=true;
+              this.resizeCardId = msg[1];
+              this.cstatus=this.CARDBEINGRESIZEDCLICK1;
             },
 
             inGhostArea(y,x){
@@ -703,71 +706,111 @@
  */
                 console.log('cardThatWasClicked1-',cardThatWasClicked1);
                 console.log('cardThatWasClicked:'+cardThatWasClicked);
-                switch(this.cstatus){
-                    case this.CARDBEINGCONFIGED:
-                        break;
-                    case this.WAITINGFORCLICK:
-                        this.topLeftClicked=msg[0];
-                          this.topLeftRow = msg[3];
-                          this.topLeftCol = msg[4];
-//                        this.topLeftRow = this.cardInstances[thisCardKey].card_position[0];
-//                        this.topLeftCol = this.cardInstances[thisCardKey].card_position[1];
-//                        this.topLeftRow = cardThatWasClicked1.card_position[0];
-//                        this.topLeftCol = cardThatWasClicked1.card_position[1];
-                        console.log('topLeftRow-',this.topLeftRow );
-                        console.log('topLeftCol-', this.topLeftCol);
-
+                switch(this.cstatus) {
+                  case this.CARDBEINGCONFIGED:
+                    break;
+                  case this.WAITINGFORCLICK:
+                    this.topLeftClicked = msg[0];
+                    this.topLeftRow = msg[3];
+                    this.topLeftCol = msg[4];
+                    console.log('topLeftRow-', this.topLeftRow);
+                    console.log('topLeftCol-', this.topLeftCol);
 //          debugger;
-                        this.cstatus=this.TOPLEFTCLICKED;
-//                        this.$refs.key[cardThatWasClicked1.id].$el.style.backgroundColor='#66bb6a';
-//                        var cardIndex = cardThatWasClicked1.id;
-//                        this.$refs.key[thisCardKey].$el.style.backgroundColor='#66bb6a';
-//                        this.cmdObject.cardId=cardThatWasClicked1.id;
-//                        this.cmdObject.action='newStyle';
-//                        this.cmdObjectVersion=this.cmdObjectVersion+1;
-                        this.$emit('LayoutMessage', ['topLeft', this.topLeftRow,this.topLeftCol ]);
-                        break;
-                    case this.TOPLEFTCLICKED:
-                        this.bottomRightClicked = msg[0];
+                    this.cstatus = this.TOPLEFTCLICKED;
+                    this.$emit('LayoutMessage', ['topLeft', this.topLeftRow, this.topLeftCol]);
+                    break;
+                  case this.TOPLEFTCLICKED:
+                    this.bottomRightClicked = msg[0];
 //                      var brClickRow = this.cardInstances[thisCardKey].card_position[0];
 //                        var brClickCol = this.cardInstances[thisCardKey].card_position[1];
-                        var brClickRow = msg[3];
-                        var brClickCol = msg[4];
-                        if(this.checkClickPos(brClickRow, brClickCol, this.topLeftRow, this.topLeftCol)){
+                    var brClickRow = msg[3];
+                    var brClickCol = msg[4];
+                    if (this.checkClickPos(brClickRow, brClickCol, this.topLeftRow, this.topLeftCol)) {
 //                            this.bottomRightRow = this.cardInstances[thisCardKey].card_position[0];
 //                            this.bottomRightCol = this.cardInstances[thisCardKey].card_position[1];
-                              this.bottomRightRow = msg[3];
-                              this.bottomRightCol = msg[4];
+                      this.bottomRightRow = msg[3];
+                      this.bottomRightCol = msg[4];
 //                              this.bottomRightRow = cardThatWasClicked1.card_position[0];
 //                              this.bottomRightCol = cardThatWasClicked1.card_position[1];
 
-                            this.cstatus=this.BOTTOMRIGHTCLICKED;
+                      this.cstatus = this.BOTTOMRIGHTCLICKED;
 //                            cardIndex = cardThatWasClicked1.id;
 //                              this.$refs.key[thisCardKey].$el.style.backgroundColor='#66bb6a';
 
 //                            this.$refs.key[cardThatWasClicked].$el.style.backgroundColor='#66bb6a';
-                            this.scolor = this.selectedColor;
+                      this.scolor = this.selectedColor;
 //            this.cardInstances.forEach(this.fillInCell);
 //                            debugger;
 
-                          this.fillSelectedArea(this.genericCardMethods,this.topLeftRow,this.topLeftCol,this.bottomRightRow,this.bottomRightCol, '66BB6A');
+                      this.fillSelectedArea(this.genericCardMethods, this.topLeftRow, this.topLeftCol, this.bottomRightRow, this.bottomRightCol, '66BB6A');
 
 //                            this.fillSelectedCells(this.cardInstances,this.topLeftCol,this.topLeftRow,this.bottomRightCol,this.bottomRightRow, '#66bb6a');
- //                           this.$emit('layoutMessage', ['bottomRight', this.bottomRightRow,this.bottomRightCol ]);
-                            this.dialogCmd = 'newCard';
-                            this.dialogType=this.DIALOG_CREATE_CARD;
-                        }else{
-                            this.$emit('layoutMessage', ['error', 'You must click and to the right',0 ]);
-                        }
-                        break;
-                    case this.BOTTOMRIGHTCLICKED:
-                        console.log('status is WAITINGFORNAME');
-                        this.cstatus = this.WAITINGFORNAME;
-                        break;
-                    case this.WAITINGFORNAME:
-                        this.cstatus = this.WAITINGFORTYPE;
-                        break;
+                      //                           this.$emit('layoutMessage', ['bottomRight', this.bottomRightRow,this.bottomRightCol ]);
+                      this.dialogCmd = 'newCard';
+                      this.dialogType = this.DIALOG_CREATE_CARD;
+                    } else {
+                      this.$emit('layoutMessage', ['error', 'You must click and to the right', 0]);
+                    }
+                    break;
+                  case this.BOTTOMRIGHTCLICKED:
+                    console.log('status is WAITINGFORNAME');
+                    this.cstatus = this.WAITINGFORNAME;
+                    break;
+                  case this.WAITINGFORNAME:
+                    this.cstatus = this.WAITINGFORTYPE;
+                    break;
+                  case this.CARDBEINGRESIZEDCLICK1:
+                    this.topLeftClicked = msg[0];
+                    this.topLeftRow = msg[3];
+                    this.topLeftCol = msg[4];
+                    console.log('topLeftRow-', this.topLeftRow);
+                    console.log('topLeftCol-', this.topLeftCol);
+//          debugger;
+                    this.cstatus = this.CARDBEINGRESIZEDCLICK2;
+                    this.$emit('LayoutMessage', ['topLeft', this.topLeftRow, this.topLeftCol]);
+
+                    break;
+                  case this.CARDBEINGRESIZEDCLICK2:
+                    this.bottomRightClicked = msg[0];
+                    brClickRow = msg[3];
+                    brClickCol = msg[4];
+                    if (this.checkClickPos(brClickRow, brClickCol, this.topLeftRow, this.topLeftCol)) {
+                      this.bottomRightRow = msg[3];
+                      this.bottomRightCol = msg[4];
+                      this.scolor = this.selectedColor;
+                      var newWidth = this.bottomRightCol - this.topLeftCol;
+                      var newHeight = this.bottomRightRow - this.topLeftRow;
+//                            debugger;
+                      this.fillSelectedArea(this.genericCardMethods, this.topLeftRow, this.topLeftCol, this.bottomRightRow, this.bottomRightCol, '66BB6A');
+                      axios.post('http://localhost:8000/api/shan/resizeCard?XDEBUG_SESSION_START=12016', {
+                          cardId: this.resizeCardId,
+                          row: this.topLeftRow,
+                          col: this.topLeftCol,
+                          height: newHeight+1,
+                          width: newWidth+1
+                      }).then(response=>
+                      {
+                        console.log('card resized:'+response);
+                        this.newCardBeingAdded = false;
+                        this.cardBeingResized = false;
+                        this.reloadLayout(this.$route.params.layoutId);
+                        this.displayStatus=false;
+                        this.$emit('viewStatusChangeFunction',['editLayout', this.viewStatusChangeFunction]);
+                        this.$eventHub.$emit('editStatusChanged',['openEdit',0]);
+
+
+
+                      }).catch(function(error) {
+                        this.$emit('layoutMessage', ['error', 'There was an error saving this card',0 ]);
+                        console.log(error);
+                      });
+
+                    } else {
+                      this.$emit('layoutMessage', ['error', 'You must click and to the right', 0]);
+                    }
+                    break;
                 }
+
                 this.$eventHub.$emit('editStatusChanged', ['newCard',this.cstatus]);
 
             },

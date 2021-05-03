@@ -186,7 +186,8 @@
         console.log('editMethod from', this.cardPosition);
       },
       ghostCard(){
-        this.$emit('ghostCard', [this.cardPosition]);
+//        debugger;
+        this.$emit('ghostCard', [this.cardPosition, this.cardId]);
         this.ghost=true;
       },
       configurationHasBeenSaved(){
