@@ -280,7 +280,7 @@
               }
             },
             configSelected(msg){
-//                debugger;
+                debugger;
                 console.log('editLayout configSelected - ', msg);
                 switch(msg[0]){
                     case 'cancel':{

@@ -270,8 +270,11 @@ export default {
           break;
         }
         case 'Save':{
-          this.$emit('configSelected', ['title', this.cardTitle]);
-          this.$emit('configSelected',['saveCardContent', this.cardTitle]);
+          var titleValue = {
+            title:this.cardTitle
+          }
+          this.$emit('configSelected', ['title', titleValue, 'main']);
+          this.$emit('configSelected',['saveCardContent', titleValue, 'main']);
           this.editStatus=false;
           break;
         }
