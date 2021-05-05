@@ -92,7 +92,7 @@ export default {
       cardMessage: this.getCardProps(),
       cardHasBeenSetup: false,
       cstyle: this.cardStyle,
-      cardData: this.getCardProps(),
+      cardData: this.cardProperties,
       styling: {},
       content: {},
       configurationCurrentValues: {},
@@ -129,10 +129,12 @@ export default {
     }
 */
     cmdObjectVersion: function(){
+      debugger;
       switch(this.cmdObject.action){
         case 'addLink':{
           var mOpts = this.getMenuOpts('insertLink');
           this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.layoutLink = this.cmdObject.linkedLayoutId;
           break;
         }
       }
@@ -183,7 +185,7 @@ export default {
       return "card" + this.cardId;
     },
     getCardProps() {
-//      debugger;
+      debugger;
       if ((typeof this.cardProperties === "undefined") | (this.cardProperties == "")) {
         return "Click on configure to set its appearence";
       }else {
