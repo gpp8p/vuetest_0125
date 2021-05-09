@@ -539,7 +539,8 @@
         axios.post('http://localhost:8000/api/shan/saveCardContent?XDEBUG_SESSION_START=14252', {
           cardParams: jsonCardConfigurationPackage,
           domElement: domElement,
-          org: this.$store.getters.getOrgId
+          org: this.$store.getters.getOrgId,
+          layoutId: this.$store.getters.getCurrentLayoutId
         }).then(response=>
         {
           console.log(response);
