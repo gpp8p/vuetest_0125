@@ -30,6 +30,7 @@
   import '@mdi/font/css/materialdesignicons.css'
   import headerBar from "./components/headerBar.vue";
   import store from './store';
+  import axios from "axios";
 
   Vue.use(Oruga);
 
@@ -140,6 +141,20 @@
             this.headerBarViewStatusChangeFunction(['Cancel New Card', 0]);
             this.$eventHub.$emit('editStatusChanged', ['openEdit',0]);
             this.thisCmd='cancelDialog';
+            break;
+          }
+          case 'Publish':{
+            axios.get('http://localhost:8000/api/shan/publishOrg?XDEBUG_SESSION_START=15122"', {
+              params:{
+                orgId:this.$store.getters.getOrgId,
+              }
+            }).then(response=> {
+              console.log('Publish',response);
+              alert('site has been published');
+            }).catch(e=>{
+              console.log(e);
+            });
+
             break;
           }
           case 'My Spaces':{
