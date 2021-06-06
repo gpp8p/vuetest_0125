@@ -226,7 +226,7 @@
 
           },
             cardSaved(msg){
-              debugger;
+//              debugger;
               this.dialogType=0;
               this.$emit('cardSaved', msg);
             },

@@ -116,6 +116,14 @@ export default {
   },
   mounted(){
       this.subStyle = this.elementStyles.sub[0];
+//      debugger;
+      console.log('cardContent=',this.cardContent);
+      if(typeof(this.cardContent.linkMenuTitle)=='undefined'){
+        this.cardTitle='';
+      }else{
+        this.cardTitle = this.cardContent.linkMenuTitle;
+      }
+
   },
   watch:{
     cmd: function() {
@@ -157,7 +165,7 @@ export default {
       cardMessage: this.getCardProps(),
       cardHasBeenSetup: false,
       cstyle: this.cardStyle,
-      cardTitle:this.getCardProps(),
+      cardTitle:'',
       styling: {},
       subContentStyling:{
         sub:{}

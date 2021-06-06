@@ -5,7 +5,7 @@
         Title:
       </span>
       <span class="titleField">
-        <input v-model="currentCardData.linkMenuTitle" size="65"/>
+        <input v-model="currentCardData.linkMenuTitle" size="55"/>
       </span>
       <span>
         Orientation:

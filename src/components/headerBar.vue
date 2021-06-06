@@ -71,7 +71,7 @@
                 break;
               }
               case 'layoutChanged':{
-                debugger;
+//                debugger;
                 this.viewContext=this.VIEW_VIEWING;
                 this.layoutChanged();
                 this.nextLayout=cmdElements[1];

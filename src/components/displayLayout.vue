@@ -160,6 +160,7 @@
               this.$emit('viewStatusChangeFunction', ['clearCmd'])
             },
             layoutGridParameters(height, width, backgroundColor, backgroundImageUrl, backgroundType) {
+//                debugger;
                 var heightSize = (95 / height).toFixed(2);
                 var widthSize = (98 / width).toFixed(2);
                 var gridHeightCss = "grid-template-rows: ";

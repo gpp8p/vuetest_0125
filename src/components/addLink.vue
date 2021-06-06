@@ -5,12 +5,12 @@
         Title:
       </span>
       <span class="titleField">
-        <input v-model="linkMenuTitle" size="65"/>
+        <input v-model="currentCardData.linkMenuTitle" size="55"/>
       </span>
       <span>
         Orientation:
-        <input type="radio" name="orientation" value="vertical" v-model="orient"  />-Vertical
-        <input type="radio" name="orientation" value="horozontal" v-model="orient" />-Horizontal
+        <input type="radio" name="orientation" value="vertical" v-model="currentCardData.orient"   />-Vertical
+        <input type="radio" name="orientation" value="horozontal" v-model="currentCardData.orient"  />-Horizontal
       </span>
     </span>
   <div class="extLinkArea">
@@ -59,6 +59,16 @@ import layoutList from "../components/layoutList.vue";
 export default {
   name: "addLink",
   components: {layoutList},
+  props:{
+    cmd:{
+      type: String,
+      required: true
+    },
+    cardData:{
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
       extLinkDescription: '',
@@ -69,7 +79,8 @@ export default {
       intSelected: 'internal',
       extEntry:false,
       orient:'vertical',
-      linkMenuTitle:''
+      linkMenuTitle:'',
+      currentCardData:'',
     }
   },
   watch:{
@@ -88,9 +99,27 @@ export default {
         this.$emit('showSave');
         this.extEntry = true;
       }
-    }
+    },
+    cmd: function(){
+      console.log('linkMaster cmd changed-', this.cmd);
+      debugger;
+      switch(this.cmd){
+        case 'save':{
+          debugger;
+          var currentCardData = {};
+          currentCardData.orient = this.orient;
+          currentCardData.linkMenuTitle = this.linkMenuTitle;
+          this.$emit('saveCardContent', [currentCardData, 'linkContent', 'main'] );
+          break;
+        }
+      }
+    },
 
   },
+  mounted(){
+    this.currentCardData= JSON.parse(this.cardData);
+  },
+
   methods: {
     linkChoiceMade() {
       console.log(this.linkChoice);
@@ -118,6 +147,9 @@ export default {
       } else {
         return false;
       }
+    },
+    saveOrientation(){
+      this.$emit('saveCardContent', [this.currentCardData, 'linkContent', 'main'] );
     }
   }
 }

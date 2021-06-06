@@ -15,7 +15,7 @@
         <editor-ck v-if="mode==this.DIALOG_EDIT" :cardData="cardData" :cmd="cmd" @saveContent="cardSaved" @editorReady="editorReady" @currentContent="currentContent"></editor-ck>
         <layout-list v-if="mode==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected"></layout-list>
         <create-layout v-if="mode==this.DIALOG_NEW_LAYOUT" :cmd="cmd" @layoutData="layoutData"></create-layout>
-        <add-link v-if="mode==this.DIALOG_ADD_LINK" @showSave="showSave" @noShowSave="noShowSave" @targetLayoutSelected="targetLayoutSelected"></add-link>
+        <add-link v-if="mode==this.DIALOG_ADD_LINK" :cmd="cmd" :cardData="cardData" @showSave="showSave" @noShowSave="noShowSave" @targetLayoutSelected="targetLayoutSelected" @saveCardContent="saveCardContent"></add-link>
        </div>
       <div class="dialogComponentFooter">
           <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -119,7 +119,7 @@ import axios from "axios";
 
           },
           cmd: function(){
-            debugger;
+//            debugger;
             console.log('Dialog cmd changed:',this.cmd);
             var cmdElements = this.cmd.split(':');
             switch(cmdElements[0]){
@@ -364,6 +364,7 @@ import axios from "axios";
                   break;
                 }
                 case 'SaveLinkMenu':{
+                  this.cmd="save";
                   this.saveLayoutLink(this.currentlySelectedLayout, this.currentlySelectedLayoutDescription);
                   break;
                 }
