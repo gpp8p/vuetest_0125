@@ -250,8 +250,14 @@
               console.log('editLayout.saveCardContent', msg);
             },
             layoutGridParameters(height, width, backgroundColor) {
+                var widthFactor;
+                if(width<11){
+                  widthFactor = 98.5;
+                }else if(width<21){
+                  widthFactor = 97
+                }
                 var heightSize = (95 / height).toFixed(2);
-                var widthSize = (98 / width).toFixed(2);
+                var widthSize = (widthFactor / width).toFixed(4);
                 var gridHeightCss = "grid-template-rows: ";
                 var gridWidthCss = "grid-template-columns: ";
                 var x = 0;
@@ -990,7 +996,9 @@
 </script>
 
 <style scoped>
-
+.editSpan {
+  width:100%;
+}
 
 
 </style>
