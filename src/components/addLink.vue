@@ -9,8 +9,8 @@
       </span>
       <span>
         Orientation:
-        <input type="radio" name="orientation" value="vertical" v-model="currentCardData.orient"   />-Vertical
-        <input type="radio" name="orientation" value="horozontal" v-model="currentCardData.orient"  />-Horizontal
+        <input type="radio" name="orientation" value="vertical" v-model="orient"   />-Vertical
+        <input type="radio" name="orientation" value="horozontal" v-model="orient"  />-Horizontal
       </span>
     </span>
   <div class="extLinkArea">
@@ -78,7 +78,7 @@ export default {
       extSelected: 'external',
       intSelected: 'internal',
       extEntry:false,
-      orient:'vertical',
+      orient:'',
       linkMenuTitle:'',
       currentCardData:'',
     }
@@ -118,6 +118,7 @@ export default {
   },
   mounted(){
     this.currentCardData= JSON.parse(this.cardData);
+    this.orient = this.currentCardData.orient;
   },
 
   methods: {

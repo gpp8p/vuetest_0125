@@ -531,7 +531,8 @@ import axios from "axios";
                 card_instance_id:this.cardId,
                 is_external:0,
                 layout_link_to:targetId,
-                linkUrl:targetUrl
+                linkUrl:targetUrl,
+                type:'U'
               }).then(response=>
               {
                 console.log(response);
