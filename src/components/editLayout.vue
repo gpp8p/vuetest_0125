@@ -583,7 +583,7 @@
 
 
             makeBlankLayout(height, width, description, menu_label, backgroundColor) {
-                debugger;
+//                debugger;
 
                 this.layoutGrid = [];
                 var newCards = [];

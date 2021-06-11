@@ -8,7 +8,16 @@
     <div class="cardBody" v-if="this.mode==this.SHOW_TEXT" ref="textContent" @click="cellClicked" v-html="this.cardData">
     </div>
     <span v-if="this.mode==this.RICH_TEXT_EDITOR">
-      <editor-ck :cardData="cardData" :cmd="cmd" :cmdObject="this.cObject" :cmdVersion="cObjectVersion"  @saveContent="cardSaved" @editorReady="editorReady" @currentContent="currentContent"></editor-ck>
+      <editor-ck
+          :cardData="cardData"
+          :cmd="cmd"
+          :cmdObject="this.cObject"
+          :cmdVersion="cObjectVersion"
+          @saveContent="cardSaved"
+          @editorReady="editorReady"
+          @currentContent="currentContent"
+          @imageInsert = "imageInsert"
+      ></editor-ck>
     </span>
   </div>
 </template>
@@ -18,6 +27,7 @@
 import CardBase from "../components/CardBase.vue";
 import editorCk from '../components/editorCk.vue'
 import menuOpt from "../components/menuOptV2.vue";
+import axios from "axios";
 export default {
   name: "textShow",
   extends: CardBase,
@@ -165,9 +175,32 @@ export default {
       console.log('moveClicked');
       this.$emit('ghostCard');
     },
+    imageInsert(msg){
+
+//        var targetUrl = 'http://localhost:8080/displayLayout/'+targetId;
+        axios.post('http://localhost:8000/api/shan/createNewLink?XDEBUG_SESSION_START=17516', {
+          org_id: this.$store.getters.getOrgId,
+          layout_id: this.$store.getters.getCurrentLayoutId,
+          description: 'image link',
+          card_instance_id:this.cardId,
+          is_external:0,
+          layout_link_to:0,
+          linkUrl:msg,
+          type:'I'
+        }).then(response=>
+        {
+          console.log('image insert link created',response);
+          if(response.data=='ok'){
+//           this.mode=this.DIALOG_OFF;
+//            this.$emit('configSelected',['reload']);
+          }
+        }).catch(function(error) {
+          console.log(error);
+        });
+    },
 
     editClicked(){
-      debugger;
+//      debugger;
       console.log('height-',this.height);
       var editorHeight = this.height+275;
       var editorWidth = this.width+29;
@@ -185,7 +218,7 @@ export default {
       return "card" + this.cardId;
     },
     getCardProps() {
-      debugger;
+ //     debugger;
       if ((typeof this.cardProperties === "undefined") | (this.cardProperties == "")) {
         return "Click on configure to set its appearence";
       }else {

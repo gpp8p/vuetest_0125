@@ -1,6 +1,6 @@
 <template>
   <span id="app" class="editorDialog">
-    <ckeditor :editor="editor" v-model="editorData" :config="editorConfig" @ready="onEditorReady"></ckeditor>
+    <ckeditor :editor="editor" v-model="editorData" :config="editorConfig" @input="ckinput" @ready="onEditorReady"></ckeditor>
   </span>
 </template>
 
@@ -95,6 +95,19 @@ export default {
   methods:{
     onEditorReady(editor){
       this.$emit('editorReady',editor);
+    },
+    ckinput(msg){
+      console.log(msg);
+      var i = msg.indexOf("<figure class=\"image\"><img src=\"");
+      if(i!=-1){
+        debugger;
+        var s = msg.substr(32);
+        var e = s.indexOf("\"");
+        var imgUrl = s.substr(0,e);
+        console.log("imageUrl - ", imgUrl);
+        this.$emit('imageInsert',imgUrl);
+      }
+//      console.log('ck input event', msg);
     }
   },
   data() {
