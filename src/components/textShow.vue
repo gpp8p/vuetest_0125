@@ -27,7 +27,7 @@
 import CardBase from "../components/CardBase.vue";
 import editorCk from '../components/editorCk.vue'
 import menuOpt from "../components/menuOptV2.vue";
-import axios from "axios";
+//import axios from "axios";
 export default {
   name: "textShow",
   extends: CardBase,
@@ -175,6 +175,7 @@ export default {
       console.log('moveClicked');
       this.$emit('ghostCard');
     },
+/*
     imageInsert(msg){
 
 //        var targetUrl = 'http://localhost:8080/displayLayout/'+targetId;
@@ -198,7 +199,7 @@ export default {
           console.log(error);
         });
     },
-
+*/
     editClicked(){
 //      debugger;
       console.log('height-',this.height);
