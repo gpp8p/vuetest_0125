@@ -28,7 +28,9 @@ name: "orgMembership",
 //        this.$emit('componentSettingsMounted',[['Back','Done', 'Add Member', 'Remove'],'Done']);
         this.$emit('setTitle','Organization Members - Click to Select');
       }else{
+        debugger;
         this.getOrgPerms(this.orgId);
+/*
         if(this.orgPermissions.admin){
           this.$emit('setMenu','orgMembersAdmin');
 //          this.$emit('componentSettingsMounted',[['Back','Done', 'Add Member'],'Done']);
@@ -38,6 +40,7 @@ name: "orgMembership",
           this.$emit('setMenu','orgMemberNoAdmin');
           this.$emit('setTitle','Organization Members');
         }
+ */
       }
 //      debugger;
       this.orgMemberViewStatus=this.ORG_MEMBERS;
@@ -259,10 +262,12 @@ name: "orgMembership",
             this.orgPermissions.author = response.data.author;
             this.orgPermissions.admin = response.data.admin;
             if(this.orgPermissions.admin==true){
-              this.$emit('componentSettingsMounted',[['Back','Done', 'Add Member'],'Done']);
+              this.$emit('setMenu','orgMembersAdmin');
+//              this.$emit('componentSettingsMounted',[['Back','Done', 'Add Member'],'Done']);
               this.$emit('setTitle','Organization Members - Click to Select');
             }else{
-              this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
+              this.$emit('setMenu','orgMemberNoAdmin');
+//              this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
               this.$emit('setTitle','Organization Members');
             }
             console.log(response);

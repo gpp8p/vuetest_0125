@@ -287,7 +287,7 @@
               }
             },
             getMenuOpts(menuContext){
-//              debugger;
+              debugger;
               console.log('Dialog2 getMenuOpts menuContext:', menuContext);
               switch(menuContext){
                 case 'register':{
@@ -441,6 +441,7 @@
                   return {
                     currentMenuOpts:[
                       ['Add Member','Add Member'],
+                      ['New User', 'NewUser'],
                       ['Remove', 'Remove'],
                       ['Back', 'OrgTopBack'],
                       ['Done', 'Done'],
@@ -452,6 +453,7 @@
                   return {
                     currentMenuOpts:[
                       ['Add Member','Add Member'],
+                      ['New User', 'NewUser'],
                       ['Back', 'Back'],
                       ['Done', 'Done'],
                     ],
