@@ -50,7 +50,14 @@
         ></PermList>
         <register-user v-if="dialogType==this.DIALOG_REGISTER" :cmd="cmd" @registrationSaved="registrationSaved" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted" @userExists="userExists"></register-user>
         <user-exists v-if="dialogType==this.DIALOG_USER_EXISTS" ></user-exists>
-        <organizations :cmd="cmd" v-if="dialogType==this.DIALOG_ORGANIZATIONS" :selectedMenuOption="currentSelectedMenuOption" @setTitle="setTitle" @setMenu = "setMenu" @componentSettingsMounted="componentSettingsMounted" @orgSelected="orgSelected" @clearCmd="clearCmd"></organizations>
+        <organizations :cmd="cmd" v-if="dialogType==this.DIALOG_ORGANIZATIONS"
+                       :selectedMenuOption="currentSelectedMenuOption"
+                       @setTitle="setTitle" @setMenu = "setMenu"
+                       @componentSettingsMounted="componentSettingsMounted"
+                       @orgSelected="orgSelected"
+                       @clearCmd="clearCmd"
+                       @registrationSaved="registrationSaved"
+            ></organizations>
         <layout-list v-if="dialogType==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected"></layout-list>
       </div>
       <div class="dialogComponentFooter">
@@ -181,6 +188,7 @@
               this.clearCmd();
               this.$emit('configSelected',['layoutSaved', msg[0]]);
             },
+
             menuOptSelected(msg){
               console.log('menuOptSelected in Dialog2-',msg);
               this.cmd='';
@@ -474,6 +482,16 @@
                     currentMenuOpts:[
                       ['Save Registration','Save Registration'],
                       ['Back', 'Return to New Organization'],
+                      ['Done', 'Done'],
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'orgMemberNew':{
+                  return {
+                    currentMenuOpts:[
+                      ['Save Registration','saveRegistration'],
+                      ['Back', 'orgMemberBack'],
                       ['Done', 'Done'],
                     ],
                     currentSelectedMenuOption: 'Done'

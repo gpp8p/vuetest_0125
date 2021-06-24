@@ -10,6 +10,7 @@
              @clearCmd="clearCmd"
              :selectedMenuOption="selectedMenuOption"
     ></org-new>
+    <registerUser v-if="orgView==NEW_USER" :cmd="cmd" @registrationSaved="registrationSaved"></registerUser>
   </span>
 </template>
 
@@ -19,11 +20,12 @@ import orgList from "../components/orgList.vue";
 import orgMembership from "../components/orgMembership.vue";
 //import TestNewOrg from "@/components/testNewOrg";
 import orgNew from "@/components/orgNew.vue";
+import registerUser from "@/components/registerUser.vue";
 
 //import orgNew from "../components/orgNew.vue";
 export default {
   name: "organizations",
-  components:{orgNew, orgList, orgMembership },
+  components:{orgNew, orgList, orgMembership, registerUser },
   props:{
     selectedMenuOption: {
       type: String,
@@ -58,6 +60,19 @@ export default {
       },
     cmd: function(){
       console.log('organizations cmd changed -', this.cmd);
+      switch(this.cmd){
+        case 'NewUser':{
+          this.$emit('setMenu','orgMemberNew');
+          this.orgView=this.NEW_USER;
+          break;
+        }
+        case 'orgMemberBack':{
+          this.$emit('setMenu','orgMembersAdmin');
+          this.orgView=this.ORG_LIST;
+          break;
+        }
+
+      }
     }
   },
 
@@ -66,6 +81,7 @@ export default {
       ORG_LIST:0,
       ORG_MEMBERS:1,
       ORG_NEW:2,
+      NEW_USER:3,
       orgView:0,
       orgs:[],
       orgUsers:[],
@@ -150,6 +166,9 @@ export default {
     },
     setMenu(msg){
       this.$emit('setMenu', msg);
+    },
+    registrationSaved(msg){
+      this.$emit('registrationSaved', msg);
     }
   }
 }
