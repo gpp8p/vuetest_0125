@@ -91,6 +91,11 @@
                 this.dialogCmd='saveRegistration';
                 break;
               }
+              case 'deleteLayout':{
+                this.deleteThisLayout();
+                this.clearCmd();
+                break;
+              }
             }
 
           }
@@ -337,6 +342,35 @@
           linkSelected(msg){
 //            console.log('link selected', msg);
             this.$emit('linkSelected', msg);
+          },
+          deleteThisLayout(){
+            console.log('deleteThisLayoutCalled');
+            var currentOrgHomeId = this.$store.getters.getOrgHomeId;
+            if(this.layoutId==currentOrgHomeId){
+              alert('You cannot delete home-page');
+              return;
+            }
+            debugger;
+            var currentOrgId = this.$store.getters.getOrgId;
+            axios.get('http://localhost:8000/api/shan/deleteLayout?XDEBUG_SESSION_START=15122"', {
+              params:{
+                layoutId:this.layoutId,
+                orgId:currentOrgId
+              }
+            }).then(response => {
+              // JSON responses are automatically parsed.
+//                    debugger;
+              console.log(response);
+              if(response.data=='noAuth'){
+                alert('Not authorized to delete this page');
+              }else{
+                alert('Links to this page have been removed');
+              }
+
+            }).catch(e => {
+              console.log(e);
+              this.errors.push(e);
+            });
           },
 
 

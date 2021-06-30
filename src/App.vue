@@ -164,6 +164,10 @@
             })
             break;
           }
+          case 'Delete':{
+            this.thisCmd='deleteLayout';
+            break;
+          }
         }
       },
       viewStatusChange(msg){
