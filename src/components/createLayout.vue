@@ -66,7 +66,7 @@ name: "createLayout",
       updatedColor:'#dbddb0',
 
       backgroundImageFile:'',
-      backgroundType:'',
+      backgroundType:'C',
       NOTHING_SELECTED:0,
       COLOR_SELECTED:1,
       IMAGE_SELECTED:2,
