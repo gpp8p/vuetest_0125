@@ -82,6 +82,12 @@
 //                this.nextLayout = this.$store.getters.getCurrentLayoutId;
                 console.log('linkToNextLayout', this.nextLayout);
 //                debugger;
+                break;
+              }
+              case 'newCardSetup':{
+                debugger;
+                this.message = "Please identify top right corner of card by clicking on an empty tile";
+                break;
               }
             }
           }

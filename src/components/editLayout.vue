@@ -196,6 +196,12 @@
                 this.$emit('viewStatusChangeFunction', ['clearCmd'])
                 break;
               }
+              case 'newCardSetup':{
+                this.newCardBeingAdded = true;
+                this.cstatus=this.WAITINGFORCLICK;
+
+                break;
+              }
             }
           }
         },

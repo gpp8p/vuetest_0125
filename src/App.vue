@@ -2,7 +2,7 @@
 
         <span class="layoutScreen">
           <section class="navbar">
-              <header-bar :message="message" :cmd="thisCmd" @register="register" @tabSelected="tabSelected" @login="login" @logError="logError" @viewStatusChangeFunction="viewStatusChange"></header-bar>
+              <header-bar :message="message" :cmd="this.thisCmd" @register="register" @tabSelected="tabSelected" @login="login" @logError="logError" @viewStatusChangeFunction="viewStatusChange"></header-bar>
           </section>
           <section class="content">
               <router-view @layoutMessage="showLayoutMessage"
@@ -13,8 +13,9 @@
                            @linkSelected="layoutSelected"
                            @viewStatusChangeFunction="viewStatusChange"
                            @cardSaved="cardSaved"
+                           @clearCmd="clearCmd"
                            :key="$route.fullPath"
-                           :cmd="thisCmd"></router-view>
+                           :cmd="this.thisCmd"></router-view>
           </section>
 
         </span>
@@ -69,9 +70,10 @@
       cardSaved(msg){
         console.log('App - card saved', msg);
         this.thisCmd="cardSaved";
+
         this.$router.push({
           name: 'displayLayout',
-          params: { layoutId: this.$store.getters.getCurrentLayoutId }
+          params: { layoutId: this.$store.getters.getCurrentLayoutId, layoutCmd: this.thisCmd }
         })
 
       },
@@ -121,10 +123,13 @@
             break;
           }
           case 'New Card':{
-            this.headerBarViewStatusChangeFunction(['New Card', 0]);
-            this.editViewStatusChangeFunction(['New Card', 0]);
-            this.displayViewStatusChangeFunction();
-            this.$eventHub.$emit('editStatusChanged', ['newCard',0]);
+            debugger;
+            this.thisCmd = 'newCardSetup';
+//           this.headerBarViewStatusChangeFunction(['New Card', 0]);
+//            this.editViewStatusChangeFunction(['New Card', 0]);
+//            this.displayViewStatusChangeFunction();
+//            this.$eventHub.$emit('editStatusChanged', ['newCard',0]);
+//            this.thisCmd='';
             break;
           }
           case 'Cancel Edit':{
