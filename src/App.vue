@@ -70,12 +70,14 @@
       cardSaved(msg){
         console.log('App - card saved', msg);
         this.thisCmd="cardSaved";
-
+/*
         this.$router.push({
           name: 'displayLayout',
           params: { layoutId: this.$store.getters.getCurrentLayoutId, layoutCmd: this.thisCmd }
         })
-
+*/
+        this.thisCmd = "cardSaved";
+        this.$router.go();
       },
       register(){
         debugger;

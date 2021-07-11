@@ -105,12 +105,13 @@
         {
           console.log('card saved:',response);
 //          debugger;
-          this.$emit('cardSaved', [this.newCardParams.layoutId]);
+//          this.$emit('cardSaved', [this.newCardParams.layoutId]);
+/*
           this.$router.push({
             name: 'displayLayout',
             params: { layoutId: this.$store.getters.getCurrentLayoutId }
           })
-
+*/
           this.$emit('cardSaved', [this.newCardParams.layoutId]);
         }).catch(function(error) {
           this.$emit('layoutMessage', ['error', 'There was an error saving this card',0 ]);
