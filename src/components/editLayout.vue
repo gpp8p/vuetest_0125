@@ -181,7 +181,7 @@
         },
 
         mounted(){
-//            debugger;
+            debugger;
             this.reloadLayout(this.$route.params.layoutId);
             this.displayStatus=false;
             this.$emit('viewStatusChangeFunction',['editLayout', this.viewStatusChangeFunction]);
@@ -292,7 +292,7 @@
               }
             },
             configSelected(msg){
-                debugger;
+//                debugger;
                 console.log('editLayout configSelected - ', msg);
                 switch(msg[0]){
                     case 'cancel':{

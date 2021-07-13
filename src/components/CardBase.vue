@@ -10,7 +10,7 @@
     },
     methods: {
       setCardData(cardData, cardDataElement, domElement) {
-      debugger;
+//      debugger;
       console.log('Card Base setCardData -','cardData:',cardData,'cardDataElement:', cardDataElement,'domElement - ',domElement);
       if(domElement=='main'){
         switch (cardDataElement) {
@@ -532,7 +532,7 @@
         console.log(jsonCardConfigurationPackage);
       },
       saveCardContent(cardContent, domElement){
-        debugger;
+//        debugger;
         console.log('saving-',cardContent);
         var cardConfigurationPackage = [this.cardId, cardContent];
         var jsonCardConfigurationPackage = JSON.stringify(cardConfigurationPackage);

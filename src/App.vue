@@ -14,7 +14,7 @@
                            @viewStatusChangeFunction="viewStatusChange"
                            @cardSaved="cardSaved"
                            @clearCmd="clearCmd"
-                           :key="$route.fullPath"
+                           :key="componentKey"
                            :cmd="this.thisCmd"></router-view>
           </section>
 
@@ -63,21 +63,22 @@
         headerBarViewStatusChangeFunction:null,
         editViewStatusChangeFunction:null,
         displayViewStatusChangeFunction:null,
-        thisCmd:''
+        thisCmd:'',
+        componentKey:0
       }
     },
     methods: {
       cardSaved(msg){
         console.log('App - card saved', msg);
-        this.thisCmd="cardSaved";
 /*
         this.$router.push({
-          name: 'displayLayout',
+          name: 'edit',
           params: { layoutId: this.$store.getters.getCurrentLayoutId, layoutCmd: this.thisCmd }
         })
 */
+//        debugger;
         this.thisCmd = "cardSaved";
-        this.$router.go();
+        this.componentKey+=1;
       },
       register(){
         debugger;
@@ -178,7 +179,7 @@
         }
       },
       viewStatusChange(msg){
-//        debugger;
+        debugger;
         switch(msg[0]){
           case 'headerBar':{
             this.headerBarViewStatusChangeFunction=msg[1];
@@ -186,6 +187,7 @@
           }
           case 'editLayout':{
             this.editViewStatusChangeFunction=msg[1];
+            this.thisCmd='editLayout';
             break;
           }
           case 'displayLayout':{

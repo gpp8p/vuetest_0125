@@ -56,12 +56,15 @@
           }
         },
         mounted(){
-          console.log('header bar mounted');
+          console.log('header bar has been mounted');
+          debugger;
+          this.menuItems = this.getMenuItems();
           this.$emit('viewStatusChangeFunction', ['headerBar',this.viewStatusChange]);
         },
         watch:{
           cmd: function(){
             var cmdElements = this.cmd.split(':');
+            debugger;
             console.log('headerBar cmd changed - ',cmdElements);
             switch(cmdElements[0]){
               case 'cardSaved':{
@@ -87,6 +90,12 @@
               case 'newCardSetup':{
                 debugger;
                 this.message = "Please identify top right corner of card by clicking on an empty tile";
+                break;
+              }
+              case 'editLayout':{
+                debugger;
+                this.menuItems = this.getMenuItems();
+         //       this.$emit('viewStatusChangeFunction', ['clearCmd']);
                 break;
               }
             }
@@ -184,7 +193,7 @@
                 this.menuItems=this.getMenuItems();
             },
             getMenuItems(){
-//                debugger;
+                debugger;
                 if(this.viewContext==this.VIEW_VIEWING){
                     if(this.topPerm==this.VIEW_PERM){
                         return ['Info', 'Comments','Test'];
