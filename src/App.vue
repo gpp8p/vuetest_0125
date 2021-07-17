@@ -258,12 +258,16 @@
 
       },
       layoutSelected(msg){
+        debugger;
         console.log('layoutSelected',msg);
         store.commit('setCurrentLayoutId', msg);
+
+
         this.$router.push({
           name: 'displayLayout',
           params: {layoutId: msg}
         })
+        this.$router.go();
       },
       testEmit(msg){
         console.log('router view caught:', msg);

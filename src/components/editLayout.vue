@@ -29,6 +29,7 @@
                                 @linkHelperRequested="linkHelperRequested"
                                 @ghostCard="ghostCard"
                                 @registerCard = "registerCard"
+                                @linkSelected="linkSelected"
                                 ref="key"
                         ></generic-card>
 
@@ -989,8 +990,11 @@
               var cardY = msg[1]-1;
               var cardX = msg[2]-1;
               this.genericCardMethods[cardY][cardX]=msg[0];
-          }
-
+          },
+          linkSelected(msg){
+//            console.log('link selected', msg);
+            this.$emit('linkSelected', msg);
+          },
 
 // end of methods
         },
