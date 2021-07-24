@@ -102,7 +102,7 @@ name: "linkMaster",
       currentPage: 1,
       perPage: 8,
       nxtPage: 'Next Page',
-
+      selected:'',
       orient:'vertical'
     }
   },
@@ -110,9 +110,18 @@ name: "linkMaster",
     cmd: function(){
       console.log('linkMaster cmd changed-', this.cmd);
       debugger;
-      switch(this.cmd){
+
+      var cmdElements = this.cmd.split(':');
+      debugger;
+      console.log('linkMaster cmd changed - ',cmdElements);
+      switch(cmdElements[0]){
         case 'save':{
           this.$emit('saveCardContent', [this.currentCardData, 'linkContent', 'main'] );
+          break;
+        }
+        case 'delete':{
+          console.log('cmd - delete', cmdElements[1]);
+          this.$emit('clearCmd');
           break;
         }
       }
@@ -130,6 +139,10 @@ name: "linkMaster",
       }).catch(e=>{
         console.log(e);
       });
+    },
+    linkSelected(msg){
+      console.log('selected=', msg);
+      this.$emit('linkSelected',[msg.id]);
     }
   }
 }

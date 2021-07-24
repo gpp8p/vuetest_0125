@@ -11,7 +11,7 @@
         <br/>
 
       <div class="dialogComponentBody">
-        <link-master v-if="mode==this.LINK_MENU_EDIT" :cardData="cardData" :cardId = "this.cardId" :cmd="cmd" @saveCardContent="saveCardContent"></link-master>
+        <link-master v-if="mode==this.LINK_MENU_EDIT" :cardData="cardData" :cardId = "this.cardId" :cmd="cmd" @saveCardContent="saveCardContent" @linkSelected="linkSelected" @clearCmd="clearCmd"></link-master>
         <editor-ck v-if="mode==this.DIALOG_EDIT" :cardData="cardData" :cmd="cmd" @saveContent="cardSaved" @editorReady="editorReady" @currentContent="currentContent"></editor-ck>
         <layout-list v-if="mode==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected"></layout-list>
         <create-layout v-if="mode==this.DIALOG_NEW_LAYOUT" :cmd="cmd" @layoutData="layoutData"></create-layout>
@@ -373,8 +373,19 @@ import axios from "axios";
 //                  this.clearCmd();
                   break;
                 }
+                case 'DeleteLink':{
+                  this.cmd="delete:"+this.selectedLink;
+  //                this.clearCmd();
+                  break;
+                }
               }
             },
+          linkSelected(msg){
+            console.log(msg);
+            this.selectedLink = msg[0];
+            var mOpts = this.getMenuOpts('menuLinkSelected');
+            this.currentMenuOpts = mOpts.currentMenuOpts;
+          },
           getMenuOpts(menuContext){
 //              debugger;
             console.log('Dialog2 getMenuOpts menuContext:', menuContext);
@@ -392,10 +403,8 @@ import axios from "axios";
               case 'menuLinkSelected':{
                   return {
                     currentMenuOpts: [
-                      ['Add', 'AddLink'],
-                      ['Delete', 'DeleteLink'],
+                      ['Delete Link', 'DeleteLink'],
                       ['Cancel','Cancel'],
-                      ['Save','SaveLinkMenu']
                     ],
                     currentSelectedMenuOption: 'Cancel'
                   }
@@ -602,6 +611,8 @@ import axios from "axios";
 
                 currentlySelectedLayout:0,
                 currentlySelectedLayoutDescription:'',
+                selectedLink:0
+
 
 
 
