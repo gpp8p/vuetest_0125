@@ -11,7 +11,7 @@
         <br/>
 
       <div class="dialogComponentBody">
-        <link-master v-if="mode==this.LINK_MENU_EDIT" :cardData="cardData" :cardId = "this.cardId" :cmd="cmd" @saveCardContent="saveCardContent" @linkSelected="linkSelected" @clearCmd="clearCmd"></link-master>
+        <link-master v-if="mode==this.LINK_MENU_EDIT" :cardData="cardData" :cardId = "this.cardId" :cmd="cmd" @saveCardContent="saveCardContent" @linkSelected="linkSelected" @linkDeleted="linkDeleted"></link-master>
         <editor-ck v-if="mode==this.DIALOG_EDIT" :cardData="cardData" :cmd="cmd" @saveContent="cardSaved" @editorReady="editorReady" @currentContent="currentContent"></editor-ck>
         <layout-list v-if="mode==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected"></layout-list>
         <create-layout v-if="mode==this.DIALOG_NEW_LAYOUT" :cmd="cmd" @layoutData="layoutData"></create-layout>
@@ -138,6 +138,9 @@ import axios from "axios";
             },
             cancelClicked(){
                 this.$emit('configSelected',['cancel']);
+            },
+            linkDeleted(){
+              this.$emit('configSelected',['cancel']);
             },
             editorReady(msg){
               this.editorInUse=msg;
@@ -375,6 +378,7 @@ import axios from "axios";
                 }
                 case 'DeleteLink':{
                   this.cmd="delete:"+this.selectedLink;
+                  console.log('delete cmd = ',this.cmd);
   //                this.clearCmd();
                   break;
                 }

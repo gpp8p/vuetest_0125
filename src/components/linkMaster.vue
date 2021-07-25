@@ -121,7 +121,8 @@ name: "linkMaster",
         }
         case 'delete':{
           console.log('cmd - delete', cmdElements[1]);
-          this.$emit('clearCmd');
+          this.deleteThisLink(cmdElements[1]);
+//          this.$emit('clearCmd');
           break;
         }
       }
@@ -140,6 +141,20 @@ name: "linkMaster",
         console.log(e);
       });
     },
+    deleteThisLink(linkId){
+      axios.get('http://localhost:8000/api/shan/deleteLink?XDEBUG_SESSION_START=15122"', {
+        params:{
+          linkId:linkId,
+        }
+      }).then(response=> {
+        console.log('deleteLink',response);
+        this.$emit('linkDeleted');
+      }).catch(e=>{
+        console.log(e);
+      });
+    },
+
+
     linkSelected(msg){
       console.log('selected=', msg);
       this.$emit('linkSelected',[msg.id]);
