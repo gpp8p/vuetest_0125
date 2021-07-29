@@ -797,6 +797,7 @@
                       this.fillSelectedArea(this.genericCardMethods, this.topLeftRow, this.topLeftCol, this.bottomRightRow, this.bottomRightCol, '66BB6A');
                       axios.post('http://localhost:8000/api/shan/resizeCard?XDEBUG_SESSION_START=12016', {
                           cardId: this.resizeCardId,
+                          layoutId: this.$store.getters.getCurrentLayoutId,
                           row: this.topLeftRow,
                           col: this.topLeftCol,
                           height: newHeight+1,
