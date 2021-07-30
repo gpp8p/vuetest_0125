@@ -306,11 +306,24 @@ export default {
           this.cObjectVersion=this.cObjectVersion+1;
           break;
         }
+         case 'DeleteCard':{
+           mOpts = this.getMenuOpts('deleteChoice');
+           this.currentMenuOpts = mOpts.currentMenuOpts;
+           break;
+         }
+         case 'RmvLay':{
+           console.log('remove from layout selected');
+           break;
+         }
+         case 'DelCardFromDb':{
+           console.log('remove from db selected');
+           break;
+         }
       }
     },
     getMenuOpts(menuContext){
 //              debugger;
-      console.log('Dialog2 getMenuOpts menuContext:', menuContext);
+//      console.log('Dialog2 getMenuOpts menuContext:', menuContext);
       switch(menuContext){
         case 'richTextOpen':{
           return {
@@ -357,9 +370,20 @@ export default {
             currentMenuOpts:[
               ['Configure','Configure'],
               ['Resize/Move', 'Resize'],
+              ['Del','DeleteCard'],
               ['Edit', 'Edit']
             ],
             currentMenuSelection: 'Configure'
+          }
+        }
+        case 'deleteChoice':{
+          return {
+            currentMenuOpts :[
+                ['Remove from Layout', 'RmvLay'],
+                ['Delete Card', 'DelCardFromDb'],
+                ['Cancel', 'Cancel']
+            ],
+            currentMenuSelection: 'Cancel'
           }
         }
 

@@ -1,42 +1,29 @@
 <template>
   <div>
+
     <div class="cardStyle" v-if="this.editStatus==false">
-      <div class="cardHeader" v-if="displayStatus==false">
-        <span>
-          <a href="#" v-on:click="configureClicked" >Configure</a>
-        </span>
-        <span>
-          <a href="#" v-on:click="moveClicked" >Resize/Move</a>
-        </span>
-        <span>
-          <a href="#"  v-on:click="editClicked" >Edit</a>
-        </span>
-      </div>
-    {{ this.cardTitle }}
+
+        <div class="cardHeader" v-if="showOptions==true">
+          <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
+        </div>
+      {{ this.cardTitle }}
     </div>
-    <div class="cardStyle" v-if="this.editStatus==true">
-      <div class="cardHeader" v-if="displayStatus==false">
-        <span class="textLeft">
-          <a href="#" v-on:click="configureClicked" >Configure</a>
-        </span>
-        <span class="textRight">
-          <a href="#"  v-on:click="editClicked" >Edit</a>
-        </span>
-      </div>
-      <span>
-        <textarea type="textarea" v-model="cardTitle" width="100%"></textarea>
-        <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
-      </span>
+    <span v-if="this.editStatus==true">
+        <div class="cardHeader" v-if="showOptions==true">
+          <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
+        </div>
+      <textarea type="textarea" v-model="cardTitle" width="100%"></textarea>
+    </span>
 
 
     </div>
-  </div>
+
 </template>
 
 <script>
 /* eslint-disable no-console,no-debugger */
 import CardBase from "../components/CardBase.vue";
-import menuOpt from "../components/menuOpt.vue";
+import menuOpt from "../components/menuOptV2.vue";
 export default {
   name: "greenComponent",
   components: {menuOpt},
@@ -87,6 +74,15 @@ export default {
       required: false
     }
   },
+  mounted(){
+    if(this.displayStatus==true){
+      this.showOptions=false;
+    }else{
+      this.showOptions=true;
+    }
+    var mOpts = this.getMenuOpts('entryMenu');
+    this.currentMenuOpts = mOpts.currentMenuOpts;
+  },
   watch:{
     cmd: function() {
       console.log('green component cmd changed-', this.cmd);
@@ -111,6 +107,7 @@ export default {
       editStatus:false,
       currentMenuOpts: ['Save', 'Cancel'],
       tCmd: this.cmdObject,
+      showOptions:false,
 /*
       configurationCurrentValues:{
         "backgroundTypeColor":'checked',
@@ -251,6 +248,9 @@ export default {
       this.$emit('ghostCard');
     },
     editClicked(){
+      var mOpts = this.getMenuOpts('editing');
+      this.currentMenuOpts = mOpts.currentMenuOpts;
+
       this.editStatus = true;
       this.$emit("editClick", [
         "cardClicked",
@@ -261,15 +261,51 @@ export default {
         this.configurationCurrentValues,
       ]);
     },
+    getMenuOpts(menuContext){
+      switch(menuContext){
+        case'entryMenu':{
+          return {
+            currentMenuOpts:[
+              ['Configure','Configure'],
+              ['Resize/Move', 'Resize'],
+              ['Del','DeleteCard'],
+              ['Edit', 'Edit']
+            ],
+            currentMenuSelection: 'Configure'
+          }
+        }
+        case 'deleteChoice':{
+          return {
+            currentMenuOpts :[
+              ['Remove from Layout', 'RmvLay'],
+              ['Delete Card', 'DelCardFromDb'],
+              ['Cancel', 'Cancel']
+            ],
+            currentMenuSelection: 'Cancel'
+          }
+        }
+        case 'editing':{
+          return {
+            currentMenuOpts :[
+              ['Save', 'saveContent'],
+              ['Cancel', 'Cancel']
+            ],
+            currentMenuSelection: 'Cancel'
+          }
+        }
+      }
+    },
     menuOptSelected(msg){
       console.log(msg);
       switch(msg){
         case 'Cancel':{
+          this.editStatus = false;
+          var mOpts = this.getMenuOpts('entryMenu');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
 
-          this.editStatus=false;
           break;
         }
-        case 'Save':{
+        case 'saveContent':{
           var titleValue = {
             title:this.cardTitle
           }
@@ -278,6 +314,32 @@ export default {
           this.editStatus=false;
           break;
         }
+        case 'Configure':{
+          this.configureClicked();
+          break;
+        }
+        case 'Resize':{
+          this.moveClicked();
+          break;
+        }
+        case 'Edit':{
+          this.editClicked();
+          break;
+        }
+        case 'DeleteCard':{
+          mOpts = this.getMenuOpts('deleteChoice');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          break;
+        }
+        case 'RmvLay':{
+          console.log('remove from layout selected');
+          break;
+        }
+        case 'DelCardFromDb':{
+          console.log('remove from db selected');
+          break;
+        }
+
       }
     },
     dialogMenuSelected(msg){
