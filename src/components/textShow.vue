@@ -27,6 +27,7 @@
 import CardBase from "../components/CardBase.vue";
 import editorCk from '../components/editorCk.vue'
 import menuOpt from "../components/menuOptV2.vue";
+import axios from "axios";
 //import axios from "axios";
 export default {
   name: "textShow",
@@ -313,10 +314,42 @@ export default {
          }
          case 'RmvLay':{
            console.log('remove from layout selected');
+           axios.get('http://localhost:8000/api/shan/rmvlay?XDEBUG_SESSION_START=14668', {
+             params:{
+               layoutId: this.$store.getters.getCurrentLayoutId,
+               cardId: this.cardId,
+               orgId:this.$store.getters.getOrgId
+             }
+           })
+               .then(response => {
+                 console.log(response);
+                 this.$emit('configurationHasBeenSaved');
+               })
+               .catch(e => {
+                 this.errors.push(e);
+                 console.log('remove card from layout failed');
+               });
+
            break;
          }
          case 'DelCardFromDb':{
            console.log('remove from db selected');
+           axios.get('http://localhost:8000/api/shan/deleteCard?XDEBUG_SESSION_START=14668', {
+             params:{
+               layoutId: this.$store.getters.getCurrentLayoutId,
+               cardId: this.cardId,
+               orgId:this.$store.getters.getOrgId
+             }
+           })
+               .then(response => {
+                 console.log(response);
+                 this.$emit('configurationHasBeenSaved');
+               })
+               .catch(e => {
+                 this.errors.push(e);
+                 console.log('remove card from layout failed');
+               });
+
            break;
          }
       }
