@@ -3,10 +3,14 @@
     <span v-if="selectedMenuOption=='Create New Card'" >
       <span class="labelPlusInput">
         <span>Card Name:</span>
-        <input v-model="cardName" size="30"/>
+        <input v-model="cardName" size="40"/>
       </span>
       <span>
         <select-picker :pType="cardPtypeReference" :dialogKey="this.dKey" :label="cardTypeLabel" :options="cardTypeOptions" :currentValues="currentValues" @configSelected="configSelected"></select-picker>
+      </span>
+      <span class="labelPlusInput">
+        <span>Restricted:</span>
+        <input v-model="restricted" type="checkbox"/>
       </span>
 
     </span>
@@ -28,6 +32,8 @@
         openMenuOption:'Create New Card',
         cardName:'',
         cardType:'',
+        restricted: false,
+        rval:' ',
         cardTypeLabel: 'Card Type:',
         cardPtypeReference: 'cardType',
         cardTypeOptions: ['Headline', 'RichText', 'linkMenu'],
@@ -66,8 +72,10 @@
         console.log(this.newCardParams);
         switch(this.newCardParams.cmd){
           case 'createCard':{
+            debugger;
             this.insertCard(this.newCardParams.layoutId,
                             this.newCardParams.title,
+                            this.newCardParams.restricted,
                             this.newCardParams.cardType,
                             this.newCardParams.tlRow,
                             this.newCardParams.tlCol,
@@ -91,11 +99,19 @@
       getCardType(){
         return this.cardType;
       },
-      insertCard(layoutId, title, cardType, tlrow, tlcol, brrow, brcol){
+      getCardRestriction(){
+        if(this.restricted){
+          return 'T';
+        }else{
+          return 'F';
+        }
+      },
+      insertCard(layoutId, title, restricted, cardType, tlrow, tlcol, brrow, brcol){
                 debugger;
         axios.post('http://localhost:8000/api/shan/saveCardOnly?XDEBUG_SESSION_START=12016', {
           layoutId: layoutId,
           cardTitle: title,
+          restricted: restricted,
           cardType: cardType,
           topLeftRow: tlrow,
           topLeftCol: tlcol,

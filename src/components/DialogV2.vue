@@ -259,8 +259,9 @@
 //                  debugger;
                   this.currentSelectedMenuOption = msg;
                   var newCardTitle = this.$refs.newCardDialog.getCardTitle();
-                  var newCardType = this.$refs.newCardDialog.getCardType()
-                  this.$emit('configSelected', ['Create New Card', newCardTitle, newCardType]);
+                  var newCardType = this.$refs.newCardDialog.getCardType();
+                  var newCardRestriction = this.$refs.newCardDialog.getCardRestriction();
+                  this.$emit('configSelected', ['Create New Card', newCardTitle, newCardType, newCardRestriction]);
                   break;
                 }
                 case 'Save Registration':{

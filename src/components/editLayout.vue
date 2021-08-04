@@ -397,7 +397,7 @@
                       debugger;
                       var currentLayoutId = this.$store.getters.getCurrentLayoutId;
                       console.log(msg);
-                      console.log(currentLayoutId, msg[1], msg[2], this.topLeftRow, this.topLeftCol, this.bottomRightRow, this.bottomRightCol);
+                      console.log(currentLayoutId, msg[1], msg[2], msg[3], this.topLeftRow, this.topLeftCol, this.bottomRightRow, this.bottomRightCol);
                       if(msg[1].length==0 | msg[2].length==0){
                         this.$emit('layoutMessage', ['error', 'You must include both a card name and a card type',0 ]);
                       }else{
@@ -408,6 +408,7 @@
                         layoutId: currentLayoutId,
                         title: msg[1],
                         cardType: msg[2],
+                        restricted: msg[3],
                         tlRow: this.topLeftRow,
                         tlCol:this.topLeftCol,
                         brRow:this.bottomRightRow,
@@ -415,7 +416,7 @@
 
                       }
                       this.dialogCmd = JSON.stringify(newCardParams);
-                      console.log(currentLayoutId, msg[1], msg[2], this.topLeftRow, this.topLeftCol, this.bottomRightRow, this.bottomRightCol);
+                      console.log(currentLayoutId, msg[1], msg[2], msg[3], this.topLeftRow, this.topLeftCol, this.bottomRightRow, this.bottomRightCol);
 //                      this.insertCard(currentLayoutId, msg[1], msg[2], this.topLeftRow, this.topLeftCol, this.bottomRightRow, this.bottomRightCol);
                       break;
 
