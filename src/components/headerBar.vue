@@ -203,7 +203,7 @@
                         return ['Edit','Delete', 'Publish', 'Create', 'Access','My Spaces', 'Organizations','Test'];
                     }
                 }else if(this.viewContext==this.VIEW_EDITING){
-                    return ['New Card', 'Save', 'Cancel Edit'];
+                    return ['Insert Card','New Card', 'Save', 'Cancel Edit'];
                 }
 
             },

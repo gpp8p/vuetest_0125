@@ -176,6 +176,21 @@
             this.thisCmd='deleteLayout';
             break;
           }
+          case 'Insert Card':{
+            axios.get('http://localhost:8000/api/shan/cardList?XDEBUG_SESSION_START=14668', {
+              params:{
+                orgId: this.$store.getters.getOrgId
+              }
+            })
+                .then(response => {
+                  console.log(response);
+                })
+                .catch(e => {
+                  console.log(e,'test failed');
+                });
+
+            break;
+          }
           case 'Test':{
             debugger;
             axios.get('http://localhost:8000/api/shan/layoutTest?XDEBUG_SESSION_START=14668', {
