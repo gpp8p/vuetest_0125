@@ -59,6 +59,7 @@
                        @registrationSaved="registrationSaved"
             ></organizations>
         <layout-list v-if="dialogType==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected"></layout-list>
+        <insert-card-select :cmd = "cmd" v-if="dialogType==this.DIALOG_INSERT_CARD"></insert-card-select>
       </div>
       <div class="dialogComponentFooter">
           <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -79,13 +80,14 @@
     import userExists from "../components/userExists.vue";
     import cardConfigurationSettings from "../components/cardConfigurationSettings.vue";
     import layoutList from "../components/layoutList.vue";
+    import insertCardSelect from "../components/insertCardSelect.vue";
 
 
  //   import store from "@/store";
     import RegisterUser from "@/components/registerUser";
     export default {
         name: "Dialog",
-        components :{RegisterUser, menuOpt, newCardCreate, newLayout, AreYouSure, PermList, organizations, userExists, cardConfigurationSettings, layoutList},
+        components :{RegisterUser, menuOpt, newCardCreate, newLayout, AreYouSure, PermList, organizations, userExists, cardConfigurationSettings, layoutList, insertCardSelect},
         props:{
             dialogType:{
                 type: Number,
@@ -138,6 +140,14 @@
           cmd: function(){
             debugger;
             console.log('Dialog cmd changed:',this.cmd);
+            switch(this.cmd){
+              case 'insertCard':{
+                var mOpts = this.getMenuOpts('insertCard');
+                this.currentMenuOpts = mOpts.currentMenuOpts;
+                this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+                break;
+              }
+            }
 /*
             var cmdElements = this.cmd.split(':');
             switch(cmdElements[0]){
@@ -315,6 +325,14 @@
                       ['Create New Card','Create New Card']
                     ],
                     currentSelectedMenuOption: 'Create New Card'
+                  }
+                }
+                case 'insertCard':{
+                  return {
+                    currentMenuOpts: [
+                      ['Cancel','Cancel'],
+                    ],
+                    currentSelectedMenuOption: 'Cancel'
                   }
                 }
                 case 'textShow':{

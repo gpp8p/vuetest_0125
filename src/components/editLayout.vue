@@ -107,6 +107,7 @@
                 DIALOG_CONFIGURE_CARD:10,
                 DIALOG_CREATE_CARD:3,
                  DIALOG_LAYOUT_LIST:11,
+                DIALOG_INSERT_CARD:12,
 
                 displayStatus:true,
                 dialogKey:0,
@@ -201,6 +202,11 @@
                 this.newCardBeingAdded = true;
                 this.cstatus=this.WAITINGFORCLICK;
 
+                break;
+              }
+              case 'insertCard':{
+                this.dialogCmd = this.cmd;
+                this.dialogType= this.DIALOG_INSERT_CARD;
                 break;
               }
             }
