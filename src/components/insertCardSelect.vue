@@ -24,7 +24,15 @@ import axios from "axios";
 
 export default {
 name: "insertCardSelect",
+  props:{
+    cmd:{
+      type: String,
+      required: true
+    }
+  },
+
   mounted(){
+    console.log('insertCardSelect has been mounted');
     axios.get('http://localhost:8000/api/shan/cardList?XDEBUG_SESSION_START=14668', {
       params:{
         orgId: this.$store.getters.getOrgId
@@ -32,6 +40,7 @@ name: "insertCardSelect",
     })
         .then(response => {
           console.log(response);
+          this.cards = response.data;
         })
         .catch(e => {
           console.log(e,'test failed');
@@ -48,7 +57,7 @@ name: "insertCardSelect",
       sortIcon: 'arrow-up',
       sortIconSize: 'small',
       currentPage: 1,
-      perPage: 4,
+      perPage: 5,
       nxtPage: 'Next Page',
       prevIcon: 'chevron-left',
       nextIcon: 'chevron-right',
@@ -56,6 +65,7 @@ name: "insertCardSelect",
       cardColumns:[
         {
           field: 'id',
+          label: 'ID',
           numeric: true,
           visible: false
         },

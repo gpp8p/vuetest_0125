@@ -648,6 +648,7 @@
                 DIALOG_USER_EXISTS:9,
                 DIALOG_CONFIGURE_CARD:10,
                 DIALOG_LAYOUT_LIST:11,
+                DIALOG_INSERT_CARD:12,
                 titleMsg:'Headline Card',
 
                 sureMsg:'',
