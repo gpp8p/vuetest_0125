@@ -47,6 +47,25 @@ name: "insertCardSelect",
         });
 
   },
+  methods:{
+      cardSelected(msg){
+        console.log(msg);
+        axios.post('http://localhost:8000/api/shan/cardInsert?XDEBUG_SESSION_START=14668', {
+          params:{
+            cardId: msg.id,
+            toLayout: this.$store.getters.getCurrentLayoutId
+          }
+        })
+            .then(response => {
+              console.log(response);
+
+            })
+            .catch(e => {
+              console.log(e,'test failed');
+            });
+
+      }
+  },
   data(){
     return {
       cards:[],
