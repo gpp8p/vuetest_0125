@@ -59,7 +59,7 @@
                        @registrationSaved="registrationSaved"
             ></organizations>
         <layout-list v-if="dialogType==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected"></layout-list>
-        <insert-card-select :cmd = "cmd" v-if="dialogType==this.DIALOG_INSERT_CARD"></insert-card-select>
+        <insert-card-select :cmd = "cmd" v-if="dialogType==this.DIALOG_INSERT_CARD" @cardSaved="cardSaved"></insert-card-select>
       </div>
       <div class="dialogComponentFooter">
           <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>

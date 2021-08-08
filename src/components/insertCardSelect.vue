@@ -58,6 +58,7 @@ name: "insertCardSelect",
         })
             .then(response => {
               console.log(response);
+              this.$emit('cardSaved');
 
             })
             .catch(e => {
