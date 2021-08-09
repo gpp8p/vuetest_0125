@@ -71,6 +71,12 @@ name: "PermList",
   watch:{
     cmd: function(){
       console.log('PermList cmd changed - ', this.cmd);
+      switch(this.cmd){
+        case 'AddMemberGroup':{
+          this.orgMemberSelected(this.selectedMemberId);
+          break;
+        }
+      }
     },
     selectedMenuOption: function(){
       debugger;
@@ -383,6 +389,7 @@ name: "PermList",
       axios.post('http://localhost:8000/api/shan/addUserToGroup?XDEBUG_SESSION_START=15022', {
         params:{
           groupId: this.selectedGroupId,
+//          orgId:this.$store.getters.getOrgId,
           selectedUserId: userId
         }
       }).then(response=>

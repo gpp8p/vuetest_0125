@@ -419,7 +419,7 @@
                 case 'adminAddMemberMenu':{
                   return {
                     currentMenuOpts:[
-                      ['Add Member To Group', 'Add Member To Group'],
+                      ['Add Member To Group', 'AddMemberGroup'],
                       ['Back', 'Back'],
                       ['Done', 'Done']
                     ],

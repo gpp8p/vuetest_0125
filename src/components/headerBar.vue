@@ -192,6 +192,64 @@
                 }
                 this.menuItems=this.getMenuItems();
             },
+            getMenuOpts(menuContext){
+              switch(menuContext){
+                case 'viewingOnly':{
+                  return {
+                    currentMenuOpts: [
+                      ['Info','Info'],
+                      ['Comments', 'Comments'],
+                      ['Test', 'Test']
+                   ],
+                    currentSelectedMenuOption: 'Info'
+                  }
+                }
+                case 'authoring':{
+                  return {
+                    currentMenuOpts: [
+                      ['Edit','Edit'],
+                      ['Delete', 'Delete'],
+                      ['Publish', 'Publish'],
+                      ['Comments', 'Comments'],
+                      ['Info', 'Info'],
+                      ['Test', 'Test']
+                    ],
+                    currentSelectedMenuOption: 'Info'
+                  }
+
+                }
+                case 'admin':{
+                  return {
+                    currentMenuOpts: [
+                      ['Edit','Edit'],
+                      ['Delete', 'Delete'],
+                      ['Publish', 'Publish'],
+                      ['Comments', 'Comments'],
+                      ['Create','Create'],
+                      ['Access','Access'],
+                      ['My Spaces', 'My Spaces'],
+                      ['Organizations', 'Organizations'],
+                      ['Info', 'Info'],
+                      ['Test', 'Test']
+                    ],
+                    currentSelectedMenuOption: 'Info'
+                  }
+
+                }
+                case 'viewEdit':{
+                  return {
+                    currentMenuOpts: [
+                      ['Insert Existing Card', 'Insert Card'],
+                      ['Create a New Card', 'New Card'],
+                      ['Info','Info'],
+                      ['Exit', 'Cancel Edit']
+                    ],
+                    currentSelectedMenuOption: 'Info'
+                  }
+                }
+              }
+
+            },
             getMenuItems(){
                 debugger;
                 if(this.viewContext==this.VIEW_VIEWING){
@@ -203,7 +261,7 @@
                         return ['Edit','Delete', 'Publish', 'Create', 'Access','My Spaces', 'Organizations','Test'];
                     }
                 }else if(this.viewContext==this.VIEW_EDITING){
-                    return ['Insert Card','New Card', 'Save', 'Cancel Edit'];
+                    return ['Insert Card','New Card', 'Cancel Edit'];
                 }
 
             },
