@@ -110,8 +110,14 @@ export default {
     }
   },
   mounted(){
-      this.subStyle = this.elementStyles.sub[0];
-//      debugger;
+      debugger;
+      if (typeof(this.elementStyles) === 'undefined'){
+        this.subStyle = '';
+      }else{
+        this.subStyle = this.elementStyles.sub[0];
+      }
+
+
       console.log('cardContent=',this.cardContent);
       if(typeof(this.cardContent.linkMenuTitle)=='undefined'){
         this.cardTitle='';

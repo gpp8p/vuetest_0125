@@ -125,7 +125,7 @@
 //            this.displayViewStatusChangeFunction(['organizations',0]);
             break;
           }
-          case 'New Card':{
+          case 'Create A New Card':{
             debugger;
             this.thisCmd = 'newCardSetup';
 //           this.headerBarViewStatusChangeFunction(['New Card', 0]);
@@ -135,7 +135,7 @@
 //            this.thisCmd='';
             break;
           }
-          case 'Cancel Edit':{
+          case 'Exit':{
 //            debugger;
 //            this.$eventHub.$emit('editStatusChanged', ['cancelEdit',0]);
             this.$router.push({
@@ -176,7 +176,7 @@
             this.thisCmd='deleteLayout';
             break;
           }
-          case 'Insert Card':{
+          case 'Insert Existing Card':{
             this.thisCmd='insertCard';
             break;
           }
@@ -197,7 +197,7 @@
         }
       },
       viewStatusChange(msg){
-        debugger;
+//        debugger;
         switch(msg[0]){
           case 'headerBar':{
             this.headerBarViewStatusChangeFunction=msg[1];

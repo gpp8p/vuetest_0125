@@ -64,7 +64,7 @@
         watch:{
           cmd: function(){
             var cmdElements = this.cmd.split(':');
-            debugger;
+//            debugger;
             console.log('headerBar cmd changed - ',cmdElements);
             switch(cmdElements[0]){
               case 'cardSaved':{
@@ -93,7 +93,7 @@
                 break;
               }
               case 'editLayout':{
-                debugger;
+//                debugger;
                 this.menuItems = this.getMenuItems();
          //       this.$emit('viewStatusChangeFunction', ['clearCmd']);
                 break;
@@ -192,66 +192,8 @@
                 }
                 this.menuItems=this.getMenuItems();
             },
-            getMenuOpts(menuContext){
-              switch(menuContext){
-                case 'viewingOnly':{
-                  return {
-                    currentMenuOpts: [
-                      ['Info','Info'],
-                      ['Comments', 'Comments'],
-                      ['Test', 'Test']
-                   ],
-                    currentSelectedMenuOption: 'Info'
-                  }
-                }
-                case 'authoring':{
-                  return {
-                    currentMenuOpts: [
-                      ['Edit','Edit'],
-                      ['Delete', 'Delete'],
-                      ['Publish', 'Publish'],
-                      ['Comments', 'Comments'],
-                      ['Info', 'Info'],
-                      ['Test', 'Test']
-                    ],
-                    currentSelectedMenuOption: 'Info'
-                  }
-
-                }
-                case 'admin':{
-                  return {
-                    currentMenuOpts: [
-                      ['Edit','Edit'],
-                      ['Delete', 'Delete'],
-                      ['Publish', 'Publish'],
-                      ['Comments', 'Comments'],
-                      ['Create','Create'],
-                      ['Access','Access'],
-                      ['My Spaces', 'My Spaces'],
-                      ['Organizations', 'Organizations'],
-                      ['Info', 'Info'],
-                      ['Test', 'Test']
-                    ],
-                    currentSelectedMenuOption: 'Info'
-                  }
-
-                }
-                case 'viewEdit':{
-                  return {
-                    currentMenuOpts: [
-                      ['Insert Existing Card', 'Insert Card'],
-                      ['Create a New Card', 'New Card'],
-                      ['Info','Info'],
-                      ['Exit', 'Cancel Edit']
-                    ],
-                    currentSelectedMenuOption: 'Info'
-                  }
-                }
-              }
-
-            },
             getMenuItems(){
-                debugger;
+//                debugger;
                 if(this.viewContext==this.VIEW_VIEWING){
                     if(this.topPerm==this.VIEW_PERM){
                         return ['Info', 'Comments','Test'];
@@ -261,7 +203,7 @@
                         return ['Edit','Delete', 'Publish', 'Create', 'Access','My Spaces', 'Organizations','Test'];
                     }
                 }else if(this.viewContext==this.VIEW_EDITING){
-                    return ['Insert Card','New Card', 'Cancel Edit'];
+                    return ['Insert Existing Card','Create A New Card', 'Exit'];
                 }
 
             },
