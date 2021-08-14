@@ -132,6 +132,7 @@ export default {
       var mOpts = this.getMenuOpts('entryMenu');
       this.currentMenuOpts = mOpts.currentMenuOpts;
 
+      
 
   },
   watch:{
