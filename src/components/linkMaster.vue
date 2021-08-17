@@ -9,8 +9,8 @@
       </span>
       <span>
         Orientation:
-        <input type="radio" name="orientation" value="vertical" v-model="currentCardData.orient" />-Vertical
-        <input type="radio" name="orientation" value="horozontal" v-model="currentCardData.orient" />-Horizontal
+        <input type="radio" name="orientation" value="vertical" v-model="currentCardData.orient" @click="orientClicked"/>-Vertical
+        <input type="radio" name="orientation" value="horozontal" v-model="currentCardData.orient" @click="orientClicked"/>-Horizontal
       </span>
     </span>
     <span>
@@ -55,6 +55,9 @@ name: "linkMaster",
   mounted(){
 //    this.getLinksForCard(this.cardId);
     this.currentCardData= JSON.parse(this.cardData);
+    if(typeof this.currentCardData.orient != 'undefined'){
+      this.$emit('orientSelected');
+    }
 
   },
 
@@ -103,7 +106,7 @@ name: "linkMaster",
       perPage: 8,
       nxtPage: 'Next Page',
       selected:'',
-      orient:'vertical'
+      orient:''
     }
   },
   watch:{
@@ -116,7 +119,36 @@ name: "linkMaster",
       console.log('linkMaster cmd changed - ',cmdElements);
       switch(cmdElements[0]){
         case 'save':{
-          this.$emit('saveCardContent', [this.currentCardData, 'linkContent', 'main'] );
+          debugger;
+          if(typeof this.currentCardData.orient === 'undefined'){
+            alert('You must select an orientation and save!');
+          }else{
+            console.log('this.currentCardData=',this.currentCardData);
+
+            console.log(jsonCardConfigurationPackage);
+            var cardConfigurationPackage = [this.cardId, this.currentCardData];
+            var domElement = 'main';
+            var jsonCardConfigurationPackage = JSON.stringify(cardConfigurationPackage);
+            axios.post('http://localhost:8000/api/shan/saveCardContent?XDEBUG_SESSION_START=14252', {
+              cardParams: jsonCardConfigurationPackage,
+              domElement: domElement,
+              org: this.$store.getters.getOrgId,
+              layoutId: this.$store.getters.getCurrentLayoutId
+            }).then(response=>
+            {
+              console.log(response);
+              alert('card saved');
+//              this.$emit('configurationHasBeenSaved')
+            }).catch(function(error) {
+              console.log(error);
+            });
+
+          }
+
+            debugger;
+//            this.$emit('saveCardContent', [this.currentCardData, 'linkContent', 'main'] );
+
+
           break;
         }
         case 'delete':{
@@ -140,6 +172,12 @@ name: "linkMaster",
       }).catch(e=>{
         console.log(e);
       });
+    },
+    orientClicked(){
+      this.$emit('orientSelected');
+    },
+    cardSave(){
+      this.$emit('saveCardContent', [this.currentCardData, 'linkContent', 'main'] );
     },
     deleteThisLink(linkId){
       axios.get('http://localhost:8000/api/shan/deleteLink?XDEBUG_SESSION_START=15122"', {

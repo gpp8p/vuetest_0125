@@ -133,7 +133,7 @@ export default {
       this.currentMenuOpts = mOpts.currentMenuOpts;
 
 
-      
+
 
   },
   watch:{

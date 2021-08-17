@@ -11,7 +11,7 @@
         <br/>
 
       <div class="dialogComponentBody">
-        <link-master v-if="mode==this.LINK_MENU_EDIT" :cardData="cardData" :cardId = "this.cardId" :cmd="cmd" @saveCardContent="saveCardContent" @linkSelected="linkSelected" @linkDeleted="linkDeleted"></link-master>
+        <link-master v-if="mode==this.LINK_MENU_EDIT" :cardData="cardData" :cardId = "this.cardId" :cmd="cmd" @saveCardContent="saveCardContent" @linkSelected="linkSelected" @linkDeleted="linkDeleted" @orientSelected="orientSelected"></link-master>
         <editor-ck v-if="mode==this.DIALOG_EDIT" :cardData="cardData" :cmd="cmd" @saveContent="cardSaved" @editorReady="editorReady" @currentContent="currentContent"></editor-ck>
         <layout-list v-if="mode==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected"></layout-list>
         <create-layout v-if="mode==this.DIALOG_NEW_LAYOUT" :cmd="cmd" @layoutData="layoutData"></create-layout>
@@ -342,11 +342,15 @@ import axios from "axios";
                   break;
                 }
                 case 'AddLink':{
-                  this.titleMsg = 'Add a New Link';
-                  mOpts = this.getMenuOpts('addLinkSelected');
-                  this.currentMenuOpts = mOpts.currentMenuOpts;
-                  this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
-                  this.mode=this.DIALOG_ADD_LINK;
+                  if(!this.orientHasBeenSelected){
+                    alert('You must select an orientation and save!');
+                  }else{
+                    this.titleMsg = 'Add a New Link';
+                    mOpts = this.getMenuOpts('addLinkSelected');
+                    this.currentMenuOpts = mOpts.currentMenuOpts;
+                    this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+                    this.mode=this.DIALOG_ADD_LINK;
+                  }
                   break;
                 }
                 case 'Backtosetup':{
@@ -367,6 +371,7 @@ import axios from "axios";
                   break;
                 }
                 case 'SaveLinkMenu':{
+
                   this.cmd="save";
                   this.saveLayoutLink(this.currentlySelectedLayout, this.currentlySelectedLayoutDescription);
                   break;
@@ -390,6 +395,9 @@ import axios from "axios";
             var mOpts = this.getMenuOpts('menuLinkSelected');
             this.currentMenuOpts = mOpts.currentMenuOpts;
           },
+          orientSelected(){
+            this.orientHasBeenSelected=true;
+          },
           getMenuOpts(menuContext){
 //              debugger;
             console.log('Dialog2 getMenuOpts menuContext:', menuContext);
@@ -398,7 +406,16 @@ import axios from "axios";
                 return {
                   currentMenuOpts: [
                     ['Add', 'AddLink'],
-                    ['Cancel', 'Cancel'],
+                    ['Exit', 'Cancel'],
+                    ['Save', 'linkMasterSave']
+                  ],
+                  currentSelectedMenuOption: 'Cancel'
+                }
+              }
+              case 'linkMasterSetup': {
+                return {
+                  currentMenuOpts: [
+                    ['Exit', 'Cancel'],
                     ['Save', 'linkMasterSave']
                   ],
                   currentSelectedMenuOption: 'Cancel'
@@ -615,7 +632,8 @@ import axios from "axios";
 
                 currentlySelectedLayout:0,
                 currentlySelectedLayoutDescription:'',
-                selectedLink:0
+                selectedLink:0,
+                orientHasBeenSelected:false
 
 
 
