@@ -46,13 +46,20 @@
     store,
     created(){
       var pathArray=this.$route.path.substring(1).split('/');
+      if(pathArray.length==3 && pathArray[0]=='target'){
+        console.log('this is a protected page link from static html');
+        store.commit('setDefaultOrg', pathArray[1]);
+      }else{
+        console.log('this is a normal login');
+        if(pathArray[0].length>0){
+          store.commit('setDefaultOrg', pathArray[0]);
+        }else{
+          store.commit('setDefaultOrg', 'root');
+        }
+      }
       console.log('pathArray is:', pathArray);
 //    debugger;
-      if(pathArray[0].length>0){
-        store.commit('setDefaultOrg', pathArray[0]);
-      }else{
-        store.commit('setDefaultOrg', 'root');
-      }
+
 
     },
     components: {headerBar},
