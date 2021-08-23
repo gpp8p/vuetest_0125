@@ -58,7 +58,7 @@
     import axios from "axios";
     import store from "../store";
     export default {
-        name: "loginComponent",
+        name: "directLoginComponent",
         mounted(){
             console.log(sessionStorage.length);
             if(sessionStorage.length>0) {
@@ -91,8 +91,7 @@
                 this.logStatus=this.LOGGED_IN;
 
             }else{
-                console.log('doing guest login');
-                this.sendLogin('GuestUser@nomail.com', 'GuestUser', this.setLoginStatus);
+              this.status=this.SHOW_LOGIN;
             }
 //            console.log(this.$store.getters.getDefaultOrg[0]);
         },

@@ -5,7 +5,7 @@
             <menu-component :items='menuItems' :selected-item="this.selectedMenuItem" @menuSelection="tabSelected"></menu-component>
             <span class="messageArea">{{this.message}}</span>
         </span>
-        <span class="loginArea"><login-component @login="login" @register="register" @newLayout="newLayout" @logError="logError"></login-component></span>
+        <span class="loginArea"><login-component @login="login" :cmd="this.cmd" @register="register" @newLayout="newLayout" @logError="logError"></login-component></span>
 
     </div>
 

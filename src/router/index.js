@@ -7,6 +7,7 @@ import displayLayout from "../components/displayLayout.vue"
 import editLayout from "../components/editLayout.vue";
 import errorPage from "../components/errorPage.vue"
 import MySpaces from "@/components/MySpaces";
+import directLogin from "../components/directLogin.vue"
 
 Vue.use(VueRouter)
 
@@ -45,6 +46,11 @@ Vue.use(VueRouter)
       path: '/displayLayout/:layoutId',
       name: 'displayLayout',
       component: displayLayout
+    },
+    {
+      path: '/directLogin/:layoutId',
+      name: 'directLogin',
+      component: directLogin
     },
     {
       path:'/logError/:errorMessage',
