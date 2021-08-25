@@ -152,7 +152,7 @@
                }
                this.logStatus=newStatus;
                 if(newStatus==this.LOGGED_IN){
-                    this.$emit('login', [this.$store.getters.getOrgHomeId]);
+                    this.$emit('login', [this.$store.getters.getDirectLoginLink]);
                 }
                 this.$forceUpdate();
             },

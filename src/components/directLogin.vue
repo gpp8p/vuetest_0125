@@ -17,8 +17,8 @@ name: "directLogin",
   },
   methods:{
     login(msg){
-      console.out('directLogin login-',msg);
-
+      debugger;
+      this.$emit('login', [msg[0]]);
     }
   }
 }
