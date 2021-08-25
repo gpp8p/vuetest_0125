@@ -48,7 +48,8 @@
       var pathArray=this.$route.path.substring(1).split('/');
       if(pathArray.length==3 && pathArray[0]=='target'){
         console.log('this is a protected page link from static html');
-        store.commit('setDefaultOrg', pathArray[2]);
+        store.commit('setDefaultOrg', pathArray[1]);
+        store.commit('directLoginLink', pathArray[2]);
         this.thisCmd='directLogin';
         this.$router.push({
           name: 'directLogin',

@@ -17,6 +17,7 @@ export default new Vuex.Store({
             perms: {},
             layoutIdStack:[],
             currentLayoutId:0,
+            directLoginLink:0,
             register: false
         }
     },
@@ -53,6 +54,9 @@ export default new Vuex.Store({
         },
         getCurrentLayoutId(state){
             return state.credentials.currentLayoutId
+        },
+        getDirectLoginLink(state){
+            return state.credentials.directLoginLink
         },
 /*
         getRegister(state){
@@ -94,6 +98,9 @@ export default new Vuex.Store({
         },
         setCurrentLayoutId(state, currentLayoutId){
             state.credentials.currentLayoutId = currentLayoutId;
+        },
+        setDirectLoginLink(state, directLoginLink){
+            state.credentials.directLoginLink = directLoginLink;
         },
 /*
         setRegister(state, registerState){

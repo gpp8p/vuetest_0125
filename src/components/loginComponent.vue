@@ -60,41 +60,46 @@
     export default {
         name: "loginComponent",
         mounted(){
+          console.log('cmd is', this.cmd);
+          if(this.cmd=='directLogin'){
+            this.logStatus=this.DIRECT_LOGIN;
+          }else{
             console.log(sessionStorage.length);
             if(sessionStorage.length>0) {
 //                debugger;
-                this.credentials.bearerToken = sessionStorage.getItem('bearerToken');
-                this.credentials.loggedInUser = sessionStorage.getItem('loggedInUser');
-                this.credentials.loggedInUserId = sessionStorage.getItem('loggedInUserId');
-                this.credentials.is_admin = sessionStorage.getItem('is_admin');
-                this.default_org = sessionStorage.getItem('default_org');
+              this.credentials.bearerToken = sessionStorage.getItem('bearerToken');
+              this.credentials.loggedInUser = sessionStorage.getItem('loggedInUser');
+              this.credentials.loggedInUserId = sessionStorage.getItem('loggedInUserId');
+              this.credentials.is_admin = sessionStorage.getItem('is_admin');
+              this.default_org = sessionStorage.getItem('default_org');
 
-                var thisStringLayoutIdStack = sessionStorage.getItem('layoutIdStack');
-                var thisLayoutIdStack;
-                if(thisStringLayoutIdStack==null){
-                    thisLayoutIdStack = [];
-                }else{
-                    thisLayoutIdStack = JSON.parse(thisStringLayoutIdStack);
-                    var topStack = thisLayoutIdStack[thisLayoutIdStack.length-1];
-                    if(topStack!=this.$route.params.layoutId){
-                        this.$emit('newLayout', [this.$route.params.layoutId]);
-                    }
+              var thisStringLayoutIdStack = sessionStorage.getItem('layoutIdStack');
+              var thisLayoutIdStack;
+              if(thisStringLayoutIdStack==null){
+                thisLayoutIdStack = [];
+              }else{
+                thisLayoutIdStack = JSON.parse(thisStringLayoutIdStack);
+                var topStack = thisLayoutIdStack[thisLayoutIdStack.length-1];
+                if(topStack!=this.$route.params.layoutId){
+                  this.$emit('newLayout', [this.$route.params.layoutId]);
                 }
-                axios.defaults.headers.common['Authorization'] = `Bearer ${this.credentials.bearerToken}`;
-                store.commit('setBearerToken', this.credentials.bearerToken);
-                store.commit('setLoggedInUserId', this.credentials.loggedInUserId);
-                store.commit('setLoggedInUser', this.credentials.loggedInUser);
-                store.commit('setIsAdmin', this.credentials.is_admin);
-                store.commit('setDefaultOrg', this.default_org);
-                store.commit('setOrgId', sessionStorage.getItem('org_id'));
+              }
+              axios.defaults.headers.common['Authorization'] = `Bearer ${this.credentials.bearerToken}`;
+              store.commit('setBearerToken', this.credentials.bearerToken);
+              store.commit('setLoggedInUserId', this.credentials.loggedInUserId);
+              store.commit('setLoggedInUser', this.credentials.loggedInUser);
+              store.commit('setIsAdmin', this.credentials.is_admin);
+              store.commit('setDefaultOrg', this.default_org);
+              store.commit('setOrgId', sessionStorage.getItem('org_id'));
 
-                this.logStatus=this.LOGGED_IN;
+              this.logStatus=this.LOGGED_IN;
 
             }else{
-                console.log('doing guest login');
-                this.sendLogin('GuestUser@nomail.com', 'GuestUser', this.setLoginStatus);
+              console.log('doing guest login');
+              this.sendLogin('GuestUser@nomail.com', 'GuestUser', this.setLoginStatus);
             }
 //            console.log(this.$store.getters.getDefaultOrg[0]);
+          }
         },
       props:{
         cmd:{
@@ -109,6 +114,7 @@
                 SHOW_LOGIN:1,
                 LOGGED_IN:2,
                 LOGIN_ERROR:-1,
+                DIRECT_LOGIN:5,
                 email:'',
                 password:'',
                 credentials:{

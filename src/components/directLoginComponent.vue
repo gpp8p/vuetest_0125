@@ -9,14 +9,15 @@
             </span>
         </span>
         <span v-if="this.logStatus===this.SHOW_LOGIN" class="login">
+                    <span></span>
 
                      <label class="labelStyle" for="email">Mail:</label>
                     <input type="text" id="email" name="email" size="30" v-model="email" ref="emailField" class="loginField"/>
-
+                    <span></span>
                     <label class="labelStyle" for="password">Password:</label>
                     <input type="password" id="password" size="30" maxlength="65" v-model="password" class="loginField"/>
 
-
+                      <span></span>
                      <span class="labelLinkStyle" @click="doLogin">Login </span>
                      <span class="labelLinkStyle" @click="cancelLogin">Cancel</span>
 
@@ -60,39 +61,43 @@
     export default {
         name: "directLoginComponent",
         mounted(){
+          if(this.cmd=='directLogin'){
+            this.logStatus=this.SHOW_LOGIN;
+          }else{
             console.log(sessionStorage.length);
             if(sessionStorage.length>0) {
 //                debugger;
-                this.credentials.bearerToken = sessionStorage.getItem('bearerToken');
-                this.credentials.loggedInUser = sessionStorage.getItem('loggedInUser');
-                this.credentials.loggedInUserId = sessionStorage.getItem('loggedInUserId');
-                this.credentials.is_admin = sessionStorage.getItem('is_admin');
-                this.default_org = sessionStorage.getItem('default_org');
+              this.credentials.bearerToken = sessionStorage.getItem('bearerToken');
+              this.credentials.loggedInUser = sessionStorage.getItem('loggedInUser');
+              this.credentials.loggedInUserId = sessionStorage.getItem('loggedInUserId');
+              this.credentials.is_admin = sessionStorage.getItem('is_admin');
+              this.default_org = sessionStorage.getItem('default_org');
 
-                var thisStringLayoutIdStack = sessionStorage.getItem('layoutIdStack');
-                var thisLayoutIdStack;
-                if(thisStringLayoutIdStack==null){
-                    thisLayoutIdStack = [];
-                }else{
-                    thisLayoutIdStack = JSON.parse(thisStringLayoutIdStack);
-                    var topStack = thisLayoutIdStack[thisLayoutIdStack.length-1];
-                    if(topStack!=this.$route.params.layoutId){
-                        this.$emit('newLayout', [this.$route.params.layoutId]);
-                    }
+              var thisStringLayoutIdStack = sessionStorage.getItem('layoutIdStack');
+              var thisLayoutIdStack;
+              if(thisStringLayoutIdStack==null){
+                thisLayoutIdStack = [];
+              }else{
+                thisLayoutIdStack = JSON.parse(thisStringLayoutIdStack);
+                var topStack = thisLayoutIdStack[thisLayoutIdStack.length-1];
+                if(topStack!=this.$route.params.layoutId){
+                  this.$emit('newLayout', [this.$route.params.layoutId]);
                 }
-                axios.defaults.headers.common['Authorization'] = `Bearer ${this.credentials.bearerToken}`;
-                store.commit('setBearerToken', this.credentials.bearerToken);
-                store.commit('setLoggedInUserId', this.credentials.loggedInUserId);
-                store.commit('setLoggedInUser', this.credentials.loggedInUser);
-                store.commit('setIsAdmin', this.credentials.is_admin);
-                store.commit('setDefaultOrg', this.default_org);
-                store.commit('setOrgId', sessionStorage.getItem('org_id'));
+              }
+              axios.defaults.headers.common['Authorization'] = `Bearer ${this.credentials.bearerToken}`;
+              store.commit('setBearerToken', this.credentials.bearerToken);
+              store.commit('setLoggedInUserId', this.credentials.loggedInUserId);
+              store.commit('setLoggedInUser', this.credentials.loggedInUser);
+              store.commit('setIsAdmin', this.credentials.is_admin);
+              store.commit('setDefaultOrg', this.default_org);
+              store.commit('setOrgId', sessionStorage.getItem('org_id'));
 
-                this.logStatus=this.LOGGED_IN;
+              this.logStatus=this.LOGGED_IN;
 
             }else{
               this.status=this.SHOW_LOGIN;
             }
+          }
 //            console.log(this.$store.getters.getDefaultOrg[0]);
         },
       props:{
@@ -108,6 +113,7 @@
                 SHOW_LOGIN:1,
                 LOGGED_IN:2,
                 LOGIN_ERROR:-1,
+                DIRECT_LOGIN:5,
                 email:'',
                 password:'',
                 credentials:{
@@ -226,9 +232,9 @@
         font-family: Arial;
     }
     .login {
-        margin-top:2px;
+        margin-top:15%;
         display: grid;
-        grid-template-columns: 22% 60%;
+        grid-template-columns: 40% 8% 20%;
         grid-template-rows: 33% 33% 33%;
         row-gap: 3px;
         justify-items: left;
@@ -244,6 +250,7 @@
     .labelStyle {
         color:blue;
         font-family: Arial;
+        font-size: large;
 
     }
 
@@ -251,6 +258,7 @@
         color:blue;
         font-family: Arial;
         margin-right: 15px;
+        font-size: large;
     }
     .labelLinkStyle:hover {
         color:red;

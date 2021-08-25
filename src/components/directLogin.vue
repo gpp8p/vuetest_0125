@@ -15,6 +15,12 @@ name: "directLogin",
       required: true
     }
   },
+  methods:{
+    login(msg){
+      console.out('directLogin login-',msg);
+
+    }
+  }
 }
 </script>
 
