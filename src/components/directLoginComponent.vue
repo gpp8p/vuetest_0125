@@ -9,17 +9,21 @@
             </span>
         </span>
         <span v-if="this.logStatus===this.SHOW_LOGIN" class="login">
-                    <span></span>
+                     <span></span>
 
                      <label class="labelStyle" for="email">Mail:</label>
                     <input type="text" id="email" name="email" size="30" v-model="email" ref="emailField" class="loginField"/>
-                    <span></span>
+                    <span ></span>
                     <label class="labelStyle" for="password">Password:</label>
                     <input type="password" id="password" size="30" maxlength="65" v-model="password" class="loginField"/>
 
                       <span></span>
                      <span class="labelLinkStyle" @click="doLogin">Login </span>
                      <span class="labelLinkStyle" @click="cancelLogin">Cancel</span>
+
+
+
+
 
 
         </span>
@@ -232,15 +236,19 @@
         font-family: Arial;
     }
     .login {
-        margin-top:15%;
         display: grid;
-        grid-template-columns: 40% 8% 20%;
-        grid-template-rows: 33% 33% 33%;
+        grid-template-columns: 30% 15% 20%;
+        grid-template-rows: 5% 33% 33% 33%;
         row-gap: 3px;
         justify-items: left;
         color: blue;
         font-size: 12px;
+        margin-top: 20px;
+
+
     }
+
+
     .log1 {
       color: blue;
     }
