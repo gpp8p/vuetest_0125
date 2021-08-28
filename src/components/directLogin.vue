@@ -1,7 +1,7 @@
 <template>
   <div class="directLoginPage">
     <span class="directLoginDialog">
-      <direct-login-component :cmd = "this.cmd" @login="login" @register="register" @newLayout="newLayout" @logError="logError"></direct-login-component>
+      <direct-login-component :cmd = "this.cmd" @login="login" @register="register" @newLayout="newLayout" @logError="logError" @message="message"></direct-login-component>
     </span>
   </div>
 </template>
@@ -25,6 +25,11 @@ name: "directLogin",
       debugger;
       this.$emit('layoutMessage',['clear','',0]);
       this.$emit('login', [msg[0]]);
+    },
+    message(msg){
+      console.log('message:',msg);
+      this.$emit('layoutMessage',['error','Please re-enter your login or hit back button to go back to where you came from.',0]);
+
     }
   }
 }

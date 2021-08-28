@@ -137,7 +137,9 @@
                 this.setLoginStatus(this.SHOW_LOGIN);
             },
             cancelLogin(){
-                this.setLoginStatus(this.LOGGED_IN);
+                this.password='';
+                this.email='';
+                this.$emit('message',['message sent']);
             },
             doLogout(){
                 this.sendLogin('GuestUser@nomail.com', 'GuestUser', this.setLoginStatus);
