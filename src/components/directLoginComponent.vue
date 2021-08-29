@@ -240,7 +240,7 @@
     .login {
         display: grid;
         grid-template-columns: 30% 15% 20%;
-        grid-template-rows: 5% 33% 33% 33%;
+        grid-template-rows: 40% 40% 20% 20%;
         row-gap: 3px;
         justify-items: left;
         color: blue;
