@@ -24,7 +24,7 @@
 /* eslint-disable no-console,no-debugger */
 import CardBase from "../components/CardBase.vue";
 import menuOpt from "../components/menuOptV2.vue";
-import axios from "axios";
+//import axios from "axios";
 export default {
   name: "greenComponent",
   components: {menuOpt},
@@ -334,6 +334,8 @@ export default {
         }
         case 'RmvLay':{
           console.log('remove from layout selected');
+          this.removeCardFromLayout(this.cardId);
+/*
           axios.get('http://localhost:8000/api/shan/rmvlay?XDEBUG_SESSION_START=14668', {
             params:{
               layoutId: this.$store.getters.getCurrentLayoutId,
@@ -349,11 +351,13 @@ export default {
                 this.errors.push(e);
                 console.log('remove card from layout failed');
               });
-
+*/
           break;
         }
         case 'DelCardFromDb':{
           console.log('remove from db selected');
+          this.DeleteCardFromDb(this.cardId);
+/*
           axios.get('http://localhost:8000/api/shan/deleteCard?XDEBUG_SESSION_START=14668', {
             params:{
               layoutId: this.$store.getters.getCurrentLayoutId,
@@ -369,7 +373,7 @@ export default {
                 this.errors.push(e);
                 console.log('remove card from layout failed');
               });
-
+*/
           break;
         }
 

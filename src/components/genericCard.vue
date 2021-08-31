@@ -63,6 +63,17 @@
                    @ghostCard="ghostCard"
                    ref="cardKey"
         ></link-menu>
+        <LoginLink v-if="cardType=='loginLink'"
+                   :displayStatus = displayStatus
+                   @configSelected="configSelected"
+                   @cardClick="processCardClick"
+                   @textEditor="textEditor"
+                   @linkSelected="linkSelected"
+                   @configurationHasBeenSaved="configurationHasBeenSaved"
+                   @cardDataLoaded="cardDataLoaded"
+                   @cardPropertySet="cardPropertySet"
+                   @ghostCard="ghostCard"
+        ></LoginLink>
 
 </span>
 
@@ -79,11 +90,12 @@
   import GenericCardBase from "../components/GenericCardBase.vue";
   import textShow from "./textShow.vue";
   import linkMenu from "../components/LinkMenu";
+  import loginLink from "../components/loginLink";
 
   export default {
     name: "genericCard",
     extends: GenericCardBase,
-    components: {GreenComponent, textShow, linkMenu},
+    components: {GreenComponent, textShow, linkMenu, loginLink},
     props: {
       cardType: {
         type: String,

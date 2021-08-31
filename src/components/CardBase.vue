@@ -550,7 +550,43 @@
         });
 
         console.log(jsonCardConfigurationPackage);
+      },
+      deleteCardFromDb(cardId){
+        axios.get('http://localhost:8000/api/shan/deleteCard?XDEBUG_SESSION_START=14668', {
+          params:{
+            layoutId: this.$store.getters.getCurrentLayoutId,
+            cardId: cardId,
+            orgId:this.$store.getters.getOrgId
+          }
+        })
+            .then(response => {
+              console.log(response);
+              this.$emit('configurationHasBeenSaved');
+            })
+            .catch(e => {
+              this.errors.push(e);
+              console.log('remove card from layout failed');
+            });
+      },
+      removeCardFromLayout(cardId){
+        axios.get('http://localhost:8000/api/shan/rmvlay?XDEBUG_SESSION_START=14668', {
+          params:{
+            layoutId: this.$store.getters.getCurrentLayoutId,
+            cardId: cardId,
+            orgId:this.$store.getters.getOrgId
+          }
+        })
+            .then(response => {
+              console.log(response);
+              this.$emit('configurationHasBeenSaved');
+            })
+            .catch(e => {
+              this.errors.push(e);
+              console.log('remove card from layout failed');
+            });
       }
+
+
 
     }
   };
