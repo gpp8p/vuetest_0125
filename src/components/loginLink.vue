@@ -1,28 +1,39 @@
 <template>
   <div>
     <div class="cardStyle">
-      <div class="cardHeader" v-if="showOptions==true">
+      <div class="cardHeader" v-if="this.showOptions==true">
         <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
       </div>
-        Please Log In
+      Please Log In
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import menuOpt from "../components/menuOptV2.vue";
+import CardBase from "@/components/CardBase";
 
 export default {
   name: "loginLink",
+  components: {menuOpt},
+  extends: CardBase,
   props:{
     displayStatus: {
       type: Boolean,
       required: true
-    }
+    },
+    cardId: {
+      type: String,
+      required: true
+    },
   },
   data() {
     return {
-      showOptions:false
+      showOptions:false,
+      currentMenuOpts:[],
+      styling: {},
+      configurationCurrentValues:{},
     }
   },
   mounted(){
@@ -31,6 +42,8 @@ export default {
     }else{
       this.showOptions=true;
     }
+    console.log('showOptions =',this.showOptions);
+    console.log('displayStatus=',this.displayStatus);
     var mOpts = this.getMenuOpts('entryMenu');
     this.currentMenuOpts = mOpts.currentMenuOpts;
   },
@@ -156,5 +169,27 @@ export default {
 </script>
 
 <style scoped>
+.cardStyle {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+.cardHeader {
+  display: flex;
+  justify-content: space-evenly;
+  width:100%;
+  align-items: baseline;
+  color: blue;
+  height: 10%;
+  background-color: #fff722;
+  font-family: Geneva;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: bold;
+}
+.cardBody {
+  height: 90%;
+  margin:10px;
+}
 
 </style>

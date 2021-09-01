@@ -10,7 +10,7 @@
     },
     methods: {
       setCardData(cardData, cardDataElement, domElement) {
-//      debugger;
+      debugger;
       console.log('Card Base setCardData -','cardData:',cardData,'cardDataElement:', cardDataElement,'domElement - ',domElement);
       if(domElement=='main'){
         switch (cardDataElement) {
@@ -382,7 +382,7 @@
         }
       },
       loadCardConfiguration(cardId){
- //       debugger;
+//        debugger;
         axios
           .get("http://localhost:8000/api/shan/getCardDataById?cardId=" + cardId+"&&XDEBUG_SESSION_START=15122")
           .then(response => {

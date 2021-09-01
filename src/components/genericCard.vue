@@ -63,17 +63,16 @@
                    @ghostCard="ghostCard"
                    ref="cardKey"
         ></link-menu>
-        <LoginLink v-if="cardType=='loginLink'"
-                   :displayStatus = displayStatus
-                   @configSelected="configSelected"
-                   @cardClick="processCardClick"
-                   @textEditor="textEditor"
-                   @linkSelected="linkSelected"
-                   @configurationHasBeenSaved="configurationHasBeenSaved"
-                   @cardDataLoaded="cardDataLoaded"
-                   @cardPropertySet="cardPropertySet"
-                   @ghostCard="ghostCard"
-        ></LoginLink>
+        <login-link v-if="cardType=='loginLink'"
+                    :displayStatus = displayStatus
+                    :card-id=cardId
+                    @cardClick="processCardClick"
+                    @ghostCard="ghostCard"
+                    @configurationHasBeenSaved="configurationHasBeenSaved"
+                    @cardPropertySet="cardPropertySet"
+                    @cardDataLoaded="cardDataLoaded"
+                    ref="cardKey"
+        ></login-link>
 
 </span>
 
@@ -178,7 +177,7 @@
     },
     methods: {
       processClick(msg){
-//        debugger;
+        debugger;
         if(this.hasChildern(this.$refs)){
           console.log('hasChildern is true');
         }else{
