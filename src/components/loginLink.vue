@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import axios from "axios";
+//import axios from "axios";
 import menuOpt from "../components/menuOptV2.vue";
 import CardBase from "@/components/CardBase";
 
@@ -44,13 +44,14 @@ export default {
     }
     console.log('showOptions =',this.showOptions);
     console.log('displayStatus=',this.displayStatus);
-    var mOpts = this.getMenuOpts('entryMenu');
+    var mOpts = this.getMenuOpts('entryMenu_loginLink');
     this.currentMenuOpts = mOpts.currentMenuOpts;
   },
   methods: {
+/*
     getMenuOpts(menuContext) {
       switch (menuContext) {
-        case'entryMenu': {
+        case'entryMenu_loginLink': {
           return {
             currentMenuOpts: [
               ['Configure', 'Configure'],
@@ -72,12 +73,13 @@ export default {
         }
       }
     },
+*/
     menuOptSelected(msg) {
       console.log(msg);
       switch (msg) {
         case 'Cancel': {
           this.editStatus = false;
-          var mOpts = this.getMenuOpts('entryMenu');
+          var mOpts = this.getMenuOpts('entryMenu_loginLink');
           this.currentMenuOpts = mOpts.currentMenuOpts;
 
           break;
@@ -97,6 +99,8 @@ export default {
         }
         case 'RmvLay': {
           console.log('remove from layout selected');
+          this.removeCardFromLayout(this.cardId);
+/*
           axios.get('http://localhost:8000/api/shan/rmvlay?XDEBUG_SESSION_START=14668', {
             params: {
               layoutId: this.$store.getters.getCurrentLayoutId,
@@ -112,11 +116,13 @@ export default {
                 this.errors.push(e);
                 console.log('remove card from layout failed');
               });
-
+*/
           break;
         }
         case 'DelCardFromDb': {
           console.log('remove from db selected');
+          this.deleteCardFromDb(this.cardId);
+/*
           axios.get('http://localhost:8000/api/shan/deleteCard?XDEBUG_SESSION_START=14668', {
             params: {
               layoutId: this.$store.getters.getCurrentLayoutId,
@@ -132,11 +138,12 @@ export default {
                 this.errors.push(e);
                 console.log('remove card from layout failed');
               });
-
+*/
           break;
         }
       }
     },
+/*
     configureClicked() {
 //      debugger;
       this.styling={};
@@ -158,10 +165,14 @@ export default {
 
 
     },
+
+ */
     moveClicked(){
       console.log('moveClicked');
       this.$emit('ghostCard');
     },
+
+
 
   }
 

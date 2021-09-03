@@ -584,8 +584,72 @@
               this.errors.push(e);
               console.log('remove card from layout failed');
             });
-      }
+      },
+      configureClicked() {
+//      debugger;
+        this.styling={};
+        this.loadCardConfiguration(this.cardId);
+        this.dialog=true;
+        this.testProp=true;
+        this.tdialogMsg='message recieved'
+//      debugger;
 
+        this.$emit("cardClick", [
+          "cardClicked",
+          this.cardKey,
+          "greenComponent",
+          this.setCardData,
+          this.cardConfiguration,
+          this.configurationCurrentValues,
+        ]);
+
+
+
+      },
+      getMenuOpts(menuContext) {
+        switch (menuContext) {
+          case'entryMenu_loginLink': {
+            return {
+              currentMenuOpts: [
+                ['Configure', 'Configure'],
+                ['Resize/Move', 'Resize'],
+                ['Del', 'DeleteCard'],
+              ],
+              currentMenuSelection: 'Configure'
+            }
+          }
+          case 'deleteChoice': {
+            return {
+              currentMenuOpts: [
+                ['Remove from Layout', 'RmvLay'],
+                ['Delete Card', 'DelCardFromDb'],
+                ['Cancel', 'Cancel']
+              ],
+              currentMenuSelection: 'Cancel'
+            }
+          }
+          case'entryMenu_greenComponent':{
+            return {
+              currentMenuOpts:[
+                ['Configure','Configure'],
+                ['Resize/Move', 'Resize'],
+                ['Del','DeleteCard'],
+                ['Edit', 'Edit']
+              ],
+              currentMenuSelection: 'Configure'
+            }
+          }
+          case 'editing':{
+            return {
+              currentMenuOpts :[
+                ['Save', 'saveContent'],
+                ['Cancel', 'Cancel']
+              ],
+              currentMenuSelection: 'Cancel'
+            }
+          }
+        }
+      },
 
 
     }

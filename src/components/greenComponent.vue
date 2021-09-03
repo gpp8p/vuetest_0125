@@ -81,7 +81,7 @@ export default {
     }else{
       this.showOptions=true;
     }
-    var mOpts = this.getMenuOpts('entryMenu');
+    var mOpts = this.getMenuOpts('entryMenu_greenComponent');
     this.currentMenuOpts = mOpts.currentMenuOpts;
   },
   watch:{
@@ -222,7 +222,7 @@ export default {
       debugger;
       this.tdialogMsg='message recieved';
     },
-
+/*
     configureClicked() {
 //      debugger;
         this.styling={};
@@ -244,6 +244,7 @@ export default {
 
 
     },
+*/
     moveClicked(){
       console.log('moveClicked');
       this.$emit('ghostCard');
@@ -262,9 +263,10 @@ export default {
         this.configurationCurrentValues,
       ]);
     },
+/*
     getMenuOpts(menuContext){
       switch(menuContext){
-        case'entryMenu':{
+        case'entryMenu_greenComponent':{
           return {
             currentMenuOpts:[
               ['Configure','Configure'],
@@ -296,12 +298,13 @@ export default {
         }
       }
     },
+*/
     menuOptSelected(msg){
       console.log(msg);
       switch(msg){
         case 'Cancel':{
           this.editStatus = false;
-          var mOpts = this.getMenuOpts('entryMenu');
+          var mOpts = this.getMenuOpts('entryMenu_greenComponent');
           this.currentMenuOpts = mOpts.currentMenuOpts;
 
           break;
@@ -401,7 +404,7 @@ export default {
       }
     }
   }
-};
+}
 </script>
 
 <style scoped>
