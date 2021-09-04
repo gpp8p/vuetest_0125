@@ -29,7 +29,7 @@
   import Oruga from '@oruga-ui/oruga';
   import '@oruga-ui/oruga/dist/oruga.css';
   import '@oruga-ui/oruga/dist/oruga-vars.css'
-  import '@mdi/font/css/materialdesignicons.css'
+//  import '@mdi/font/css/materialdesignicons.css'
   import headerBar from "./components/headerBar.vue";
   import store from './store';
   import axios from "axios";

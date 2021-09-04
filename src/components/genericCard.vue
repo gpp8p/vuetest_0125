@@ -73,6 +73,7 @@
                     @cardDataLoaded="cardDataLoaded"
                     ref="cardKey"
         ></login-link>
+        <you-tube v-if="cardType=='youTube'"></you-tube>
 
 </span>
 
@@ -90,11 +91,12 @@
   import textShow from "./textShow.vue";
   import linkMenu from "../components/LinkMenu";
   import loginLink from "../components/loginLink";
+  import youTube from "../components/youTube.vue";
 
   export default {
     name: "genericCard",
     extends: GenericCardBase,
-    components: {GreenComponent, textShow, linkMenu, loginLink},
+    components: {GreenComponent, textShow, linkMenu, loginLink, youTube},
     props: {
       cardType: {
         type: String,
