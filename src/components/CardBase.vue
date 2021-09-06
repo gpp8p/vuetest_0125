@@ -287,6 +287,13 @@
             this.subContentStyling[domElement].optionDirection  = "option-direction:" + cardData + ";";
             this.$emit('cardSubPropertySet', [cardData, cardDataElement, domElement]);
             break;
+/*
+          case "youTubeUrl":
+            this.cardData=cardData;
+            this.content.youTubeUrl = "youTubeUrl:"+cardData;
+
+            break;
+*/
             /*
           case "roundIncluded":
             if(cardData=="activated") {
@@ -532,6 +539,7 @@
         console.log(jsonCardConfigurationPackage);
       },
       saveCardContent(cardContent, domElement){
+        console.log('saving:',cardContent);
 //        debugger;
         console.log('saving-',cardContent);
         var cardConfigurationPackage = [this.cardId, cardContent];

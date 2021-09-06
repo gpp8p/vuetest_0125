@@ -11,8 +11,13 @@
              @ready="playerReady"
              @playing="playing"
     ></youtube>
-    <button @click="playVideo">play</button>
+    <div v-if="this.showOptions==true" class="config">
+      <label for="ytubeUrl" style="justify-self: center;">You-Tube Url:</label>
+      <span><input type="text" size="40" id="ytubeUrl" maxlength="60" v-model="ytubeUrl"/></span>
+      <span></span>
+      <span><button @click="saveUrl">Save YouTube URL</button></span>
 
+    </div>
   </div>
 </template>
 
@@ -56,7 +61,8 @@ name: "youTube",
       showOptions:false,
       currentMenuOpts:[],
       styling: {},
-      configurationCurrentValues:{}
+      configurationCurrentValues:{},
+      ytubeUrl:''
     }
   },
   methods: {
@@ -69,6 +75,13 @@ name: "youTube",
     playerReady(){
       this.spanHeight =  this.$refs.ytComponent.parentNode.clientHeight+'px';
       this.spanWidth = this.$refs.ytComponent.parentNode.clientWidth+'px';
+    },
+    saveUrl(){
+      var ytContent ={
+        ytubeUrl:this.ytubeUrl
+      }
+      this.saveCardContent( ytContent,'main');
+      this.$emit('configSelected', ['cancel'])
     },
     menuOptSelected(msg) {
       console.log(msg);
@@ -142,6 +155,20 @@ name: "youTube",
 .cardBody {
   height: 90%;
   margin:10px;
+}
+.config {
+  margin-top: 20%;
+  display:grid;
+  grid-template-rows: 30% 30%;
+  grid-template-columns: 30% 70%;
+  font-family: Helvetica;
+  font-size: large;
+
+
+
+}
+.config1 {
+  padding-top: 30%;
 }
 
 </style>
