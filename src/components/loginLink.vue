@@ -89,6 +89,7 @@ export default {
           break;
         }
         case 'Resize': {
+          debugger;
           this.moveClicked();
           break;
         }

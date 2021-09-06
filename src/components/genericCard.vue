@@ -73,7 +73,16 @@
                     @cardDataLoaded="cardDataLoaded"
                     ref="cardKey"
         ></login-link>
-        <you-tube v-if="cardType=='youTube'"></you-tube>
+        <you-tube v-if="cardType=='youTube'"
+                  :displayStatus = displayStatus
+                  :card-id=cardId
+                  @cardClick="processCardClick"
+                  @ghostCard="ghostCard"
+                  @configurationHasBeenSaved="configurationHasBeenSaved"
+                  @cardPropertySet="cardPropertySet"
+                  @cardDataLoaded="cardDataLoaded"
+                  ref="cardKey"
+        ></you-tube>
 
 </span>
 

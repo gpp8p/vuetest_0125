@@ -618,6 +618,16 @@
               currentMenuSelection: 'Configure'
             }
           }
+          case'entryMenu_youTube': {
+            return {
+              currentMenuOpts: [
+                ['Configure', 'ytConfigure'],
+                ['Resize/Move', 'Resize'],
+                ['Del', 'DeleteCard'],
+              ],
+              currentMenuSelection: 'Configure'
+            }
+          }
           case 'deleteChoice': {
             return {
               currentMenuOpts: [
