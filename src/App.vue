@@ -291,7 +291,6 @@
 
       },
       layoutSelected(msg){
-        debugger;
         console.log('layoutSelected',msg);
         store.commit('setCurrentLayoutId', msg);
 

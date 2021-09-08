@@ -398,6 +398,7 @@
             console.log('CardBase lodCardConfiguration returns response:', response);
             this.cardConfigParams = response.data[0];
             this.cardContent = response.data[1];
+            console.log(this.cardContent);
             debugger;
             if(typeof response.data[3].availableLinks != 'undefined' && response.data[3].availableLinks.length>0){
 //            if(response.data[3].availableLinks.length>0){
@@ -470,6 +471,7 @@
             this.restoreValues = JSON.stringify(rValues);
             console.log('restoreValues-',this.restoreValues);
 //            this.$emit('cardDataLoaded',[this.styling, this.configurationCurrentValues, response.data[2]]);
+            console.log('loadConfiguration is returning',[this.styling, this.configurationCurrentValues, subElements, thisCardContent]);
             this.$emit('cardDataLoaded',[this.styling, this.configurationCurrentValues, subElements, thisCardContent]);
 
 

@@ -13,7 +13,7 @@
     ></youtube>
     <div v-if="this.showOptions==true" class="config">
       <label for="ytubeUrl" style="justify-self: center;">You-Tube Url:</label>
-      <span><input type="text" size="40" id="ytubeUrl" maxlength="60" v-model="ytubeUrl"/></span>
+      <span><input type="text" size="40" id="ytubeUrl" maxlength="60" v-model ="this.ytubeUrl"/></span>
       <span></span>
       <span><button @click="saveUrl">Save YouTube URL</button></span>
 
@@ -51,18 +51,26 @@ name: "youTube",
     }
     var mOpts = this.getMenuOpts('entryMenu_youTube');
     this.currentMenuOpts = mOpts.currentMenuOpts;
-
+    this.loadCardConfiguration(this.cardId);
   },
   data() {
     return {
-      videoId: 'lG0Ys-2d4MA',
+      videoId: '',
       spanHeight:'',
       spanWidth:'',
       showOptions:false,
       currentMenuOpts:[],
       styling: {},
       configurationCurrentValues:{},
-      ytubeUrl:''
+      ytubeUrl:'',
+      cardContent:{},
+      ytid:''
+    }
+  },
+  watch:{
+    cardContent: function(){
+      this.ytubeUrl = this.cardContent.ytubeUrl;
+      this.videoId = this.$youtube.getIdFromUrl(this.ytubeUrl);       
     }
   },
   methods: {
@@ -73,6 +81,8 @@ name: "youTube",
       console.log(' we are watching!!!')
     },
     playerReady(){
+      console.log(this.cardContent.ytubeUrl);
+      console.log(this.$youtube.getIdFromUrl(this.cardContent.ytubeUrl));
       this.spanHeight =  this.$refs.ytComponent.parentNode.clientHeight+'px';
       this.spanWidth = this.$refs.ytComponent.parentNode.clientWidth+'px';
     },
