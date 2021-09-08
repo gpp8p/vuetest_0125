@@ -212,7 +212,7 @@
         }
       },
       viewStatusChange(msg){
-//        debugger;
+        debugger;
         switch(msg[0]){
           case 'headerBar':{
             this.headerBarViewStatusChangeFunction=msg[1];
@@ -263,6 +263,12 @@
             console.log(this.thisCmd, ' has been cleared');
             this.thisCmd='';
             break;
+          }
+          case 'display':{
+            this.$router.push({
+              name: 'displayLayout',
+              params: { layoutId: this.$store.getters.getCurrentLayoutId }
+            })
           }
         }
       },

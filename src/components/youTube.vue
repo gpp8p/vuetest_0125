@@ -13,7 +13,7 @@
     ></youtube>
     <div v-if="this.showOptions==true" class="config">
       <label for="ytubeUrl" style="justify-self: center;">You-Tube Url:</label>
-      <span><input type="text" size="40" id="ytubeUrl" maxlength="60" v-model ="this.ytubeUrl"/></span>
+      <span><input type="text" size="40" id="ytubeUrl" maxlength="60" v-model ="ytubeUrl"/></span>
       <span></span>
       <span><button @click="saveUrl">Save YouTube URL</button></span>
 
@@ -70,7 +70,7 @@ name: "youTube",
   watch:{
     cardContent: function(){
       this.ytubeUrl = this.cardContent.ytubeUrl;
-      this.videoId = this.$youtube.getIdFromUrl(this.ytubeUrl);       
+      this.videoId = this.$youtube.getIdFromUrl(this.ytubeUrl);
     }
   },
   methods: {
@@ -91,7 +91,6 @@ name: "youTube",
         ytubeUrl:this.ytubeUrl
       }
       this.saveCardContent( ytContent,'main');
-      this.$emit('configSelected', ['cancel'])
     },
     menuOptSelected(msg) {
       console.log(msg);
@@ -102,8 +101,8 @@ name: "youTube",
           this.currentMenuOpts = mOpts.currentMenuOpts;
           break;
         }
-        case 'ytConfigure': {
-          this.ytConfigureClicked();
+        case 'ytdone': {
+          this.$emit('configSelected',['display'])
           break;
         }
         case 'Resize': {

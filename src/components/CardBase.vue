@@ -631,7 +631,7 @@
           case'entryMenu_youTube': {
             return {
               currentMenuOpts: [
-                ['Configure', 'ytConfigure'],
+                ['Done', 'ytdone'],
                 ['Resize/Move', 'Resize'],
                 ['Del', 'DeleteCard'],
               ],

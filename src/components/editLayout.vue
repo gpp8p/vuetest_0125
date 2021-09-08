@@ -319,6 +319,10 @@
 
                         break;
                     }
+                    case 'display':{
+                      this.$emit('configSelected', msg);
+                      break;
+                    }
                     case 'reload':{
                       debugger;
                       this.dialogType=0;

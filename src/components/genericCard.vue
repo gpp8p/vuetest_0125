@@ -76,6 +76,7 @@
         <you-tube v-if="cardType=='youTube'"
                   :displayStatus = displayStatus
                   :card-id=cardId
+                  @configSelected="configSelected"
                   @cardClick="processCardClick"
                   @ghostCard="ghostCard"
                   @configurationHasBeenSaved="configurationHasBeenSaved"
@@ -188,7 +189,7 @@
     },
     methods: {
       processClick(msg){
-        debugger;
+//        debugger;
         if(this.hasChildern(this.$refs)){
           console.log('hasChildern is true');
         }else{
