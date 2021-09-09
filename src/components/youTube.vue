@@ -26,6 +26,7 @@ import Vue from 'vue'
 import VueYoutube from 'vue-youtube'
 import menuOpt from "../components/menuOptV2.vue";
 import CardBase from "@/components/CardBase";
+import axios from "axios";
 
 
 Vue.use(VueYoutube)
@@ -88,9 +89,29 @@ name: "youTube",
     },
     saveUrl(){
       var ytContent ={
-        ytubeUrl:this.ytubeUrl
+        ytubeUrl:this.ytubeUrl,
+        spanWidth:this.$refs.ytComponent.parentNode.clientWidth+'px',
+        spanHeight:this.$refs.ytComponent.parentNode.clientHeight+'px'
       }
-      this.saveCardContent( ytContent,'main');
+      var cardConfigurationPackage = [this.cardId, ytContent];
+      var jsonCardConfigurationPackage = JSON.stringify(cardConfigurationPackage);
+      var domElement = 'main';
+      axios.post('http://localhost:8000/api/shan/saveCardContent?XDEBUG_SESSION_START=14252', {
+        cardParams: jsonCardConfigurationPackage,
+        domElement: domElement,
+        org: this.$store.getters.getOrgId,
+        layoutId: this.$store.getters.getCurrentLayoutId
+      }).then(response=>
+      {
+        console.log(response);
+        this.$emit('configSelected', ['display']);
+      }).catch(function(error) {
+        console.log(error);
+      });
+
+
+
+//      this.saveCardContent( ytContent,'main');
     },
     menuOptSelected(msg) {
       console.log(msg);
