@@ -356,6 +356,28 @@
                     currentSelectedMenuOption: 'Appearence'
                   }
                 }
+                case 'loginLink':{
+                  return {
+                    currentMenuOpts:[
+                      ['Appearence','Appearence'],
+                      ['Text', 'Text'] ,
+                      ['Save','SaveConfiguration'],
+                      ['Cancel', 'Cancel']
+                    ],
+                    currentSelectedMenuOption: 'Appearence'
+                  }
+                }
+                case 'archive':{
+                  return {
+                    currentMenuOpts:[
+                      ['Appearence','Appearence'],
+                      ['Text', 'Text'] ,
+                      ['Save','SaveConfiguration'],
+                      ['Cancel', 'Cancel']
+                    ],
+                    currentSelectedMenuOption: 'Appearence'
+                  }
+                }
                 case 'linkMenu':{
                   return {
                     currentMenuOpts:[

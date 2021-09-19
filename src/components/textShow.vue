@@ -5,7 +5,7 @@
     </div>
     <br/>
 
-    <div class="cardBody" v-if="this.mode==this.SHOW_TEXT" ref="textContent" @click="cellClicked" v-html="this.cardData">
+    <div class="cardBody" v-if="this.mode==this.SHOW_TEXT" ref="textContent"  v-html="this.cardData">
     </div>
     <span v-if="this.mode==this.RICH_TEXT_EDITOR">
       <editor-ck
@@ -260,7 +260,7 @@ export default {
           break;
         }
         case 'Configure':{
-          this.cellClicked();
+          this.configureClicked('textShow');
           break;
         }
         case 'Cancel':{

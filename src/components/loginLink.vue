@@ -85,7 +85,8 @@ export default {
           break;
         }
         case 'Configure': {
-          this.configureClicked();
+//          this.configureClicked('loginLink');
+          this.configureClicked('loginLink');
           break;
         }
         case 'Resize': {
@@ -144,8 +145,8 @@ export default {
         }
       }
     },
-/*
-    configureClicked() {
+
+    configClicked() {
 //      debugger;
       this.styling={};
       this.loadCardConfiguration(this.cardId);
@@ -167,7 +168,7 @@ export default {
 
     },
 
- */
+
     moveClicked(){
       console.log('moveClicked');
       this.$emit('ghostCard');

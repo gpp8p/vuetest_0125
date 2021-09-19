@@ -90,8 +90,8 @@ name: "youTube",
     saveUrl(){
       var ytContent ={
         ytubeUrl:this.ytubeUrl,
-        spanWidth:this.$refs.ytComponent.parentNode.clientWidth+'px',
-        spanHeight:this.$refs.ytComponent.parentNode.clientHeight+'px'
+        spanWidth:this.$refs.ytComponent.parentNode.clientWidth,
+        spanHeight:this.$refs.ytComponent.parentNode.clientHeight
       }
       var cardConfigurationPackage = [this.cardId, ytContent];
       var jsonCardConfigurationPackage = JSON.stringify(cardConfigurationPackage);

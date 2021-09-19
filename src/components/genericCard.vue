@@ -84,6 +84,17 @@
                   @cardDataLoaded="cardDataLoaded"
                   ref="cardKey"
         ></you-tube>
+        <archive v-if="cardType=='archive'"
+                 @cardClick="processCardClick"
+                 @ghostCard="ghostCard"
+                 @configurationHasBeenSaved="configurationHasBeenSaved"
+                 @cardPropertySet="cardPropertySet"
+                 @cardDataLoaded="cardDataLoaded"
+                 ref="cardKey"
+                 :displayStatus = displayStatus
+                 :card-id=cardId
+        ></archive>
+
 
 </span>
 
@@ -102,11 +113,12 @@
   import linkMenu from "../components/LinkMenu";
   import loginLink from "../components/loginLink";
   import youTube from "../components/youTube.vue";
+  import archive from "../components/archive.vue";
 
   export default {
     name: "genericCard",
     extends: GenericCardBase,
-    components: {GreenComponent, textShow, linkMenu, loginLink, youTube},
+    components: {GreenComponent, textShow, linkMenu, loginLink, youTube, archive},
     props: {
       cardType: {
         type: String,

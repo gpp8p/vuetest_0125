@@ -319,7 +319,7 @@ export default {
           break;
         }
         case 'Configure':{
-          this.configureClicked();
+          this.configureClicked('greenComponent');
           break;
         }
         case 'Resize':{

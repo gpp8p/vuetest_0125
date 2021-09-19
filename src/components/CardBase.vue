@@ -595,7 +595,7 @@
               console.log('remove card from layout failed');
             });
       },
-      configureClicked() {
+      configureClicked(cardType) {
 //      debugger;
         this.styling={};
         this.loadCardConfiguration(this.cardId);
@@ -607,7 +607,7 @@
         this.$emit("cardClick", [
           "cardClicked",
           this.cardKey,
-          "greenComponent",
+          cardType,
           this.setCardData,
           this.cardConfiguration,
           this.configurationCurrentValues,
@@ -618,6 +618,17 @@
       },
       getMenuOpts(menuContext) {
         switch (menuContext) {
+          case 'archive_entry':{
+            return {
+              currentMenuOpts:[
+                ['Configure', 'Configure'],
+                ['Resize/Move', 'Resize'],
+                ['Del', 'DeleteCard'],
+                ['New Document','NewDoc'],
+              ],
+              currentMenuSelection: 'Configure'
+            }
+          }
           case'entryMenu_loginLink': {
             return {
               currentMenuOpts: [

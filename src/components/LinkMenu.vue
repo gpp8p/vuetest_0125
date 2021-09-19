@@ -261,7 +261,7 @@ export default {
       }
     },
 
-
+/*
     configureClicked() {
 //      debugger;
       this.styling={};
@@ -283,6 +283,7 @@ export default {
 
 
     },
+*/
     editClicked(){
 //      debugger;
       this.loadCardConfiguration(this.cardId);
@@ -318,7 +319,7 @@ export default {
           break;
         }
         case 'Configure':{
-          this.configureClicked();
+          this.configureClicked('linkMenu');
           break;
         }
         case 'Resize':{

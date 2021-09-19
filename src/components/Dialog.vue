@@ -100,6 +100,7 @@
           }
         },
         mounted(){
+          debugger;
           this.getTitle();
           if(this.cmd=='register'){
             this.currentMenuOpts = ['Cancel', 'Save Registration'];

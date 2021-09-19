@@ -488,7 +488,7 @@
             },
 
             cardClick(msg){
-              debugger;
+//              debugger;
               console.log('cardClick', msg);
               switch(msg[0][2]){
 /*
@@ -502,6 +502,7 @@
                   }
 */
                   default:{
+                    debugger;
                     this.cardDataFunction = msg[0][3];
                     this.selectedCardConfigurationValues ={
                       cardTypeBeingConfigured: msg[0][2],
