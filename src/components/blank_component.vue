@@ -3,9 +3,6 @@
     <div class="cardHeader" v-if="this.showOptions==true">
       <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
     </div>
-    <span v-if="this.mode==this.ARCHIVE_SELECT_DEFAULTS" class="selectDefaults">
-
-    </span>
 
   </span>
 </template>
@@ -13,7 +10,6 @@
 <script>
 import menuOpt from "../components/menuOptV2.vue";
 import CardBase from "@/components/CardBase";
-import axios from "axios";
 
 
 export default {
@@ -29,7 +25,6 @@ name: "archive",
     var mOpts = this.getMenuOpts('archive_entry');
     this.currentMenuOpts = mOpts.currentMenuOpts;
     this.loadCardConfiguration(this.cardId);
-    this.mode = this.ARCHIVE_BLANK;
   },
   data(){
     return {
@@ -37,9 +32,6 @@ name: "archive",
       styling: {},
       currentMenuOpts:[],
       configurationCurrentValues:{},
-      mode:0,
-      ARCHIVE_BLANK:0,
-      ARCHIVE_SELECT_DEFAULTS:1
 
     }
   },
@@ -97,21 +89,6 @@ name: "archive",
         case 'DelCardFromDb': {
           console.log('remove from db selected');
           this.deleteCardFromDb(this.cardId);
-          break;
-        }
-        case 'NewDoc':{
-          axios.get('http://localhost:8000/api/shan/documentDefaults?XDEBUG_SESSION_START=14668', {
-          })
-              .then(response => {
-                console.log(response);
-                this.mode=this.ARCHIVE_SELECT_DEFAULTS;
-
-              })
-              .catch(e => {
-                this.errors.push(e);
-                console.log('orgMembers failed');
-              });
-
           break;
         }
       }
