@@ -21,7 +21,7 @@ import axios from "axios";
 
 
 export default {
-name: "archive",
+  name: "Agenda",
   extends: CardBase,
   components: {menuOpt, selectPicker},
   mounted(){

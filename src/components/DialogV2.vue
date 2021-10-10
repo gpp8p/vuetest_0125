@@ -378,6 +378,39 @@
                     currentSelectedMenuOption: 'Appearence'
                   }
                 }
+                case 'agenda':{
+                  return {
+                    currentMenuOpts:[
+                      ['Appearence','Appearence'],
+                      ['Text', 'Text'] ,
+                      ['Save','SaveConfiguration'],
+                      ['Cancel', 'Cancel']
+                    ],
+                    currentSelectedMenuOption: 'Appearence'
+                  }
+                }
+                case 'minutes':{
+                  return {
+                    currentMenuOpts:[
+                      ['Appearence','Appearence'],
+                      ['Text', 'Text'] ,
+                      ['Save','SaveConfiguration'],
+                      ['Cancel', 'Cancel']
+                    ],
+                    currentSelectedMenuOption: 'Appearence'
+                  }
+                }
+                case 'document':{
+                  return {
+                    currentMenuOpts:[
+                      ['Appearence','Appearence'],
+                      ['Text', 'Text'] ,
+                      ['Save','SaveConfiguration'],
+                      ['Cancel', 'Cancel']
+                    ],
+                    currentSelectedMenuOption: 'Appearence'
+                  }
+                }
                 case 'linkMenu':{
                   return {
                     currentMenuOpts:[

@@ -21,7 +21,7 @@ import axios from "axios";
 
 
 export default {
-name: "archive",
+  name: "Minutes",
   extends: CardBase,
   components: {menuOpt, selectPicker},
   mounted(){

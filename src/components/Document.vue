@@ -7,7 +7,8 @@
       <o-field label="Title">
         <o-input v-model="title"></o-input>
       </o-field>
-      <select-picker></select-picker>
+      <select-picker :pType="documentTypeReference" :dialogKey="this.dKey" :label="documentTypeLabel" :options="documentTypeOptions" :currentValues="currentValues" @configSelected="configSelected"></select-picker>
+      <select-picker :pType="fileTypeReference" :dialogKey="this.dKey" :label="fileTypeLabel" :options="fileTypeOptions" :currentValues="currentValues" @configSelected="configSelected"></select-picker>
     </span>
 
   </span>
@@ -21,7 +22,7 @@ import axios from "axios";
 
 
 export default {
-name: "archive",
+  name: "Document",
   extends: CardBase,
   components: {menuOpt, selectPicker},
   mounted(){
@@ -42,6 +43,12 @@ name: "archive",
       currentMenuOpts:[],
       configurationCurrentValues:{},
       title:'',
+      documentTypeReference:'documentType',
+      documentTypeLabel: 'Document Type:',
+      documentTypeOptions:[],
+      fileTypeReference:'fileType',
+      fileTypeLabel:'File Type:',
+      fileTypeOptions:[],
       mode:0,
       ARCHIVE_BLANK:0,
       ARCHIVE_SELECT_DEFAULTS:1
@@ -110,6 +117,8 @@ name: "archive",
           })
               .then(response => {
                 console.log(response);
+                this.documentTypeOptions = response.data.documentTypes;
+                this.fileTypeOptions = response.data.fileTypes;
                 this.mode=this.ARCHIVE_SELECT_DEFAULTS;
 
               })
@@ -156,3 +165,4 @@ name: "archive",
   margin:10px;
 }
 </style>
+

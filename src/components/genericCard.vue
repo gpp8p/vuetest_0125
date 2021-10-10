@@ -94,6 +94,36 @@
                  :displayStatus = displayStatus
                  :card-id=cardId
         ></archive>
+          <Agenda v-if="cardType=='Agenda'"
+                   @cardClick="processCardClick"
+                   @ghostCard="ghostCard"
+                   @configurationHasBeenSaved="configurationHasBeenSaved"
+                   @cardPropertySet="cardPropertySet"
+                   @cardDataLoaded="cardDataLoaded"
+                   ref="cardKey"
+                   :displayStatus = displayStatus
+                   :card-id=cardId
+          ></Agenda>
+        <Minutes v-if="cardType=='Minutes'"
+                 @cardClick="processCardClick"
+                 @ghostCard="ghostCard"
+                 @configurationHasBeenSaved="configurationHasBeenSaved"
+                 @cardPropertySet="cardPropertySet"
+                 @cardDataLoaded="cardDataLoaded"
+                 ref="cardKey"
+                 :displayStatus = displayStatus
+                 :card-id=cardId
+        ></Minutes>
+        <Document v-if="cardType=='Document'"
+                 @cardClick="processCardClick"
+                 @ghostCard="ghostCard"
+                 @configurationHasBeenSaved="configurationHasBeenSaved"
+                 @cardPropertySet="cardPropertySet"
+                 @cardDataLoaded="cardDataLoaded"
+                 ref="cardKey"
+                 :displayStatus = displayStatus
+                 :card-id=cardId
+        ></Document>
 
 
 </span>
@@ -114,11 +144,14 @@
   import loginLink from "../components/loginLink";
   import youTube from "../components/youTube.vue";
   import archive from "../components/archive.vue";
+  import Agenda from "../components/Agenda.vue";
+  import Minutes from "../components/Minutes.vue";
+  import Document from "../components/Document.vue";
 
   export default {
     name: "genericCard",
     extends: GenericCardBase,
-    components: {GreenComponent, textShow, linkMenu, loginLink, youTube, archive},
+    components: {GreenComponent, textShow, linkMenu, loginLink, youTube, archive, Agenda, Minutes, Document},
     props: {
       cardType: {
         type: String,
