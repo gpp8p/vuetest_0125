@@ -1,0 +1,67 @@
+<template>
+  <span class="inputPlusLabel">
+    <span  class="labelStyle">{{label}} </span>
+    <o-input class = "inputStyle" v-model="title" @blur="dataEntered"></o-input>
+  </span>
+</template>
+
+<script>
+export default {
+name: "inputField",
+  props:{
+    currentValues: {
+      type: Object,
+      required: true
+    },
+    pType: {
+      type: String,
+      required: true
+    },
+    label:{
+      type: String,
+      required: true
+    },
+    dialogKey:{
+      type: Number,
+      required:true
+    },
+    setValue:{
+      type: String,
+      required: false
+    }
+  },
+  data(){
+    return {
+      title:''
+    }
+  },
+  methods:{
+    dataEntered(){
+      this.$emit('configSelected', ['title',this.title]);
+    }
+  }
+}
+</script>
+
+<style scoped>
+.inputStyle {
+  background: #DBAA6E;
+  color:blue;
+  font-weight: bold;
+  font-size: 12px;
+  margin-bottom: 3px;
+  width: 60%;
+}
+
+.labelStyle{
+  font-family: Arial;
+  font-size: medium;
+  color: #0a3aff;
+}
+.inputPlusLabel {
+  display:grid;
+  margin-top: 3px;
+  grid-template-columns: 20% 80%;
+}
+
+</style>

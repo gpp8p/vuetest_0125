@@ -629,6 +629,14 @@
               currentMenuSelection: 'Configure'
             }
           }
+          case 'document_setup':{
+            return {
+              currentMenuOpts:[
+                ['Cancel', 'CancelDocumentSetup'],
+              ],
+              currentMenuSelection: 'Cancel'
+            }
+          }
           case'entryMenu_loginLink': {
             return {
               currentMenuOpts: [
