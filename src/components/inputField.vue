@@ -1,7 +1,7 @@
 <template>
   <span class="inputPlusLabel">
     <span  class="labelStyle">{{label}} </span>
-    <o-input class = "inputStyle" v-model="title" @blur="dataEntered"></o-input>
+    <o-input class = "inputStyle" v-model="val" @blur="dataEntered"></o-input>
   </span>
 </template>
 
@@ -30,14 +30,28 @@ name: "inputField",
       required: false
     }
   },
+  watch:{
+    currentValues: function(){
+      this.title = this.currentValues['title'];
+    }
+  },
   data(){
     return {
-      title:''
+      val:this.getVal()
     }
   },
   methods:{
     dataEntered(){
-      this.$emit('configSelected', ['title',this.title]);
+      this.$emit('configSelected', ['val',this.val]);
+    },
+    getVal(){
+      if(typeof this.currentValues[this.pType] !== 'undefined'){
+        return this.currentValues[this.pType];
+      }else{
+        return '';
+      }
+
+
     }
   }
 }

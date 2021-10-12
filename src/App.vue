@@ -212,7 +212,7 @@
         }
       },
       viewStatusChange(msg){
-        debugger;
+//        debugger;
         switch(msg[0]){
           case 'headerBar':{
             this.headerBarViewStatusChangeFunction=msg[1];

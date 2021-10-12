@@ -399,7 +399,7 @@
             this.cardConfigParams = response.data[0];
             this.cardContent = response.data[1];
             console.log(this.cardContent);
-            debugger;
+  //          debugger;
             if(typeof response.data[3].availableLinks != 'undefined' && response.data[3].availableLinks.length>0){
 //            if(response.data[3].availableLinks.length>0){
               this.cardContent.availableLinks = response.data[3].availableLinks;
@@ -633,6 +633,7 @@
             return {
               currentMenuOpts:[
                 ['Cancel', 'CancelDocumentSetup'],
+                ['Next', 'DocumentEntry'],
               ],
               currentMenuSelection: 'Cancel'
             }

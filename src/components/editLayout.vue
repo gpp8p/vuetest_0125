@@ -303,7 +303,7 @@
                 console.log('editLayout configSelected - ', msg);
                 switch(msg[0]){
                     case 'cancel':{
-                        debugger;
+//                        debugger;
                         this.dialogType=0;
                         this.cardCurrentConfigurationValues={};
                         this.RICH_TEXT_EDITOR=false;
@@ -502,7 +502,7 @@
                   }
 */
                   default:{
-                    debugger;
+//                    debugger;
                     this.cardDataFunction = msg[0][3];
                     this.selectedCardConfigurationValues ={
                       cardTypeBeingConfigured: msg[0][2],

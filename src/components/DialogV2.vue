@@ -306,7 +306,7 @@
               }
             },
             getMenuOpts(menuContext){
-              debugger;
+//              debugger;
               console.log('Dialog2 getMenuOpts menuContext:', menuContext);
               switch(menuContext){
                 case 'register':{

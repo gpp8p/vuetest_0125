@@ -8,7 +8,7 @@
     </div>
     <span v-if="this.mode==this.ARCHIVE_SELECT_DEFAULTS" class="selectDefaults">
       <span>
-        <input-field p-type="inputFieldReference" :dialogKey="this.dKey" :label="inputFieldLabel" :currentValues="currentValues" @configSelected="configSelected"></input-field>
+        <input-field :p-type="inputFieldReference" :dialogKey="this.dKey" :label="inputFieldLabel" :currentValues="currentValues" @configSelected="configSelected"></input-field>
       </span>
       <span>
         <select-picker :pType="documentTypeReference" :dialogKey="this.dKey" :label="documentTypeLabel" :options="documentTypeOptions" :currentValues="currentValues" @configSelected="configSelected"></select-picker>
@@ -20,6 +20,18 @@
         <o-button @click="nextClicked" variant="primary"  :size="large">Next</o-button>
       </span>
     </span>
+    <span v-if="this.mode==this.ARCHIVE_RT_EDITOR">
+            <editor-ck
+                :cardData="cardData"
+                :cmd="cmd"
+                :cmdObject="this.cObject"
+                :cmdVersion="cObjectVersion"
+                @saveContent="cardSaved"
+                @editorReady="editorReady"
+                @currentContent="currentContent"
+                @imageInsert = "imageInsert"
+            ></editor-ck>
+    </span>
 
   </span>
 </template>
@@ -29,14 +41,16 @@ import menuOpt from "../components/menuOptV2.vue";
 import CardBase from "@/components/CardBase";
 import selectPicker from "@/components/selectPicker";
 import inputField from "@/components/inputField";
+import editorCk from '../components/editorCk.vue'
 import axios from "axios";
 
 
 export default {
   name: "Document",
   extends: CardBase,
-  components: {menuOpt, selectPicker, inputField},
+  components: {menuOpt, selectPicker, inputField, editorCk},
   mounted(){
+    console.log('DSocument mounted');
     if(this.displayStatus==true){
       this.showOptions=false;
     }else{
@@ -55,6 +69,7 @@ export default {
       styling: {},
       documentType:'',
       fileType:'',
+      currentValues:{},
       currentMenuOpts:[],
       configurationCurrentValues:{},
       title:'',
@@ -68,7 +83,8 @@ export default {
       fileTypeOptions:[],
       mode:0,
       ARCHIVE_BLANK:0,
-      ARCHIVE_SELECT_DEFAULTS:1
+      ARCHIVE_SELECT_DEFAULTS:1,
+      ARCHIVE_RT_EDITOR:2
 
 
     }
@@ -110,7 +126,7 @@ export default {
           break;
         }
         case 'Resize': {
-          debugger;
+//          debugger;
           this.moveClicked();
           break;
         }
@@ -162,6 +178,17 @@ export default {
 
           break;
         }
+        case 'DocumentEntry':{
+          debugger;
+          this.nextClicked()
+          switch(this.fileType){
+            case 'Rich Text HTML':{
+              this.mode = this.ARCHIVE_RT_EDITOR;
+              break;
+            }
+          }
+          break;
+        }
       }
     },
     moveClicked(){
@@ -170,7 +197,7 @@ export default {
     },
     configSelected(msg){
       switch(msg[0]){
-        case 'title':{
+        case 'val':{
           this.title = msg[1];
           break;
         }
@@ -186,7 +213,7 @@ export default {
       console.log(msg);
     },
     nextClicked(){
-      debugger;
+//      debugger;
       var errorMsg = 'Missing Fields:';
       var entryError=false;
       if(this.title==''){
@@ -206,6 +233,13 @@ export default {
         this.showOptions=false;
         this.showMessage = true;
       }else{
+//        debugger;
+        this.currentValues['title']=this.title;
+        this.currentValues['documentType']=this.documentType;
+        this.currentValues['fileType']=this.fileType;
+        var mOpts = this.getMenuOpts('archive_entry');
+        this.currentMenuOpts = mOpts.currentMenuOpts;
+//        this.mode = this.ARCHIVE_BLANK;
         this.showOptions=true;
         this.showMessage = false;
       }
