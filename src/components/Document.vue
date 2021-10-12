@@ -16,9 +16,6 @@
       <span>
         <select-picker :pType="fileTypeReference" :dialogKey="this.dKey" :label="fileTypeLabel" :options="fileTypeOptions" :currentValues="currentValues" @configSelected="configSelected"></select-picker>
       </span>
-      <span class="nextButton">
-        <o-button @click="nextClicked" variant="primary"  :size="large">Next</o-button>
-      </span>
     </span>
     <span v-if="this.mode==this.ARCHIVE_RT_EDITOR">
             <editor-ck
@@ -259,7 +256,7 @@ export default {
 }
 .selectDefaults{
   display:grid;
-  grid-template-rows: 20% 20% 20% 30%;
+  grid-template-rows: 20% 20% 20%;
   margin-left: 60px;
   margin-top: 30px;
 
@@ -286,10 +283,6 @@ export default {
   height: 90%;
   margin:10px;
 }
-.nextButton {
-  margin-top: 10%;
-  margin-left: 80%;
 
-}
 </style>
 
