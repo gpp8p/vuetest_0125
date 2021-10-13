@@ -121,6 +121,7 @@
                  @cardPropertySet="cardPropertySet"
                  @cardDataLoaded="cardDataLoaded"
                  ref="cardKey"
+                 :cardContent="cardContent"
                  :displayStatus = displayStatus
                  :card-id=cardId
         ></Document>

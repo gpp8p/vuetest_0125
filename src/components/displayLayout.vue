@@ -303,7 +303,7 @@
                     // JSON responses are automatically parsed.
 //                    debugger;
                     console.log('getLayout-',response);
-                    console.log('getLayout content', this.cardContent);
+                    console.log('getLayout content', response.data.cards);
                     this.cardInstances = response.data.cards;
                     this.gridParamDefinition = this.layoutGridParameters(
                         response.data.layout.height,

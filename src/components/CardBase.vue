@@ -471,6 +471,7 @@
             this.restoreValues = JSON.stringify(rValues);
             console.log('restoreValues-',this.restoreValues);
 //            this.$emit('cardDataLoaded',[this.styling, this.configurationCurrentValues, response.data[2]]);
+            this.cardContent=thisCardContent;
             console.log('loadConfiguration is returning',[this.styling, this.configurationCurrentValues, subElements, thisCardContent]);
             this.$emit('cardDataLoaded',[this.styling, this.configurationCurrentValues, subElements, thisCardContent]);
 
@@ -634,6 +635,16 @@
               currentMenuOpts:[
                 ['Cancel', 'CancelDocumentSetup'],
                 ['Next', 'DocumentEntry'],
+              ],
+              currentMenuSelection: 'Cancel'
+            }
+          }
+          case 'document_rt_entry':{
+            return {
+              currentMenuOpts:[
+                ['Cancel', 'CancelDocumentSetup'],
+                ['Save', 'DocumentSave'],
+                ['Back', 'Document_rte_Back'],
               ],
               currentMenuSelection: 'Cancel'
             }

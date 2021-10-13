@@ -29,8 +29,9 @@
                 @imageInsert = "imageInsert"
             ></editor-ck>
     </span>
-
-  </span>
+    <span v-if="this.mode==this.ARCHIVE_SHOW_RT" v-html="this.cardContent.cardText">
+    </span>
+    </span>
 </template>
 
 <script>
@@ -57,6 +58,7 @@ export default {
     this.currentMenuOpts = mOpts.currentMenuOpts;
     this.loadCardConfiguration(this.cardId);
     this.mode = this.ARCHIVE_BLANK;
+//    this.mode=this.ARCHIVE_SHOW_RT;
   },
   data(){
     return {
@@ -81,7 +83,13 @@ export default {
       mode:0,
       ARCHIVE_BLANK:0,
       ARCHIVE_SELECT_DEFAULTS:1,
-      ARCHIVE_RT_EDITOR:2
+      ARCHIVE_RT_EDITOR:2,
+      ARCHIVE_SHOW_RT:3,
+      cObject:{},
+      cObjectVersion:0,
+      content: {},
+
+
 
 
     }
@@ -105,6 +113,10 @@ export default {
     },
     cardPosition: {
       type: Array,
+      required: true
+    },
+    cardContent:{
+      type: Object,
       required: true
     },
   },
@@ -175,11 +187,26 @@ export default {
 
           break;
         }
+        case 'DocumentSave':{
+          this.cObject = {};
+          this.cObject.action = 'save';
+          this.cObject.linkedLayoutId = msg[1];
+          this.cObjectVersion=this.cObjectVersion+1;
+          break;
+        }
+        case 'Document_rte_Back':{
+          mOpts = this.getMenuOpts('document_setup');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.mode=this.ARCHIVE_SELECT_DEFAULTS;
+          break;
+        }
         case 'DocumentEntry':{
           debugger;
           this.nextClicked()
           switch(this.fileType){
             case 'Rich Text HTML':{
+              mOpts = this.getMenuOpts('document_rt_entry');
+              this.currentMenuOpts = mOpts.currentMenuOpts;
               this.mode = this.ARCHIVE_RT_EDITOR;
               break;
             }
@@ -187,6 +214,13 @@ export default {
           break;
         }
       }
+    },
+    currentContent(msg){
+      console.log('currentContent event',msg);
+      this.cardContent = msg;
+      this.content.cardText = this.cardContent;
+      this.setCardData(this.content, 'saveCardContent', 'main');
+
     },
     moveClicked(){
       console.log('moveClicked');
