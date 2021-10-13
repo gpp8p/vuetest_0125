@@ -16,6 +16,13 @@
       <span>
         <select-picker :pType="fileTypeReference" :dialogKey="this.dKey" :label="fileTypeLabel" :options="fileTypeOptions" :currentValues="currentValues" @configSelected="configSelected"></select-picker>
       </span>
+      <span>
+        <select-picker :pType="accessTypeReference" :dialogKey="this.dKey" :label="accessTypeLabel" :options="accessTypeOptions" :currentValues="currentValues" @configSelected="configSelected"></select-picker>
+      </span>
+      <span>
+        <input-checkbox :pType="accessTypeReference" :dialogKey="this.dKey" :label="indexLabel" :options="accessTypeOptions" :currentValues="currentValues" @configSelected="configSelected"></input-checkbox>
+      </span>
+
     </span>
     <span v-if="this.mode==this.ARCHIVE_RT_EDITOR">
             <editor-ck
@@ -39,6 +46,7 @@ import menuOpt from "../components/menuOptV2.vue";
 import CardBase from "@/components/CardBase";
 import selectPicker from "@/components/selectPicker";
 import inputField from "@/components/inputField";
+import inputCheckbox from "@/components/inputCheckbox"
 import editorCk from '../components/editorCk.vue'
 import axios from "axios";
 
@@ -46,7 +54,7 @@ import axios from "axios";
 export default {
   name: "Document",
   extends: CardBase,
-  components: {menuOpt, selectPicker, inputField, editorCk},
+  components: {menuOpt, selectPicker, inputField, editorCk, inputCheckbox},
   mounted(){
     console.log('DSocument mounted');
     if(this.displayStatus==true){
@@ -56,7 +64,7 @@ export default {
     }
     var mOpts = this.getMenuOpts('archive_entry');
     this.currentMenuOpts = mOpts.currentMenuOpts;
-    this.loadCardConfiguration(this.cardId);
+//    this.loadCardConfiguration(this.cardId);
     this.mode = this.ARCHIVE_BLANK;
 //    this.mode=this.ARCHIVE_SHOW_RT;
   },
@@ -80,6 +88,11 @@ export default {
       fileTypeReference:'fileType',
       fileTypeLabel:'File Type:',
       fileTypeOptions:[],
+      accessTypeLabel:'Access:',
+      AccessTypeOptions:[],
+      indexLabel:'Index Document ?',
+
+      accessTypeOptions:[],
       mode:0,
       ARCHIVE_BLANK:0,
       ARCHIVE_SELECT_DEFAULTS:1,
@@ -167,6 +180,7 @@ export default {
                 console.log(response);
                 this.documentTypeOptions=[];
                 this.fileTypeOptions=[];
+                this.accessTypeOptions=[]
                 response.data.documentTypes.forEach((val, index) =>{
                   console.log('Index: ' + index + ' Value: ' + val.document_type);
                   this.documentTypeOptions.push(val.document_type);
@@ -174,6 +188,10 @@ export default {
                 response.data.fileTypes.forEach((val, index) => {
                   console.log('Index: ' + index + ' Value: ' + val.file_type);
                   this.fileTypeOptions.push(val.file_type);
+                });
+                response.data.accessTypes.forEach((val, index) => {
+                  console.log('Index: ' + index + ' Value: ' + val.access_type);
+                  this.accessTypeOptions.push(val.access_type);
                 });
                 var mOpts = this.getMenuOpts('document_setup');
                 this.currentMenuOpts = mOpts.currentMenuOpts;
@@ -290,7 +308,7 @@ export default {
 }
 .selectDefaults{
   display:grid;
-  grid-template-rows: 20% 20% 20%;
+  grid-template-rows: 20% 20% 20% 20%;
   margin-left: 60px;
   margin-top: 30px;
 
