@@ -1,5 +1,5 @@
 <template>
-  <span>
+  <span class="cardStyle" >
     <div class="cardHeader" v-if="this.showOptions==true">
         <menu-opt :mOpts="currentMenuOpts"  @menuOptSelected="menuOptSelected"></menu-opt>
     </div>
@@ -8,23 +8,23 @@
     </div>
     <span v-if="this.mode==this.ARCHIVE_SELECT_DEFAULTS" class="selectDefaults">
       <span>
-        <input-field :p-type="inputFieldReference" :dialogKey="this.dKey" :label="inputFieldLabel" :currentValues="currentValues" @configSelected="configSelected"></input-field>
+        <input-field :p-type="inputFieldReference" :dialogKey="this.dKey" :label="inputFieldLabel" :currentValues="this.cardContent" @configSelected="configSelected"></input-field>
       </span>
       <span>
-        <select-picker :pType="documentTypeReference" :dialogKey="this.dKey" :label="documentTypeLabel" :options="documentTypeOptions" :currentValues="currentValues" @configSelected="configSelected"></select-picker>
+        <select-picker :pType="documentTypeReference" :dialogKey="this.dKey" :label="documentTypeLabel" :options="documentTypeOptions" :currentValues="this.cardContent" @configSelected="configSelected"></select-picker>
       </span>
       <span>
-        <select-picker :pType="fileTypeReference" :dialogKey="this.dKey" :label="fileTypeLabel" :options="fileTypeOptions" :currentValues="currentValues" @configSelected="configSelected"></select-picker>
+        <select-picker :pType="fileTypeReference" :dialogKey="this.dKey" :label="fileTypeLabel" :options="fileTypeOptions" :currentValues="this.cardContent" @configSelected="configSelected"></select-picker>
       </span>
       <span>
-        <select-picker :pType="accessTypeReference" :dialogKey="this.dKey" :label="accessTypeLabel" :options="accessTypeOptions" :currentValues="currentValues" @configSelected="configSelected"></select-picker>
+        <select-picker :pType="accessTypeReference" :dialogKey="this.dKey" :label="accessTypeLabel" :options="accessTypeOptions" :currentValues="this.cardContent" @configSelected="configSelected"></select-picker>
       </span>
       <span>
-        <input-checkbox :pType="accessTypeReference" :dialogKey="this.dKey" :label="indexLabel" :options="accessTypeOptions" :currentValues="currentValues" @configSelected="configSelected"></input-checkbox>
+        <input-checkbox :pType="accessTypeReference" :dialogKey="this.dKey" :label="indexLabel" :options="accessTypeOptions" :currentValues="this.cardContent" @configSelected="configSelected"></input-checkbox>
       </span>
 
     </span>
-    <span v-if="this.mode==this.ARCHIVE_RT_EDITOR">
+    <span v-if="this.mode==this.ARCHIVE_RT_EDITOR" ref="textContent">
             <editor-ck
                 :cardData="cardData"
                 :cmd="cmd"
@@ -36,7 +36,7 @@
                 @imageInsert = "imageInsert"
             ></editor-ck>
     </span>
-    <span v-if="this.mode==this.ARCHIVE_SHOW_RT" v-html="this.cardContent.cardText">
+    <span v-if="this.mode==this.ARCHIVE_SHOW_RT" v-html="cardData">
     </span>
     </span>
 </template>
@@ -62,10 +62,41 @@ export default {
     }else{
       this.showOptions=true;
     }
-    var mOpts = this.getMenuOpts('archive_entry');
-    this.currentMenuOpts = mOpts.currentMenuOpts;
 //    this.loadCardConfiguration(this.cardId);
     this.mode = this.ARCHIVE_BLANK;
+    console.log('cardContent.title:',this.cardContent['title']);
+    if(typeof(this.cardContent['title'])!=='undefined'){
+      this.title= this.cardContent['title'];
+    }
+    if(typeof(this.cardContent['cardText'])!=='undefined'){
+      this.cardData= this.cardContent['cardText'];
+    }
+    if(typeof(this.cardContent['documentType'])!=='undefined'){
+      this.documentType= this.cardContent['documentType'];
+    }
+    if(typeof(this.cardContent['fileType'])!=='undefined'){
+      this.fileType= this.cardContent['fileType'];
+    }
+    if(typeof(this.cardContent['cardText'])!=='undefined'){
+      this.cardData= this.cardContent['cardText'];
+    }
+    if(typeof(this.cardContent['indexFile'])!=='undefined'){
+      if(this.cardContent['indexFile']==1){
+        this.indexFile=true;
+      }else{
+        this.indexFile=false;
+      }
+    }
+    if(this.cardContent.length==0){
+      var mOpts = this.getMenuOpts('archive_entry');
+      this.currentMenuOpts = mOpts.currentMenuOpts;
+      this.loadCardConfiguration(this.cardId);
+      this.mode = this.ARCHIVE_BLANK;
+    }else{
+      mOpts = this.getMenuOpts('archive_edit');
+      this.currentMenuOpts = mOpts.currentMenuOpts;
+      this.mode =this.ARCHIVE_SHOW_RT;
+    }
 //    this.mode=this.ARCHIVE_SHOW_RT;
   },
   data(){
@@ -88,9 +119,13 @@ export default {
       fileTypeReference:'fileType',
       fileTypeLabel:'File Type:',
       fileTypeOptions:[],
+      accessTypeReference:'accessType',
       accessTypeLabel:'Access:',
       AccessTypeOptions:[],
+      accessType:'',
       indexLabel:'Index Document ?',
+      indexFile:false,
+      cardData:'',
 
       accessTypeOptions:[],
       mode:0,
@@ -132,6 +167,14 @@ export default {
       type: Object,
       required: true
     },
+  },
+  computed: {
+    height () {
+      return this.$refs.textContent.clientHeight
+    },
+    width() {
+      return this.$refs.textContent.clientWidth
+    }
   },
   methods: {
     menuOptSelected(msg) {
@@ -205,6 +248,20 @@ export default {
 
           break;
         }
+        case 'EditDoc':{
+          debugger;
+          switch(this.fileType){
+            case 'Rich Text HTML':{
+              this.mode=this.ARCHIVE_RT_EDITOR;
+              break;
+            }
+          }
+          break;
+        }
+        case 'ChangeSetup':{
+          this.mode=this.ARCHIVE_SELECT_DEFAULTS;
+          break;
+        }
         case 'DocumentSave':{
           this.cObject = {};
           this.cObject.action = 'save';
@@ -226,6 +283,15 @@ export default {
               mOpts = this.getMenuOpts('document_rt_entry');
               this.currentMenuOpts = mOpts.currentMenuOpts;
               this.mode = this.ARCHIVE_RT_EDITOR;
+              var editorHeight = this.height+275;
+              var editorWidth = this.width+29;
+              var editorHeightParam = editorHeight+'px';
+              var editorWidthParam = editorWidth+'px';
+              console.log('editorHeight',editorHeightParam );
+              console.log('editorWidth',editorWidthParam );
+              let root = document.documentElement;
+              root.style.setProperty('--ck-height', editorHeightParam);
+              root.style.setProperty('--ck-width', editorWidthParam);
               break;
             }
           }
@@ -237,6 +303,12 @@ export default {
       console.log('currentContent event',msg);
       this.cardContent = msg;
       this.content.cardText = this.cardContent;
+      this.content.title= this.title;
+      this.content.fileType = this.fileType;
+      this.content.documentType=this.documentType;
+      this.content.indexFile= this.indexFile;
+      this.content.cardType='Document';
+
       this.setCardData(this.content, 'saveCardContent', 'main');
 
     },
@@ -245,6 +317,7 @@ export default {
       this.$emit('ghostCard');
     },
     configSelected(msg){
+      console.log('configSelected',msg);
       switch(msg[0]){
         case 'val':{
           this.title = msg[1];
@@ -257,6 +330,18 @@ export default {
         case 'fileType':{
           this.fileType = msg[1];
           break;
+        }
+        case 'accessType':{
+          this.accessType = msg[1];
+          break;
+        }
+        case 'checkbox':{
+          if(msg[1]=='activated'){
+            this.indexFile = true;
+          }else{
+            this.indexFile = false;
+          }
+
         }
       }
       console.log(msg);

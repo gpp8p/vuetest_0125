@@ -630,6 +630,18 @@
               currentMenuSelection: 'Configure'
             }
           }
+          case 'archive_edit':{
+            return {
+              currentMenuOpts:[
+                ['Configure', 'Configure'],
+                ['Resize/Move', 'Resize'],
+                ['Del', 'DeleteCard'],
+                ['Edit Document','EditDoc'],
+                ['Change Setup','ChangeSetup'],
+              ],
+              currentMenuSelection: 'Configure'
+            }
+          }
           case 'document_setup':{
             return {
               currentMenuOpts:[

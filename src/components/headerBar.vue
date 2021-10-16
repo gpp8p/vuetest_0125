@@ -57,7 +57,7 @@
         },
         mounted(){
           console.log('header bar has been mounted');
-          debugger;
+ //         debugger;
           this.menuItems = this.getMenuItems();
           this.$emit('viewStatusChangeFunction', ['headerBar',this.viewStatusChange]);
         },

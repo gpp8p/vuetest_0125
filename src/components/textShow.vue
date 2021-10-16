@@ -240,6 +240,7 @@ export default {
       console.log('currentContent event');
       this.cardContent = msg;
       this.content.cardText = this.cardContent;
+      this.content.cardType = 'textShow';
       this.setCardData(this.content, 'saveCardContent', 'main');
       this.mode=this.SHOW_TEXT;
       var mOpts = this.getMenuOpts('entryMenu');

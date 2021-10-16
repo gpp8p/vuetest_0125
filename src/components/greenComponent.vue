@@ -311,7 +311,8 @@ export default {
         }
         case 'saveContent':{
           var titleValue = {
-            title:this.cardTitle
+            title:this.cardTitle,
+            cardType:'Headline',
           }
           this.$emit('configSelected', ['title', titleValue, 'main']);
           this.$emit('configSelected',['saveCardContent', titleValue, 'main']);

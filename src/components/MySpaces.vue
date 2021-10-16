@@ -24,7 +24,7 @@ name: "MySpaces",
   mounted(){
     console.log('mounted runs in layoutLinks');
     console.log('orgId - according vuex:', this.$store.getters.getOrgId );
-    debugger;
+//    debugger;
     axios.get('http://localhost:8000/api/shan/getMySpaces?XDEBUG_SESSION_START=15122"', {
       params:{
         orgId:this.$store.getters.getOrgId,

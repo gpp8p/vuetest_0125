@@ -101,7 +101,7 @@
           }
         },
         mounted(){
-          debugger;
+//          debugger;
             console.log('displayLayout mounted',this.$route.params.layoutId);
             console.log('displayLayout mounted',this.$route.params.layoutCmd);
             this.$emit('viewStatusChangeFunction',['displayLayout', this.displayLayoutViewStatusChange]);
