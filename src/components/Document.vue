@@ -20,7 +20,7 @@
         <select-picker :pType="accessTypeReference" :dialogKey="this.dKey" :label="accessTypeLabel" :options="accessTypeOptions" :currentValues="this.cardContent" @configSelected="configSelected"></select-picker>
       </span>
       <span>
-        <input-checkbox :pType="accessTypeReference" :dialogKey="this.dKey" :label="indexLabel" :options="accessTypeOptions" :currentValues="this.cardContent" @configSelected="configSelected"></input-checkbox>
+        <input-checkbox :pType="indexTypeReference" :dialogKey="this.dKey" :label="indexLabel" :options="accessTypeOptions" :currentValues="this.cardContent" @configSelected="configSelected"></input-checkbox>
       </span>
 
     </span>
@@ -124,6 +124,7 @@ export default {
       AccessTypeOptions:[],
       accessType:'',
       indexLabel:'Index Document ?',
+      indexTypeReference:'indexFile',
       indexFile:false,
       cardData:'',
 
@@ -217,35 +218,7 @@ export default {
           break;
         }
         case 'NewDoc':{
-          axios.get('http://localhost:8000/api/shan/documentDefaults?XDEBUG_SESSION_START=14668', {
-          })
-              .then(response => {
-                console.log(response);
-                this.documentTypeOptions=[];
-                this.fileTypeOptions=[];
-                this.accessTypeOptions=[]
-                response.data.documentTypes.forEach((val, index) =>{
-                  console.log('Index: ' + index + ' Value: ' + val.document_type);
-                  this.documentTypeOptions.push(val.document_type);
-                });
-                response.data.fileTypes.forEach((val, index) => {
-                  console.log('Index: ' + index + ' Value: ' + val.file_type);
-                  this.fileTypeOptions.push(val.file_type);
-                });
-                response.data.accessTypes.forEach((val, index) => {
-                  console.log('Index: ' + index + ' Value: ' + val.access_type);
-                  this.accessTypeOptions.push(val.access_type);
-                });
-                var mOpts = this.getMenuOpts('document_setup');
-                this.currentMenuOpts = mOpts.currentMenuOpts;
-                this.mode=this.ARCHIVE_SELECT_DEFAULTS;
-
-              })
-              .catch(e => {
-                this.errors.push(e);
-                console.log('orgMembers failed');
-              });
-
+          this.loadOptions();
           break;
         }
         case 'EditDoc':{
@@ -259,6 +232,7 @@ export default {
           break;
         }
         case 'ChangeSetup':{
+          this.loadOptions();
           this.mode=this.ARCHIVE_SELECT_DEFAULTS;
           break;
         }
@@ -307,9 +281,41 @@ export default {
       this.content.fileType = this.fileType;
       this.content.documentType=this.documentType;
       this.content.indexFile= this.indexFile;
+      this.content.accessType=this.accessType;
       this.content.cardType='Document';
 
       this.setCardData(this.content, 'saveCardContent', 'main');
+
+    },
+    loadOptions(){
+      axios.get('http://localhost:8000/api/shan/documentDefaults?XDEBUG_SESSION_START=14668', {
+      })
+          .then(response => {
+            console.log(response);
+            this.documentTypeOptions=[];
+            this.fileTypeOptions=[];
+            this.accessTypeOptions=[]
+            response.data.documentTypes.forEach((val, index) =>{
+              console.log('Index: ' + index + ' Value: ' + val.document_type);
+              this.documentTypeOptions.push(val.document_type);
+            });
+            response.data.fileTypes.forEach((val, index) => {
+              console.log('Index: ' + index + ' Value: ' + val.file_type);
+              this.fileTypeOptions.push(val.file_type);
+            });
+            response.data.accessTypes.forEach((val, index) => {
+              console.log('Index: ' + index + ' Value: ' + val.access_type);
+              this.accessTypeOptions.push(val.access_type);
+            });
+            var mOpts = this.getMenuOpts('document_setup');
+            this.currentMenuOpts = mOpts.currentMenuOpts;
+            this.mode=this.ARCHIVE_SELECT_DEFAULTS;
+
+          })
+          .catch(e => {
+            this.errors.push(e);
+            console.log('orgMembers failed');
+          });
 
     },
     moveClicked(){
