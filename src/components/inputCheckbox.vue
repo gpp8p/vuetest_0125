@@ -30,10 +30,8 @@ name: "inputCheckbox",
       required: false
     }
   },
-  watch:{
-    currentValues: function(){
-
-    }
+  mounted(){
+    this.getVal();
   },
   data(){
     return {
@@ -51,6 +49,11 @@ name: "inputCheckbox",
 
     getVal(){
       if(typeof this.currentValues[this.pType] !== 'undefined'){
+        if(this.currentValues[this.pType]==1){
+          this.checked='true';
+        }else{
+          this.checked='false';
+        }
         return this.currentValues[this.pType];
       }else{
         return '';

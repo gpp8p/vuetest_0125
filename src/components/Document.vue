@@ -343,9 +343,9 @@ export default {
         }
         case 'checkbox':{
           if(msg[1]=='activated'){
-            this.indexFile = true;
+            this.indexFile = 1;
           }else{
-            this.indexFile = false;
+            this.indexFile = 0;
           }
 
         }
