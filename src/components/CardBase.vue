@@ -636,6 +636,7 @@
                 ['Configure', 'Configure'],
                 ['Resize/Move', 'Resize'],
                 ['Del', 'DeleteCard'],
+                ['Save', 'DocumentSave'],
                 ['Edit Document','EditDoc'],
                 ['Change Setup','ChangeSetup'],
               ],
@@ -646,7 +647,7 @@
             return {
               currentMenuOpts:[
                 ['Cancel', 'CancelDocumentSetup'],
-                ['Next', 'DocumentEntry'],
+                ['Next', 'EditDoc'],
               ],
               currentMenuSelection: 'Cancel'
             }
@@ -709,6 +710,57 @@
                 ['Cancel', 'Cancel']
               ],
               currentMenuSelection: 'Cancel'
+            }
+          }
+          case 'richTextOpen':{
+            return {
+              currentMenuOpts:[
+                ['Cancel','Cancel'],
+                ['Link','Link to Another Space'],
+                ['Save', 'Save']
+              ],
+              currentSelectedMenuOption: 'Cancel'
+            }
+          }
+          case'insertLink':{
+            return {
+              currentMenuOpts:[
+                ['Cancel','Cancel'],
+                ['Insert Link', 'Insert the Link'],
+                ['Back', 'Back']
+              ],
+              currentMenuSelection: 'Cancel'
+            }
+          }
+          case'creatingLayout':{
+            return {
+              currentMenuOpts:[
+                ['Cancel','Cancel'],
+                ['Save', 'Save This Space'],
+                ['Back', 'Back']
+              ],
+              currentMenuSelection: 'Cancel'
+            }
+          }
+          case'creatingLayout1':{
+            return {
+              currentMenuOpts:[
+                ['Cancel','Cancel'],
+                ['Save', 'Save This Space'],
+                ['Back', 'Backtosetup']
+              ],
+              currentMenuSelection: 'Cancel'
+            }
+          }
+          case'entryMenu':{
+            return {
+              currentMenuOpts:[
+                ['Configure','Configure'],
+                ['Resize/Move', 'Resize'],
+                ['Del','DeleteCard'],
+                ['Edit', 'Edit']
+              ],
+              currentMenuSelection: 'Configure'
             }
           }
         }

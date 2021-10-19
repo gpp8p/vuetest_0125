@@ -5,7 +5,7 @@
     </div>
     <br/>
 
-    <div class="cardBody" v-if="this.mode==this.SHOW_TEXT" ref="textContent"  v-html="this.cardData">
+    <div class="cardBody" v-if="this.mode==this.SHOW_TEXT" ref="textContent"  v-html="cardData">
     </div>
     <span v-if="this.mode==this.RICH_TEXT_EDITOR">
       <editor-ck
@@ -103,7 +103,7 @@ export default {
       cardMessage: this.getCardProps(),
       cardHasBeenSetup: false,
       cstyle: this.cardStyle,
-      cardData: this.cardProperties,
+      cardData: this.cardContent.cardText,
       styling: {},
       content: {},
       configurationCurrentValues: {},

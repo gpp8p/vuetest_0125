@@ -1,12 +1,13 @@
 <template>
-  <span class="cardStyle" >
-    <div class="cardHeader" v-if="this.showOptions==true">
-        <menu-opt :mOpts="currentMenuOpts"  @menuOptSelected="menuOptSelected"></menu-opt>
+  <div class="cardStyle ck-content">
+    <div class="cardHeader" v-if="showOptions==true">
+      <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
     </div>
-    <div class="cardHeader msgHeader" v-if="this.showMessage==true">
-      {{this.message}}
+    <br/>
+
+    <div class="cardBody" v-if="this.mode==this.SHOW_TEXT" ref="textContent"  v-html="cardData">
     </div>
-    <span v-if="this.mode==this.ARCHIVE_SELECT_DEFAULTS" class="selectDefaults">
+    <span v-if="this.mode==this.SETUP" class="selectDefaults">
       <span>
         <input-field :p-type="inputFieldReference" :dialogKey="this.dKey" :label="inputFieldLabel" :currentValues="this.cardContent" @configSelected="configSelected"></input-field>
       </span>
@@ -22,49 +23,44 @@
       <span>
         <input-checkbox :pType="indexTypeReference" :dialogKey="this.dKey" :label="indexLabel" :options="accessTypeOptions" :currentValues="this.cardContent" @configSelected="configSelected"></input-checkbox>
       </span>
+    </span>
+    <span v-if="this.mode==this.RICH_TEXT_EDITOR" ref="textContent">
+      <editor-ck
+          :cardData="cardData"
+          :cmd="cmd"
+          :cmdObject="this.cObject"
+          :cmdVersion="cObjectVersion"
+          @saveContent="cardSaved"
+          @editorReady="editorReady"
+          @currentContent="currentContent"
+          @imageInsert = "imageInsert"
+      ></editor-ck>
+    </span>
 
-    </span>
-    <span v-if="this.mode==this.ARCHIVE_RT_EDITOR" ref="textContent">
-            <editor-ck
-                :cardData="cardData"
-                :cmd="cmd"
-                :cmdObject="this.cObject"
-                :cmdVersion="cObjectVersion"
-                @saveContent="cardSaved"
-                @editorReady="editorReady"
-                @currentContent="currentContent"
-                @imageInsert = "imageInsert"
-            ></editor-ck>
-    </span>
-    <span v-if="this.mode==this.ARCHIVE_SHOW_RT" v-html="cardData">
-    </span>
-    </span>
+  </div>
 </template>
 
 <script>
-import menuOpt from "../components/menuOptV2.vue";
-import CardBase from "@/components/CardBase";
+/* eslint-disable no-console,no-debugger */
+import CardBase from "../components/CardBase.vue";
 import selectPicker from "@/components/selectPicker";
 import inputField from "@/components/inputField";
 import inputCheckbox from "@/components/inputCheckbox"
 import editorCk from '../components/editorCk.vue'
+import menuOpt from "../components/menuOptV2.vue";
 import axios from "axios";
-
-
+//import axios from "axios";
 export default {
   name: "Document",
   extends: CardBase,
-  components: {menuOpt, selectPicker, inputField, editorCk, inputCheckbox},
+  components: {editorCk, menuOpt, selectPicker, inputField,inputCheckbox},
   mounted(){
-    console.log('DSocument mounted');
     if(this.displayStatus==true){
       this.showOptions=false;
     }else{
       this.showOptions=true;
     }
-//    this.loadCardConfiguration(this.cardId);
-    this.mode = this.ARCHIVE_BLANK;
-    console.log('cardContent.title:',this.cardContent['title']);
+
     if(typeof(this.cardContent['title'])!=='undefined'){
       this.title= this.cardContent['title'];
     }
@@ -87,6 +83,7 @@ export default {
         this.indexFile=false;
       }
     }
+    debugger;
     if(this.cardContent.length==0){
       var mOpts = this.getMenuOpts('archive_entry');
       this.currentMenuOpts = mOpts.currentMenuOpts;
@@ -95,22 +92,88 @@ export default {
     }else{
       mOpts = this.getMenuOpts('archive_edit');
       this.currentMenuOpts = mOpts.currentMenuOpts;
-      this.mode =this.ARCHIVE_SHOW_RT;
+      this.mode =this.SHOW_TEXT;
     }
-//    this.mode=this.ARCHIVE_SHOW_RT;
+
+
   },
-  data(){
+  props: {
+    cardStyle: {
+      type: String,
+      required: true
+    },
+    cardId: {
+      type: String,
+      required: true
+    },
+    cardKey: {
+      type: String,
+      required: true
+    },
+    cardPosition: {
+      type: Array,
+      required: true
+    },
+    cardProperties: {
+      type: String,
+      required: false
+    },
+    displayStatus: {
+      type: Boolean,
+      required: true
+    },
+    cmd:{
+      type: String,
+      required: false
+    },
+    elementStyles:{
+      type: Object,
+      required:false
+    },
+    cardContent:{
+      type: Object,
+      required: true
+    },
+    cmdObject:{
+      type: Object,
+      required: false
+    },
+    cmdObjectVersion:{
+      type: Number,
+      required: false
+    }
+  },
+  computed: {
+    height () {
+      return this.$refs.textContent.clientHeight
+    },
+    width() {
+      return this.$refs.textContent.clientWidth
+    }
+  },
+  data() {
     return {
-      showOptions:false,
-      showMessage:false,
-      message:'',
+      editorInstance:{},
+      cardMessage: this.getCardProps(),
+      cardHasBeenSetup: false,
+      cstyle: this.cardStyle,
+      cardData: this.cardContent.cardText,
       styling: {},
+      content: {},
+      configurationCurrentValues: {},
+      showOptions: false,
+      mode: 0,
+      SETUP:2,
+      RICH_TEXT_EDITOR: 1,
+      SHOW_TEXT: 0,
+      currentMenuOpts: [],
+      linkedLayoutId:0,
+      cObject:{},
+      cObjectVersion:0,
+
+      title:'',
       documentType:'',
       fileType:'',
-      currentValues:{},
-      currentMenuOpts:[],
-      configurationCurrentValues:{},
-      title:'',
       inputFieldLabel: 'Title:',
       inputFieldReference: 'title',
       documentTypeReference:'documentType',
@@ -126,188 +189,150 @@ export default {
       indexLabel:'Index Document ?',
       indexTypeReference:'indexFile',
       indexFile:false,
-      cardData:'',
+
 
       accessTypeOptions:[],
-      mode:0,
-      ARCHIVE_BLANK:0,
-      ARCHIVE_SELECT_DEFAULTS:1,
-      ARCHIVE_RT_EDITOR:2,
-      ARCHIVE_SHOW_RT:3,
-      cObject:{},
-      cObjectVersion:0,
-      content: {},
-
-
-
 
     }
+
   },
-  props:{
-    displayStatus: {
-      type: Boolean,
-      required: true
-    },
-    cmd: {
-      type: String,
-      required: false
-    },
-    cardId: {
-      type: String,
-      required: true
-    },
-    cardKey: {
-      type: String,
-      required: true
-    },
-    cardPosition: {
-      type: Array,
-      required: true
-    },
-    cardContent:{
-      type: Object,
-      required: true
-    },
-  },
-  computed: {
-    height () {
-      return this.$refs.textContent.clientHeight
-    },
-    width() {
-      return this.$refs.textContent.clientWidth
-    }
-  },
-  methods: {
-    menuOptSelected(msg) {
-      console.log(msg);
-      switch (msg) {
-        case 'Cancel': {
-          this.editStatus = false;
-          var mOpts = this.getMenuOpts('archive_entry');
+
+  watch:{
+/*
+    cmd: function(){
+      console.log('textShow cmd changed-', this.cmd);
+      var parsedCmd = JSON.parse(this.cmd);
+      debugger;
+      switch(parsedCmd.action){
+        case 'addLink':{
+          this.linkedLayoutId = parsedCmd.linkedLayoutId;
+          var mOpts = this.getMenuOpts('insertLink');
           this.currentMenuOpts = mOpts.currentMenuOpts;
           break;
         }
-        case 'Configure':{
-          this.configureClicked('archive');
-          break;
-        }
-        case 'Resize': {
-//          debugger;
-          this.moveClicked();
-          break;
-        }
-        case 'DeleteCard': {
-          mOpts = this.getMenuOpts('deleteChoice');
-          this.currentMenuOpts = mOpts.currentMenuOpts;
-          break;
-        }
-        case 'RmvLay': {
-          console.log('remove from layout selected');
-          this.removeCardFromLayout(this.cardId);
-          break;
-        }
-        case 'DelCardFromDb': {
-          console.log('remove from db selected');
-          this.deleteCardFromDb(this.cardId);
-          break;
-        }
-        case 'CancelDocumentSetup':{
-          mOpts = this.getMenuOpts('archive_entry');
-          this.currentMenuOpts = mOpts.currentMenuOpts;
-          this.mode=this.ARCHIVE_BLANK;
-          break;
-        }
-        case 'NewDoc':{
-          this.loadOptions();
-          break;
-        }
-        case 'EditDoc':{
-          debugger;
-          switch(this.fileType){
-            case 'Rich Text HTML':{
-              this.mode=this.ARCHIVE_RT_EDITOR;
-              this.setEditWindow();
-              break;
-            }
-          }
-          break;
-        }
-        case 'ChangeSetup':{
-          this.loadOptions();
-          this.mode=this.ARCHIVE_SELECT_DEFAULTS;
-          break;
-        }
-        case 'DocumentSave':{
-          this.cObject = {};
-          this.cObject.action = 'save';
-          this.cObject.linkedLayoutId = msg[1];
-          this.cObjectVersion=this.cObjectVersion+1;
-          break;
-        }
-        case 'Document_rte_Back':{
-          mOpts = this.getMenuOpts('document_setup');
-          this.currentMenuOpts = mOpts.currentMenuOpts;
-          this.mode=this.ARCHIVE_SELECT_DEFAULTS;
-          break;
-        }
-        case 'DocumentEntry':{
-          debugger;
-          this.nextClicked()
-          switch(this.fileType){
-            case 'Rich Text HTML':{
-              mOpts = this.getMenuOpts('document_rt_entry');
-              this.currentMenuOpts = mOpts.currentMenuOpts;
-              this.mode = this.ARCHIVE_RT_EDITOR;
-              var editorHeight = this.height+275;
-              var editorWidth = this.width+29;
-              var editorHeightParam = editorHeight+'px';
-              var editorWidthParam = editorWidth+'px';
-              console.log('editorHeight',editorHeightParam );
-              console.log('editorWidth',editorWidthParam );
-              let root = document.documentElement;
-              root.style.setProperty('--ck-height', editorHeightParam);
-              root.style.setProperty('--ck-width', editorWidthParam);
-              break;
-            }
-          }
+        case 'save':{
           break;
         }
       }
+    }
+*/
+    cmdObjectVersion: function(){
+      debugger;
+      switch(this.cmdObject.action){
+        case 'addLink':{
+          var mOpts = this.getMenuOpts('insertLink');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.layoutLink = this.cmdObject.linkedLayoutId;
+          break;
+        }
+      }
+    }
+
+  },
+
+  methods: {
+    cellClicked: function () {
+//      debugger;
+      this.styling = {};
+      this.loadCardConfiguration(this.cardId);
+//      debugger;
+      this.$emit("cardClick", [
+        "cardClicked",
+        this.cardKey,
+        "textShow",
+        this.setCardData,
+        this.cardConfiguration,
+        this.configurationCurrentValues
+      ]);
+      if (this.cardData == 'Click on this card to configure its appearence') {
+        this.cardData = "";
+      }
+
     },
-    setEditWindow(){
-      var editorHeight = this.height+275;
-      var editorWidth = this.width+29;
-      var editorHeightParam = editorHeight+'px';
-      var editorWidthParam = editorWidth+'px';
-      console.log('editorHeight',editorHeightParam );
-      console.log('editorWidth',editorWidthParam );
+    moveClicked() {
+      console.log('moveClicked');
+      this.$emit('ghostCard');
+    },
+    /*
+    imageInsert(msg){
+
+//        var targetUrl = 'http://localhost:8080/displayLayout/'+targetId;
+        axios.post('http://localhost:8000/api/shan/createNewLink?XDEBUG_SESSION_START=17516', {
+          org_id: this.$store.getters.getOrgId,
+          layout_id: this.$store.getters.getCurrentLayoutId,
+          description: 'image link',
+          card_instance_id:this.cardId,
+          is_external:0,
+          layout_link_to:0,
+          linkUrl:msg,
+          type:'I'
+        }).then(response=>
+        {
+          console.log('image insert link created',response);
+          if(response.data=='ok'){
+//           this.mode=this.DIALOG_OFF;
+//            this.$emit('configSelected',['reload']);
+          }
+        }).catch(function(error) {
+          console.log(error);
+        });
+    },
+*/
+    editClicked() {
+      debugger;
+      this.mode = this.RICH_TEXT_EDITOR;
+      console.log('height-', this.height);
+      var editorHeight = this.height + 275;
+      var editorWidth = this.width + 29;
+      var editorHeightParam = editorHeight + 'px';
+      var editorWidthParam = editorWidth + 'px';
       let root = document.documentElement;
       root.style.setProperty('--ck-height', editorHeightParam);
       root.style.setProperty('--ck-width', editorWidthParam);
+//      this.showOptions=false;
+
+//      this.loadCardConfiguration(this.cardId);
+//      this.$emit('textEditor', [this.cardKey, this.setCardData,this.configurationCurrentValues, this.cardData, this.cardId, 'textShow']);
     },
-    currentContent(msg){
-      console.log('currentContent event',msg);
+    refId: function () {
+      return "card" + this.cardId;
+    },
+    getCardProps() {
+      //     debugger;
+      if ((typeof this.cardProperties === "undefined") | (this.cardProperties == "")) {
+        return "Click on configure to set its appearence";
+      } else {
+        var colonDelimiterLocatedAt = this.cardProperties.indexOf(":");
+        var thisProp = this.cardProperties.substr(colonDelimiterLocatedAt + 1);
+        return thisProp;
+      }
+    },
+    cardSaved() {
+      console.log('cardSaved event');
+    },
+    editorReady(msg) {
+      console.log('editorReady event');
+      this.editorInstance = msg;
+    },
+    currentContent(msg) {
+      console.log('currentContent event');
       this.cardContent = msg;
       this.content.cardText = this.cardContent;
-      this.content.title= this.title;
-      this.content.fileType = this.fileType;
-      this.content.documentType=this.documentType;
-      this.content.indexFile= this.indexFile;
-      this.content.accessType=this.accessType;
-      this.content.cardType='Document';
-
+      this.content.cardType = 'textShow';
       this.setCardData(this.content, 'saveCardContent', 'main');
-
+      this.mode = this.SHOW_TEXT;
+      var mOpts = this.getMenuOpts('entryMenu');
+      this.currentMenuOpts = mOpts.currentMenuOpts;
+      this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
     },
-    loadOptions(){
-      axios.get('http://localhost:8000/api/shan/documentDefaults?XDEBUG_SESSION_START=14668', {
-      })
+    loadOptions() {
+      axios.get('http://localhost:8000/api/shan/documentDefaults?XDEBUG_SESSION_START=14668', {})
           .then(response => {
             console.log(response);
-            this.documentTypeOptions=[];
-            this.fileTypeOptions=[];
-            this.accessTypeOptions=[]
-            response.data.documentTypes.forEach((val, index) =>{
+            this.documentTypeOptions = [];
+            this.fileTypeOptions = [];
+            this.accessTypeOptions = []
+            response.data.documentTypes.forEach((val, index) => {
               console.log('Index: ' + index + ' Value: ' + val.document_type);
               this.documentTypeOptions.push(val.document_type);
             });
@@ -321,7 +346,7 @@ export default {
             });
             var mOpts = this.getMenuOpts('document_setup');
             this.currentMenuOpts = mOpts.currentMenuOpts;
-            this.mode=this.ARCHIVE_SELECT_DEFAULTS;
+            this.mode = this.SETUP;
 
           })
           .catch(e => {
@@ -330,33 +355,29 @@ export default {
           });
 
     },
-    moveClicked(){
-      console.log('moveClicked');
-      this.$emit('ghostCard');
-    },
-    configSelected(msg){
-      console.log('configSelected',msg);
-      switch(msg[0]){
-        case 'val':{
+    configSelected(msg) {
+      console.log('configSelected', msg);
+      switch (msg[0]) {
+        case 'val': {
           this.title = msg[1];
           break;
         }
-        case 'documentType':{
+        case 'documentType': {
           this.documentType = msg[1];
           break;
         }
-        case 'fileType':{
+        case 'fileType': {
           this.fileType = msg[1];
           break;
         }
-        case 'accessType':{
+        case 'accessType': {
           this.accessType = msg[1];
           break;
         }
-        case 'checkbox':{
-          if(msg[1]=='activated'){
+        case 'checkbox': {
+          if (msg[1] == 'activated') {
             this.indexFile = 1;
-          }else{
+          } else {
             this.indexFile = 0;
           }
 
@@ -364,43 +385,231 @@ export default {
       }
       console.log(msg);
     },
-    nextClicked(){
+    nextClicked() {
 //      debugger;
       var errorMsg = 'Missing Fields:';
-      var entryError=false;
-      if(this.title==''){
+      var entryError = false;
+      if (this.title == '') {
         errorMsg = errorMsg + 'Title, '
         entryError = true;
       }
-      if(this.documentType==''){
+      if (this.documentType == '') {
         errorMsg = errorMsg + 'Document Type, '
         entryError = true;
       }
-      if(this.fileType==''){
+      if (this.fileType == '') {
         errorMsg = errorMsg + 'File Type '
         entryError = true;
       }
-      if(entryError){
+      if (entryError) {
         this.message = errorMsg + "<- Please enter";
-        this.showOptions=false;
+        this.showOptions = false;
         this.showMessage = true;
-      }else{
+      } else {
 //        debugger;
-        this.currentValues['title']=this.title;
-        this.currentValues['documentType']=this.documentType;
-        this.currentValues['fileType']=this.fileType;
+        this.currentValues['title'] = this.title;
+        this.currentValues['documentType'] = this.documentType;
+        this.currentValues['fileType'] = this.fileType;
         var mOpts = this.getMenuOpts('archive_entry');
         this.currentMenuOpts = mOpts.currentMenuOpts;
 //        this.mode = this.ARCHIVE_BLANK;
-        this.showOptions=true;
+        this.showOptions = true;
         this.showMessage = false;
       }
       console.log('next has been clicked!');
-    }
+    },
+    menuOptSelected(msg) {
+      console.log(msg);
+      switch (msg) {
+        case 'EditDoc': {
+          switch (this.fileType) {
+            case 'Rich Text HTML': {
+              var mOpts = this.getMenuOpts('richTextOpen');
+              this.currentMenuOpts = mOpts.currentMenuOpts;
+              this.editClicked();
+              break;
+            }
+          }
+          break;
+        }
+        case 'NewDoc': {
+          this.loadOptions();
+          break;
+        }
+        case 'Resize': {
+          this.moveClicked();
+          break;
+        }
+        case 'Configure': {
+          this.configureClicked('textShow');
+          break;
+        }
+        case 'Cancel': {
+          mOpts = this.getMenuOpts('entryMenu');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.mode = this.SHOW_TEXT;
+          break;
+        }
+        case 'Link to Another Space': {
+          this.$emit('configSelected', ['rtLink']);
+          break;
+        }
+        case 'Insert the Link': {
+          debugger;
+          var textHasBeenSelected = false;
+          const selection = this.editorInstance.model.document.selection;
+          const range = selection.getFirstRange();
+//                  const range = this.currentSelectedRange;
+
+          for (const item of range.getItems()) {
+            console.log(item.data) //return the selected text
+            textHasBeenSelected = true;
+          }
+          if (!textHasBeenSelected) {
+            this.titleMsg = 'Please select some text!';
+          } else {
+            this.forwardToUrl = "http://localhost:8080/displayLayout/" + this.layoutLink;
+            this.editorInstance.execute('link', this.forwardToUrl);
+            //                  this.currentMenuOpts = ['Cancel', 'Link to Another Space',  'Save'];
+            mOpts = this.getMenuOpts('richTextOpen');
+            this.currentMenuOpts = mOpts.currentMenuOpts;
+            this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+
+//            this.titleMsg = 'Edit This Card';
+          }
+          break;
+
+        }
+        case 'Save': {
+          debugger;
+          this.cObject = {};
+          this.cObject.action = 'save';
+          this.cObject.linkedLayoutId = msg[1];
+          this.cObjectVersion = this.cObjectVersion + 1;
+          break;
+        }
+        case 'DeleteCard': {
+          mOpts = this.getMenuOpts('deleteChoice');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          break;
+        }
+        case 'RmvLay': {
+          console.log('remove from layout selected');
+          axios.get('http://localhost:8000/api/shan/rmvlay?XDEBUG_SESSION_START=14668', {
+            params: {
+              layoutId: this.$store.getters.getCurrentLayoutId,
+              cardId: this.cardId,
+              orgId: this.$store.getters.getOrgId
+            }
+          })
+              .then(response => {
+                console.log(response);
+                this.$emit('configurationHasBeenSaved');
+              })
+              .catch(e => {
+                this.errors.push(e);
+                console.log('remove card from layout failed');
+              });
+
+          break;
+        }
+        case 'DelCardFromDb': {
+          console.log('remove from db selected');
+          axios.get('http://localhost:8000/api/shan/deleteCard?XDEBUG_SESSION_START=14668', {
+            params: {
+              layoutId: this.$store.getters.getCurrentLayoutId,
+              cardId: this.cardId,
+              orgId: this.$store.getters.getOrgId
+            }
+          })
+              .then(response => {
+                console.log(response);
+                this.$emit('configurationHasBeenSaved');
+              })
+              .catch(e => {
+                this.errors.push(e);
+                console.log('remove card from layout failed');
+              });
+
+          break;
+        }
+      }
+    },
+    /*
+    getMenuOpts(menuContext){
+//              debugger;
+//      console.log('Dialog2 getMenuOpts menuContext:', menuContext);
+      switch(menuContext){
+        case 'richTextOpen':{
+          return {
+            currentMenuOpts:[
+              ['Cancel','Cancel'],
+              ['Link','Link to Another Space'],
+              ['Save', 'Save']
+            ],
+            currentSelectedMenuOption: 'Cancel'
+          }
+        }
+        case'insertLink':{
+          return {
+            currentMenuOpts:[
+              ['Cancel','Cancel'],
+              ['Insert Link', 'Insert the Link'],
+              ['Back', 'Back']
+            ],
+            currentMenuSelection: 'Cancel'
+          }
+        }
+        case'creatingLayout':{
+          return {
+            currentMenuOpts:[
+              ['Cancel','Cancel'],
+              ['Save', 'Save This Space'],
+              ['Back', 'Back']
+            ],
+            currentMenuSelection: 'Cancel'
+          }
+        }
+        case'creatingLayout1':{
+          return {
+            currentMenuOpts:[
+              ['Cancel','Cancel'],
+              ['Save', 'Save This Space'],
+              ['Back', 'Backtosetup']
+            ],
+            currentMenuSelection: 'Cancel'
+          }
+        }
+        case'entryMenu':{
+          return {
+            currentMenuOpts:[
+              ['Configure','Configure'],
+              ['Resize/Move', 'Resize'],
+              ['Del','DeleteCard'],
+              ['Edit', 'Edit']
+            ],
+            currentMenuSelection: 'Configure'
+          }
+        }
+        case 'deleteChoice':{
+          return {
+            currentMenuOpts :[
+                ['Remove from Layout', 'RmvLay'],
+                ['Delete Card', 'DelCardFromDb'],
+                ['Cancel', 'Cancel']
+            ],
+            currentMenuSelection: 'Cancel'
+          }
+        }
+
+      }
+    },
+*/
 
   }
+};
 
-}
+
 </script>
 
 <style scoped>
@@ -409,20 +618,7 @@ export default {
   width: 100%;
   overflow: auto;
 }
-.selectDefaults{
-  display:grid;
-  grid-template-rows: 20% 20% 20% 20%;
-  margin-left: 60px;
-  margin-top: 30px;
-
-
-
-}
 .cardHeader {
-  display: flex;
-  justify-content: space-evenly;
-  width:100%;
-  align-items: baseline;
   color: blue;
   height: 10%;
   background-color: #fff722;
@@ -431,13 +627,24 @@ export default {
   font-style: normal;
   font-weight: bold;
 }
-.msgHeader {
-  color:red;
-}
 .cardBody {
   height: 90%;
   margin:10px;
 }
+.cardFooter {
+  height: 5%;
+  width:100%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center
+}
+.selectDefaults{
+  display:grid;
+  grid-template-rows: 20% 20% 20% 20%;
+  margin-left: 60px;
+  margin-top: 30px;
+}
+
 :root {
   --ck-color-mention-background: hsla(341, 100%, 30%, 0.1);
   --ck-color-mention-text: hsl(341, 100%, 30%);
@@ -769,4 +976,3 @@ export default {
 
 
 </style>
-

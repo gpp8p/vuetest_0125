@@ -147,7 +147,7 @@
   import archive from "../components/archive.vue";
   import Agenda from "../components/Agenda.vue";
   import Minutes from "../components/Minutes.vue";
-  import Document from "../components/Document.vue";
+  import Document from "../components/Document2.vue";
 
   export default {
     name: "genericCard",
