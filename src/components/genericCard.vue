@@ -125,6 +125,9 @@
                  :cardContent="cardContent"
                  :displayStatus = displayStatus
                  :card-id=cardId
+                 :cmdObject="cmdObject"
+                 :cmdObjectVersion="cmdObjectVersion"
+                 :cmd = cmd
         ></Document>
 
 

@@ -639,6 +639,7 @@
                 ['Save', 'DocumentSave'],
                 ['Edit Document','EditDoc'],
                 ['Change Setup','ChangeSetup'],
+                ['Exit','exitEdit'],
               ],
               currentMenuSelection: 'Configure'
             }

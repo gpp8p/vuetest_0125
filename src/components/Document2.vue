@@ -457,6 +457,13 @@ export default {
           this.mode = this.SHOW_TEXT;
           break;
         }
+        case 'exitEdit':{
+          this.$router.push({
+            name: 'displayLayout',
+            params: { layoutId: this.$store.getters.getCurrentLayoutId }
+          })
+          break;
+        }
         case 'Link to Another Space': {
           this.$emit('configSelected', ['rtLink']);
           break;
