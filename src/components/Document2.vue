@@ -488,8 +488,6 @@ export default {
             mOpts = this.getMenuOpts('richTextOpen');
             this.currentMenuOpts = mOpts.currentMenuOpts;
             this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
-
-//            this.titleMsg = 'Edit This Card';
           }
           break;
 
