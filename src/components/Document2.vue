@@ -174,6 +174,7 @@ export default {
       title:'',
       documentType:'',
       fileType:'',
+      currentValues:{},
       inputFieldLabel: 'Title:',
       inputFieldReference: 'title',
       documentTypeReference:'documentType',
@@ -318,7 +319,12 @@ export default {
       console.log('currentContent event');
       this.cardContent = msg;
       this.content.cardText = this.cardContent;
-      this.content.cardType = 'textShow';
+      this.content.title= this.title;
+      this.content.fileType = this.fileType;
+      this.content.documentType=this.documentType;
+      this.content.indexFile= this.indexFile;
+      this.content.accessType=this.accessType;
+      this.content.cardType='Document';
       this.setCardData(this.content, 'saveCardContent', 'main');
       this.mode = this.SHOW_TEXT;
       var mOpts = this.getMenuOpts('entryMenu');
@@ -386,7 +392,7 @@ export default {
       console.log(msg);
     },
     nextClicked() {
-//      debugger;
+      debugger;
       var errorMsg = 'Missing Fields:';
       var entryError = false;
       if (this.title == '') {
@@ -422,6 +428,7 @@ export default {
       console.log(msg);
       switch (msg) {
         case 'EditDoc': {
+          this.nextClicked();
           switch (this.fileType) {
             case 'Rich Text HTML': {
               var mOpts = this.getMenuOpts('richTextOpen');

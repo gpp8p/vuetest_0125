@@ -120,6 +120,7 @@
                  @configurationHasBeenSaved="configurationHasBeenSaved"
                  @cardPropertySet="cardPropertySet"
                  @cardDataLoaded="cardDataLoaded"
+                 @configSelected="configSelected"
                  ref="cardKey"
                  :cardContent="cardContent"
                  :displayStatus = displayStatus
