@@ -84,7 +84,8 @@ export default {
       }
     }
     debugger;
-    if(this.cardContent.length==0){
+//    var contentPropertiesLength =Object.keys(this.cardContent).length;
+    if(this.cardContent.length>1){
       var mOpts = this.getMenuOpts('archive_entry');
       this.currentMenuOpts = mOpts.currentMenuOpts;
       this.loadCardConfiguration(this.cardId);
@@ -175,8 +176,8 @@ export default {
       documentType:'',
       fileType:'',
       currentValues:{},
-      inputFieldLabel: 'Title:',
-      inputFieldReference: 'title',
+      inputFieldLabel: 'Card Name:',
+      inputFieldReference: 'card_name',
       documentTypeReference:'documentType',
       documentTypeLabel: 'Document Type:',
       documentTypeOptions:[],
