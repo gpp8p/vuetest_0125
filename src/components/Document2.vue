@@ -9,7 +9,7 @@
     </div>
     <span v-if="this.mode==this.SETUP" class="selectDefaults">
       <span>
-        <input-field :p-type="inputFieldReference" :dialogKey="this.dKey" :label="inputFieldLabel" :currentValues="this.cardContent" @configSelected="configSelected"></input-field>
+        <text-field :p-type="inputFieldReference" :dialogKey="this.dKey" :label="inputFieldLabel" :currentValues="this.cardContent" :textStyle="this.cardNameStyling"></text-field>
       </span>
       <span>
         <select-picker :pType="documentTypeReference" :dialogKey="this.dKey" :label="documentTypeLabel" :options="documentTypeOptions" :currentValues="this.cardContent" @configSelected="configSelected"></select-picker>
@@ -44,7 +44,8 @@
 /* eslint-disable no-console,no-debugger */
 import CardBase from "../components/CardBase.vue";
 import selectPicker from "@/components/selectPicker";
-import inputField from "@/components/inputField";
+//import inputField from "@/components/inputField";
+import textField from "@/components/textField";
 import inputCheckbox from "@/components/inputCheckbox"
 import editorCk from '../components/editorCk.vue'
 import menuOpt from "../components/menuOptV2.vue";
@@ -53,7 +54,7 @@ import axios from "axios";
 export default {
   name: "Document",
   extends: CardBase,
-  components: {editorCk, menuOpt, selectPicker, inputField,inputCheckbox},
+  components: {editorCk, menuOpt, selectPicker, inputCheckbox, textField},
   mounted(){
     if(this.displayStatus==true){
       this.showOptions=false;
@@ -84,14 +85,14 @@ export default {
       }
     }
     debugger;
-//    var contentPropertiesLength =Object.keys(this.cardContent).length;
-    if(this.cardContent.length>1){
-      var mOpts = this.getMenuOpts('archive_entry');
+    var contentPropertiesLength =Object.keys(this.cardContent).length;
+    if(contentPropertiesLength>1){
+      var mOpts = this.getMenuOpts('archive_edit');
       this.currentMenuOpts = mOpts.currentMenuOpts;
       this.loadCardConfiguration(this.cardId);
-      this.mode = this.ARCHIVE_BLANK;
+      this.mode = this.SHOW_TEXT;
     }else{
-      mOpts = this.getMenuOpts('archive_edit');
+      mOpts = this.getMenuOpts('archive_entry');
       this.currentMenuOpts = mOpts.currentMenuOpts;
       this.mode =this.SHOW_TEXT;
     }
@@ -192,7 +193,7 @@ export default {
       indexTypeReference:'indexFile',
       indexFile:false,
 
-
+      cardNameStyling: 'font-family:Geneva;font-size:12px;font-style:normal;font-weight:bold;',
       accessTypeOptions:[],
 
     }

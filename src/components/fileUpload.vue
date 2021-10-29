@@ -38,7 +38,8 @@
             submitFile(){
                 let formData = new FormData();
                 formData.append('file', this.file);
-                formData.append('usr', this.user);
+                formData.append('org', this.$store.getters.getOrgId);
+                formData.append('fileRole', this.fileRole);
 // eslint-disable-next-line no-debugger
 //        debugger;
 
