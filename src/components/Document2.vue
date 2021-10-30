@@ -287,6 +287,11 @@ export default {
         });
     },
 */
+
+    fileSelected(msg){
+      console.log('file has been selected', msg);
+      this.cardContent.cardText=msg[1];
+    },
     editClicked() {
       debugger;
       this.mode = this.RICH_TEXT_EDITOR;
