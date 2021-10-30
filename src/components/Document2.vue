@@ -36,6 +36,9 @@
           @imageInsert = "imageInsert"
       ></editor-ck>
     </span>
+    <span v-if="this.mode==this.PDF_UPLOAD" class="inputPlusLabel">
+      <span class="labelStyle">Please select file to upload:</span><file-upload :fileRole="this.pdfFileRole" @selectedValue="fileSelected"></file-upload>
+    </span>
 
   </div>
 </template>
@@ -49,12 +52,13 @@ import textField from "@/components/textField";
 import inputCheckbox from "@/components/inputCheckbox"
 import editorCk from '../components/editorCk.vue'
 import menuOpt from "../components/menuOptV2.vue";
+import fileUpload from "../components/fileUpload.vue";
 import axios from "axios";
 //import axios from "axios";
 export default {
   name: "Document",
   extends: CardBase,
-  components: {editorCk, menuOpt, selectPicker, inputCheckbox, textField},
+  components: {editorCk, menuOpt, selectPicker, inputCheckbox, textField, fileUpload},
   mounted(){
     if(this.displayStatus==true){
       this.showOptions=false;
@@ -168,6 +172,7 @@ export default {
       SETUP:2,
       RICH_TEXT_EDITOR: 1,
       SHOW_TEXT: 0,
+      PDF_UPLOAD: 3,
       currentMenuOpts: [],
       linkedLayoutId:0,
       cObject:{},
@@ -195,6 +200,7 @@ export default {
 
       cardNameStyling: 'font-family:Geneva;font-size:12px;font-style:normal;font-weight:bold;',
       accessTypeOptions:[],
+      pdfFileRole: 'PDF'
 
     }
 
@@ -394,13 +400,15 @@ export default {
       console.log(msg);
     },
     nextClicked() {
-      debugger;
+//      debugger;
       var errorMsg = 'Missing Fields:';
       var entryError = false;
+/*
       if (this.title == '') {
         errorMsg = errorMsg + 'Title, '
         entryError = true;
       }
+*/
       if (this.documentType == '') {
         errorMsg = errorMsg + 'Document Type, '
         entryError = true;
@@ -415,7 +423,13 @@ export default {
         this.showMessage = true;
       } else {
 //        debugger;
-        this.currentValues['title'] = this.title;
+//        this.currentValues['title'] = this.title;
+        this.cardContent.fileType = this.fileType;
+        this.cardContent.documentType=this.documentType;
+        this.cardContent.indexFile= this.indexFile;
+        this.cardContent.accessType=this.accessType;
+        this.cardContent.cardType='Document';
+
         this.currentValues['documentType'] = this.documentType;
         this.currentValues['fileType'] = this.fileType;
         var mOpts = this.getMenuOpts('archive_entry');
@@ -431,11 +445,19 @@ export default {
       switch (msg) {
         case 'EditDoc': {
           this.nextClicked();
+          console.log('file type - ', this.fileType);
           switch (this.fileType) {
             case 'Rich Text HTML': {
               var mOpts = this.getMenuOpts('richTextOpen');
               this.currentMenuOpts = mOpts.currentMenuOpts;
               this.editClicked();
+              break;
+            }
+            case 'PDF':{
+              mOpts = this.getMenuOpts('pdf_file_select');
+              this.currentMenuOpts = mOpts.currentMenuOpts;
+              this.mode=this.PDF_UPLOAD;
+              this.showOptions==true;
               break;
             }
           }
@@ -455,6 +477,12 @@ export default {
         }
         case 'Cancel': {
           mOpts = this.getMenuOpts('entryMenu');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.mode = this.SHOW_TEXT;
+          break;
+        }
+        case 'CancelPdfSelect': {
+          mOpts = this.getMenuOpts('archive_entry');
           this.currentMenuOpts = mOpts.currentMenuOpts;
           this.mode = this.SHOW_TEXT;
           break;
@@ -505,6 +533,12 @@ export default {
         case 'DeleteCard': {
           mOpts = this.getMenuOpts('deleteChoice');
           this.currentMenuOpts = mOpts.currentMenuOpts;
+          break;
+        }
+        case 'Document_rte_Back':{
+          mOpts = this.getMenuOpts('document_setup');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.mode=this.SETUP;
           break;
         }
         case 'RmvLay': {
@@ -658,7 +692,16 @@ export default {
   margin-left: 60px;
   margin-top: 30px;
 }
-
+.labelStyle{
+  font-family: Arial;
+  font-size: medium;
+  color: #0a3aff;
+}
+.inputPlusLabel {
+  display:grid;
+  margin-top: 3px;
+  grid-template-columns: 20% 80%;
+}
 :root {
   --ck-color-mention-background: hsla(341, 100%, 30%, 0.1);
   --ck-color-mention-text: hsl(341, 100%, 30%);

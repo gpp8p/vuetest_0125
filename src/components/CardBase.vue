@@ -653,6 +653,15 @@
               currentMenuSelection: 'Cancel'
             }
           }
+          case 'pdf_file_select':{
+            return {
+              currentMenuOpts:[
+                ['Cancel', 'CancelPdfSelect'],
+                ['Back', 'Document_rte_Back'],
+              ],
+              currentMenuSelection: 'Cancel'
+            }
+          }
           case 'document_rt_entry':{
             return {
               currentMenuOpts:[
@@ -718,7 +727,8 @@
               currentMenuOpts:[
                 ['Cancel','Cancel'],
                 ['Link','Link to Another Space'],
-                ['Save', 'Save']
+                ['Save', 'Save'],
+                ['Back', 'Document_rte_Back'],
               ],
               currentSelectedMenuOption: 'Cancel'
             }
