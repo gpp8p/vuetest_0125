@@ -518,7 +518,7 @@
               }
             },
             reloadLayout: function (layoutId) {
-//                debugger;
+                debugger;
                 this.cardInstances = [];
                 this.displayGrid = true;
 //                this.layoutId = msg;

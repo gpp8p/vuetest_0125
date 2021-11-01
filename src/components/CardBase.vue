@@ -474,6 +474,7 @@
             this.cardContent=thisCardContent;
             console.log('loadConfiguration is returning',[this.styling, this.configurationCurrentValues, subElements, thisCardContent]);
             this.$emit('cardDataLoaded',[this.styling, this.configurationCurrentValues, subElements, thisCardContent]);
+            return [this.styling, this.configurationCurrentValues, subElements, thisCardContent];
 
 
 //            debugger;
@@ -657,6 +658,16 @@
             return {
               currentMenuOpts:[
                 ['Cancel', 'CancelPdfSelect'],
+                ['Back', 'Document_rte_Back'],
+              ],
+              currentMenuSelection: 'Cancel'
+            }
+          }
+          case 'file_selected':{
+            return {
+              currentMenuOpts:[
+                ['Cancel', 'CancelPdfSelect'],
+                ['Save', 'PdfSave'],
                 ['Back', 'Document_rte_Back'],
               ],
               currentMenuSelection: 'Cancel'

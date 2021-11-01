@@ -65,7 +65,7 @@ export default {
     }else{
       this.showOptions=true;
     }
-
+    console.log('Document cardContent',this.cardContent);
     if(typeof(this.cardContent['title'])!=='undefined'){
       this.title= this.cardContent['title'];
     }
@@ -81,6 +81,9 @@ export default {
     if(typeof(this.cardContent['cardText'])!=='undefined'){
       this.cardData= this.cardContent['cardText'];
     }
+    if(typeof(this.cardContent['fileLocation'])!=='undefined'){
+      this.fileLocation = this.cardContent['fileLocation'];
+    }
     if(typeof(this.cardContent['indexFile'])!=='undefined'){
       if(this.cardContent['indexFile']==1){
         this.indexFile=true;
@@ -88,7 +91,7 @@ export default {
         this.indexFile=false;
       }
     }
-    debugger;
+//    debugger;
     var contentPropertiesLength =Object.keys(this.cardContent).length;
     if(contentPropertiesLength>1){
       var mOpts = this.getMenuOpts('archive_edit');
@@ -181,6 +184,7 @@ export default {
       title:'',
       documentType:'',
       fileType:'',
+      fileLocation:'',
       currentValues:{},
       inputFieldLabel: 'Card Name:',
       inputFieldReference: 'card_name',
@@ -290,7 +294,11 @@ export default {
 
     fileSelected(msg){
       console.log('file has been selected', msg);
-      this.cardContent.cardText=msg[1];
+      this.cardContent.fileLocation=msg[1];
+      var mOpts = this.getMenuOpts('file_selected');
+      this.currentMenuOpts = mOpts.currentMenuOpts;
+      this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+      this.mode =this.SHOW_TEXT;
     },
     editClicked() {
       debugger;
@@ -327,6 +335,15 @@ export default {
     editorReady(msg) {
       console.log('editorReady event');
       this.editorInstance = msg;
+    },
+    pdfSave(){
+      this.content.fileLocation = this.cardContent.fileLocation;
+      this.content.fileType = this.cardContent.fileType;
+      this.content.documentType = this.cardContent.documentType;
+      this.content.accessType = this.cardContent.accessType;
+      this.content.indexFile = this.cardContent.indexFile;
+      this.content.cardType = 'Document';
+      this.setCardData(this.content, 'saveCardContent', 'main');
     },
     currentContent(msg) {
       console.log('currentContent event');
@@ -533,6 +550,10 @@ export default {
           this.cObject.action = 'save';
           this.cObject.linkedLayoutId = msg[1];
           this.cObjectVersion = this.cObjectVersion + 1;
+          break;
+        }
+        case 'PdfSave':{
+          this.pdfSave();
           break;
         }
         case 'DeleteCard': {
