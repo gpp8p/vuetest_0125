@@ -36,9 +36,19 @@
 //                debugger;
                 console.log('goBack()')
                 var thisStringLayoutIdStack = sessionStorage.getItem('layoutIdStack');
+//                debugger;
                 console.log('stack-', thisStringLayoutIdStack);
-                if(thisStringLayoutIdStack!=null){
+                var nullTop = false;
+                if(thisStringLayoutIdStack.includes('null')){
+                  nullTop=true;
+                }
+              if(thisStringLayoutIdStack!=null){
                     var thisLayoutIdStack = JSON.parse(thisStringLayoutIdStack);
+                    console.log(thisLayoutIdStack);
+                    debugger;
+                    if(nullTop){
+                      thisLayoutIdStack.pop();
+                    }
                     thisLayoutIdStack.pop();
                     if(thisLayoutIdStack.length>0){
                         thisStringLayoutIdStack = JSON.stringify(thisLayoutIdStack);

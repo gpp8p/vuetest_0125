@@ -39,6 +39,9 @@
     <span v-if="this.mode==this.PDF_UPLOAD" class="inputPlusLabel">
       <span class="labelStyle">Please select file to upload:</span><file-upload :fileRole="this.pdfFileRole" @selectedValue="fileSelected"></file-upload>
     </span>
+    <span v-if="this.mode==this.PDF_SHOW">
+      <pdf-iframe :fileLocation="this.fileLocation"></pdf-iframe>
+    </span>
 
   </div>
 </template>
@@ -53,12 +56,13 @@ import inputCheckbox from "@/components/inputCheckbox"
 import editorCk from '../components/editorCk.vue'
 import menuOpt from "../components/menuOptV2.vue";
 import fileUpload from "../components/fileUpload.vue";
+import pdfIframe from "../components/pdfIframe.vue";
 import axios from "axios";
 //import axios from "axios";
 export default {
   name: "Document",
   extends: CardBase,
-  components: {editorCk, menuOpt, selectPicker, inputCheckbox, textField, fileUpload},
+  components: {editorCk, menuOpt, selectPicker, inputCheckbox, textField, fileUpload, pdfIframe},
   mounted(){
     if(this.displayStatus==true){
       this.showOptions=false;
@@ -83,7 +87,7 @@ export default {
     }
     if(typeof(this.cardContent['fileLocation'])!=='undefined'){
       this.fileLocation = this.cardContent['fileLocation'];
-      this.getPdf();
+//      this.getPdf();
     }
     if(typeof(this.cardContent['indexFile'])!=='undefined'){
       if(this.cardContent['indexFile']==1){
@@ -98,7 +102,17 @@ export default {
       var mOpts = this.getMenuOpts('archive_edit');
       this.currentMenuOpts = mOpts.currentMenuOpts;
       this.loadCardConfiguration(this.cardId);
-      this.mode = this.SHOW_TEXT;
+      console.log(this.fileType);
+      switch(this.fileType){
+        case 'PDF':{
+          this.mode=this.PDF_SHOW;
+          break;
+        }
+        case 'Rich Text HTML':{
+          this.mode = this.SHOW_TEXT;
+          break;
+        }
+      }
     }else{
       mOpts = this.getMenuOpts('archive_entry');
       this.currentMenuOpts = mOpts.currentMenuOpts;
@@ -177,6 +191,7 @@ export default {
       RICH_TEXT_EDITOR: 1,
       SHOW_TEXT: 0,
       PDF_UPLOAD: 3,
+      PDF_SHOW:4,
       currentMenuOpts: [],
       linkedLayoutId:0,
       cObject:{},
