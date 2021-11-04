@@ -83,6 +83,7 @@ export default {
     }
     if(typeof(this.cardContent['fileLocation'])!=='undefined'){
       this.fileLocation = this.cardContent['fileLocation'];
+      this.getPdf();
     }
     if(typeof(this.cardContent['indexFile'])!=='undefined'){
       if(this.cardContent['indexFile']==1){
@@ -204,7 +205,8 @@ export default {
 
       cardNameStyling: 'font-family:Geneva;font-size:12px;font-style:normal;font-weight:bold;',
       accessTypeOptions:[],
-      pdfFileRole: 'PDF'
+      pdfFileRole: 'PDF',
+      pdfSrc:{}
 
     }
 
@@ -390,6 +392,20 @@ export default {
             console.log('orgMembers failed');
           });
 
+    },
+    getPdf(){
+      console.log('getting pdf', this.fileLocation);
+      axios.get('http://localhost:8000/api/shan/getFile?XDEBUG_SESSION_START=14668',{
+        responseType: "blob",
+        params:{
+          path: this.fileLocation
+        }
+      }).then(response => {
+        console.log("Success", response);
+        const blob = new Blob([response.data]);
+        const objectUrl = URL.createObjectURL(blob);
+        this.pdfSrc = objectUrl;
+      })
     },
     configSelected(msg) {
       console.log('configSelected', msg);
