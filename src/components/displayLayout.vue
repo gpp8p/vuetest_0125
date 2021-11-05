@@ -201,6 +201,7 @@
 
             },
             setLayoutStack(){
+              console.log('in setLayoutStack');
               var thisLayoutIdStack;
               var thisStringLayoutIdStack = sessionStorage.getItem('layoutIdStack');
               if(thisStringLayoutIdStack==null){
@@ -208,11 +209,20 @@
               }else{
                 thisLayoutIdStack = JSON.parse(thisStringLayoutIdStack);
               }
-              console.log(thisLayoutIdStack[thisLayoutIdStack.length-1],' - ', this.$route.params.layoutId);
+              console.log('current layout stack:',thisLayoutIdStack[thisLayoutIdStack.length-1],' - ', this.$route.params.layoutId);
+//              console.log('currently on stack:',typeof(thisLayoutIdStack[thisLayoutIdStack.length-1]));
+              if(typeof(thisLayoutIdStack[thisLayoutIdStack.length-1])=='object'){
+                console.log('it is an object');
+                thisLayoutIdStack.pop();
+              }
               if(thisLayoutIdStack[thisLayoutIdStack.length-1]!=this.$route.params.layoutId ){
                 console.log('pushing:',this.$route.params.layoutId);
                 thisLayoutIdStack.push(parseInt(this.$route.params.layoutId));
-                sessionStorage.setItem('layoutIdStack', JSON.stringify(thisLayoutIdStack));
+                thisStringLayoutIdStack = JSON.stringify(thisLayoutIdStack);
+//                console.log('before replace -', thisStringLayoutIdStack);
+//                thisStringLayoutIdStack.replace('null,','');
+//                console.log('after push setting layoutIdStack', thisStringLayoutIdStack);
+                sessionStorage.setItem('layoutIdStack', thisStringLayoutIdStack);
               }
 
             },

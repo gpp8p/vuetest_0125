@@ -37,7 +37,7 @@
                 console.log('goBack()')
                 var thisStringLayoutIdStack = sessionStorage.getItem('layoutIdStack');
 //                debugger;
-                console.log('stack-', thisStringLayoutIdStack);
+                console.log('in contextArea layoutIdStack -', thisStringLayoutIdStack);
                 var nullTop = false;
                 if(thisStringLayoutIdStack.includes('null')){
                   nullTop=true;
@@ -47,11 +47,13 @@
                     console.log(thisLayoutIdStack);
                     debugger;
                     if(nullTop){
+                      console.log('null removed from layoutIdStack');
                       thisLayoutIdStack.pop();
                     }
                     thisLayoutIdStack.pop();
                     if(thisLayoutIdStack.length>0){
                         thisStringLayoutIdStack = JSON.stringify(thisLayoutIdStack);
+                        console.log('setting layoutIdStack:', thisStringLayoutIdStack);
                         sessionStorage.setItem('layoutIdStack', thisStringLayoutIdStack);
                     }else{
                         sessionStorage.removeItem('layoutIdStack');

@@ -74,6 +74,7 @@
               this.default_org = sessionStorage.getItem('default_org');
 
               var thisStringLayoutIdStack = sessionStorage.getItem('layoutIdStack');
+              console.log('in login layoutIdStack',thisStringLayoutIdStack);
               var thisLayoutIdStack;
               if(thisStringLayoutIdStack==null){
                 thisLayoutIdStack = [];
