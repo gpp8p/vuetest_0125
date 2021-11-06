@@ -663,6 +663,25 @@
               currentMenuSelection: 'Cancel'
             }
           }
+          case 'wordhtml_file_select':{
+            return {
+              currentMenuOpts:[
+                ['Cancel', 'CancelWordHtmlSelect'],
+                ['Back', 'Document_rte_Back'],
+              ],
+              currentMenuSelection: 'Cancel'
+            }
+          }
+          case 'wordhtml_selected':{
+            return {
+              currentMenuOpts:[
+                ['Cancel', 'CancelWordHtmlSelect'],
+                ['Save', 'WordHtmlSave'],
+                ['Back', 'Document_rte_Back'],
+              ],
+              currentMenuSelection: 'Cancel'
+            }
+          }
           case 'file_selected':{
             return {
               currentMenuOpts:[

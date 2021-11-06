@@ -39,6 +39,9 @@
     <span v-if="this.mode==this.PDF_UPLOAD" class="inputPlusLabel">
       <span class="labelStyle">Please select file to upload:</span><file-upload :fileRole="this.pdfFileRole" @selectedValue="fileSelected"></file-upload>
     </span>
+    <span v-if="this.mode==this.WORDHTML_UPLOAD" class="inputPlusLabel">
+      <span class="labelStyle">Please select file to upload:</span><file-upload :fileRole="this.wordHtmlFileRole" @selectedValue="fileSelected"></file-upload>
+    </span>
     <span v-if="this.mode==this.PDF_SHOW">
       <pdf-iframe :fileLocation="this.fileLocation"></pdf-iframe>
     </span>
@@ -110,6 +113,10 @@ export default {
         }
         case 'Rich Text HTML':{
           this.mode = this.SHOW_TEXT;
+          break;
+        }
+        case 'Word Doc HTML':{
+          this.mode = this.SHOW_WORD_HTML;
           break;
         }
       }
@@ -192,6 +199,8 @@ export default {
       SHOW_TEXT: 0,
       PDF_UPLOAD: 3,
       PDF_SHOW:4,
+      WORDHTML_UPLOAD:5,
+      SHOW_WORD_HTML:6,
       currentMenuOpts: [],
       linkedLayoutId:0,
       cObject:{},
@@ -221,7 +230,9 @@ export default {
       cardNameStyling: 'font-family:Geneva;font-size:12px;font-style:normal;font-weight:bold;',
       accessTypeOptions:[],
       pdfFileRole: 'PDF',
-      pdfSrc:{}
+      pdfSrc:{},
+
+      wordHtmlFileRole:'Word Doc HTML'
 
     }
 
@@ -510,6 +521,13 @@ export default {
               mOpts = this.getMenuOpts('pdf_file_select');
               this.currentMenuOpts = mOpts.currentMenuOpts;
               this.mode=this.PDF_UPLOAD;
+              this.showOptions==true;
+              break;
+            }
+            case 'Word Doc HTML':{
+              mOpts = this.getMenuOpts('wordhtml_file_select');
+              this.currentMenuOpts = mOpts.currentMenuOpts;
+              this.mode=this.WORDHTML_UPLOAD;
               this.showOptions==true;
               break;
             }
