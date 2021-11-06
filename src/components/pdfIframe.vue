@@ -1,6 +1,6 @@
 <template>
-  <embed :src="this.pdfSrc" id="myIframe" scrolling="no" frameborder="0"
-          style="position: relative; height: 100%; width: 100%;">
+  <iframe :src="this.pdfSrc" id="myIframe" scrolling="no" type="application/pdf" frameborder="0"
+          style="position: relative; height: 100%; width: 100%;"></iframe>
 </template>
 
 <script>
@@ -37,7 +37,7 @@ name: "pdfIframe",
         }
       }).then(response => {
         console.log("Success", response);
-        const blob = new Blob([response.data]);
+        const blob = new Blob([response.data], {type: "application/pdf"});
         this.pdfSrc = URL.createObjectURL(blob);
       })
     }
