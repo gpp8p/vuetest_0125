@@ -640,7 +640,7 @@
                 ['Save', 'DocumentSave'],
                 ['Upload Source', 'UpSource'],
                 ['Edit Document','EditDoc'],
-                ['Change Setup','ChangeSetup'],
+                ['Change Setup','Document_rte_Back'],
                 ['Exit','exitEdit'],
               ],
               currentMenuSelection: 'Configure'
@@ -658,7 +658,7 @@
           case 'document_setup':{
             return {
               currentMenuOpts:[
-                ['Cancel', 'CancelDocumentSetup'],
+                ['Cancel', 'exitEdit'],
                 ['Next', 'EditDoc'],
               ],
               currentMenuSelection: 'Cancel'
@@ -746,7 +746,7 @@
           case 'richTextOpen':{
             return {
               currentMenuOpts:[
-                ['Cancel','Cancel'],
+                ['Cancel','exitEdit'],
                 ['Link','Link to Another Space'],
                 ['Save', 'Save'],
                 ['Upload Source', 'UpSource'],

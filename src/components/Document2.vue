@@ -423,10 +423,11 @@ export default {
               console.log('Index: ' + index + ' Value: ' + val.access_type);
               this.accessTypeOptions.push(val.access_type);
             });
+/*
             var mOpts = this.getMenuOpts('document_setup');
             this.currentMenuOpts = mOpts.currentMenuOpts;
             this.mode = this.SETUP;
-
+*/
           })
           .catch(e => {
             this.errors.push(e);
@@ -524,6 +525,7 @@ export default {
       switch (msg) {
         case 'EditDoc': {
           this.nextClicked();
+          this.loadOptions();
           console.log('file type - ', this.fileType);
           switch (this.fileType) {
             case 'Rich Text HTML': {
@@ -544,6 +546,9 @@ export default {
         }
         case 'NewDoc': {
           this.loadOptions();
+          mOpts = this.getMenuOpts('document_setup');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.mode = this.SETUP;
           break;
         }
         case 'Resize': {
@@ -659,6 +664,7 @@ export default {
         case 'Document_rte_Back':{
           mOpts = this.getMenuOpts('document_setup');
           this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.loadOptions();
           this.mode=this.SETUP;
           break;
         }
