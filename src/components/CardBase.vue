@@ -638,11 +638,21 @@
                 ['Resize/Move', 'Resize'],
                 ['Del', 'DeleteCard'],
                 ['Save', 'DocumentSave'],
+                ['Upload Source', 'UpSource'],
                 ['Edit Document','EditDoc'],
                 ['Change Setup','ChangeSetup'],
                 ['Exit','exitEdit'],
               ],
               currentMenuSelection: 'Configure'
+            }
+          }
+          case 'source_upload_screen':{
+            return {
+              currentMenuOpts:[
+                ['Cancel', 'CancelSourceUpload'],
+                ['Save File and Continue', 'SaveUpld'],
+              ],
+              currentMenuSelection: 'Cancel'
             }
           }
           case 'document_setup':{
@@ -663,26 +673,7 @@
               currentMenuSelection: 'Cancel'
             }
           }
-          case 'wordhtml_file_select':{
-            return {
-              currentMenuOpts:[
-                ['Cancel', 'CancelWordHtmlSelect'],
-                ['Back', 'Document_rte_Back'],
-              ],
-              currentMenuSelection: 'Cancel'
-            }
-          }
-          case 'wordhtml_selected':{
-            return {
-              currentMenuOpts:[
-                ['Cancel', 'CancelWordHtmlSelect'],
-                ['Save', 'WordHtmlSave'],
-                ['Back', 'Document_rte_Back'],
-              ],
-              currentMenuSelection: 'Cancel'
-            }
-          }
-          case 'file_selected':{
+          case 'pdf_file_selected':{
             return {
               currentMenuOpts:[
                 ['Cancel', 'CancelPdfSelect'],
@@ -758,6 +749,7 @@
                 ['Cancel','Cancel'],
                 ['Link','Link to Another Space'],
                 ['Save', 'Save'],
+                ['Upload Source', 'UpSource'],
                 ['Back', 'Document_rte_Back'],
               ],
               currentSelectedMenuOption: 'Cancel'

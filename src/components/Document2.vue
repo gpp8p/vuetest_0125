@@ -37,15 +37,14 @@
       ></editor-ck>
     </span>
     <span v-if="this.mode==this.PDF_UPLOAD" class="inputPlusLabel">
-      <span class="labelStyle">Please select file to upload:</span><file-upload :fileRole="this.pdfFileRole" @selectedValue="fileSelected"></file-upload>
+      <span class="labelStyle">Please select file to upload:</span><file-upload :fileRole="this.pdfFileRole" @selectedValue="pdfFileSelected"></file-upload>
     </span>
-    <span v-if="this.mode==this.WORDHTML_UPLOAD" class="inputPlusLabel">
-      <span class="labelStyle">Please select file to upload:</span><file-upload :fileRole="this.wordHtmlFileRole" @selectedValue="fileSelected"></file-upload>
+    <span v-if="this.mode==this.SRC_UPLOAD" class="inputPlusLabel">
+      <span class="labelStyle">Please upload the original source document:</span><file-upload :fileRole="this.srcFileRole" @selectedValue="srcFileSelected"></file-upload>
     </span>
     <span v-if="this.mode==this.PDF_SHOW">
       <pdf-iframe :fileLocation="this.fileLocation"></pdf-iframe>
     </span>
-
   </div>
 </template>
 
@@ -201,6 +200,7 @@ export default {
       PDF_SHOW:4,
       WORDHTML_UPLOAD:5,
       SHOW_WORD_HTML:6,
+      SRC_UPLOAD:7,
       currentMenuOpts: [],
       linkedLayoutId:0,
       cObject:{},
@@ -229,10 +229,12 @@ export default {
 
       cardNameStyling: 'font-family:Geneva;font-size:12px;font-style:normal;font-weight:bold;',
       accessTypeOptions:[],
-      pdfFileRole: 'PDF',
+      pdfFileRole: 'document',
+      srcFileRole: 'document',
       pdfSrc:{},
+      srcFilePathUploaded:'',
 
-      wordHtmlFileRole:'Word Doc HTML'
+      wordHtmlFileRole:'document'
 
     }
 
@@ -320,10 +322,18 @@ export default {
     },
 */
 
-    fileSelected(msg){
+    pdfFileSelected(msg){
       console.log('file has been selected', msg);
       this.cardContent.fileLocation=msg[1];
-      var mOpts = this.getMenuOpts('file_selected');
+      var mOpts = this.getMenuOpts('pdf_file_selected');
+      this.currentMenuOpts = mOpts.currentMenuOpts;
+      this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+      this.mode =this.SHOW_TEXT;
+    },
+    wHtmlFileSelected(msg){
+      console.log('file has been selected', msg);
+      this.cardContent.fileLocation=msg[1];
+      var mOpts = this.getMenuOpts('wordhtml_selected');
       this.currentMenuOpts = mOpts.currentMenuOpts;
       this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
       this.mode =this.SHOW_TEXT;
@@ -364,7 +374,7 @@ export default {
       console.log('editorReady event');
       this.editorInstance = msg;
     },
-    pdfSave(){
+    uploadedFileSave(){
       this.content.fileLocation = this.cardContent.fileLocation;
       this.content.fileType = this.cardContent.fileType;
       this.content.documentType = this.cardContent.documentType;
@@ -388,6 +398,11 @@ export default {
       var mOpts = this.getMenuOpts('entryMenu');
       this.currentMenuOpts = mOpts.currentMenuOpts;
       this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+    },
+    srcFileSelected(msg){
+      console.log(msg);
+      this.srcFilePathUploaded=msg[1];
+//      this.mode=this.RICH_TEXT_EDITOR;
     },
     loadOptions() {
       axios.get('http://localhost:8000/api/shan/documentDefaults?XDEBUG_SESSION_START=14668', {})
@@ -524,13 +539,6 @@ export default {
               this.showOptions==true;
               break;
             }
-            case 'Word Doc HTML':{
-              mOpts = this.getMenuOpts('wordhtml_file_select');
-              this.currentMenuOpts = mOpts.currentMenuOpts;
-              this.mode=this.WORDHTML_UPLOAD;
-              this.showOptions==true;
-              break;
-            }
           }
           break;
         }
@@ -593,6 +601,7 @@ export default {
           break;
 
         }
+/*
         case 'Save': {
           debugger;
           this.cObject = {};
@@ -601,8 +610,45 @@ export default {
           this.cObjectVersion = this.cObjectVersion + 1;
           break;
         }
-        case 'PdfSave':{
-          this.pdfSave();
+*/
+        case 'DocumentSave': {
+          debugger;
+          this.cObject = {};
+          this.cObject.action = 'save';
+          this.cObject.linkedLayoutId = msg[1];
+          this.cObjectVersion = this.cObjectVersion + 1;
+          break;
+        }
+        case 'pdfSave':{
+          this.uploadedFileSave();
+          break;
+        }
+        case 'SaveUpld':{
+          this.content.srcFilePath = this.srcFilePathUploaded;
+          this.srcFilePathUploaded = '';
+          mOpts = this.getMenuOpts('archive_edit');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.mode=this.RICH_TEXT_EDITOR;
+          break;
+        }
+        case 'CancelSourceUpload':{
+          console.log('cancel src upload');
+          axios.get('http://localhost:8000/api/shan/removeUploadedFile?XDEBUG_SESSION_START=15122"', {
+            params:{
+              path: this.srcFilePathUploaded
+            }
+          }).then(response => {
+            console.log(response);
+            this.mode= this.RICH_TEXT_EDITOR;
+          }).catch(e => {
+            console.log(e);
+          });
+          break;
+        }
+        case 'UpSource':{
+          mOpts = this.getMenuOpts('source_upload_screen');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.mode=this.SRC_UPLOAD;
           break;
         }
         case 'DeleteCard': {
