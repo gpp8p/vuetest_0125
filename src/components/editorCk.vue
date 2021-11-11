@@ -1,5 +1,5 @@
 <template>
-  <span id="app" class="editorDialog">
+  <span id="app" class="editorDialog" >
     <ckeditor :editor="editor" v-model="editorData" :config="editorConfig" @ready="onEditorReady"></ckeditor>
   </span>
 </template>
@@ -60,6 +60,13 @@ export default {
   },
   mounted(){
     this.editorData = this.cardData;
+/*
+    var spanHeight = document.getElementById('app').clientHeight;
+    var spanWidth = document.getElementById('app').clientwidth;
+    console.log('spanHeight-', spanHeight);
+    console.log('spanWidth-',spanWidth);
+*/
+
   },
   watch:{
     cmdVersion: function(){
@@ -92,6 +99,7 @@ export default {
 */
 
   },
+
   methods:{
     onEditorReady(editor){
       this.$emit('editorReady',editor);

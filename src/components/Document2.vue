@@ -1,12 +1,27 @@
 <template>
-  <div class="cardStyle ck-content">
+  <div class="cardStyle ck-content" id="documentSpan">
     <div class="cardHeader" v-if="showOptions==true">
       <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
     </div>
     <br/>
-
     <div class="cardBody" v-if="this.mode==this.SHOW_TEXT" ref="textContent"  v-html="cardData">
     </div>
+
+
+    <span v-if="this.mode==this.RICH_TEXT_EDITOR" ref="textContent" id="ckeditSpan">
+      <editor-ck
+          :cardData="cardData"
+          :cmd="cmd"
+          :cmdObject="this.cObject"
+          :cmdVersion="cObjectVersion"
+          @saveContent="cardSaved"
+          @editorReady="editorReady"
+          @currentContent="currentContent"
+          @imageInsert = "imageInsert"
+      ></editor-ck>
+    </span>
+
+
     <span v-if="this.mode==this.SETUP" class="selectDefaults">
       <span>
         <text-field :p-type="inputFieldReference" :dialogKey="this.dKey" :label="inputFieldLabel" :currentValues="this.cardContent" :textStyle="this.cardNameStyling"></text-field>
@@ -24,18 +39,7 @@
         <input-checkbox :pType="indexTypeReference" :dialogKey="this.dKey" :label="indexLabel" :options="accessTypeOptions" :currentValues="this.cardContent" @configSelected="configSelected"></input-checkbox>
       </span>
     </span>
-    <span v-if="this.mode==this.RICH_TEXT_EDITOR" ref="textContent">
-      <editor-ck
-          :cardData="cardData"
-          :cmd="cmd"
-          :cmdObject="this.cObject"
-          :cmdVersion="cObjectVersion"
-          @saveContent="cardSaved"
-          @editorReady="editorReady"
-          @currentContent="currentContent"
-          @imageInsert = "imageInsert"
-      ></editor-ck>
-    </span>
+
     <span v-if="this.mode==this.PDF_UPLOAD" class="inputPlusLabel">
       <span class="labelStyle">Please select file to upload:</span><file-upload :fileRole="this.pdfFileRole" @selectedValue="pdfFileSelected"></file-upload>
     </span>
@@ -59,6 +63,7 @@ import editorCk from '../components/editorCk.vue'
 import menuOpt from "../components/menuOptV2.vue";
 import fileUpload from "../components/fileUpload.vue";
 import pdfIframe from "../components/pdfIframe.vue";
+
 import axios from "axios";
 //import axios from "axios";
 export default {
@@ -98,6 +103,15 @@ export default {
         this.indexFile=false;
       }
     }
+    this.spanHeight =  document.getElementById('documentSpan').clientHeight;
+    this.spanWidth = document.getElementById('documentSpan').clientWidth;
+    const elem = document.querySelector("#documentSpan");
+    if(elem) {
+      const rect = elem.getBoundingClientRect();
+      console.log(`rect height: ${rect.height}`);
+    }
+    console.log('window.height-',window.innerHeight);
+
 //    debugger;
     var contentPropertiesLength =Object.keys(this.cardContent).length;
     if(contentPropertiesLength>1){
@@ -112,10 +126,6 @@ export default {
         }
         case 'Rich Text HTML':{
           this.mode = this.SHOW_TEXT;
-          break;
-        }
-        case 'Word Doc HTML':{
-          this.mode = this.SHOW_WORD_HTML;
           break;
         }
       }
@@ -175,10 +185,12 @@ export default {
   },
   computed: {
     height () {
-      return this.$refs.textContent.clientHeight
+      return document.getElementById('ckeditSpan').clientHeight;
+//      return this.$refs.textContent.clientHeight
     },
     width() {
-      return this.$refs.textContent.clientWidth
+//      return this.$refs.textContent.clientWidth
+      return document.getElementById('ckeditSpan').clientWidth;
     }
   },
   data() {
@@ -234,7 +246,9 @@ export default {
       pdfSrc:{},
       srcFilePathUploaded:'',
 
-      wordHtmlFileRole:'document'
+      wordHtmlFileRole:'document',
+      spanHeight:0,
+      spanWidth:0,
 
     }
 
@@ -341,8 +355,12 @@ export default {
     editClicked() {
       debugger;
       this.mode = this.RICH_TEXT_EDITOR;
-      console.log('height-', this.height);
       var editorHeight = this.height + 275;
+      console.log('editorHeight-', editorHeight);
+      var spanHeight = document.getElementById('ckeditSpan').clientHeight;
+      var spanWidth = document.getElementById('ckeditSpan').clientwidth;
+      console.log('height-', spanHeight);
+      console.log('width-',spanWidth);
       var editorWidth = this.width + 29;
       var editorHeightParam = editorHeight + 'px';
       var editorWidthParam = editorWidth + 'px';
@@ -791,6 +809,7 @@ export default {
 .cardStyle {
   height: 100%;
   width: 100%;
+
   overflow: auto;
 }
 .cardHeader {

@@ -748,7 +748,7 @@
               currentMenuOpts:[
                 ['Cancel','exitEdit'],
                 ['Link','Link to Another Space'],
-                ['Save', 'Save'],
+                ['Save', 'DocumentSave'],
                 ['Upload Source', 'UpSource'],
                 ['Back', 'Document_rte_Back'],
               ],

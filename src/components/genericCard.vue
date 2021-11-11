@@ -123,10 +123,15 @@
                  @configSelected="configSelected"
                  ref="cardKey"
                  :cardContent="cardContent"
+                 :card-style=cardStyle
+                 :card-position=cardPosition
+                 :cardProperties = cardProperties
+                 :card-key=cardKey
                  :displayStatus = displayStatus
                  :card-id=cardId
                  :cmdObject="cmdObject"
                  :cmdObjectVersion="cmdObjectVersion"
+                 :elementStyles="elementStyles"
                  :cmd = cmd
         ></Document>
 
