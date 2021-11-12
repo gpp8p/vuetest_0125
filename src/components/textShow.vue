@@ -4,6 +4,9 @@
       <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
     </div>
     <br/>
+    <div v-if="this.mode==this.ENTER_METADATA">
+      <meta-data-dialog @metaDataEntered='metaDataEntered' :cardContent="this.cardContent"></meta-data-dialog>
+    </div>
 
     <div class="cardBody" v-if="this.mode==this.SHOW_TEXT" ref="textContent"  v-html="cardData">
     </div>
@@ -14,6 +17,7 @@
           :cmdObject="this.cObject"
           :cmdVersion="cObjectVersion"
           @saveContent="cardSaved"
+          @updateContent="metaTransition"
           @editorReady="editorReady"
           @currentContent="currentContent"
           @imageInsert = "imageInsert"
@@ -27,18 +31,20 @@
 import CardBase from "../components/CardBase.vue";
 import editorCk from '../components/editorCk.vue'
 import menuOpt from "../components/menuOptV2.vue";
+import MetaDataDialog from "../components/MetaDataDialog.vue";
 import axios from "axios";
 //import axios from "axios";
 export default {
   name: "textShow",
   extends: CardBase,
-  components: {editorCk, menuOpt},
+  components: {editorCk, menuOpt, MetaDataDialog},
   mounted(){
     if(this.displayStatus==true){
       this.showOptions=false;
     }else{
       this.showOptions=true;
     }
+    this.cardData=this.cardContent.cardText;
     this.mode=this.SHOW_TEXT;
     var mOpts = this.getMenuOpts('entryMenu');
     this.currentMenuOpts = mOpts.currentMenuOpts;
@@ -103,12 +109,14 @@ export default {
       cardMessage: this.getCardProps(),
       cardHasBeenSetup: false,
       cstyle: this.cardStyle,
-      cardData: this.cardContent.cardText,
+      cardData: '',
+      originalCardData:'',
       styling: {},
       content: {},
       configurationCurrentValues: {},
       showOptions: false,
       mode: 0,
+      ENTER_METADATA:2,
       RICH_TEXT_EDITOR: 1,
       SHOW_TEXT: 0,
       currentMenuOpts: [],
@@ -243,9 +251,24 @@ export default {
       this.content.cardType = 'textShow';
       this.setCardData(this.content, 'saveCardContent', 'main');
       this.mode=this.SHOW_TEXT;
-      var mOpts = this.getMenuOpts('entryMenu');
+      var mOpts = this.getMenuOpts('richTextOpen');
       this.currentMenuOpts = mOpts.currentMenuOpts;
       this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+    },
+    metaDataEntered(msg){
+      this.content.documentType=msg.documentType;
+      this.content.accessType=msg.accessType;
+      this.content.indexFile=msg.indexFile;
+      var mOpts = this.getMenuOpts('richTextOpen');
+      this.currentMenuOpts = mOpts.currentMenuOpts;
+      this.mode=this.RICH_TEXT_EDITOR;
+    },
+    metaTransition(msg){
+      console.log(msg);
+      this.cardData = msg;
+      var mOpts = this.getMenuOpts('enteringMetaData');
+      this.currentMenuOpts = mOpts.currentMenuOpts;
+      this.mode=this.ENTER_METADATA;
     },
     menuOptSelected(msg) {
       console.log(msg);
@@ -265,8 +288,9 @@ export default {
           break;
         }
         case 'Cancel':{
-          mOpts = this.getMenuOpts('entryMenu');
+          mOpts = this.getMenuOpts('textShowEntryMenu');
           this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.cardData = this.cardContent.cardText;
           this.mode=this.SHOW_TEXT;
           break;
         }
@@ -353,8 +377,18 @@ export default {
 
            break;
          }
+         case 'metaData':{
+           this.cObject = {};
+           this.cObject.action = 'update';
+           this.cObjectVersion=this.cObjectVersion+1;
+          //ckeditor will send updateContent event up containing current content so it can be saved
+
+           break;
+         }
+
       }
     },
+/*
     getMenuOpts(menuContext){
 //              debugger;
 //      console.log('Dialog2 getMenuOpts menuContext:', menuContext);
@@ -423,6 +457,7 @@ export default {
 
       }
     },
+*/
 
 
   }

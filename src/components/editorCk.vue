@@ -59,6 +59,7 @@ export default {
     }
   },
   mounted(){
+    console.log('mounting ckeditor cardData- ', this.cardData);
     this.editorData = this.cardData;
 /*
     var spanHeight = document.getElementById('app').clientHeight;
@@ -75,6 +76,11 @@ export default {
         case 'save':{
           this.$emit('currentContent', this.editorData);
           break;
+        }
+        case 'update':{
+          this.$emit('updateContent', this.editorData);
+          break;
+
         }
       }
     }

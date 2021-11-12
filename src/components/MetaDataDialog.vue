@@ -75,7 +75,7 @@ name: "MetaDataDialog",
       metaDataEntered['documentType']= this.documentType;
       metaDataEntered['accessType']=this.accessType;
       metaDataEntered['indexFile']=this.indexFile;
-      this.$emit('currentContent', metaDataEntered);
+      this.$emit('metaDataEntered', metaDataEntered);
     }
 
   },

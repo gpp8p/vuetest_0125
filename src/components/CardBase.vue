@@ -618,6 +618,38 @@
 
 
       },
+      loadOptions() {
+        axios.get('http://localhost:8000/api/shan/documentDefaults?XDEBUG_SESSION_START=14668', {})
+            .then(response => {
+              console.log(response);
+              this.documentTypeOptions = [];
+              this.fileTypeOptions = [];
+              this.accessTypeOptions = []
+              response.data.documentTypes.forEach((val, index) => {
+                console.log('Index: ' + index + ' Value: ' + val.document_type);
+                this.documentTypeOptions.push(val.document_type);
+              });
+              response.data.fileTypes.forEach((val, index) => {
+                console.log('Index: ' + index + ' Value: ' + val.file_type);
+                this.fileTypeOptions.push(val.file_type);
+              });
+              response.data.accessTypes.forEach((val, index) => {
+                console.log('Index: ' + index + ' Value: ' + val.access_type);
+                this.accessTypeOptions.push(val.access_type);
+              });
+              /*
+                          var mOpts = this.getMenuOpts('document_setup');
+                          this.currentMenuOpts = mOpts.currentMenuOpts;
+                          this.mode = this.SETUP;
+              */
+            })
+            .catch(e => {
+              this.errors.push(e);
+              console.log('orgMembers failed');
+            });
+
+      },
+
       getMenuOpts(menuContext) {
         switch (menuContext) {
           case 'archive_entry':{
@@ -743,6 +775,7 @@
               currentMenuSelection: 'Cancel'
             }
           }
+/*
           case 'richTextOpen':{
             return {
               currentMenuOpts:[
@@ -755,12 +788,33 @@
               currentSelectedMenuOption: 'Cancel'
             }
           }
+
+ */
+          case 'richTextOpen':{
+            return {
+              currentMenuOpts:[
+                ['Cancel','Cancel'],
+                ['Link','Link to Another Space'],
+                ['Upload Source', 'UpSource'],
+                ['Save', 'Save'],
+                ['Enter Metadata', 'metaData'],
+              ],
+              currentSelectedMenuOption: 'Cancel'
+            }
+          }
+          case 'enteringMetaData':{
+            return {
+              currentMenuOpts:[
+                ['Cancel','Cancel'],
+              ],
+              currentSelectedMenuOption: 'Cancel'
+            }
+          }
           case'insertLink':{
             return {
               currentMenuOpts:[
                 ['Cancel','Cancel'],
                 ['Insert Link', 'Insert the Link'],
-                ['Back', 'Back']
               ],
               currentMenuSelection: 'Cancel'
             }
@@ -783,6 +837,18 @@
                 ['Back', 'Backtosetup']
               ],
               currentMenuSelection: 'Cancel'
+            }
+          }
+          case'textShowEntryMenu':{
+            return {
+              currentMenuOpts:[
+                ['Configure','Configure'],
+                ['Resize/Move', 'Resize'],
+                ['Del','DeleteCard'],
+                ['Edit', 'Edit'],
+                ['Enter Metadata', 'metaData'],
+              ],
+              currentMenuSelection: 'Configure'
             }
           }
           case'entryMenu':{
