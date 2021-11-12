@@ -31,6 +31,20 @@ name: "MetaDataDialog",
   extends: CardBase,
   mounted(){
     this.loadOptions();
+    if(typeof(this.cardContent['documentType'])!=='undefined'){
+      this.documentType= this.cardContent['documentType'];
+    }
+    if(typeof(this.cardContent['indexFile'])!=='undefined'){
+      if(this.cardContent['indexFile']==1){
+        this.indexFile=true;
+      }else{
+        this.indexFile=false;
+      }
+    }
+    if(typeof(this.cardContent['accessType'])!=='undefined'){
+      this.accessType= this.cardContent['accessType'];
+    }
+
   },
   props:{
     cardContent:{

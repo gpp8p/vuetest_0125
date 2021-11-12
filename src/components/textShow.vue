@@ -7,7 +7,9 @@
     <div v-if="this.mode==this.ENTER_METADATA">
       <meta-data-dialog @metaDataEntered='metaDataEntered' :cardContent="this.cardContent"></meta-data-dialog>
     </div>
-
+    <span v-if="this.mode==this.SRC_UPLOAD" class="inputPlusLabel">
+      <span class="labelStyle">Please upload the original source document:</span><file-upload :fileRole="this.srcFileRole" @selectedValue="srcFileSelected"></file-upload>
+    </span>
     <div class="cardBody" v-if="this.mode==this.SHOW_TEXT" ref="textContent"  v-html="cardData">
     </div>
     <span v-if="this.mode==this.RICH_TEXT_EDITOR">
@@ -32,12 +34,13 @@ import CardBase from "../components/CardBase.vue";
 import editorCk from '../components/editorCk.vue'
 import menuOpt from "../components/menuOptV2.vue";
 import MetaDataDialog from "../components/MetaDataDialog.vue";
+import fileUpload from "../components/fileUpload.vue";
 import axios from "axios";
 //import axios from "axios";
 export default {
   name: "textShow",
   extends: CardBase,
-  components: {editorCk, menuOpt, MetaDataDialog},
+  components: {editorCk, menuOpt, MetaDataDialog, fileUpload},
   mounted(){
     if(this.displayStatus==true){
       this.showOptions=false;
@@ -119,10 +122,13 @@ export default {
       ENTER_METADATA:2,
       RICH_TEXT_EDITOR: 1,
       SHOW_TEXT: 0,
+      SRC_UPLOAD:7,
       currentMenuOpts: [],
       linkedLayoutId:0,
       cObject:{},
-      cObjectVersion:0
+      cObjectVersion:0,
+      srcFilePathUploaded:'',
+      srcFileRole: 'document',
 
     }
 
@@ -245,9 +251,23 @@ export default {
       this.editorInstance = msg;
     },
     currentContent(msg){
-      console.log('currentContent event');
-      this.cardContent = msg;
-      this.content.cardText = this.cardContent;
+      console.log('currentContent event-', msg);
+      if(typeof(this.cardContent['documentType'])!=='undefined'){
+        this.content.documentType= this.cardContent['documentType'];
+      }
+      if(typeof(this.cardContent['indexFile'])!=='undefined'){
+        if(this.cardContent['indexFile']==1){
+          this.content.indexFile=true;
+        }else{
+          this.content.indexFile=false;
+        }
+      }
+      if(typeof(this.cardContent['accessType'])!=='undefined'){
+        this.content.accessType = this.cardContent['accessType'];
+      }
+      debugger;
+//      this.cardContent = msg;
+      this.content.cardText = msg;
       this.content.cardType = 'textShow';
       this.setCardData(this.content, 'saveCardContent', 'main');
       this.mode=this.SHOW_TEXT;
@@ -256,6 +276,7 @@ export default {
       this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
     },
     metaDataEntered(msg){
+      console.log(msg);
       this.content.documentType=msg.documentType;
       this.content.accessType=msg.accessType;
       this.content.indexFile=msg.indexFile;
@@ -269,6 +290,11 @@ export default {
       var mOpts = this.getMenuOpts('enteringMetaData');
       this.currentMenuOpts = mOpts.currentMenuOpts;
       this.mode=this.ENTER_METADATA;
+    },
+    srcFileSelected(msg){
+      console.log(msg);
+      this.srcFilePathUploaded=msg[1];
+//      this.mode=this.RICH_TEXT_EDITOR;
     },
     menuOptSelected(msg) {
       console.log(msg);
@@ -385,7 +411,34 @@ export default {
 
            break;
          }
-
+        case 'SaveUpld':{
+          this.content.srcFilePath = this.srcFilePathUploaded;
+          this.srcFilePathUploaded = '';
+          mOpts = this.getMenuOpts('richTextOpen');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.mode=this.RICH_TEXT_EDITOR;
+          break;
+        }
+        case 'CancelSourceUpload':{
+          console.log('cancel src upload');
+          axios.get('http://localhost:8000/api/shan/removeUploadedFile?XDEBUG_SESSION_START=15122"', {
+            params:{
+              path: this.srcFilePathUploaded
+            }
+          }).then(response => {
+            console.log(response);
+            this.mode= this.RICH_TEXT_EDITOR;
+          }).catch(e => {
+            console.log(e);
+          });
+          break;
+        }
+        case 'UpSource':{
+          mOpts = this.getMenuOpts('source_upload_screen');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.mode=this.SRC_UPLOAD;
+          break;
+        }
       }
     },
 /*
