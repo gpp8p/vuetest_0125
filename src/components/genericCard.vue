@@ -41,6 +41,7 @@
                    @ghostCard="ghostCard"
                    ref="cardKey"
         ></text-show>
+
         <link-menu v-if="cardType=='linkMenu'"
                    :card-style=cardStyle
                    :card-id=cardId
@@ -84,7 +85,7 @@
                   @cardDataLoaded="cardDataLoaded"
                   ref="cardKey"
         ></you-tube>
-        <archive v-if="cardType=='archive'"
+  <archive v-if="cardType=='archive'"
                  @cardClick="processCardClick"
                  @ghostCard="ghostCard"
                  @configurationHasBeenSaved="configurationHasBeenSaved"
@@ -94,26 +95,13 @@
                  :displayStatus = displayStatus
                  :card-id=cardId
         ></archive>
-          <Agenda v-if="cardType=='Agenda'"
-                   @cardClick="processCardClick"
-                   @ghostCard="ghostCard"
-                   @configurationHasBeenSaved="configurationHasBeenSaved"
-                   @cardPropertySet="cardPropertySet"
-                   @cardDataLoaded="cardDataLoaded"
-                   ref="cardKey"
-                   :displayStatus = displayStatus
-                   :card-id=cardId
-          ></Agenda>
-        <Minutes v-if="cardType=='Minutes'"
-                 @cardClick="processCardClick"
-                 @ghostCard="ghostCard"
-                 @configurationHasBeenSaved="configurationHasBeenSaved"
-                 @cardPropertySet="cardPropertySet"
-                 @cardDataLoaded="cardDataLoaded"
-                 ref="cardKey"
-                 :displayStatus = displayStatus
-                 :card-id=cardId
-        ></Minutes>
+        <pdf v-if="cardType=='pdf'"
+             :cardContent="cardContent"
+             :card-id=cardId
+             :cmdObject="cmdObject"
+             :cmdObjectVersion="cmdObjectVersion"
+             :cmd = cmd
+        ></pdf>
         <Document v-if="cardType=='Document'"
                  @cardClick="processCardClick"
                  @ghostCard="ghostCard"
@@ -154,14 +142,13 @@
   import loginLink from "../components/loginLink";
   import youTube from "../components/youTube.vue";
   import archive from "../components/archive.vue";
-  import Agenda from "../components/Agenda.vue";
-  import Minutes from "../components/Minutes.vue";
   import Document from "../components/Document2.vue";
+  import pdf from "../components/pdf.vue";
 
   export default {
     name: "genericCard",
     extends: GenericCardBase,
-    components: {GreenComponent, textShow, linkMenu, loginLink, youTube, archive, Agenda, Minutes, Document},
+    components: {GreenComponent, textShow, linkMenu, loginLink, youTube, archive, Document, pdf},
     props: {
       cardType: {
         type: String,

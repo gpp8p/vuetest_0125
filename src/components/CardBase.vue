@@ -700,7 +700,6 @@
             return {
               currentMenuOpts:[
                 ['Cancel', 'CancelPdfSelect'],
-                ['Back', 'Document_rte_Back'],
               ],
               currentMenuSelection: 'Cancel'
             }
@@ -709,10 +708,29 @@
             return {
               currentMenuOpts:[
                 ['Cancel', 'CancelPdfSelect'],
-                ['Save', 'PdfSave'],
-                ['Back', 'Document_rte_Back'],
+                ['Save', 'pdfSave'],
+                ['Exit', 'pdfExit']
               ],
               currentMenuSelection: 'Cancel'
+            }
+          }
+          case 'pdf_file_showing':{
+            return {
+              currentMenuOpts:[
+                ['Enter MetaData', 'pdfMeta'],
+                ['Exit', 'pdfExit'],
+                ['Change Pdf File','changePdf']
+              ],
+              currentMenuSelection: 'Exit'
+            }
+          }
+          case 'entering_pdf_meta':{
+            return {
+              currentMenuOpts:[
+                ['Cancel', 'exitMeta'],
+                ['Change Pdf File','changePdf']
+              ],
+              currentMenuSelection: 'Exit'
             }
           }
           case 'document_rt_entry':{
