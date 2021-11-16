@@ -77,6 +77,7 @@
         <you-tube v-if="cardType=='youTube'"
                   :displayStatus = displayStatus
                   :card-id=cardId
+                  :yturl="cardContent.ytubeUrl"
                   @configSelected="configSelected"
                   @cardClick="processCardClick"
                   @ghostCard="ghostCard"

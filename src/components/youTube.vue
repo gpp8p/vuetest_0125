@@ -43,6 +43,10 @@ name: "youTube",
       type: String,
       required: true
     },
+    yturl: {
+      type: String,
+      required: true
+    }
   },
   mounted(){
     if(this.displayStatus==true){
@@ -53,6 +57,7 @@ name: "youTube",
     var mOpts = this.getMenuOpts('entryMenu_youTube');
     this.currentMenuOpts = mOpts.currentMenuOpts;
     this.loadCardConfiguration(this.cardId);
+    this.videoId = this.$youtube.getIdFromUrl(this.yturl);
   },
   data() {
     return {
