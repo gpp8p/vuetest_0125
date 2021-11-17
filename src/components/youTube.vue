@@ -3,15 +3,18 @@
     <div class="cardHeader" v-if="this.showOptions==true">
       <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
     </div>
-    <youtube v-if="this.showOptions==false"
-             :video-id="videoId"
-             ref="youtube"
-             :width=spanWidth
-             :height=spanHeight
-             @ready="playerReady"
-             @playing="playing"
-    ></youtube>
-    <div v-if="this.showOptions==true" class="config">
+    <div v-if="this.mode==this.YT_SHOW">
+      <youtube v-if="this.mode==this.YT_SHOW"
+               :video-id="videoId"
+               ref="youtube"
+               :width=spanWidth
+               :height=spanHeight
+               @ready="playerReady"
+               @playing="playing"
+      ></youtube>
+    </div>
+
+    <div v-if="this.mode==this.YT_EDIT" class="config">
       <label for="ytubeUrl" style="justify-self: center;">You-Tube Url:</label>
       <span><input type="text" size="40" id="ytubeUrl" maxlength="60" v-model ="ytubeUrl"/></span>
       <span></span>
@@ -26,7 +29,7 @@ import Vue from 'vue'
 import VueYoutube from 'vue-youtube'
 import menuOpt from "../components/menuOptV2.vue";
 import CardBase from "@/components/CardBase";
-import axios from "axios";
+//import axios from "axios";
 
 
 Vue.use(VueYoutube)
@@ -46,6 +49,10 @@ name: "youTube",
     yturl: {
       type: String,
       required: true
+    },
+    cardContent:{
+      type: Object,
+      required:true
     }
   },
   mounted(){
@@ -56,8 +63,14 @@ name: "youTube",
     }
     var mOpts = this.getMenuOpts('entryMenu_youTube');
     this.currentMenuOpts = mOpts.currentMenuOpts;
-    this.loadCardConfiguration(this.cardId);
-    this.videoId = this.$youtube.getIdFromUrl(this.yturl);
+//    this.loadCardConfiguration(this.cardId);
+    console.log('youTube cardContent',this.cardContent);
+    if(typeof(this.cardContent.ytubeUrl)=='undefined'){
+      this.mode=this.YT_EDIT;
+    }else{
+      this.videoId = this.$youtube.getIdFromUrl(this.cardContent.ytubeUrl);
+      this.mode=this.YT_SHOW;
+    }
   },
   data() {
     return {
@@ -69,16 +82,23 @@ name: "youTube",
       styling: {},
       configurationCurrentValues:{},
       ytubeUrl:'',
-      cardContent:{},
-      ytid:''
+//      cardContent:{},
+      ytid:'',
+      content:{},
+      mode:0,
+      YT_SHOW:1,
+      YT_EDIT:2,
+      YT_META:3
     }
   },
+/*
   watch:{
     cardContent: function(){
       this.ytubeUrl = this.cardContent.ytubeUrl;
       this.videoId = this.$youtube.getIdFromUrl(this.ytubeUrl);
     }
   },
+ */
   methods: {
     playVideo() {
       this.player.playVideo()
@@ -92,6 +112,7 @@ name: "youTube",
       this.spanHeight =  this.$refs.ytComponent.parentNode.clientHeight+'px';
       this.spanWidth = this.$refs.ytComponent.parentNode.clientWidth+'px';
     },
+/*
     saveUrl(){
       var ytContent ={
         ytubeUrl:this.ytubeUrl,
@@ -117,6 +138,16 @@ name: "youTube",
 
 
 //      this.saveCardContent( ytContent,'main');
+    },
+
+ */
+    saveUrl(){
+      this.content.ytubeUrl = this.ytubeUrl;
+      this.content.spanWidth = this.$refs.ytComponent.parentNode.clientWidth;
+      this.content.spanHeight = this.$refs.ytComponent.parentNode.clientHeight;
+      this.content.cardType = 'youTube';
+      this.setCardData(this.content, 'saveCardContent', 'main');
+      this.$emit('configSelected', ['display']);
     },
     menuOptSelected(msg) {
       console.log(msg);
@@ -148,6 +179,19 @@ name: "youTube",
         case 'DelCardFromDb': {
           console.log('remove from db selected');
           this.deleteCardFromDb(this.cardId);
+          break;
+        }
+        case 'ytEdit':{
+          mOpts = this.getMenuOpts('editing_youTube');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.mode=this.YT_EDIT;
+          console.log('youTube mode changed',this.mode);
+          break;
+        }
+        case 'ytShow':{
+          mOpts = this.getMenuOpts('entryMenu_youTube');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.mode=this.YT_SHOW;
           break;
         }
       }

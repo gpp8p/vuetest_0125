@@ -78,6 +78,7 @@
                   :displayStatus = displayStatus
                   :card-id=cardId
                   :yturl="cardContent.ytubeUrl"
+                  :cardContent="cardContent"
                   @configSelected="configSelected"
                   @cardClick="processCardClick"
                   @ghostCard="ghostCard"

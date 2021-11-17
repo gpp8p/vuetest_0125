@@ -759,6 +759,24 @@
                 ['Done', 'ytdone'],
                 ['Resize/Move', 'Resize'],
                 ['Del', 'DeleteCard'],
+                ['Change Clip','ytEdit'],
+                ['Save','ytSave'],
+                ['Enter Metadata', 'metaData'],
+
+              ],
+              currentMenuSelection: 'Configure'
+            }
+          }
+          case'editing_youTube': {
+            return {
+              currentMenuOpts: [
+                ['Done', 'ytdone'],
+                ['Resize/Move', 'Resize'],
+                ['Del', 'DeleteCard'],
+                ['Show','ytShow'],
+                ['Save','ytSave'],
+                ['Enter Metadata', 'metaData'],
+
               ],
               currentMenuSelection: 'Configure'
             }
