@@ -781,6 +781,16 @@
               currentMenuSelection: 'Configure'
             }
           }
+          case'metaData_youTube': {
+            return {
+              currentMenuOpts: [
+                ['Resize/Move', 'Resize'],
+                ['Del', 'DeleteCard'],
+                ['Show','ytShow'],
+              ],
+              currentMenuSelection: 'Configure'
+            }
+          }
           case 'deleteChoice': {
             return {
               currentMenuOpts: [

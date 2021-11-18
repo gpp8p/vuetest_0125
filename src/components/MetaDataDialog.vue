@@ -44,7 +44,7 @@ name: "MetaDataDialog",
     if(typeof(this.cardContent['accessType'])!=='undefined'){
       this.accessType= this.cardContent['accessType'];
     }
-
+    console.log('metaDataDialog mounted');
   },
   props:{
     cardContent:{

@@ -21,6 +21,9 @@
       <span><button @click="saveUrl">Save YouTube URL</button></span>
 
     </div>
+    <div v-if="this.mode==this.YT_META">
+      <meta-data-dialog @metaDataEntered='metaDataEntered' :cardContent="this.cardContent"></meta-data-dialog>
+    </div>
   </div>
 </template>
 
@@ -29,6 +32,7 @@ import Vue from 'vue'
 import VueYoutube from 'vue-youtube'
 import menuOpt from "../components/menuOptV2.vue";
 import CardBase from "@/components/CardBase";
+import MetaDataDialog from "../components/MetaDataDialog.vue";
 //import axios from "axios";
 
 
@@ -36,7 +40,7 @@ Vue.use(VueYoutube)
 export default {
 name: "youTube",
   extends: CardBase,
-  components: {menuOpt},
+  components: {menuOpt, MetaDataDialog},
   props:{
     displayStatus: {
       type: Boolean,
@@ -112,6 +116,9 @@ name: "youTube",
       this.spanHeight =  this.$refs.ytComponent.parentNode.clientHeight+'px';
       this.spanWidth = this.$refs.ytComponent.parentNode.clientWidth+'px';
     },
+    destroy(){
+      this.player.destroy();
+    },
 /*
     saveUrl(){
       var ytContent ={
@@ -148,6 +155,19 @@ name: "youTube",
       this.content.cardType = 'youTube';
       this.setCardData(this.content, 'saveCardContent', 'main');
       this.$emit('configSelected', ['display']);
+    },
+    metaDataEntered(msg){
+      console.log('metadata entered-',msg);
+      this.content.fileLocation = this.cardContent.fileLocation;
+      this.content.documentType=msg.documentType;
+      this.content.accessType=msg.accessType;
+      this.content.indexFile=msg.indexFile;
+      this.content.ytubeUrl = this.cardContent.ytubeUrl;
+      this.content.spanWidth = this.$refs.ytComponent.parentNode.clientWidth;
+      this.content.spanHeight = this.$refs.ytComponent.parentNode.clientHeight;
+      this.content.cardType = 'youTube';
+      this.setCardData(this.content, 'saveCardContent', 'main');
+      this.$emit('configSelected',['display'])
     },
     menuOptSelected(msg) {
       console.log(msg);
@@ -192,6 +212,13 @@ name: "youTube",
           mOpts = this.getMenuOpts('entryMenu_youTube');
           this.currentMenuOpts = mOpts.currentMenuOpts;
           this.mode=this.YT_SHOW;
+          break;
+        }
+        case 'metaData':{
+          this.destroy();
+          mOpts = this.getMenuOpts('metaData_youTube');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.mode=this.YT_META;
           break;
         }
       }
