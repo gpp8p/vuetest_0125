@@ -198,6 +198,21 @@ export default {
             'Ubuntu Mono, Courier New, Courier, monospace'
           ]
         },
+        fontSize: {
+          options: [
+            9,
+            11,
+            13,
+            'default',
+            17,
+            19,
+            21,
+            24,
+            32,
+            48,
+            72
+          ]
+        },
         alignment: {
           options: [ 'left', 'right', 'center', 'justify' ]
         },

@@ -730,7 +730,7 @@
 
 <style scoped>
     .dialogComponent {
-        height:325px;
+        height:400px;
         width:750px;
         position: relative;
         background-color: #ab97ff;

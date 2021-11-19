@@ -3,7 +3,7 @@
         <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
 
         <span v-if="!uploadStatus">
-            File Uploaded Successfully!
+            Ok!
         </span>
 
     </span>

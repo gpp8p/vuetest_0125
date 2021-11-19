@@ -24,6 +24,18 @@
             </span>
             <span v-if="this.backgroundTypeSelection==this.IMAGE_SELECTED" class="imageSelectorStyle">
                 <file-upload :fileRole="this.fileRole" @selectedValue="fileSelected"></file-upload>
+                <div class="backDisplayCss" v-if="fileHasBeenSelected==true">
+                        <o-radio v-model="backgroundDisplayType" name="backDisplay" native-value="crop">
+                            Crop to fit
+                        </o-radio>
+                        <o-radio v-model="backgroundDisplayType" name="backDisplay" native-value="existing">
+                            Existing Size
+                        </o-radio>
+                        <o-radio v-model="backgroundDisplayType" name="backDisplay" native-value="stretch">
+                            Stretch
+                        </o-radio>
+
+                </div>
             </span>
         </span>
     </span>
@@ -64,6 +76,8 @@
               fileRole:"backgroundImage",
               row:'',
               showTransparent:true,
+              backgroundDisplayType:'',
+              fileHasBeenSelected:false
           }
         },
         watch:{
@@ -110,6 +124,9 @@
                 this.backgroundTypeSelection = this.IMAGE_SELECTED;
                 this.$emit('configSelected', ['backgroundType',this.backgroundTypeSelection] );
             },
+            backDisplaySelected(msg){
+              this.$emit('configSelected', ['backDisplay',msg[1]]);
+            },
             transparentSelected(){
               console.log('transparent has been selected');
               this.backgroundTypeSelection = this.TRANSPARENT_SELECTED;
@@ -122,6 +139,7 @@
             },
             fileSelected(msg){
               console.log('bgpick - file:', msg);
+              this.fileHasBeenSelected=true;
               this.$emit('configSelected', ['backgroundImage',msg[1]]);
             },
             getCurrentValue(){
@@ -149,9 +167,17 @@
     }
     .pickers{
         margin-left: 10px;
+
+
     }
     .radioItem {
       margin-right: 10px;
+    }
+    .backDisplayCss{
+      display: grid;
+      grid-template-rows: 30% 30% 30%;
+      grid-template-columns: 100%;
+
     }
 
 </style>

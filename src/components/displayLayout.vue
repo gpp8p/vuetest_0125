@@ -1,5 +1,5 @@
 <template>
-    <div v-bind:style="gridParamDefinition"  class="gridSection">
+    <div v-bind:style="gridParamDefinition"  class="gridSection" id="layoutDiv">
         <generic-card
                 v-for="(instance, index) in cardInstances"
                 :key="index"
@@ -167,7 +167,18 @@
               this.$emit('viewStatusChangeFunction', ['clearCmd'])
             },
             layoutGridParameters(height, width, backgroundColor, backgroundImageUrl, backgroundType) {
-//                debugger;
+                debugger;
+                console.log('height-',height);
+                console.log('width-', width);
+                console.log('screen width', screen.availWidth);
+                console.log('screen height', screen.availHeight);
+                var backgroundHeight = screen.availHeight*0.85;
+                var backgroundWidth = screen.availWidth*0.98;
+/*
+                var currentWidth = document.getElementById("layoutDiv").innerHTML = "Available Screen Width: " + screen.availWidth;
+                console.log('currentWidth', currentWidth);
+
+ */
                 var heightSize = (95 / height).toFixed(2);
                 var widthSize = (98 / width).toFixed(2);
                 var gridHeightCss = "grid-template-rows: ";
@@ -189,9 +200,13 @@
                       ";";
                 }else{
                     debugger;
+                    var widthBackground = backgroundWidth+'px ';
+                    var heightBackground = backgroundHeight+'px';
+                    console.log('widthBackground-', widthBackground);
+                    console.log('heightBackground-', heightBackground);
                     var backgroundUrl = backgroundImageUrl;
                     gridCss =
-                      "display: grid; grid-gap: 3px; background-image: url("+backgroundUrl+"); background-size: cover; background-repeat: no-repeat; background-position: center; height: 90vh; color: #ffcd90; " +
+                      "display: grid; grid-gap: 3px; background-image: url("+backgroundUrl+"); background-size:cover; background-repeat: no-repeat; background-position: center; height: 90vh; color: #ffcd90; " +
                       gridHeightCss +
                       ";" +
                       gridWidthCss +
