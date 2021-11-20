@@ -25,13 +25,13 @@
             <span v-if="this.backgroundTypeSelection==this.IMAGE_SELECTED" class="imageSelectorStyle">
                 <file-upload :fileRole="this.fileRole" @selectedValue="fileSelected"></file-upload>
                 <div class="backDisplayCss" v-if="fileHasBeenSelected==true">
-                        <o-radio v-model="backgroundDisplayType" name="backDisplay" native-value="crop">
+                        <o-radio v-model="backgroundDisplayType" name="backDisplay" @input="backDisplayChosen" native-value="crop">
                             Crop to fit
                         </o-radio>
-                        <o-radio v-model="backgroundDisplayType" name="backDisplay" native-value="existing">
+                        <o-radio v-model="backgroundDisplayType" name="backDisplay" @input="backDisplayChosen" native-value="existing">
                             Existing Size
                         </o-radio>
-                        <o-radio v-model="backgroundDisplayType" name="backDisplay" native-value="stretch">
+                        <o-radio v-model="backgroundDisplayType" name="backDisplay" @input="backDisplayChosen" native-value="stretch">
                             Stretch
                         </o-radio>
 
@@ -141,6 +141,9 @@
               console.log('bgpick - file:', msg);
               this.fileHasBeenSelected=true;
               this.$emit('configSelected', ['backgroundImage',msg[1]]);
+            },
+            backDisplayChosen(msg){
+              this.$emit('configSelected', ['backgroundDisplay',msg]);
             },
             getCurrentValue(){
                 //debugger;

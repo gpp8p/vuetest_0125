@@ -68,6 +68,7 @@ name: "createLayout",
 
       backgroundImageFile:'',
       backgroundType:'C',
+      backgroundDisplay:'',
       NOTHING_SELECTED:0,
       COLOR_SELECTED:1,
       IMAGE_SELECTED:2,
@@ -124,7 +125,7 @@ name: "createLayout",
     },
 
     configSelected(msg){
-      debugger;
+//      debugger;
       switch(msg[0]){
         case "backgroundType":{
 /*
@@ -151,6 +152,10 @@ name: "createLayout",
           this.updatedColor = msg[1];
           break;
         }
+        case "backgroundDisplay":{
+          this.backgroundDisplay = msg[1];
+          break
+        }
       }
 
     },
@@ -173,6 +178,7 @@ name: "createLayout",
           backgroundColor: this.updatedColor,
           backgroundType: this.backgroundType,
           backgroundImage: this.backgroundImageFile,
+          backgroundDisplay: this.backgroundDisplay,
           userId: this.$store.getters.getLoggedInUserId,
           user: this.$store.getters.getLoggedInUser,
           orgId: this.$store.getters.getOrgId

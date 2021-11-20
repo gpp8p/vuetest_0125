@@ -166,12 +166,13 @@
               this.dialogCmd='';
               this.$emit('viewStatusChangeFunction', ['clearCmd'])
             },
-            layoutGridParameters(height, width, backgroundColor, backgroundImageUrl, backgroundType) {
+            layoutGridParameters(height, width, backgroundColor, backgroundImageUrl, backgroundType, backgroundDisplay) {
                 debugger;
                 console.log('height-',height);
                 console.log('width-', width);
                 console.log('screen width', screen.availWidth);
                 console.log('screen height', screen.availHeight);
+                console.log('backgroundDisplay', backgroundDisplay)
                 var backgroundHeight = screen.availHeight*0.85;
                 var backgroundWidth = screen.availWidth*0.98;
 /*
@@ -206,7 +207,7 @@
                     console.log('heightBackground-', heightBackground);
                     var backgroundUrl = backgroundImageUrl;
                     gridCss =
-                      "display: grid; grid-gap: 3px; background-image: url("+backgroundUrl+"); background-size:cover; background-repeat: no-repeat; background-position: center; height: 90vh; color: #ffcd90; " +
+                      "display: grid; grid-gap: 3px; background-image: url("+backgroundUrl+"); background-size:"+widthBackground+heightBackground+"; background-repeat: no-repeat; background-position: center; height: 90vh; color: #ffcd90; " +
                       gridHeightCss +
                       ";" +
                       gridWidthCss +
@@ -337,6 +338,7 @@
                         response.data.layout.backgroundColor,
                         response.data.layout.backGroundImageUrl,
                         response.data.layout.backgroundType,
+                        response.data.layout.backgroundDisplay,
                     );
                     this.LayoutPermissions = response.data.perms;
                     if(this.canView(this.LayoutPermissions)){
