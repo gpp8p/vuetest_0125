@@ -203,7 +203,7 @@
                         return ['Edit','Delete', 'Publish', 'Create', 'Access','My Spaces', 'Organizations','Test'];
                     }
                 }else if(this.viewContext==this.VIEW_EDITING){
-                    return ['Insert Existing Card','Create A New Card', 'Exit'];
+                    return ['Change Layout Setup', 'Insert Existing Card','Create A New Card', 'Exit'];
                 }
 
             },

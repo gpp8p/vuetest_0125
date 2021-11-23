@@ -192,6 +192,7 @@
         },
         watch:{
           cmd: function(){
+            console.log('cmd changed in editLayout', this.cmd);
             switch(this.cmd){
               case 'cancelDialog':{
                 this.RICH_TEXT_EDITOR=false;
@@ -207,6 +208,10 @@
               case 'insertCard':{
                 this.dialogCmd = this.cmd;
                 this.dialogType= this.DIALOG_INSERT_CARD;
+                break;
+              }
+              case 'changeLayoutSetup':{
+                console.log('change layout setup selected');
                 break;
               }
             }

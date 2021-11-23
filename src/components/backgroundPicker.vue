@@ -34,6 +34,10 @@
                         <o-radio v-model="backgroundDisplayType" name="backDisplay" @input="backDisplayChosen" native-value="stretch">
                             Stretch
                         </o-radio>
+                        <o-radio v-model="backgroundDisplayType" name="backDisplay" @input="backDisplayChosen" native-value="repeat">
+                            Repeat
+                        </o-radio>
+
 
                 </div>
             </span>

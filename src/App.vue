@@ -195,6 +195,10 @@
             this.thisCmd='insertCard';
             break;
           }
+          case 'Change Layout Setup':{
+            this.thisCmd='changeLayoutSetup';
+            break;
+          }
           case 'Test':{
             debugger;
             axios.get('http://localhost:8000/api/shan/layoutTest?XDEBUG_SESSION_START=14668', {
