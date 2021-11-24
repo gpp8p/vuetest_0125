@@ -212,6 +212,20 @@
               }
               case 'changeLayoutSetup':{
                 console.log('change layout setup selected');
+                axios
+                    .get("http://localhost:8000/api/shan/getLayoutParams?XDEBUG_SESSION_START=15122", {
+                      params: {
+                        layoutId: this.$store.getters.getCurrentLayoutId
+                      }
+                    })
+                    .then(response => {
+                      console.log(response.data[0].backgroundDisplay);
+                    }).catch(e => {
+//                        debugger;
+                      console.log(e);
+                      this.errors.push(e);
+                    });
+
                 break;
               }
             }
