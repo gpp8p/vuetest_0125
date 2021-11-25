@@ -66,6 +66,7 @@
           <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
       </div>
     </div>
+  
 
 </template>
 
