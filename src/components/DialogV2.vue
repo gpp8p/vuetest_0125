@@ -41,6 +41,7 @@
             @layoutData="layoutData"
             @error="showError"
             :cmd="cmd"
+            :cmdObjectVersion="cmdObjectVersion"
             :currentValues="currentValues"
         ></new-layout>
         <PermList v-if="dialogType==this.DIALOG_PERMS"
@@ -66,7 +67,7 @@
           <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
       </div>
     </div>
-  
+
 
 </template>
 
@@ -110,6 +111,10 @@
           cmd:{
             type: String,
             required: true
+          },
+          cmdObjectVersion:{
+            type: Number,
+            required:false
           },
           selectedCardConfigurationValues:{
               type: Object,

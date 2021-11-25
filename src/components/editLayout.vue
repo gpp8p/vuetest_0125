@@ -47,6 +47,7 @@
                  @configSelected = "configSelected"
                  @cardSaved="cardSaved"
                  :cmd="dialogCmd"
+                 :cmdObjectVersion="cmdObjectVersion"
                  v-bind:style='this.dialogStyleObject'
         ></Dialog>
 
@@ -170,7 +171,9 @@
                 genericCardMethods:[],
                 layoutHeight:0,
                 layoutWidth:0,
-                resizeCardId:0
+                resizeCardId:0,
+
+
 
 
 
@@ -213,6 +216,8 @@
               }
               case 'changeLayoutSetup':{
                 console.log('change layout setup selected');
+                this.dialogCmd = '';
+                this.dialogType=this.DIALOG_NEW_LAYOUT;
                 axios
                     .get("http://localhost:8000/api/shan/getLayoutParams?XDEBUG_SESSION_START=15122", {
                       params: {
@@ -221,8 +226,6 @@
                     })
                     .then(response => {
                       console.log('change layout paramns-',response);
-                      this.dialogType=this.DIALOG_NEW_LAYOUT;
-                      this.dialogCmd = 'createNewLayout';
                       this.cardCurrentConfigurationValues.backgroundDisplay = response.data[0].backgroundDisplay;
                       this.cardCurrentConfigurationValues.backgroundColor = response.data[0].backgroundColor;
                       this.cardCurrentConfigurationValues.backgroundType = response.data[0].backgroundType;
@@ -231,6 +234,8 @@
                       this.cardCurrentConfigurationValues.height = response.data[0].height;
                       this.cardCurrentConfigurationValues.width = response.data[0].width;
                       this.cardCurrentConfigurationValues.menu_label = response.data[0].menu_label;
+                      this.dialogCmd = 'editLayoutParams';
+                      this.cmdObjectVersion++;
 
                     }).catch(e => {
 //                        debugger;

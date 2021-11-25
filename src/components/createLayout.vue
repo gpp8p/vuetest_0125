@@ -5,7 +5,7 @@
             Layout Name:
          </span>
          <span>
-            <input v-model="layoutName"  size="35"/>
+            <input v-model="menu_label"  size="35"/>
          </span>
      </span>
      <span class="labelPlusInput">
@@ -13,7 +13,7 @@
           Layout Description:
         </span>
        <span>
-          <input v-model="layoutDescription" size="45"/>
+          <input v-model="description" size="45"/>
        </span>
      </span>
 
@@ -22,7 +22,7 @@
           Rows:
         </span>
        <span>
-         <input v-model="layoutRows" size="8"/>
+         <input v-model="height" size="8"/>
        </span>
      </span>
      <span class="labelPlusInput">
@@ -30,7 +30,7 @@
           Layout Columns:
         </span>
        <span>
-         <input v-model="layoutColumns" size="8"/>
+         <input v-model="width" size="8"/>
        </span>
      </span>
      <span class="labelPlusInput">
@@ -54,21 +54,23 @@ export default {
 name: "createLayout",
   components: {backgroundPicker},
   mounted(){
-//    this.$emit("componentSettingsMounted",[this.menuOptions,this.openMenuOption])
+    console.log('cmdObjectVersion is', this.cmdObjectVersion);
   },
   data(){
     return {
       layoutId:'',
-      layoutName:'',
-      layoutDescription:'',
-      layoutRows:'',
-      layoutColumns:'',
+      menu_label:'',
+      description:'',
+      height:'',
+      width:'',
       val:'#dbddb0',
       updatedColor:'#dbddb0',
 
       backgroundImageFile:'',
       backgroundType:'C',
       backgroundDisplay:'',
+      backgroundColor:'',
+      backgroundUrl:'',
       NOTHING_SELECTED:0,
       COLOR_SELECTED:1,
       IMAGE_SELECTED:2,
@@ -81,6 +83,10 @@ name: "createLayout",
     cmd:{
       type: String,
       required: false
+    },
+    cmdObjectVersion:{
+      type: Number,
+      required:false
     },
     currentValues:{
       type: Object,
@@ -99,24 +105,48 @@ name: "createLayout",
           this.saveData();
           break;
         }
-
       }
+    },
+    cmdObjectVersion: function(){
+      debugger;
+        console.log('currentValues is:',this.currentValues);
+        console.log(typeof(this.currentValues['backgroundDisplay']));
+        if(typeof(this.currentValues['backgroundDisplay'])!=='undefined'){
+          this.backgroundDisplay= this.currentValues['backgroundDisplay'];
+        }
+        if(typeof(this.currentValues['backgroundColor'])!=='undefined'){
+          this.backgroundColor= this.currentValues['backgroundColor'];
+        }
+        if(typeof(this.currentValues['backgroundType'])!=='undefined'){
+          this.backgroundType = this.currentValues['backgroundType'];
+        }
+        if(typeof(this.currentValues['backgroundUrl'])!=='undefined'){
+          this.backgroundUrl = this.currentValues['backgroundUrl'];
+        }
+        if(typeof(this.currentValues['description'])!=='undefined'){
+          this.description = this.currentValues['description'];
+        }
+        if(typeof(this.currentValues['menu_label'])!=='undefined'){
+          this.menu_label = this.currentValues['menu_label'];
+        }
+
+
     }
   },
   methods:{
 
     checkEntry(){
       var errorMsg = '';
-      if(this.layoutName==0){
+      if(this.menu_label==0){
         errorMsg = errorMsg + 'Layout Name, ';
       }
-      if(this.layoutDescription==0){
+      if(this.description==0){
         errorMsg = errorMsg + 'Layout Description, ';
       }
-      if(this.layoutRows==0){
+      if(this.height==0){
         errorMsg = errorMsg + 'Rows , ';
       }
-      if(this.layoutName==0){
+      if(this.width==0){
         errorMsg = errorMsg + 'Columns, ';
       }
       if(errorMsg.length >0){
@@ -175,10 +205,10 @@ name: "createLayout",
       var err = this.checkEntry();
       if(err=='Ok'){
         axios.post('http://localhost:8000/api/shan/createLayoutNoBlanks?XDEBUG_SESSION_START=17516', {
-          name: this.layoutName,
-          description: this.layoutDescription,
-          height: this.layoutRows,
-          width: this.layoutColumns,
+          name: this.menu_label,
+          description: this.description,
+          height: this.height,
+          width: this.width,
           backgroundColor: this.updatedColor,
           backgroundType: this.backgroundType,
           backgroundImage: this.backgroundImageFile,
@@ -190,8 +220,8 @@ name: "createLayout",
         {
 //            debugger;
           this.layoutId=response.data;
-          this.$emit('layoutData', [this.layoutId,this.layoutName, this.layoutDescription, this.layoutRows, this.layoutColumns, this.val, this.updatedColor]);
-//        this.$emit('layoutSaved', [this.layoutId, this.layoutRows, this.layoutColumns, this.layoutDescription, this.layoutName, this.val]);
+          this.$emit('layoutData', [this.layoutId,this.menu_label, this.description, this.height, this.width, this.val, this.updatedColor]);
+//        this.$emit('layoutSaved', [this.layoutId, this.height, this.width, this.description, this.menu_label, this.val]);
 //                this.$refs.editGrid.createBlankLayout(msg[2],msg[3],msg[1],msg[0]);
         }).catch(function(error) {
           console.log(error);
