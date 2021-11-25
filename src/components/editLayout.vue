@@ -108,6 +108,7 @@
                 DIALOG_CREATE_CARD:3,
                  DIALOG_LAYOUT_LIST:11,
                 DIALOG_INSERT_CARD:12,
+                DIALOG_NEW_LAYOUT:4,
 
                 displayStatus:true,
                 dialogKey:0,
@@ -219,7 +220,18 @@
                       }
                     })
                     .then(response => {
-                      console.log(response.data[0].backgroundDisplay);
+                      console.log('change layout paramns-',response);
+                      this.dialogType=this.DIALOG_NEW_LAYOUT;
+                      this.dialogCmd = 'createNewLayout';
+                      this.cardCurrentConfigurationValues.backgroundDisplay = response.data[0].backgroundDisplay;
+                      this.cardCurrentConfigurationValues.backgroundColor = response.data[0].backgroundColor;
+                      this.cardCurrentConfigurationValues.backgroundType = response.data[0].backgroundType;
+                      this.cardCurrentConfigurationValues.backgroundUrl = response.data[0].backgroundUrl;
+                      this.cardCurrentConfigurationValues.description = response.data[0].description;
+                      this.cardCurrentConfigurationValues.height = response.data[0].height;
+                      this.cardCurrentConfigurationValues.width = response.data[0].width;
+                      this.cardCurrentConfigurationValues.menu_label = response.data[0].menu_label;
+
                     }).catch(e => {
 //                        debugger;
                       console.log(e);

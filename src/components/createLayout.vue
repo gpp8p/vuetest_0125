@@ -81,6 +81,10 @@ name: "createLayout",
     cmd:{
       type: String,
       required: false
+    },
+    currentValues:{
+      type: Object,
+      required:true
     }
   },
   watch:{

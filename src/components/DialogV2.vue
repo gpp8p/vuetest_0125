@@ -41,6 +41,7 @@
             @layoutData="layoutData"
             @error="showError"
             :cmd="cmd"
+            :currentValues="currentValues"
         ></new-layout>
         <PermList v-if="dialogType==this.DIALOG_PERMS"
                   @setMenu = "setMenu"
