@@ -21,16 +21,22 @@
         <span>
           Rows:
         </span>
-       <span>
+       <span v-if="this.mode==this.LAYOUT_CREATE">
          <input v-model="height" size="8"/>
+       </span>
+       <span v-if="this.mode==this.LAYOUT_EDIT">
+          {{this.height}}
        </span>
      </span>
      <span class="labelPlusInput">
         <span>
           Layout Columns:
         </span>
-       <span>
+       <span v-if="this.mode==this.LAYOUT_CREATE">
          <input v-model="width" size="8"/>
+       </span>
+      <span v-if="this.mode==this.LAYOUT_EDIT">
+         {{this.width}}
        </span>
      </span>
      <span class="labelPlusInput">
@@ -38,7 +44,7 @@
             Background:
           </span>
        <span class="backgroundPick">
-          <background-picker :currentValues="currentValues" :dialogKey="dialogKey" :pType="backgroundColorType" :noTransparent=true @configSelected="configSelected"></background-picker>
+          <background-picker :currentValues="currentValues" :dialogKey="cmdObjectVersion" :pType="backgroundTypePtype" :noTransparent=true @configSelected="configSelected"></background-picker>
       </span>
      </span>
   </span>
@@ -75,6 +81,20 @@ name: "createLayout",
       COLOR_SELECTED:1,
       IMAGE_SELECTED:2,
 
+      backgroundColorPtype:'backgroundColor',
+      backgroundDisplayPtype:'backgroundDisplay',
+      backgroundTypePtype:'backgroundType',
+      backgroundUrlPtype:'backgroundUrl',
+      descriptionPtype:'description',
+      heightPtype:'height',
+      menu_labelPtype:'menu_label',
+      widthPtype:'width',
+
+      LAYOUT_CREATE:0,
+      LAYOUT_EDIT:1,
+      mode:0,
+
+
       menuOptions: ['Save', 'Cancel' ],
       openMenuOption: 'Save'
     }
@@ -110,24 +130,33 @@ name: "createLayout",
     cmdObjectVersion: function(){
       debugger;
         console.log('currentValues is:',this.currentValues);
-        console.log(typeof(this.currentValues['backgroundDisplay']));
-        if(typeof(this.currentValues['backgroundDisplay'])!=='undefined'){
-          this.backgroundDisplay= this.currentValues['backgroundDisplay'];
-        }
-        if(typeof(this.currentValues['backgroundColor'])!=='undefined'){
-          this.backgroundColor= this.currentValues['backgroundColor'];
-        }
-        if(typeof(this.currentValues['backgroundType'])!=='undefined'){
-          this.backgroundType = this.currentValues['backgroundType'];
-        }
-        if(typeof(this.currentValues['backgroundUrl'])!=='undefined'){
-          this.backgroundUrl = this.currentValues['backgroundUrl'];
-        }
-        if(typeof(this.currentValues['description'])!=='undefined'){
-          this.description = this.currentValues['description'];
-        }
-        if(typeof(this.currentValues['menu_label'])!=='undefined'){
-          this.menu_label = this.currentValues['menu_label'];
+        console.log('cmd is:', this.cmd);
+        if(this.cmd=='editLayoutParams'){
+          if(typeof(this.currentValues['backgroundDisplay'])!=='undefined'){
+            this.backgroundDisplay= this.currentValues['backgroundDisplay'];
+          }
+          if(typeof(this.currentValues['backgroundColor'])!=='undefined'){
+            this.backgroundColor= this.currentValues['backgroundColor'];
+          }
+          if(typeof(this.currentValues['backgroundType'])!=='undefined'){
+            this.backgroundType = this.currentValues['backgroundType'];
+          }
+          if(typeof(this.currentValues['backgroundUrl'])!=='undefined'){
+            this.backgroundUrl = this.currentValues['backgroundUrl'];
+          }
+          if(typeof(this.currentValues['height'])!=='undefined'){
+            this.height = this.currentValues['height'];
+          }
+          if(typeof(this.currentValues['width'])!=='undefined'){
+            this.width = this.currentValues['width'];
+          }
+          if(typeof(this.currentValues['description'])!=='undefined'){
+            this.description = this.currentValues['description'];
+          }
+          if(typeof(this.currentValues['menu_label'])!=='undefined'){
+            this.menu_label = this.currentValues['menu_label'];
+          }
+          this.mode=this.LAYOUT_EDIT;
         }
 
 

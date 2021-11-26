@@ -89,6 +89,7 @@
             this.refreshCurrentValues();
           },
           dialogKey: function(){
+            console.log('dialogKey has changed - calling refreshCurrentValues');
             this.refreshCurrentValues();
           }
         },
@@ -98,16 +99,20 @@
           if(this.noTransparent==true){
             this.showTransparent=false;
           }
+//          debugger;
         },
         methods:{
             refreshCurrentValues(){
 //              debugger;
               console.log('currentValues updated in backgroundPicker');
+              console.log(this.currentValues['backgroundType']);
+              console.log(this.currentValues);
               var typeColor = (this.currentValues['backgroundTypeColor']=='checked' ? true: false);
               console.log('typeColor-',typeColor);
-              var typeImage = (this.currentValues['backgroundType']=='checked' ? true: false);
+              var typeImage = (this.currentValues['backgroundType']=='checked' ||this.currentValues['backgroundType']=='I' ? true: false);
               console.log('typeImage', typeImage);
               var backgroundImage = this.currentValues['backgroundImage'];
+              console.log(typeof this.currentValues['backgroundImage']);
               var backgroundImageDefined = typeof(backgroundImage)=='string' ? true: false;
               console.log('backgroundImageDefined', backgroundImageDefined);
               if(backgroundImageDefined && typeImage){

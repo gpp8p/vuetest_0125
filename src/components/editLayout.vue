@@ -116,7 +116,7 @@
                 dragStartX:0,
                 dragStartY:0,
                 dialogStyleObject:{
-                  top: '-400px',
+                  top: '-550px',
                   left: '300px',
 
                 },
@@ -229,7 +229,7 @@
                       this.cardCurrentConfigurationValues.backgroundDisplay = response.data[0].backgroundDisplay;
                       this.cardCurrentConfigurationValues.backgroundColor = response.data[0].backgroundColor;
                       this.cardCurrentConfigurationValues.backgroundType = response.data[0].backgroundType;
-                      this.cardCurrentConfigurationValues.backgroundUrl = response.data[0].backgroundUrl;
+                      this.cardCurrentConfigurationValues.backgroundImage = response.data[0].backgroundUrl;
                       this.cardCurrentConfigurationValues.description = response.data[0].description;
                       this.cardCurrentConfigurationValues.height = response.data[0].height;
                       this.cardCurrentConfigurationValues.width = response.data[0].width;
