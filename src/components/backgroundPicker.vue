@@ -23,7 +23,7 @@
                 <color-picker :currentValues="currentValues" :pType="pType" @selectedValue="configSelected"></color-picker>
             </span>
             <span v-if="this.backgroundTypeSelection==this.IMAGE_SELECTED" class="imageSelectorStyle">
-                <file-upload :fileRole="this.fileRole" @selectedValue="fileSelected"></file-upload>
+                <file-upload :fileRole="this.fileRole" :pType="this.fileRole" :currentValues="currentValues"  @selectedValue="fileSelected"></file-upload>
                 <div class="backDisplayCss" v-if="fileHasBeenSelected==true">
                         <o-radio v-model="backgroundDisplayType" name="backDisplay" @input="backDisplayChosen" native-value="crop">
                             Crop to fit
@@ -82,6 +82,7 @@
               showTransparent:true,
               backgroundDisplayType:'',
               fileHasBeenSelected:false
+
           }
         },
         watch:{
@@ -95,7 +96,7 @@
         },
         mounted(){
 //            console.log(this.currentValues);
-          this.refreshCurrentValues();
+//          this.refreshCurrentValues();
           if(this.noTransparent==true){
             this.showTransparent=false;
           }
@@ -104,6 +105,7 @@
         methods:{
             refreshCurrentValues(){
 //              debugger;
+              this.dKey++;
               console.log('currentValues updated in backgroundPicker');
               console.log(this.currentValues['backgroundType']);
               console.log(this.currentValues);
@@ -122,6 +124,7 @@
                 this.backgroundTypeSelection = this.COLOR_SELECTED;
                 this.val='color';
               }
+
             },
             colorSelected(){
                 console.log('color has been selected');

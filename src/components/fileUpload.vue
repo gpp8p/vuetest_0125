@@ -1,7 +1,10 @@
 <template>
     <span class="uploadWrapperStyle">
-        <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
 
+        <input type="file" id="file" ref="file" v-if="this.fileAlreadySelected==false" v-on:change="handleFileUpload()"/>
+        <span v-if="this.fileAlreadySelected==true">
+          <o-button variant="primary" size="small" @click="changeImage">Change Image</o-button>
+        </span>
         <span v-if="!uploadStatus">
             Ok!
         </span>
@@ -11,22 +14,42 @@
 
 <script>
     import axios from "axios";
-
     export default {
         name: "fileUpload",
         props: {
             fileRole:{
                 type: String,
                 required: true
+            },
+          currentValues: {
+            type: Object,
+            required: false
+          },
+          pType: {
+            type: String,
+            required: false
+          },
 
+
+        },
+        mounted(){
+          console.log('currentValues is:', this.currentValues);
+          var currentValuesKeysLength = Object.keys(this.currentValues).length;
+          if(currentValuesKeysLength>0){
+            if(typeof(this.currentValues[this.pType])!='undefined'){
+              console.log('backgroundImage has been defined');
+              this.fileAlreadySelected = true;
             }
+          }
+
         },
         data(){
             return {
                 file: '',
                 user: 'dev',
                 returnedData:'',
-                uploadStatus:true
+                uploadStatus:true,
+                fileAlreadySelected:false
             }
         },
         methods :{
@@ -34,6 +57,9 @@
                 console.log('handleFileUpload called');
                 this.file = this.$refs.file.files[0];
                 this.submitFile();
+            },
+            changeImage(){
+              this.fileAlreadySelected=false;
             },
             submitFile(){
                 let formData = new FormData();

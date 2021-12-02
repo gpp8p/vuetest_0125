@@ -128,7 +128,7 @@ name: "createLayout",
       }
     },
     cmdObjectVersion: function(){
-      debugger;
+//      debugger;
         console.log('currentValues is:',this.currentValues);
         console.log('cmd is:', this.cmd);
         if(this.cmd=='editLayoutParams'){
