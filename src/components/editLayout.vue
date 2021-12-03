@@ -572,6 +572,7 @@
                     .then(response => {
                         // JSON responses are automatically parsed.
 //          debugger;
+                        console.log('reloadLayout:', response);
                         this.cardInstances = response.data.cards;
                         this.gridParamDefinition = this.layoutGridParameters(
                             response.data.layout.height,

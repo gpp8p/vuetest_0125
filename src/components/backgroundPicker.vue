@@ -23,7 +23,7 @@
                 <color-picker :currentValues="currentValues" :pType="pType" @selectedValue="configSelected"></color-picker>
             </span>
             <span v-if="this.backgroundTypeSelection==this.IMAGE_SELECTED" class="imageSelectorStyle">
-                <file-upload :fileRole="this.fileRole" :pType="this.fileRole" :currentValues="currentValues"  @selectedValue="fileSelected"></file-upload>
+                <file-upload :fileRole="this.fileRole" :pType="this.fileRole" :currentValues="currentValues"  @fileAlreadySelected="fileAlreadySelected" @selectedValue="fileSelected"></file-upload>
                 <div class="backDisplayCss" v-if="fileHasBeenSelected==true">
                         <o-radio v-model="backgroundDisplayType" name="backDisplay" @input="backDisplayChosen" native-value="crop">
                             Crop to fit
@@ -120,6 +120,7 @@
               if(backgroundImageDefined && typeImage){
                 this.backgroundTypeSelection = this.IMAGE_SELECTED;
                 this.val='image';
+                this.backgroundDisplayType = this.currentValues['backgroundDisplay'];
               }else{
                 this.backgroundTypeSelection = this.COLOR_SELECTED;
                 this.val='color';
@@ -148,6 +149,9 @@
             configSelected(msg){
                 console.log('bgpick - color:', msg);
                 this.$emit('configSelected', ['backgroundColor',msg[1]]);
+            },
+            fileAlreadySelected(){
+              this.fileHasBeenSelected=true;
             },
             fileSelected(msg){
               console.log('bgpick - file:', msg);

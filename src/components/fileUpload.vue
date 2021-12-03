@@ -39,6 +39,7 @@
             if(typeof(this.currentValues[this.pType])!='undefined'){
               console.log('backgroundImage has been defined');
               this.fileAlreadySelected = true;
+              this.$emit('fileAlreadySelected');
             }
           }
 
