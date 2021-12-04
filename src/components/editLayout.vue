@@ -298,6 +298,27 @@
               this.updateCallback(msg[0], 'saveCardContent', msg[2]);
               console.log('editLayout.saveCardContent', msg);
             },
+            newLayoutGridParameters(layoutObject){
+//              console.log(layoutObject);
+              if(layoutObject.backgroundType=='I'){
+                console.log('background type is image');
+                console.log(layoutObject.backgroundType);
+                console.log(layoutObject.backgroundDisplay);
+                console.log(layoutObject.backGroundImageUrl);
+                console.log(layoutObject.height);
+                console.log(layoutObject.width);
+                console.log(layoutObject.backgroundColor);
+
+              }else{
+                console.log('background type is color');
+                console.log(layoutObject.backgroundType);
+                console.log(layoutObject.backgroundDisplay);
+                console.log(layoutObject.backGroundImageUrl);
+                console.log(layoutObject.height);
+                console.log(layoutObject.width);
+                console.log(layoutObject.backgroundColor);
+              }
+            },
             layoutGridParameters(height, width, backgroundColor) {
                 var widthFactor;
                 if(width<11){
@@ -579,6 +600,7 @@
                             response.data.layout.width,
                             response.data.layout.backgroundColor
                         );
+                        this.newLayoutGridParameters(response.data.layout);
 // build a blank layout using the dimensions of the layout loaded
                         this.layoutHeight = response.data.layout.height;
                         this.layoutWidth= response.data.layout.width;
