@@ -5,7 +5,7 @@
             Layout Name:
          </span>
          <span>
-            <input v-model="menu_label"  size="35"/>
+            <input v-model="menu_label"  size="35" @change="menu_label_changed" />
          </span>
      </span>
      <span class="labelPlusInput">
@@ -13,7 +13,7 @@
           Layout Description:
         </span>
        <span>
-          <input v-model="description" size="45"/>
+          <input v-model="description" @change="description_changed" size="45"/>
        </span>
      </span>
 
@@ -22,7 +22,7 @@
           Rows:
         </span>
        <span v-if="this.mode==this.LAYOUT_CREATE">
-         <input v-model="height" size="8"/>
+         <input v-model="height" @change="height_changed" size="8"/>
        </span>
        <span v-if="this.mode==this.LAYOUT_EDIT">
           {{this.height}}
@@ -125,6 +125,10 @@ name: "createLayout",
           this.saveData();
           break;
         }
+        case 'updateLayout':{
+          this.updateLayout();
+          break;
+        }
       }
     },
     cmdObjectVersion: function(){
@@ -132,6 +136,7 @@ name: "createLayout",
         console.log('currentValues is:',this.currentValues);
         console.log('cmd is:', this.cmd);
         if(this.cmd=='editLayoutParams'){
+          this.$emit('setEditLayoutMenu');
           if(typeof(this.currentValues['backgroundDisplay'])!=='undefined'){
             this.backgroundDisplay= this.currentValues['backgroundDisplay'];
           }
@@ -201,26 +206,43 @@ name: "createLayout",
           }
  */
           this.backgroundType="I";
+          this.$emit('layoutDataChanged', ['backgroundType', this.backgroundType]);
           break;
         }
         case "backgroundTypeColor":{
           this.backgroundType="C";
+          this.$emit('layoutDataChanged', ['backgroundType', this.backgroundType]);
           break;
         }
         case "backgroundImage":{
           this.backgroundImageFile = msg[1];
+          this.$emit('layoutDataChanged', ['backgroundImage', this.backgroundImageFile]);
           break;
         }
         case "backgroundColor":{
           this.updatedColor = msg[1];
+          this.$emit('layoutDataChanged', ['backgroundColor', this.updatedColor]);
           break;
         }
         case "backgroundDisplay":{
           this.backgroundDisplay = msg[1];
+          this.$emit('layoutDataChanged', ['backgroundDisplay', this.backgroundDisplay]);
           break
         }
       }
 
+    },
+    menu_label_changed(msg){
+      console.log('menu_label_changed', msg);
+    },
+    description_changed(msg){
+      console.log('description_changed', msg)
+    },
+    height_changed(msg){
+      console.log('height_changed', msg);
+    },
+    width_changed(msg){
+      console.log('width_changed', msg);
     },
     newColor(evt){
       console.log(evt.target.value);
@@ -234,6 +256,38 @@ name: "createLayout",
       var err = this.checkEntry();
       if(err=='Ok'){
         axios.post('http://localhost:8000/api/shan/createLayoutNoBlanks?XDEBUG_SESSION_START=17516', {
+          name: this.menu_label,
+          description: this.description,
+          height: this.height,
+          width: this.width,
+          backgroundColor: this.updatedColor,
+          backgroundType: this.backgroundType,
+          backgroundImage: this.backgroundImageFile,
+          backgroundDisplay: this.backgroundDisplay,
+          userId: this.$store.getters.getLoggedInUserId,
+          user: this.$store.getters.getLoggedInUser,
+          orgId: this.$store.getters.getOrgId
+        }).then(response=>
+        {
+//            debugger;
+          this.layoutId=response.data;
+          this.$emit('layoutData', [this.layoutId,this.menu_label, this.description, this.height, this.width, this.val, this.updatedColor]);
+//        this.$emit('layoutSaved', [this.layoutId, this.height, this.width, this.description, this.menu_label, this.val]);
+//                this.$refs.editGrid.createBlankLayout(msg[2],msg[3],msg[1],msg[0]);
+        }).catch(function(error) {
+          console.log(error);
+        });
+
+      } else {
+        this.$emit('error', err);
+      }
+    },
+    updateLayout(){
+      debugger;
+      var err = this.checkEntry();
+      if(err=='Ok'){
+        axios.post('http://localhost:8000/api/shan/updateLayout?XDEBUG_SESSION_START=17516', {
+          layoutId:this.$store.getters.getCurrentLayoutId,
           name: this.menu_label,
           description: this.description,
           height: this.height,

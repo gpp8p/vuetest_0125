@@ -39,6 +39,8 @@
             v-if = "dialogType==this.DIALOG_NEW_LAYOUT"
             @componentSettingsMounted="componentSettingsMounted"
             @layoutData="layoutData"
+            @layoutDataChanged="layoutDataChanged"
+            @setEditLayoutMenu="setEditLayoutMenu"
             @error="showError"
             :cmd="cmd"
             :cmdObjectVersion="cmdObjectVersion"
@@ -205,7 +207,16 @@
               this.clearCmd();
               this.$emit('configSelected',['layoutSaved', msg[0]]);
             },
+            layoutDataChanged(msg){
+              console.log('layout data changed', msg);
+            },
+            setEditLayoutMenu(msg){
+              console.log('setEditLayoutMenu', msg);
+              var mOpts = this.getMenuOpts('editExistingLayout');
+              this.currentMenuOpts = mOpts.currentMenuOpts;
+              this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
 
+            },
             menuOptSelected(msg){
               console.log('menuOptSelected in Dialog2-',msg);
               this.cmd='';
@@ -238,6 +249,10 @@
                 case 'saveSpace':{
                   this.cmd='saveSpace';
                   break;
+                }
+                case 'updateLayout':{
+                  this.cmd='updateLayout';
+                  break
                 }
 
                 case 'Done':{
@@ -444,6 +459,15 @@
                     currentMenuOpts: [
                       ['Cancel', 'Cancel'],
                       ['Save', 'saveSpace']
+                    ],
+                    currentSelectedMenuOption: 'Cancel'
+                  }
+                }
+                case 'editExistingLayout':{
+                  return {
+                    currentMenuOpts: [
+                      ['Cancel', 'Cancel'],
+                      ['Save', 'updateLayout']
                     ],
                     currentSelectedMenuOption: 'Cancel'
                   }
@@ -711,7 +735,7 @@
                 DIALOG_CONFIGURE_CARD:10,
                 DIALOG_LAYOUT_LIST:11,
                 DIALOG_INSERT_CARD:12,
-                titleMsg:'Create New Card',
+                titleMsg:'',
 
                 sureMsg:'',
 

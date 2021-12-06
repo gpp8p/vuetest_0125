@@ -299,24 +299,62 @@
               console.log('editLayout.saveCardContent', msg);
             },
             newLayoutGridParameters(layoutObject){
+              var height = layoutObject.height;
+              var width = layoutObject.width;
+              var background = layoutObject.backgroundColor;
+              var backgroundType= layoutObject.backgroundType;
+              var backgroundDisplay = layoutObject.backgroundDisplay;
+              var backgroundImageUrl = layoutObject.backGroundImageUrl;
+              var widthFactor;
+              if(width<11){
+                widthFactor = 98.5;
+              }else if(width<21){
+                widthFactor = 97
+              }
+              var heightSize = (95 / height).toFixed(2);
+              var widthSize = (widthFactor / width).toFixed(4);
+              var gridHeightCss = "grid-template-rows: ";
+              var gridWidthCss = "grid-template-columns: ";
+              var x = 0;
+              for (x = 0; x < height; x++) {
+                gridHeightCss = gridHeightCss + heightSize + "% ";
+              }
+              for (x = 0; x < width; x++) {
+                gridWidthCss = gridWidthCss + widthSize + "% ";
+              }
+
 //              console.log(layoutObject);
-              if(layoutObject.backgroundType=='I'){
+              if(layoutObject.backgroundType=='C'){
                 console.log('background type is image');
-                console.log(layoutObject.backgroundType);
-                console.log(layoutObject.backgroundDisplay);
-                console.log(layoutObject.backGroundImageUrl);
-                console.log(layoutObject.height);
-                console.log(layoutObject.width);
-                console.log(layoutObject.backgroundColor);
+                console.log(backgroundType);
+                console.log(backgroundDisplay);
+                console.log(backgroundImageUrl);
+                console.log(height);
+                console.log(width);
+                console.log(background);
+                var gridCss =
+                    "display: grid; grid-gap: 3px; background-color: " + background + "; height: 90vh; color: #ffcd90; " +
+                    gridHeightCss +
+                    ";" +
+                    gridWidthCss +
+                    ";";
+                return gridCss;
 
               }else{
                 console.log('background type is color');
-                console.log(layoutObject.backgroundType);
-                console.log(layoutObject.backgroundDisplay);
-                console.log(layoutObject.backGroundImageUrl);
-                console.log(layoutObject.height);
-                console.log(layoutObject.width);
-                console.log(layoutObject.backgroundColor);
+                console.log(backgroundType);
+                console.log(backgroundDisplay);
+                console.log(backgroundImageUrl);
+                console.log(height);
+                console.log(width);
+                console.log(background);
+                gridCss =
+                    "display: grid; grid-gap: 3px; background-image: url(" + backgroundImageUrl + "); height: 90vh; color: #ffcd90; " +
+                    gridHeightCss +
+                    ";" +
+                    gridWidthCss +
+                    ";";
+                return gridCss;
               }
             },
             layoutGridParameters(height, width, backgroundColor) {
@@ -600,7 +638,7 @@
                             response.data.layout.width,
                             response.data.layout.backgroundColor
                         );
-                        this.newLayoutGridParameters(response.data.layout);
+                        console.log(this.newLayoutGridParameters(response.data.layout));
 // build a blank layout using the dimensions of the layout loaded
                         this.layoutHeight = response.data.layout.height;
                         this.layoutWidth= response.data.layout.width;
