@@ -70,7 +70,7 @@ name: "createLayout",
       height:'',
       width:'',
       val:'#dbddb0',
-      updatedColor:'#dbddb0',
+      updatedColor:'',
 
       backgroundImageFile:'',
       backgroundType:'C',
@@ -146,8 +146,8 @@ name: "createLayout",
           if(typeof(this.currentValues['backgroundType'])!=='undefined'){
             this.backgroundType = this.currentValues['backgroundType'];
           }
-          if(typeof(this.currentValues['backgroundUrl'])!=='undefined'){
-            this.backgroundUrl = this.currentValues['backgroundUrl'];
+          if(typeof(this.currentValues['backgroundImage'])!=='undefined'){
+            this.backgroundImageFile = this.currentValues['backgroundImage'];
           }
           if(typeof(this.currentValues['height'])!=='undefined'){
             this.height = this.currentValues['height'];
@@ -194,6 +194,7 @@ name: "createLayout",
 
     configSelected(msg){
 //      debugger;
+      console.log('configSelected event:', msg);
       switch(msg[0]){
         case "backgroundType":{
 /*
@@ -221,6 +222,7 @@ name: "createLayout",
         }
         case "backgroundColor":{
           this.updatedColor = msg[1];
+          this.backgroundColor = msg[1];
           this.$emit('layoutDataChanged', ['backgroundColor', this.updatedColor]);
           break;
         }
@@ -292,7 +294,7 @@ name: "createLayout",
           description: this.description,
           height: this.height,
           width: this.width,
-          backgroundColor: this.updatedColor,
+          backgroundColor: this.backgroundColor,
           backgroundType: this.backgroundType,
           backgroundImage: this.backgroundImageFile,
           backgroundDisplay: this.backgroundDisplay,

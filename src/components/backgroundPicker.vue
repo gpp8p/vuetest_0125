@@ -20,7 +20,7 @@
       </span>
       <span v-if="this.backgroundTypeSelection==this.COLOR_SELECTED || this.backgroundTypeSelection==this.IMAGE_SELECTED" class="pickers">
             <span v-if="this.backgroundTypeSelection==this.COLOR_SELECTED">
-                <color-picker :currentValues="currentValues" :pType="pType" @selectedValue="configSelected"></color-picker>
+                <color-picker :currentValues="currentValues" :pType="backgroundColorPtype" @selectedValue="configSelected"></color-picker>
             </span>
             <span v-if="this.backgroundTypeSelection==this.IMAGE_SELECTED" class="imageSelectorStyle">
                 <file-upload :fileRole="this.fileRole" :pType="this.fileRole" :currentValues="currentValues"  @fileAlreadySelected="fileAlreadySelected" @selectedValue="fileSelected"></file-upload>
@@ -81,7 +81,9 @@
               row:'',
               showTransparent:true,
               backgroundDisplayType:'',
-              fileHasBeenSelected:false
+              fileHasBeenSelected:false,
+              backgroundColorPtype:'backgroundColor'
+
 
           }
         },
