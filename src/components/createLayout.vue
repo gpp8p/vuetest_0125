@@ -305,7 +305,7 @@ name: "createLayout",
         {
 //            debugger;
           this.layoutId=response.data;
-          this.$emit('layoutData', [this.layoutId,this.menu_label, this.description, this.height, this.width, this.val, this.updatedColor]);
+          this.$emit('layoutEditSaved', [this.layoutId,this.menu_label, this.description, this.height, this.width, this.val, this.updatedColor]);
 //        this.$emit('layoutSaved', [this.layoutId, this.height, this.width, this.description, this.menu_label, this.val]);
 //                this.$refs.editGrid.createBlankLayout(msg[2],msg[3],msg[1],msg[0]);
         }).catch(function(error) {

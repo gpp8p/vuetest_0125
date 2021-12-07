@@ -394,7 +394,7 @@
               }
             },
             configSelected(msg){
-//                debugger;
+                debugger;
                 console.log('editLayout configSelected - ', msg);
                 switch(msg[0]){
                     case 'cancel':{
@@ -471,6 +471,11 @@
                       this.cmdObject.linkedLayoutId = msg[1];
                       this.cmdObjectVersion+=1;
                       this.dialogType = 0;
+                      break;
+                    }
+                    case 'layoutEditSaved':{
+                      debugger;
+                      this.$emit('tabSelected', 'Exit');
                       break;
                     }
 

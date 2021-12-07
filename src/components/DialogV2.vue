@@ -40,6 +40,7 @@
             @componentSettingsMounted="componentSettingsMounted"
             @layoutData="layoutData"
             @layoutDataChanged="layoutDataChanged"
+            @layoutEditSaved="layoutEditSaved"
             @setEditLayoutMenu="setEditLayoutMenu"
             @error="showError"
             :cmd="cmd"
@@ -209,6 +210,11 @@
             },
             layoutDataChanged(msg){
               console.log('layout data changed', msg);
+            },
+            layoutEditSaved(msg){
+              console.log('layoutEditSaved', msg);
+              this.clearCmd();
+              this.$emit('configSelected', ['layoutEditSaved']);
             },
             setEditLayoutMenu(msg){
               console.log('setEditLayoutMenu', msg);

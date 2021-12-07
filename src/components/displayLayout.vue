@@ -206,7 +206,7 @@
                     console.log('widthBackground-', widthBackground);
                     console.log('heightBackground-', heightBackground);
                     var backgroundUrl = backgroundImageUrl;
-                    gridCss = this.backgroundImageCss(backgroundUrl, widthBackground, heightBackground, gridHeightCss, gridWidthCss, backgroundDisplay)
+                    gridCss = this.backgroundImageCss(backgroundUrl, widthBackground, heightBackground, gridHeightCss, gridWidthCss, backgroundDisplay);
 /*
                     gridCss =
                       "display: grid; grid-gap: 3px; background-image: url("+backgroundUrl+"); background-size:"+widthBackground+heightBackground+"; background-repeat: no-repeat; background-position: center; height: 90vh; color: #ffcd90; " +
@@ -220,8 +220,9 @@
 
             },
             backgroundImageCss(backgroundUrl, widthBackground, heightBackground, gridHeightCss, gridWidthCss, backgroundDisplay){
+              debugger;
               switch(backgroundDisplay){
-                case 'cover':{
+                case 'crop':{
                   var gridCss =
                       "display: grid; grid-gap: 3px; background-image: url("+backgroundUrl+"); background-size:cover; background-repeat: no-repeat; background-position: center; height: 90vh; color: #ffcd90; " +
                       gridHeightCss +
@@ -230,7 +231,7 @@
                       ";";
                   return gridCss
                 }
-                case 'contain':{
+                case 'existing':{
                   gridCss =
                       "display: grid; grid-gap: 3px; background-image: url("+backgroundUrl+"); background-size:contain; background-repeat: no-repeat; background-position: center; height: 90vh; color: #ffcd90; " +
                       gridHeightCss +
