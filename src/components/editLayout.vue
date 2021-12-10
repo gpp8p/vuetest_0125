@@ -188,6 +188,7 @@
 
         mounted(){
 //            debugger;
+            console.log('in mounted - calling reloadLayout');
             this.reloadLayout(this.$route.params.layoutId);
             this.displayStatus=false;
             this.$emit('viewStatusChangeFunction',['editLayout', this.viewStatusChangeFunction]);
@@ -407,6 +408,7 @@
 //                        this.cardCmd = 'restore';
                       this.newCardBeingAdded = false;
                       this.cardBeingResized = false;
+                      console.log('cancel in configSelected - calling reloadLayout');
                       this.reloadLayout(this.$route.params.layoutId);
                       this.displayStatus=false;
                       this.$emit('viewStatusChangeFunction',['editLayout', this.viewStatusChangeFunction]);
@@ -425,6 +427,7 @@
                       this.RICH_TEXT_EDITOR=false;
                       this.$emit('tabSelected', msg[0]);
 //                      this.cancelLayoutEdit();
+                      console.log('reload in configSelected - calling reloadLayout');
                       this.reloadLayout(this.$route.params.layoutId);
                       break;
                     }
@@ -617,8 +620,9 @@
                   }
               }
             },
-            reloadLayout: function (layoutId) {
+            reloadLayout: function (layoutId, layoutBeingEdited=false) {
                 debugger;
+                console.log('layoutBeingEdited', layoutBeingEdited);
                 this.cardInstances = [];
                 this.displayGrid = true;
 //                this.layoutId = msg;
@@ -630,7 +634,8 @@
                         params: {
                             orgId: this.$store.getters.getOrgId,
                             userId: this.$store.getters.getLoggedInUserId,
-                            layoutId: layoutId
+                            layoutId: layoutId,
+                            layoutBeingEdited:layoutBeingEdited
                         }
                     })
                     .then(response => {
@@ -638,16 +643,21 @@
 //          debugger;
                         console.log('reloadLayout:', response);
                         this.cardInstances = response.data.cards;
+
                         this.gridParamDefinition = this.layoutGridParameters(
                             response.data.layout.height,
                             response.data.layout.width,
                             response.data.layout.backgroundColor
                         );
-                        console.log(this.newLayoutGridParameters(response.data.layout));
+
+                        console.log('newLayoutGridParameters-',this.newLayoutGridParameters(response.data.layout));
+//                      complete the newLayoutGridParameters to accomodate all types of layoutDisplays before putting it to use
+ //                       this.gridParamDefinition = this.newLayoutGridParameters(response.data.layout);
 // build a blank layout using the dimensions of the layout loaded
                         this.layoutHeight = response.data.layout.height;
                         this.layoutWidth= response.data.layout.width;
                         this.genericCardMethods = Array.from(Array(this.layoutHeight), ()=> Array(this.layoutWidth));
+                      console.log('at reloadLayout - calling makeBlankLayout');
                       var newBlankLayout = this.makeBlankLayout(response.data.layout.height, response.data.layout.width, response.data.layout.description, response.data.layout.menu_label, response.data.layout.backgroundColor)
 //          console.log(newBlankLayout);
                         var layoutGrid = newBlankLayout[3];
@@ -705,7 +715,7 @@
 
             makeBlankLayout(height, width, description, menu_label, backgroundColor) {
 //                debugger;
-
+                console.log('at makeBlankLayout');
                 this.layoutGrid = [];
                 var newCards = [];
 //      var newCardId=1;
@@ -766,7 +776,8 @@
             },
 
             fillInBlankedCard(topLeftY, topLeftX, bottomRightY, bottomRightX){
-              debugger;
+//              debugger;
+//              console.log('at fillInBlankedCard');;
               var newCardId = this.cardInstances.length+1;
               for (var h = topLeftY; h < bottomRightY; h++) {
                 for (var w = topLeftX; w < bottomRightX; w++){
@@ -780,7 +791,7 @@
 
 
             createBlankCardInstance(row, col, height, width, id, background){
-//      console.log('createBlankCardInstance:'+row+' '+col+' '+height+' '+width+ ' '+id);
+      console.log('createBlankCardInstance:'+row+' '+col+' '+height+' '+width+ ' '+id);
                 var thisGridCss = this.computeGridCss(row, col, height, width);
                 var thisCardStyle = thisGridCss+";"+"background-color:"+background+";color:blue;";
                 var thisInstance = {card_component: 'simpleCard', card_position: [row,col,height,width], id:id, toDelete: false, card_parameters: {style: thisCardStyle}};

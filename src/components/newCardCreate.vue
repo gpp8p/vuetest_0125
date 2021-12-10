@@ -36,7 +36,7 @@
         rval:' ',
         cardTypeLabel: 'Card Type:',
         cardPtypeReference: 'cardType',
-        cardTypeOptions: ['Headline', 'RichText', 'linkMenu','loginLink','youTube','archive', 'Agenda', 'Minutes', 'Document','pdf'],
+        cardTypeOptions: ['RichText', 'linkMenu','loginLink','youTube','pdf'],
         dKey:0,
         newCardParams:{}
       }
