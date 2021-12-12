@@ -50,25 +50,26 @@
                  :cmdObjectVersion="cmdObjectVersion"
                  v-bind:style='this.dialogStyleObject'
         ></Dialog>
+              <link-master2 v-if="this.RICH_TEXT_EDITOR==true"
+                            :dialog-type="dialogType"
+                            :key="dialogKey"
+                            :currentValues=this.cardCurrentConfigurationValues
+                            :selectedCardConfigurationValues = this.selectedCardConfigurationValues
+                            :dialogKey = "this.dialogKey"
+                            :cardData = "cardData"
+                            :cardToEditType = "cardToEditType"
+                            :cardId = "this.selectedCardId"
+                            @dragStart="dragStart"
+                            @moved="dialogMoved"
+                            @configSelected = "configSelected"
+                            @saveCardData="saveCardData"
+                            @saveCardContent="saveCardContent"
+                            @clearCmd="clearRtCmd"
+                            :cmd="rtCmd"
+                            v-bind:style='this.styleObject'
+              ></link-master2>
 
-              <rt-editor-dialog v-if="this.RICH_TEXT_EDITOR==true"
-                                :dialog-type="dialogType"
-                                :key="dialogKey"
-                                :currentValues=this.cardCurrentConfigurationValues
-                                :selectedCardConfigurationValues = this.selectedCardConfigurationValues
-                                :dialogKey = "this.dialogKey"
-                                :cardData = "cardData"
-                                :cardToEditType = "cardToEditType"
-                                :cardId = "this.selectedCardId"
-                                @dragStart="dragStart"
-                                @moved="dialogMoved"
-                                @configSelected = "configSelected"
-                                @saveCardData="saveCardData"
-                                @saveCardContent="saveCardContent"
-                                @clearCmd="clearRtCmd"
-                                :cmd="rtCmd"
-                                v-bind:style='this.styleObject'
-              ></rt-editor-dialog>
+
 
 
 
@@ -80,12 +81,14 @@
     import axios from "axios";
     import genericCard from '../components/genericCard.vue';
     import Dialog from "../components/DialogV2.vue";
-    import rtEditorDialog from "./rtEditorDialog.vue";
+//    import rtEditorDialog from "./rtEditorDialog.vue";
+    import LinkMaster2 from "@/components/linkMaster3";
+
 
 //    import simpleCkDialog from "../components/simpleCk.vue";
     export default {
         name: "editLayout",
-        components:{ genericCard, Dialog, rtEditorDialog},
+        components:{LinkMaster2, genericCard, Dialog},
         props:{
           cmd:{
             type: String,
@@ -173,6 +176,10 @@
                 layoutWidth:0,
                 resizeCardId:0,
 
+                dialogMode:0,
+                LINK_MENU_EDIT:1,
+
+
 
 
 
@@ -189,6 +196,7 @@
         mounted(){
 //            debugger;
             console.log('in mounted - calling reloadLayout');
+            this.dialogMode=0;
             this.reloadLayout(this.$route.params.layoutId);
             this.displayStatus=false;
             this.$emit('viewStatusChangeFunction',['editLayout', this.viewStatusChangeFunction]);
@@ -250,6 +258,20 @@
           }
         },
         methods: {
+          editDialog(msg){
+            console.log('editLayout.textEditor -',msg);
+            debugger;
+            this.updateCallback = msg[0][1];
+            this.selectedCardId = msg[0][4];
+            this.cardToEditType = msg[0][5];
+            switch(this.cardToEditType){
+              case 'linkMenu':{
+                this.cardData = JSON.stringify(msg[0][6]);
+                this.dialogMode=this.LINK_MENU_EDIT;
+                break;
+              }
+            }
+          },
           textEditor(msg){
             console.log('editLayout.textEditor -',msg);
             debugger;
@@ -349,6 +371,12 @@
                 console.log(height);
                 console.log(width);
                 console.log(background);
+
+
+
+
+
+/*
                 gridCss =
                     "display: grid; grid-gap: 3px; background-image: url(" + backgroundImageUrl + "); height: 90vh; color: #ffcd90; " +
                     gridHeightCss +
@@ -356,6 +384,46 @@
                     gridWidthCss +
                     ";";
                 return gridCss;
+*/
+                switch(backgroundDisplay){
+                  case 'crop':{
+                    gridCss =
+                        "display: grid; grid-gap: 3px; background-image: url("+backgroundImageUrl+"); background-size:cover; background-repeat: no-repeat; background-position: center; height: 90vh; color: #ffcd90; " +
+                        gridHeightCss +
+                        ";" +
+                        gridWidthCss +
+                        ";";
+                    return gridCss
+                  }
+                  case 'existing':{
+                    gridCss =
+                        "display: grid; grid-gap: 3px; background-image: url("+backgroundImageUrl+"); background-size:contain; background-repeat: no-repeat; background-position: center; height: 90vh; color: #ffcd90; " +
+                        gridHeightCss +
+                        ";" +
+                        gridWidthCss +
+                        ";";
+                    return gridCss
+                  }
+                  case 'stretch':{
+                    gridCss =
+                        "display: grid; grid-gap: 3px; background-image: url("+backgroundImageUrl+"); background-size:"+width+height+"; background-repeat:no-repeat; background-position: center; height: 90vh; color: #ffcd90; " +
+                        gridHeightCss +
+                        ";" +
+                        gridWidthCss +
+                        ";";
+                    return gridCss
+                  }
+                  case 'repeat':{
+                    gridCss =
+                        "display: grid; grid-gap: 3px; background-image: url("+backgroundImageUrl+"); background-size:auto auto; background-repeat:repeat; background-position: center; height: 90vh; color: #ffcd90; " +
+                        gridHeightCss +
+                        ";" +
+                        gridWidthCss +
+                        ";";
+                    return gridCss
+                  }
+                }
+
               }
             },
             layoutGridParameters(height, width, backgroundColor) {
@@ -620,9 +688,8 @@
                   }
               }
             },
-            reloadLayout: function (layoutId, layoutBeingEdited=false) {
+            reloadLayout: function (layoutId) {
                 debugger;
-                console.log('layoutBeingEdited', layoutBeingEdited);
                 this.cardInstances = [];
                 this.displayGrid = true;
 //                this.layoutId = msg;
@@ -634,8 +701,7 @@
                         params: {
                             orgId: this.$store.getters.getOrgId,
                             userId: this.$store.getters.getLoggedInUserId,
-                            layoutId: layoutId,
-                            layoutBeingEdited:layoutBeingEdited
+                            layoutId: layoutId
                         }
                     })
                     .then(response => {

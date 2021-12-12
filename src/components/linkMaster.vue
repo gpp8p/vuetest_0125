@@ -9,8 +9,8 @@
       </span>
       <span>
         Orientation:
-        <input type="radio" name="orientation" value="vertical" v-model="currentCardData.orient" @click="orientClicked"/>-Vertical
-        <input type="radio" name="orientation" value="horozontal" v-model="currentCardData.orient" @click="orientClicked"/>-Horizontal
+        <o-radio v-model="currentCardData.orient" name="orientation" native-value="vertical">Vertical</o-radio>
+        <o-radio v-model="currentCardData.orient" name="orientation" native-value="horozontal">Horozontal</o-radio>
       </span>
     </span>
     <span>
@@ -57,6 +57,8 @@ name: "linkMaster",
     this.currentCardData= JSON.parse(this.cardData);
     if(typeof this.currentCardData.orient != 'undefined'){
       this.$emit('orientSelected');
+    }else{
+      this.currentCardData.orient = 'vertical';
     }
 
   },
@@ -66,7 +68,7 @@ name: "linkMaster",
     return {
       linkMenuTitle:'',
       linkContent:{},
-      currentCardData:'',
+      currentCardData:{},
       linkData:[],
       columns: [
         {

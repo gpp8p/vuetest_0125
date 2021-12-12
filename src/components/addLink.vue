@@ -5,12 +5,12 @@
         Title:
       </span>
       <span class="titleField">
-        <input v-model="currentCardData.linkMenuTitle" size="55"/>
+        <input v-model="currentCardData.linkMenuTitle" size="45"/>
       </span>
       <span>
-        Orientation:
-        <input type="radio" name="orientation" value="vertical" v-model="orient"   />-Vertical
-        <input type="radio" name="orientation" value="horozontal" v-model="orient"  />-Horizontal
+        Orient:
+        <o-radio v-model="orient" name="orientation" native-value="vertical">Vertical</o-radio>
+        <o-radio v-model="orient" name="orientation" native-value="horozontal">Horozontal</o-radio>
       </span>
     </span>
   <div class="extLinkArea">
@@ -78,7 +78,7 @@ export default {
       extSelected: 'external',
       intSelected: 'internal',
       extEntry:false,
-      orient:'',
+      orient:'vertical',
       linkMenuTitle:'',
       currentCardData:'',
     }

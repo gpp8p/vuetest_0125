@@ -3,6 +3,7 @@
     <div class="dialogComponentHeader" v-if="dialogContext==this.DIALOG_TITLE">
       <span class="headingText">{{this.titleMsg}}</span><span @click="test1">Test</span>
     </div>
+
     <div class="dialogComponentHeader" v-if="dialogContext==this.DIALOG_RUSURE" >
             <span class="sure">
               <are-you-sure :msg="sureMsg" @rusureClick="rusure"></are-you-sure>
@@ -10,13 +11,22 @@
     </div>
     <br/>
 
-    <div class="dialogComponentBody">
-      <link-master v-if="mode==this.LINK_MENU_EDIT" :cardData="cardData" :cardId = "this.cardId" :cmd="cmd" @saveCardContent="saveCardContent" @linkSelected="linkSelected" @linkDeleted="linkDeleted" @orientSelected="orientSelected"></link-master>
-      <editor-ck v-if="mode==this.DIALOG_EDIT" :cardData="cardData" :cmd="cmd" @saveContent="cardSaved" @editorReady="editorReady" @currentContent="currentContent"></editor-ck>
-      <layout-list v-if="mode==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected"></layout-list>
-      <create-layout v-if="mode==this.DIALOG_NEW_LAYOUT" :cmd="cmd" @layoutData="layoutData"></create-layout>
-      <add-link v-if="mode==this.DIALOG_ADD_LINK" :cmd="cmd" :cardData="cardData" @showSave="showSave" @noShowSave="noShowSave" @targetLayoutSelected="targetLayoutSelected" @saveCardContent="saveCardContent"></add-link>
-    </div>
+    <span class="labelPlusInput">
+      <span>
+        Title:
+      </span>
+      <span class="titleField">
+        <input v-model="currentCardData.linkMenuTitle" size="55"/>
+      </span>
+      <span class="orient">
+        <span>Orientation:</span>
+        <span>
+          <o-radio v-model="currentCardData.orient" name="orientation" native-value="vertical">Vertical</o-radio>
+          <o-radio v-model="currentCardData.orient" name="orientation" native-value="horozontal">Horozontal</o-radio>
+        </span>
+      </span>
+    </span>
+
     <div class="dialogComponentFooter">
       <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
     </div>
@@ -31,11 +41,11 @@ import menuOpt from "../components/menuOptV2.vue";
 //    import newLayout from "../components/newLayout.vue";
 
 import AreYouSure from "../components/AreYouSure.vue";
-import editorCk from '../components/editorCk.vue'
-import layoutList from "../components/layoutList.vue";
-import createLayout from "../components/createLayout.vue";
-import linkMaster from "../components/linkMaster.vue";
-import addLink from "../components/addLink.vue"
+
+
+
+//import linkMaster from "../components/linkMaster.vue";
+
 import axios from "axios";
 
 
@@ -47,7 +57,7 @@ import axios from "axios";
 
 export default {
   name: "rtEditorDialog",
-  components :{ menuOpt,   AreYouSure, editorCk, layoutList, createLayout, linkMaster, addLink },
+  components :{ menuOpt,   AreYouSure},
   props:{
     dialogType:{
       type: Number,
@@ -640,7 +650,9 @@ export default {
       currentlySelectedLayout:0,
       currentlySelectedLayoutDescription:'',
       selectedLink:0,
-      orientHasBeenSelected:false
+      orientHasBeenSelected:false,
+
+      currentCardData:{},
 
 
 
@@ -713,5 +725,27 @@ export default {
 }
 .sure {
   margin-top: 5px;
+}
+
+.linkMasterWrapper {
+  display:grid;
+  grid-template-rows: 10% 90%;
+}
+.labelPlusInput {
+  width:100%;
+  display:grid;
+  margin-top: 3px;
+  margin-left: 6px;
+  grid-template-columns: 10% 50% 40%;
+  font-family: Arial;
+  font-size: medium;
+  color: #0a3aff;
+}
+.titleField {
+  margin-right: 70%;
+}
+.orient {
+  display: grid;
+  grid-template-columns: 40% 60%;
 }
 </style>
