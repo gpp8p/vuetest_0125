@@ -24,6 +24,9 @@
       <span v-if="this.mode===this.SHOW_LINKS">
         <link-menu-list :currentCardData="this.currentCardData" ></link-menu-list>
       </span>
+      <span v-if="this.mode===this.ADD_LINK">
+        <link-menu-add></link-menu-add>
+      </span>
     </span>
   </span>
   <span>
@@ -36,9 +39,10 @@
 <script>
 import menuOpt from "../components/menuOptV2.vue";
 import linkMenuList from "../components/linkMenuList.vue";
+import linkMenuAdd from "../components/linkMenuAdd.vue";
 export default {
   name: "linkMaster2",
-  components :{ menuOpt, linkMenuList},
+  components :{ menuOpt, linkMenuList, linkMenuAdd},
   mounted(){
     this.titleMsg='Building a Menu';
     var mOpts = this.getMenuOpts('setupMenuLink');
@@ -117,6 +121,7 @@ export default {
       ],
       mode:0,
       SHOW_LINKS:0,
+      ADD_LINK:1,
       isPaginated: true,
       isPaginationSimple: false,
       paginationPosition: 'bottom',
@@ -194,6 +199,10 @@ export default {
         case 'Cancel':{
           this.currentSelectedMenuOption = msg;
           this.$emit('configSelected',['cancel']);
+          break;
+        }
+        case 'AddLink':{
+          this.mode=this.ADD_LINK;
           break;
         }
       }

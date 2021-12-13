@@ -88,5 +88,12 @@ export default {
 </script>
 
 <style scoped>
-
+.myspaceWrapper {
+  width:100%;
+  color: blue;
+  font-family: Geneva;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: bold;
+}
 </style>
