@@ -21,7 +21,9 @@
       </span>
     </span>
     <span>
-
+      <span v-if="this.mode===this.SHOW_LINKS">
+        <link-menu-list :currentCardData="this.currentCardData" ></link-menu-list>
+      </span>
     </span>
   </span>
   <span>
@@ -33,16 +35,17 @@
 
 <script>
 import menuOpt from "../components/menuOptV2.vue";
+import linkMenuList from "../components/linkMenuList.vue";
 export default {
   name: "linkMaster2",
-  components :{ menuOpt},
+  components :{ menuOpt, linkMenuList},
   mounted(){
     this.titleMsg='Building a Menu';
     var mOpts = this.getMenuOpts('setupMenuLink');
     this.currentMenuOpts = mOpts.currentMenuOpts;
     this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
     this.currentCardData= JSON.parse(this.cardData);
-    this.mode=this.LINK_MENU_EDIT;
+    this.mode=this.SHOW_LINKS;
   },
   props:{
     dialogType:{
