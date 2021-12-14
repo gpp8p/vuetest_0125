@@ -25,7 +25,7 @@
         <link-menu-list :currentCardData="this.currentCardData" ></link-menu-list>
       </span>
       <span v-if="this.mode===this.ADD_LINK">
-        <link-menu-add></link-menu-add>
+        <link-menu-add @internalLinkOption="internalLinkOption" @externalLinkOption="externalLinkOption" ></link-menu-add>
       </span>
     </span>
   </span>
@@ -151,6 +151,15 @@ export default {
             currentSelectedMenuOption: 'Cancel'
           }
         }
+        case 'selectExistingLayout': {
+          return {
+            currentMenuOpts: [
+              ['Create New Layout', 'CreateLayout'],
+              ['Exit', 'Cancel'],
+            ],
+            currentSelectedMenuOption: 'Cancel'
+          }
+        }
         case 'linkMasterSetup': {
           return {
             currentMenuOpts: [
@@ -190,6 +199,18 @@ export default {
           }
         }
       }
+    },
+    internalLinkOption(){
+      this.titleMsg = 'Click on existing layout or set up a new one';
+      var mOpts = this.getMenuOpts('selectExistingLayout');
+      this.currentMenuOpts = mOpts.currentMenuOpts;
+      this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+    },
+    externalLinkOption(){
+      this.titleMsg = 'Fill in url for external link';
+      var mOpts = this.getMenuOpts('selectExistingLayout');
+      this.currentMenuOpts = mOpts.currentMenuOpts;
+      this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
     },
     menuOptSelected(msg) {
       console.log(msg);

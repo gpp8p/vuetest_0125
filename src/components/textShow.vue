@@ -12,7 +12,7 @@
     </span>
     <div class="cardBody" v-if="this.mode==this.SHOW_TEXT" ref="textContent"  v-html="cardData">
     </div>
-    <span v-if="this.mode==this.RICH_TEXT_EDITOR">
+    <span v-if="this.mode==this.RICH_TEXT_EDITOR" id="ckeditSpan">
       <editor-ck
           :cardData="cardData"
           :cmd="cmd"

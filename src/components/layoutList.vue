@@ -26,11 +26,20 @@ export default {
     cmd:{
       type: String,
       required: true
+    },
+    linesPerPage:{
+      type: Number,
+      required: false
     }
   },
   mounted(){
     console.log('mounted runs in layoutLinks');
     console.log('orgId - according vuex:', this.$store.getters.getOrgId );
+    if(typeof(this.linesPerPage)=='undefined'){
+      this.perPage = 4;
+    }else{
+      this.perPage = this.linesPerPage;
+    }
     debugger;
     axios.get('http://localhost:8000/api/shan/getMySpaces?XDEBUG_SESSION_START=15122"', {
       params:{
@@ -61,7 +70,7 @@ export default {
       sortIcon: 'arrow-up',
       sortIconSize: 'small',
       currentPage: 1,
-      perPage: 4,
+      perPage: 0,
       nxtPage: 'Next Page',
       selected:'',
       columns: [

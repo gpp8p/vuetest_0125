@@ -22,7 +22,7 @@
       </span>
     </span>
     <span v-if="this.mode==this.SHOW_INTERNAL_LINKS" class=".linkTable">
-      <layout-list :cmd="this.layoutListCmd"></layout-list>
+      <layout-list :cmd="this.layoutListCmd" @layoutSelected="layoutSelected" :linesPerPage="6" ></layout-list>
     </span>
 </span>
 </template>
@@ -46,10 +46,19 @@ name: "linkMenuAdd",
       console.log(msg);
       switch(msg){
         case 'intSelected':{
+          this.$emit('internalLinkOption');
           this.mode=this.SHOW_INTERNAL_LINKS;
           break;
         }
+        case 'extSelected':{
+          this.$emit('externalLinkOption');
+          this.mode=this.LINK_CHOICE;
+          break;
+        }
       }
+    },
+    layoutSelected(msg){
+      console.log('layoutSelected - ', msg);
     }
   }
 }
