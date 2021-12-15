@@ -138,7 +138,12 @@ export default {
       selected:'',
       orient:'',
       titleMsg:'',
-      selectedLayout:{}
+      selectedLayout:{},
+      linkOptionSelected:'',
+      urlBase: 'http://localhost:8080/displayLayout/',
+      currentMenuOpts:[],
+      currentSelectedMenuOption:''
+
     }
   },
   methods:{
@@ -178,10 +183,9 @@ export default {
         case'insertLinkInMenu':{
           return {
             currentMenuOpts: [
-              ['Add at the begining ', 'addBegining'],
-              ['Add at the end', 'addEnd'],
-              ['Insert before', 'insertBefore'],
-              ['Insert after', 'insertAfter'],
+              ['Before', 'insertBefore'],
+              ['After', 'insertAfter'],
+              ['Back', 'backToAdd'],
               ['Exit', 'Cancel'],
             ],
             currentSelectedMenuOption: 'Cancel'
@@ -231,12 +235,14 @@ export default {
       this.titleMsg = 'Click on existing layout or set up a new one';
       var mOpts = this.getMenuOpts('selectExistingLayout');
       this.currentMenuOpts = mOpts.currentMenuOpts;
+      this.linkOptionSelected='internal';
       this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
     },
     externalLinkOption(){
       this.titleMsg = 'Fill in url for external link';
       var mOpts = this.getMenuOpts('selectExistingLayout');
       this.currentMenuOpts = mOpts.currentMenuOpts;
+      this.linkOptionSelected='external';
       this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
     },
     menuOptSelected(msg) {
@@ -253,11 +259,36 @@ export default {
           this.mode=this.ADD_LINK;
           break;
         }
+        case 'backToAdd':{
+          var str1 = "Add ";
+          this.titleMsg = str1.concat(msg.description, ' to the menu ?');
+          var mOpts = this.getMenuOpts('addLinkToMenu');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+          break;
+        }
+        case 'addEnd':{
+          debugger;
+          this.currentCardData.availableLinks.push(this.selectedLayout);
+          this.selectedLayout={};
+          mOpts = this.getMenuOpts('setupMenuLink');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+          break;
+        }
       }
     },
     layoutSelected(msg){
       console.log('selected layout:', msg.description);
       this.selectedLayout = msg;
+      if(this.linkOptionSelected=='internal'){
+        this.selectedLayout.isExternal=0;
+        var url1 = this.urlBase;
+        var url2 = url1.concat(this.selectedLayout.id);
+        this.selectedLayout.link_url=url2;
+      }else{
+        this.selectedLayout.isExternal=1;
+      }
       var str1 = "Add ";
       this.titleMsg = str1.concat(msg.description, ' to the menu ?');
       var mOpts = this.getMenuOpts('addLinkToMenu');

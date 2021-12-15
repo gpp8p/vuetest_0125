@@ -37,8 +37,6 @@ name: "menuOpt",
     display: flex;
     justify-content: space-evenly;
     width:100%;
-    align-items: baseline;
-
   }
   .linkStyleItem {
     color: blue;
