@@ -22,10 +22,14 @@
     </span>
     <span>
       <span v-if="this.mode===this.SHOW_LINKS">
-        <link-menu-list :currentCardData="this.currentCardData" ></link-menu-list>
+        <link-menu-list :currentCardData="this.currentCardData" @linkSelected="linkSelected" ></link-menu-list>
       </span>
       <span v-if="this.mode===this.ADD_LINK">
-        <link-menu-add @internalLinkOption="internalLinkOption" @externalLinkOption="externalLinkOption" ></link-menu-add>
+        <link-menu-add
+            @internalLinkOption="internalLinkOption"
+            @externalLinkOption="externalLinkOption"
+            @layoutSelected="layoutSelected" >
+        </link-menu-add>
       </span>
     </span>
   </span>
@@ -133,7 +137,8 @@ export default {
       nxtPage: 'Next Page',
       selected:'',
       orient:'',
-      titleMsg:''
+      titleMsg:'',
+      selectedLayout:{}
     }
   },
   methods:{
@@ -155,6 +160,28 @@ export default {
           return {
             currentMenuOpts: [
               ['Create New Layout', 'CreateLayout'],
+              ['Exit', 'Cancel'],
+            ],
+            currentSelectedMenuOption: 'Cancel'
+          }
+        }
+        case'addLinkToMenu':{
+          return {
+            currentMenuOpts: [
+              ['Add at the begining', 'addBegining'],
+              ['Add at the end', 'addEnd'],
+              ['Exit', 'Cancel'],
+            ],
+            currentSelectedMenuOption: 'Cancel'
+          }
+        }
+        case'insertLinkInMenu':{
+          return {
+            currentMenuOpts: [
+              ['Add at the begining ', 'addBegining'],
+              ['Add at the end', 'addEnd'],
+              ['Insert before', 'insertBefore'],
+              ['Insert after', 'insertAfter'],
               ['Exit', 'Cancel'],
             ],
             currentSelectedMenuOption: 'Cancel'
@@ -226,6 +253,31 @@ export default {
           this.mode=this.ADD_LINK;
           break;
         }
+      }
+    },
+    layoutSelected(msg){
+      console.log('selected layout:', msg.description);
+      this.selectedLayout = msg;
+      var str1 = "Add ";
+      this.titleMsg = str1.concat(msg.description, ' to the menu ?');
+      var mOpts = this.getMenuOpts('addLinkToMenu');
+      this.currentMenuOpts = mOpts.currentMenuOpts;
+      this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+
+      this.mode=this.SHOW_LINKS;
+
+
+    },
+    linkSelected(msg){
+      console.log(msg);
+      console.log(this.selectedLayout.description);
+      var currentlySelectedKeys = Object.keys(this.selectedLayout);
+      if(currentlySelectedKeys.length>0){
+        var str1 = "Insert ";
+        this.titleMsg = str1.concat(this.selectedLayout.description, ' in the menu ?');
+        var mOpts = this.getMenuOpts('insertLinkInMenu');
+        this.currentMenuOpts = mOpts.currentMenuOpts;
+        this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
       }
     }
 

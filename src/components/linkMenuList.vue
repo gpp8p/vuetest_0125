@@ -73,7 +73,14 @@ name: "linkMenuList",
       selected:'',
       orient:''
     }
+  },
+  methods:{
+    linkSelected(msg){
+      console.log(msg);
+      this.$emit('linkSelected', msg);
+    }
   }
+
 }
 </script>
 

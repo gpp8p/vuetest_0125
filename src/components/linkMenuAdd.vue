@@ -59,6 +59,7 @@ name: "linkMenuAdd",
     },
     layoutSelected(msg){
       console.log('layoutSelected - ', msg);
+      this.$emit('layoutSelected', msg);
     }
   }
 }
