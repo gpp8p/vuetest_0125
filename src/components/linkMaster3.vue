@@ -22,7 +22,7 @@
     </span>
     <span>
       <span v-if="this.mode===this.SHOW_LINKS">
-        <link-menu-list :currentCardData="this.currentCardData" @linkSelected="linkSelected" ></link-menu-list>
+        <link-menu-list :cmd="this.currentCmd" @clearCmd="clearCmd" :currentCardData="this.currentCardData" @linkSelected="linkSelected" ></link-menu-list>
       </span>
       <span v-if="this.mode===this.ADD_LINK">
         <link-menu-add
@@ -95,6 +95,7 @@ export default {
       linkContent:{},
       currentCardData:{},
       linkData:[],
+      selectedLink:'',
       columns: [
         {
           field: 'id',
@@ -142,7 +143,8 @@ export default {
       linkOptionSelected:'',
       urlBase: 'http://localhost:8080/displayLayout/',
       currentMenuOpts:[],
-      currentSelectedMenuOption:''
+      currentSelectedMenuOption:'',
+      currentCmd:''
 
     }
   },
@@ -175,6 +177,7 @@ export default {
             currentMenuOpts: [
               ['Add at the begining', 'addBegining'],
               ['Add at the end', 'addEnd'],
+              ['Save','linkMasterSave'],
               ['Exit', 'Cancel'],
             ],
             currentSelectedMenuOption: 'Cancel'
@@ -186,6 +189,8 @@ export default {
               ['Before', 'insertBefore'],
               ['After', 'insertAfter'],
               ['Back', 'backToAdd'],
+              ['Remove','removeLink'],
+              ['Save','linkMasterSave'],
               ['Exit', 'Cancel'],
             ],
             currentSelectedMenuOption: 'Cancel'
@@ -245,9 +250,12 @@ export default {
       this.linkOptionSelected='external';
       this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
     },
+    clearCmd(){
+      this.currentCmd='';
+    },
     menuOptSelected(msg) {
       console.log(msg);
-      this.cmd = '';
+      this.currentCmd = '';
 //      debugger;
       switch(msg){
         case 'Cancel':{
@@ -256,6 +264,7 @@ export default {
           break;
         }
         case 'AddLink':{
+          this.selectedLayout={};
           this.mode=this.ADD_LINK;
           break;
         }
@@ -267,13 +276,31 @@ export default {
           this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
           break;
         }
-        case 'addEnd':{
-          debugger;
-          this.currentCardData.availableLinks.push(this.selectedLayout);
-          this.selectedLayout={};
+        case 'addBegining':{
+          this.currentCardData.availableLinks.unshift(this.selectedLayout);
           mOpts = this.getMenuOpts('setupMenuLink');
           this.currentMenuOpts = mOpts.currentMenuOpts;
           this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+          this.titleMsg='Building a Menu';
+          break;
+        }
+        case 'addEnd':{
+//          debugger;
+          this.currentCardData.availableLinks.push(this.selectedLayout);
+          mOpts = this.getMenuOpts('setupMenuLink');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+          this.titleMsg='Building a Menu';
+          break;
+        }
+        case 'insertAfter':{
+          this.currentCardData.availableLinks.splice(this.selectedLink+1,0,this.selectedLayout);
+          this.currentCmd='clear';
+          break;
+        }
+        case 'insertBefore':{
+          this.currentCardData.availableLinks.splice(this.selectedLink,0,this.selectedLayout);
+          this.currentCmd='clear';
           break;
         }
       }
@@ -301,7 +328,9 @@ export default {
     },
     linkSelected(msg){
       console.log(msg);
+      console.log(msg.id);
       console.log(this.selectedLayout.description);
+      this.selectedLink = this.findSelectedIndex(msg.id);
       var currentlySelectedKeys = Object.keys(this.selectedLayout);
       if(currentlySelectedKeys.length>0){
         var str1 = "Insert ";
@@ -309,6 +338,14 @@ export default {
         var mOpts = this.getMenuOpts('insertLinkInMenu');
         this.currentMenuOpts = mOpts.currentMenuOpts;
         this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+      }
+    },
+    findSelectedIndex(id){
+      for(var i=0;i<this.currentCardData.availableLinks.length;i++){
+        var thisMenuLink = this.currentCardData.availableLinks[i];
+        if(thisMenuLink.id == id){
+          return i;
+        }
       }
     }
 

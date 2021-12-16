@@ -28,7 +28,11 @@ name: "linkMenuList",
     currentCardData: {
       type: Object,
       required: true
-    }
+    },
+    cmd: {
+      type: String,
+      required: false
+    },
   },
   data(){
     return {
@@ -73,6 +77,18 @@ name: "linkMenuList",
       selected:'',
       orient:''
     }
+  },
+  watch:{
+    cmd: function() {
+      console.log('linkMenu cmd changed-', this.cmd);
+      switch(this.cmd){
+        case 'clear':{
+          this.selected=null;
+          this.$emit('clearCmd');
+          break;
+        }
+      }
+    },
   },
   methods:{
     linkSelected(msg){
