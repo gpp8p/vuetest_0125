@@ -31,6 +31,10 @@
             @layoutSelected="layoutSelected" >
         </link-menu-add>
       </span>
+
+      <create-layout v-if="mode==this.CREATE_LAYOUT" :cmd="currentCmd" @layoutData="layoutData"></create-layout>
+
+
     </span>
   </span>
   <span>
@@ -44,9 +48,10 @@
 import menuOpt from "../components/menuOptV2.vue";
 import linkMenuList from "../components/linkMenuList.vue";
 import linkMenuAdd from "../components/linkMenuAdd.vue";
+import createLayout from "../components/createLayout.vue"
 export default {
   name: "linkMaster2",
-  components :{ menuOpt, linkMenuList, linkMenuAdd},
+  components :{ menuOpt, linkMenuList, linkMenuAdd, createLayout},
   mounted(){
     this.titleMsg='Building a Menu';
     var mOpts = this.getMenuOpts('setupMenuLink');
@@ -127,6 +132,7 @@ export default {
       mode:0,
       SHOW_LINKS:0,
       ADD_LINK:1,
+      CREATE_LAYOUT:2,
       isPaginated: true,
       isPaginationSimple: false,
       paginationPosition: 'bottom',
@@ -301,6 +307,17 @@ export default {
         case 'insertBefore':{
           this.currentCardData.availableLinks.splice(this.selectedLink,0,this.selectedLayout);
           this.currentCmd='clear';
+          break;
+        }
+        case 'removeLink':{
+          debugger;
+          if (this.selectedLink > -1) {
+            this.currentCardData.availableLinks.splice(this.selectedLink, 1);
+          }
+          break;
+        }
+        case 'CreateLayout':{
+          this.mode=this.CREATE_LAYOUT;
           break;
         }
       }

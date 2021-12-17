@@ -322,6 +322,7 @@ name: "createLayout",
 
 <style scoped>
 .newLayoutWrapper {
+  margin-left: 4px;
   display:grid;
   grid-template-rows: 15% 15% 15% 15% 15%;
 
