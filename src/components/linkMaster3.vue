@@ -32,7 +32,7 @@
         </link-menu-add>
       </span>
 
-      <create-layout v-if="mode==this.CREATE_LAYOUT" :cmd="currentCmd" @layoutData="layoutData"></create-layout>
+      <create-layout v-if="mode==this.CREATE_LAYOUT" :cmd="currentCmd" @err="createError" @layoutData="layoutData"></create-layout>
 
 
     </span>
@@ -164,6 +164,7 @@ export default {
             currentMenuOpts: [
               ['Add', 'AddLink'],
               ['Exit', 'Cancel'],
+              ['Create New Layout', 'CreateLayout'],
               ['Save', 'linkMasterSave']
             ],
             currentSelectedMenuOption: 'Cancel'
@@ -172,7 +173,9 @@ export default {
         case 'selectExistingLayout': {
           return {
             currentMenuOpts: [
-              ['Create New Layout', 'CreateLayout'],
+              ['Add To the Menu', 'addExtToMenu'],
+              ['Clear','clearExtMenuOpts'],
+              ['Back', 'rtnToMenuHome'],
               ['Exit', 'Cancel'],
             ],
             currentSelectedMenuOption: 'Cancel'
@@ -224,18 +227,8 @@ export default {
           return {
             currentMenuOpts:[
               ['Cancel','Cancel'],
-              ['Save', 'Save This Space'],
-              ['Back', 'Back']
-            ],
-            currentMenuSelection: 'Cancel'
-          }
-        }
-        case'creatingLayout1':{
-          return {
-            currentMenuOpts:[
-              ['Cancel','Cancel'],
-              ['Save', 'Save This Space'],
-              ['Back', 'Backtosetup']
+              ['Save and Add', 'saveAndAdd'],
+              ['Back', 'rtnToMenuHome'],
             ],
             currentMenuSelection: 'Cancel'
           }
@@ -317,10 +310,27 @@ export default {
           break;
         }
         case 'CreateLayout':{
+          mOpts = this.getMenuOpts('creatingLayout');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
           this.mode=this.CREATE_LAYOUT;
           break;
         }
+        case 'rtnToMenuHome':{
+          mOpts = this.getMenuOpts('setupMenuLink');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+          this.mode=this.SHOW_LINKS;
+          break;
+        }
+        case 'saveAndAdd':{
+          this.currentCmd = 'Save';
+          break;
+        }
       }
+    },
+    layoutData(msg){
+      console.log('layout saved:',msg);
     },
     layoutSelected(msg){
       console.log('selected layout:', msg.description);

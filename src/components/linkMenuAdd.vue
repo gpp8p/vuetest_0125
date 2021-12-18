@@ -5,11 +5,17 @@
       <span>
         <o-radio v-model="linkChoice" name="linkType" @input="linkChoiceMade" native-value="extSelected">External Link</o-radio>
       </span>
-      <span>
+      <span v-if="this.mode==this.SHOW_EXTERNAL_LINK">
+        Menu Label:
+      </span>
+      <span v-if="this.mode==this.SHOW_EXTERNAL_LINK">
+        <input type="text" v-model="extLinkMenuLabel" size="30" />
+      </span>
+      <span v-if="this.mode==this.SHOW_EXTERNAL_LINK">
         Url:
       </span>
-      <span>
-        <input type="text" v-model="extLinkDescription" size="70" />
+      <span v-if="this.mode==this.SHOW_EXTERNAL_LINK">
+        <input type="text" v-model="extLinkDescription" size="50" />
       </span>
     </span>
     <span class="linkRow">
@@ -38,7 +44,10 @@ name: "linkMenuAdd",
       mode:0,
       LINK_CHOICE:0,
       SHOW_INTERNAL_LINKS:1,
-      layoutListCmd:''
+      SHOW_EXTERNAL_LINK:2,
+      layoutListCmd:'',
+      extLinkDescription:'',
+      extLinkMenuLabel:''
     }
   },
   methods:{
@@ -52,7 +61,7 @@ name: "linkMenuAdd",
         }
         case 'extSelected':{
           this.$emit('externalLinkOption');
-          this.mode=this.LINK_CHOICE;
+          this.mode=this.SHOW_EXTERNAL_LINK;
           break;
         }
       }
@@ -79,7 +88,7 @@ name: "linkMenuAdd",
 .linkRow {
   margin-left: 10px;
   display: grid;
-  grid-template-columns: 20% 10% 50%;
+  grid-template-columns: 10% 10% 30% 5% 5% 30%;
   font-family: Arial;
   font-size: medium;
   color: #0a3aff;
