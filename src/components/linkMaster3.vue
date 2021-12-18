@@ -331,15 +331,42 @@ export default {
     },
     layoutData(msg){
       console.log('layout saved:',msg);
+      var newElement ={};
+      newElement.description = msg[2];
+      newElement.id = -1;
+      newElement.isExternal = 0;
+      newElement.height=msg[3];
+      newElement.width=msg[4];
+      newElement.menu_label=msg[1];
+      newElement.layout_link_to = msg[0];
+      var url1 = this.urlBase;
+      var url2 = url1.concat(msg[0]);
+      newElement.link_url=url2;
+
+      this.selectedLayout=newElement;
+      var str1 = "Add ";
+      this.titleMsg = str1.concat(newElement.description, ' to the menu ?');
+      var mOpts = this.getMenuOpts('addLinkToMenu');
+      this.currentMenuOpts = mOpts.currentMenuOpts;
+      this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+
+      this.mode=this.SHOW_LINKS;
+
     },
     layoutSelected(msg){
       console.log('selected layout:', msg.description);
-      this.selectedLayout = msg;
+      this.selectedLayout = {};
       if(this.linkOptionSelected=='internal'){
         this.selectedLayout.isExternal=0;
         var url1 = this.urlBase;
-        var url2 = url1.concat(this.selectedLayout.id);
+        var url2 = url1.concat(msg.layout_link_to);
         this.selectedLayout.link_url=url2;
+        this.selectedLayout.id=-1;
+        this.selectedLayout.description = msg.description;
+        this.selectedLayout.layout_link_to = msg.layout_link_to;
+        this.selectedLayout.width = msg.width;
+        this.selectedLayout.height= msg.height;
+        this.selectedLayout.menu_label = msg.menu_label;
       }else{
         this.selectedLayout.isExternal=1;
       }

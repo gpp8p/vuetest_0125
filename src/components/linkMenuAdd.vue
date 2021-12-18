@@ -68,7 +68,16 @@ name: "linkMenuAdd",
     },
     layoutSelected(msg){
       console.log('layoutSelected - ', msg);
-      this.$emit('layoutSelected', msg);
+      var newLink = {};
+      newLink.description = msg.description;
+      newLink.height = msg.height;
+      newLink.isExternal = 0;
+      newLink.id=-1;
+      newLink.layout_link_to = msg.id;
+      newLink.menu_label=msg.menu_label;
+      newLink.width=msg.width;
+      console.log('newLink-', newLink);
+      this.$emit('layoutSelected', newLink);
     }
   }
 }
