@@ -50,6 +50,29 @@ name: "linkMenuAdd",
       extLinkMenuLabel:''
     }
   },
+  props:{
+    cmd:{
+      type: String,
+      required: false
+    }
+  },
+  watch:{
+    cmd: function(){
+      console.log('createLayout cmd changed - ', this.cmd);
+      switch(this.cmd){
+        case 'addExtToMenu':{
+          var newLink = {};
+          newLink.description = this.extLinkDescription;
+          newLink.isExternal = 1;
+          newLink.id=-1;
+          newLink.menu_label=this.extLinkMenuLabel;
+          console.log('newLink-', newLink);
+          this.$emit('newExtLink', newLink);
+          break;
+        }
+      }
+    },
+  },
   methods:{
     linkChoiceMade(msg){
       console.log(msg);

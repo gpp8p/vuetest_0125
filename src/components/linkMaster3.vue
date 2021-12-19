@@ -26,9 +26,11 @@
       </span>
       <span v-if="this.mode===this.ADD_LINK">
         <link-menu-add
+            :cmd="this.currentCmd"
             @internalLinkOption="internalLinkOption"
             @externalLinkOption="externalLinkOption"
-            @layoutSelected="layoutSelected" >
+            @layoutSelected="layoutSelected"
+            @newExtLink="newExtLink" >
         </link-menu-add>
       </span>
 
@@ -48,7 +50,8 @@
 import menuOpt from "../components/menuOptV2.vue";
 import linkMenuList from "../components/linkMenuList.vue";
 import linkMenuAdd from "../components/linkMenuAdd.vue";
-import createLayout from "../components/createLayout.vue"
+import createLayout from "../components/createLayout.vue";
+import axios from "axios";
 export default {
   name: "linkMaster2",
   components :{ menuOpt, linkMenuList, linkMenuAdd, createLayout},
@@ -327,6 +330,14 @@ export default {
           this.currentCmd = 'Save';
           break;
         }
+        case'addExtToMenu':{
+          this.currentCmd = 'addExtToMenu';
+          break;
+        }
+        case 'linkMasterSave':{
+          this.linkMasterSave();
+          break;
+        }
       }
     },
     layoutData(msg){
@@ -380,6 +391,24 @@ export default {
 
 
     },
+    newExtLink(msg){
+      this.selectedLayout.link_url=msg.description;
+      this.selectedLayout.id=-1;
+      this.selectedLayout.description = msg.menu_label;
+      this.selectedLayout.layout_link_to = -1;
+      this.selectedLayout.isExternal=1;
+      this.selectedLayout.width = 0;
+      this.selectedLayout.height= 0;
+      this.selectedLayout.menu_label = msg.menu_label;
+      var str1 = "Add ";
+      this.titleMsg = str1.concat(msg.description, ' to the menu ?');
+      var mOpts = this.getMenuOpts('addLinkToMenu');
+      this.currentMenuOpts = mOpts.currentMenuOpts;
+      this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+
+      this.mode=this.SHOW_LINKS;
+
+    },
     linkSelected(msg){
       console.log(msg);
       console.log(msg.id);
@@ -393,6 +422,27 @@ export default {
         this.currentMenuOpts = mOpts.currentMenuOpts;
         this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
       }
+    },
+    linkMasterSave(){
+      var allCardLinks = JSON.stringify(this.currentCardData.availableLinks);
+      axios.post('http://localhost:8000/api/shan/updateCardLinks?XDEBUG_SESSION_START=17516', {
+        allLinks:allCardLinks,
+        org_id: this.$store.getters.getOrgId,
+        layout_id: this.$store.getters.getCurrentLayoutId,
+        card_instance_id:this.cardId,
+        is_external:0,
+        type:'U'
+      }).then(response=>
+      {
+        console.log(response);
+        if(response.data=='ok'){
+          alert('returned ok');
+        }
+      }).catch(function(error) {
+        alert('returned with an error');
+        console.log(error);
+      });
+
     },
     findSelectedIndex(id){
       for(var i=0;i<this.currentCardData.availableLinks.length;i++){
