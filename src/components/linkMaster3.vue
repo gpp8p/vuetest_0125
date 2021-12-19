@@ -153,7 +153,8 @@ export default {
       urlBase: 'http://localhost:8080/displayLayout/',
       currentMenuOpts:[],
       currentSelectedMenuOption:'',
-      currentCmd:''
+      currentCmd:'',
+
 
     }
   },
@@ -169,6 +170,15 @@ export default {
               ['Exit', 'Cancel'],
               ['Create New Layout', 'CreateLayout'],
               ['Save', 'linkMasterSave']
+            ],
+            currentSelectedMenuOption: 'Cancel'
+          }
+        }
+        case 'setupMenuLink1': {
+          return {
+            currentMenuOpts: [
+              ['Remove','removeLink'],
+              ['Do Not Remove','clearLinkList']
             ],
             currentSelectedMenuOption: 'Cancel'
           }
@@ -241,6 +251,7 @@ export default {
     internalLinkOption(){
       this.titleMsg = 'Click on existing layout or set up a new one';
       var mOpts = this.getMenuOpts('selectExistingLayout');
+
       this.currentMenuOpts = mOpts.currentMenuOpts;
       this.linkOptionSelected='internal';
       this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
@@ -248,6 +259,7 @@ export default {
     externalLinkOption(){
       this.titleMsg = 'Fill in url for external link';
       var mOpts = this.getMenuOpts('selectExistingLayout');
+
       this.currentMenuOpts = mOpts.currentMenuOpts;
       this.linkOptionSelected='external';
       this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
@@ -274,6 +286,7 @@ export default {
           var str1 = "Add ";
           this.titleMsg = str1.concat(msg.description, ' to the menu ?');
           var mOpts = this.getMenuOpts('addLinkToMenu');
+
           this.currentMenuOpts = mOpts.currentMenuOpts;
           this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
           break;
@@ -281,27 +294,33 @@ export default {
         case 'addBegining':{
           this.currentCardData.availableLinks.unshift(this.selectedLayout);
           mOpts = this.getMenuOpts('setupMenuLink');
+
           this.currentMenuOpts = mOpts.currentMenuOpts;
           this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
           this.titleMsg='Building a Menu';
+          this.selectedLayout={};
           break;
         }
         case 'addEnd':{
 //          debugger;
           this.currentCardData.availableLinks.push(this.selectedLayout);
           mOpts = this.getMenuOpts('setupMenuLink');
+
           this.currentMenuOpts = mOpts.currentMenuOpts;
           this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+          this.selectedLayout={};
           this.titleMsg='Building a Menu';
           break;
         }
         case 'insertAfter':{
           this.currentCardData.availableLinks.splice(this.selectedLink+1,0,this.selectedLayout);
+          this.selectedLayout={};
           this.currentCmd='clear';
           break;
         }
         case 'insertBefore':{
           this.currentCardData.availableLinks.splice(this.selectedLink,0,this.selectedLayout);
+          this.selectedLayout={};
           this.currentCmd='clear';
           break;
         }
@@ -309,11 +328,16 @@ export default {
           debugger;
           if (this.selectedLink > -1) {
             this.currentCardData.availableLinks.splice(this.selectedLink, 1);
+            this.titleMsg='Building a Menu';
+            mOpts = this.getMenuOpts('setupMenuLink');
+            this.currentMenuOpts = mOpts.currentMenuOpts;
+            this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
           }
           break;
         }
         case 'CreateLayout':{
           mOpts = this.getMenuOpts('creatingLayout');
+
           this.currentMenuOpts = mOpts.currentMenuOpts;
           this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
           this.mode=this.CREATE_LAYOUT;
@@ -321,6 +345,7 @@ export default {
         }
         case 'rtnToMenuHome':{
           mOpts = this.getMenuOpts('setupMenuLink');
+
           this.currentMenuOpts = mOpts.currentMenuOpts;
           this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
           this.mode=this.SHOW_LINKS;
@@ -337,6 +362,14 @@ export default {
         case 'linkMasterSave':{
           this.linkMasterSave();
           break;
+        }
+        case 'clearLinkList':{
+          this.titleMsg='Building a Menu';
+          mOpts = this.getMenuOpts('setupMenuLink');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+          this.currentCmd = 'clear';
+          break
         }
       }
     },
@@ -358,6 +391,7 @@ export default {
       var str1 = "Add ";
       this.titleMsg = str1.concat(newElement.description, ' to the menu ?');
       var mOpts = this.getMenuOpts('addLinkToMenu');
+
       this.currentMenuOpts = mOpts.currentMenuOpts;
       this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
 
@@ -384,6 +418,7 @@ export default {
       var str1 = "Add ";
       this.titleMsg = str1.concat(msg.description, ' to the menu ?');
       var mOpts = this.getMenuOpts('addLinkToMenu');
+
       this.currentMenuOpts = mOpts.currentMenuOpts;
       this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
 
@@ -393,9 +428,9 @@ export default {
     },
     newExtLink(msg){
       this.selectedLayout.link_url=msg.description;
-      this.selectedLayout.id=-1;
+      this.selectedLayout.id=0;
       this.selectedLayout.description = msg.menu_label;
-      this.selectedLayout.layout_link_to = -1;
+      this.selectedLayout.layout_link_to = 0;
       this.selectedLayout.isExternal=1;
       this.selectedLayout.width = 0;
       this.selectedLayout.height= 0;
@@ -419,8 +454,16 @@ export default {
         var str1 = "Insert ";
         this.titleMsg = str1.concat(this.selectedLayout.description, ' in the menu ?');
         var mOpts = this.getMenuOpts('insertLinkInMenu');
+
         this.currentMenuOpts = mOpts.currentMenuOpts;
         this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+      }else{
+        mOpts = this.getMenuOpts('setupMenuLink1');
+        this.currentMenuOpts = mOpts.currentMenuOpts;
+        this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+        str1 = "Remove ";
+        this.titleMsg = str1.concat(msg.description, 'from the menu ?');
+
       }
     },
     linkMasterSave(){
