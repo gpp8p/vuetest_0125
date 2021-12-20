@@ -52,9 +52,11 @@ import linkMenuList from "../components/linkMenuList.vue";
 import linkMenuAdd from "../components/linkMenuAdd.vue";
 import createLayout from "../components/createLayout.vue";
 import axios from "axios";
+//import CardBase from "@/components/CardBase";
 export default {
   name: "linkMaster2",
   components :{ menuOpt, linkMenuList, linkMenuAdd, createLayout},
+//  extends: CardBase,
   mounted(){
     this.titleMsg='Building a Menu';
     var mOpts = this.getMenuOpts('setupMenuLink');
@@ -360,7 +362,12 @@ export default {
           break;
         }
         case 'linkMasterSave':{
-          this.linkMasterSave();
+          if(typeof(this.currentCardData.orient)=='undefined'){
+            alert('You must select an orientation !');
+          }else{
+            this.linkMasterSave();
+          }
+
           break;
         }
         case 'clearLinkList':{
@@ -467,8 +474,16 @@ export default {
       }
     },
     linkMasterSave(){
+      var cardTitle='';
+      if(typeof(this.currentCardData.linkMenuTitle)=='undefined'){
+        cardTitle = ''
+      }else{
+        cardTitle = this.currentCardData.linkMenuTitle
+      }
       var allCardLinks = JSON.stringify(this.currentCardData.availableLinks);
       axios.post('http://localhost:8000/api/shan/updateCardLinks?XDEBUG_SESSION_START=17516', {
+        orient: this.currentCardData.orient,
+        cardTitle: cardTitle,
         allLinks:allCardLinks,
         org_id: this.$store.getters.getOrgId,
         layout_id: this.$store.getters.getCurrentLayoutId,

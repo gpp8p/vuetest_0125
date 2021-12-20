@@ -1,6 +1,12 @@
 <template>
-  <span @click="linkSelected">
-    <li>{{description}}</li>
+  <span >
+    <span v-if="this.is_external==0" @click="linkSelected">
+      <li>{{description}}</li>
+    </span>
+    <span v-if="this.is_external==1">
+      <li><a v-bind:href="link_url" target="_blank" >{{description}}</a></li>
+    </span>
+
   </span>
 </template>
 
@@ -19,6 +25,10 @@ name: "mLink",
     is_external:{
       type: Number,
       required: true
+    },
+    link_url:{
+      type: String,
+      required: false
     }
   },
   methods:{
@@ -32,6 +42,13 @@ name: "mLink",
 
 <style scoped>
 li:hover {
+  color:red;
+}
+a {
+  text-decoration: none;
+  color:blue;
+}
+a:hover {
   color:red;
 }
 

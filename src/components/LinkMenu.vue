@@ -17,7 +17,8 @@
                     :key="index"
                     :description="link.description"
                     :target="link.layout_link_to"
-                    :is_external="link.is_external"
+                    :is_external="link.isExternal"
+                    :link_url="link.link_url"
                     @linkSelected="linkSelected"
                     />
           </ul>
