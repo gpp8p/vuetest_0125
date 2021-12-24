@@ -24,7 +24,7 @@
           <membership :members="this.groupMembers" :membershipType="groupMembershipType" @memberSelected="memberSelected" :cmd="cmd"></membership>
         </span>
         <span v-if="this.view==this.GROUP_LIST">
-          <group-list :groups="this.groups" ></group-list>
+          <group-list :groups="this.groups" @groupSelected="groupSelected"></group-list>
         </span>
         <span v-if="this.view==this.ORG_MEMBERS">
           <membership :members="orgMembers" :membershipType="orgMembershipType" @memberSelected="memberSelected" :cmd="cmd"></membership>
@@ -73,18 +73,21 @@ name: "PermList",
       console.log('permList selectedMenuOption watcher triggered');
       this.openMenuOption = this.selectedMenuOption;
       switch(this.selectedMenuOption){
-        case 'Back':{
+        case 'Back2PermTop':{
           this.currentMenu = this.topMenu;
           this.currentMenuActiveOption = 'Done';
           this.layoutId = this.$store.getters.getCurrentLayoutId;
           this.reloadLayoutPerms();
           this.view=this.PERMS;
+          this.$emit("setMenu",'topMenu');
           this.$emit('setTitle', 'Who Can Access This Space');
           this.$emit("componentSettingsMounted",[this.currentMenu,this.currentMenuActiveOption]);
           break;
         }
         case "Add Group":{
-          debugger;
+//          debugger;
+          this.$emit("setMenu",'groupMenu');
+          this.$emit('setTitle','Click on group to add to the list');
           this.getOrgGroups(this.orgId, this.layoutId);
           break;
         }
@@ -166,20 +169,20 @@ name: "PermList",
 
       deleteActive: false,
       currentGroupDescription:'',
-
+/*
       topMenu: ['Add Group', 'Remove Group','Done'],
       topMenuB: ['Add Group', 'Clear Remove','Done'],
       adminGroupMenu: ['Add Member','Back','Done'],
       groupMenu:['Back', 'Done']
-
+*/
 
     }
   },
   mounted(){
-    debugger;
-    this.currentMenu = this.topMenu;
-    console.log('currentMenu set to topmenu - mounted');
-    this.currentMenuActiveOption = 'Done';
+//    debugger;
+//    this.currentMenu = this.topMenu;
+//    console.log('currentMenu set to topmenu - mounted');
+//    this.currentMenuActiveOption = 'Done';
     this.layoutId = this.$store.getters.getCurrentLayoutId;
     this.reloadLayoutPerms();
     this.$emit('setTitle', 'Who Can Access This Space');
@@ -417,6 +420,7 @@ name: "PermList",
       }
     },
     groupSelected(msg) {
+      debugger;
       console.log(msg);
 
 

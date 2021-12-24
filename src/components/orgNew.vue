@@ -117,6 +117,7 @@ export default {
       currentBackground: '#dbdbdb',
       backgroundType:'C',
       backgroundImage:'',
+      backgroundDisplay:'crop',
 
       errs:{
         orgNameOk:false,
@@ -164,7 +165,8 @@ export default {
                 adminUserEmail: this.orgAdminEmail,
                 adminUserName: this.orgAdminName,
                 backgroundType: this.backgroundType,
-                backgroundImage:this.backgroundImage
+                backgroundImage:this.backgroundImage,
+                backgroundDisplay:this.backgroundDisplay
               }
             })
             .then(response => {
@@ -307,7 +309,7 @@ export default {
       this.adminIdentified=false;
     },
     configSelected(msg){
-      console.log(msg);
+      console.log('newOrg:',msg);
       switch(msg[0]){
         case 'backgroundType':{
           this.backgroundType=this.BACKGROUND_TYPE_IMAGE;
@@ -319,6 +321,10 @@ export default {
         }
         case 'backgroundImage':{
           this.backgroundImage=msg[1];
+          break;
+        }
+        case 'backgroundDisplay':{
+          this.backgroundDisplay=msg[1];
           break;
         }
       }

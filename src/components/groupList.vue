@@ -76,7 +76,15 @@ name: "groupList",
       selected:'',
 
     }
+  },
+  methods:{
+    groupSelected(msg){
+      console.log(msg);
+//      debugger;
+      this.$emit('groupSelected', msg.id);
+    }
   }
+
 }
 </script>
 

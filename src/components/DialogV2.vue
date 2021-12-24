@@ -502,7 +502,7 @@
                   return {
                     currentMenuOpts:[
                         ['Add Member', 'Add Member'],
-                        ['Back', 'Back'],
+                        ['Back', 'Back2PermTop'],
                         ['Done', 'Done']
                     ],
                     currentSelectedMenuOption: 'Done'
@@ -512,7 +512,7 @@
                   return {
                     currentMenuOpts:[
                       ['Add Member To Group', 'AddMemberGroup'],
-                      ['Back', 'Back'],
+                      ['Back', 'Back2PermTop'],
                       ['Done', 'Done']
                     ],
                     currentSelectedMenuOption: 'Done'
@@ -522,7 +522,7 @@
                   return {
                     currentMenuOpts:[
                       ['Remove Member From Group', 'Remove Member From Group'],
-                      ['Back', 'Back'],
+                      ['Back', 'Back2PermTop'],
                       ['Done', 'Done']
                     ],
                     currentSelectedMenuOption: 'Done'
@@ -531,7 +531,7 @@
                 case 'groupMenu':{
                   return {
                     currentMenuOpts:[
-                      ['Back', 'Back'],
+                      ['Back', 'Back2PermTop'],
                       ['Done', 'Done']
                     ],
                     currentSelectedMenuOption: 'Done'
