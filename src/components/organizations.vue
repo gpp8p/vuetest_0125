@@ -11,7 +11,7 @@
              :selectedMenuOption="selectedMenuOption"
     ></org-new>
     <registerUser v-if="orgView==NEW_USER" :cmd="cmd" @registrationSaved="registrationSaved"></registerUser>
-    <user-password v-if="this.orgView==this.USER_PASSWORD" :cmd="cmd" :current-card-data="currentCardData"></user-password>
+    <user-password v-if="this.orgView==this.USER_PASSWORD" :cmd="cmd" @clearCmd="clearCmd" :current-card-data="currentCardData" @registrationSaved="registrationSaved"></user-password>
   </span>
 </template>
 

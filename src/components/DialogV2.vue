@@ -330,6 +330,10 @@
                   this.cmd = 'updatePassword';
                   break;
                 }
+                case 'changePassword':{
+                  this.cmd = 'changePassword';
+                  break;
+                }
                 default:{
                   this.currentSelectedMenuOption = msg;
                   this.cmd = msg;

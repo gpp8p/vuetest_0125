@@ -22,7 +22,7 @@
             Password:
          </span>
          <span>
-            <input type="password" v-model="userPassword"  size="40" class="inputStyle" @blur="focusChangedPass1"/>
+            <input type="password" v-model="userPassword"  size="40" class="inputStyle" />
          </span>
      </span>
      <span class="labelPlusInput">
@@ -30,7 +30,7 @@
             Password Confirm:
          </span>
          <span>
-            <input type="password" v-model="userPasswordRepeat"  size="40" class="inputStyle" @blur="focusChangedPass2"/>
+            <input type="password" v-model="userPasswordRepeat"  size="40" class="inputStyle" />
          </span>
      </span>
       </form>
@@ -72,65 +72,13 @@ name: "userPassword",
     }
   },
   methods:{
-    focusChangedUserName(){
-
-      if(this.userName==''){
-        this.$emit('setTitle','You must enter a name!');
-      }else{
-        this.$emit('setTitle','Register New User');
-      }
-
-    },
-    focusChangedUserEmail(){
-
-      if(this.userEmail==''){
-        this.$emit('setTitle','You must enter an Email !!');
-      }else {
-        this.$emit('setTitle', 'Register New User');
-
-        axios.get('http://localhost:8000/api/shan/userExists?XDEBUG_SESSION_START=14668', {
-          params: {
-            email: this.userEmail
-          }
-        }).then(response => {
-// eslint-disable-next-line no-debugger
-          // JSON responses are automatically parsed.
-          debugger;
-          if (response.data.result == true) {
-            console.log('user exists');
-            this.$emit('setTitle', "User " + response.data.name + "(" + response.data.email + ") already exists!");
-            this.existingUserData.name = response.data.name;
-            this.existingUserData.email = response.data.email;
-            this.existingUserData.id = response.data.id;
-            this.existingUserData.is_admin = response.data.is_admin;
-            this.$emit('userExists', this.existingUserData);
-          } else {
-            console.log('user does not exist');
-          }
-
-        })
-            .catch(e => {
-              this.errors.push(e);
-              console.log('user exists failed', e);
-            });
-      }
 
 
-    },
 
-    focusChangedPass1(){
 
-      if(this.userPassword==''){
-        this.$emit('setTitle','You must enter a Password!!');
-      }else{
-        this.$emit('setTitle','Register New User');
-      }
-    },
-    focusChangedPass2(){
-      debugger;
-      this.checkEntryFields();
-      this.$emit('setTitle','Click on Save Registration to register !');
-    },
+
+
+
 
     checkEntryFields(){
       if(this.userPasswordRepeat==''){
@@ -138,14 +86,33 @@ name: "userPassword",
       }
       if(this.userPassword!=this.userPasswordRepeat){
         this.$emit('setTitle','The passwords must match !');
-      }else if(this.userEmail!='' && this.userEmail!='' && this.userPassword!=''){
-//        this.$emit('componentSettingsMounted', [['Save Registration','Cancel'],'Cancel']);
-        return true;
       }else{
-        this.$emit('setTitle','All fields must be entered !');
+        return true;
       }
       return false;
     },
+    updatePassword() {
+      axios.post('http://localhost:8000/api/shan/updatePassword?XDEBUG_SESSION_START=17516', {
+        params: {
+          email: this.currentCardData.email,
+          password: this.userPassword,
+        }
+      }).then(response => {
+        debugger;
+        if (response.data == 'ok') {
+          console.log('registration has been saved');
+          this.$emit('registrationSaved', ['ok']);
+        }
+
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+
+
+
+
+
     saveRegistration(){
       axios.post('http://localhost:8000/api/shan/setupNewUser?XDEBUG_SESSION_START=17516', {
         params:{
@@ -174,12 +141,22 @@ name: "userPassword",
   watch :{
     cmd: function(){
       debugger;
-      console.log('registerUser cmd', this.cmd);
+      console.log('userPassword cmd', this.cmd);
       switch(this.cmd){
         case 'saveRegistration':{
           if(this.checkEntryFields()){
             this.saveRegistration()
           }
+          break;
+        }
+        case 'changePassword':{
+          if(this.checkEntryFields()){
+            console.log('password entry ok');
+            this.updatePassword();
+          }else{
+            alert('You must enter password in both fields and they must match');
+          }
+          this.$emit('clearCmd');
           break;
         }
       }
