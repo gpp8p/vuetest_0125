@@ -24,7 +24,7 @@ name: "orgMembership",
   mounted(){
     if(this.orgId>0){
       if(this.$store.getters.getIsAdmin==1){
-        this.$emit('setMenu','orgMembersSuperAdmin');
+        this.$emit('setMenu','orgMembersMenu');
 //        this.$emit('componentSettingsMounted',[['Back','Done', 'Add Member', 'Remove'],'Done']);
         this.$emit('setTitle','Organization Members - Click to Select');
       }else{
@@ -139,8 +139,9 @@ name: "orgMembership",
         case this.ORG_MEMBERS:{
           debugger;
           console.log('member selected ORG_MEMBERS', msg);
-          this.$emit('setTitle','Click Remove to remove '+msg[1].name);
+//          this.$emit('setTitle','Click Remove to remove '+msg[1].name);
           this.selectedUserId = msg[1].id;
+          this.$emit('memberSelected', msg);
           break;
         }
         case this.ALL_MEMBERS:{

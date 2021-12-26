@@ -326,6 +326,10 @@
                   this.currentSelectedMenuOption = 'SubText';
                   break;
                 }
+                case 'updatePassword':{
+                  this.cmd = 'updatePassword';
+                  break;
+                }
                 default:{
                   this.currentSelectedMenuOption = msg;
                   this.cmd = msg;
@@ -559,9 +563,19 @@
                 case 'orgMembersSuperAdmin':{
                   return {
                     currentMenuOpts:[
+                      ['Remove', 'Remove'],
+                      ['Password','updatePassword'],
+                      ['Back', 'OrgTopBack'],
+                      ['Done', 'Done'],
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'orgMembersMenu':{
+                  return {
+                    currentMenuOpts:[
                       ['Add Member','Add Member'],
                       ['New User', 'NewUser'],
-                      ['Remove', 'Remove'],
                       ['Back', 'OrgTopBack'],
                       ['Done', 'Done'],
                     ],
@@ -613,6 +627,16 @@
                     currentMenuOpts:[
                       ['Back', 'Return to New Organization'],
                       ['Done', 'Done'],
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'userPassword':{
+                  return {
+                    currentMenuOpts:[
+                      ['Back', 'orgMemberBack'],
+                      ['Done', 'Done'],
+                      ['Update Password','changePassword']
                     ],
                     currentSelectedMenuOption: 'Done'
                   }

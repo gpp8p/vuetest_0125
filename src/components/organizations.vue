@@ -1,7 +1,7 @@
 <template>
   <span>
     <org-list v-if="orgView==this.ORG_LIST" :cmd="cmd" @orgSelected="orgSelected" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle"></org-list>
-    <org-membership :cmd="cmd" :orgId="selectedOrgId" v-if="orgView==this.ORG_MEMBERS" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle" @setMenu="setMenu" @clearCmd="clearCmd"></org-membership>
+    <org-membership :cmd="cmd" :orgId="selectedOrgId" v-if="orgView==this.ORG_MEMBERS" @memberSelected="memberSelected" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle" @setMenu="setMenu" @clearCmd="clearCmd"></org-membership>
     <org-new :cmd="cmd" v-if="orgView==this.ORG_NEW"
              @componentSettingsMounted="componentSettingsMounted"
              @setTitle="setTitle"
@@ -11,6 +11,7 @@
              :selectedMenuOption="selectedMenuOption"
     ></org-new>
     <registerUser v-if="orgView==NEW_USER" :cmd="cmd" @registrationSaved="registrationSaved"></registerUser>
+    <user-password v-if="this.orgView==this.USER_PASSWORD" :cmd="cmd" :current-card-data="currentCardData"></user-password>
   </span>
 </template>
 
@@ -18,6 +19,7 @@
 import axios from "axios";
 import orgList from "../components/orgList.vue";
 import orgMembership from "../components/orgMembership.vue";
+import userPassword from "../components/userPassword.vue";
 //import TestNewOrg from "@/components/testNewOrg";
 import orgNew from "@/components/orgNew.vue";
 import registerUser from "@/components/registerUser.vue";
@@ -25,7 +27,7 @@ import registerUser from "@/components/registerUser.vue";
 //import orgNew from "../components/orgNew.vue";
 export default {
   name: "organizations",
-  components:{orgNew, orgList, orgMembership, registerUser },
+  components:{orgNew, orgList, orgMembership, registerUser, userPassword },
   props:{
     selectedMenuOption: {
       type: String,
@@ -71,6 +73,17 @@ export default {
           this.orgView=this.ORG_LIST;
           break;
         }
+        case 'userPassword':{
+          this.$emit('setMenu', 'userPassword');
+          this.orgView = this.USER_PASSWORD;
+          break;
+        }
+        case 'updatePassword':{
+          this.$emit('setMenu', 'userPassword');
+          this.$emit('setTitle', 'Enter new password')
+          this.orgView = this.USER_PASSWORD;
+          break;
+        }
 
       }
     }
@@ -82,6 +95,7 @@ export default {
       ORG_MEMBERS:1,
       ORG_NEW:2,
       NEW_USER:3,
+      USER_PASSWORD:4,
       orgView:0,
       orgs:[],
       orgUsers:[],
@@ -116,7 +130,8 @@ export default {
           visible: false
         }
       ],
-      selectedOrgId:0
+      selectedOrgId:0,
+      currentCardData:{}
     }
   },
   mounted(){
@@ -169,6 +184,15 @@ export default {
     },
     registrationSaved(msg){
       this.$emit('registrationSaved', msg);
+    },
+    memberSelected(msg){
+      console.log('memberSelected-',msg );
+      this.currentCardData.id = msg[1].id;
+      this.currentCardData.email = msg[1].email;
+      this.currentCardData.name = msg[1].name;
+      if(this.$store.getters.getIsAdmin==1){
+        this.$emit('setMenu','orgMembersSuperAdmin');
+      }
     }
   }
 }
