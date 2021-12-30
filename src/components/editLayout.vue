@@ -243,6 +243,7 @@
                       this.cardCurrentConfigurationValues.height = response.data[0].height;
                       this.cardCurrentConfigurationValues.width = response.data[0].width;
                       this.cardCurrentConfigurationValues.menu_label = response.data[0].menu_label;
+                      this.cardCurrentConfigurationValues.template = response.data[0].template;
                       this.dialogCmd = 'editLayoutParams';
                       this.cmdObjectVersion++;
 

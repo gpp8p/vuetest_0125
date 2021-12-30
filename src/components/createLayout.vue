@@ -47,6 +47,14 @@
           <background-picker :currentValues="currentValues" :dialogKey="cmdObjectVersion" :pType="backgroundTypePtype" :noTransparent=true @configSelected="configSelected"></background-picker>
       </span>
      </span>
+      <span class="labelPlusInput">
+        <span>Template:</span>
+        <span>
+          <o-checkbox v-model="template"></o-checkbox>
+        </span>
+
+      </span>
+
   </span>
 
 </template>
@@ -71,6 +79,7 @@ name: "createLayout",
       width:'',
       val:'#dbddb0',
       updatedColor:'',
+      template:false,
 
       backgroundImageFile:'',
       backgroundType:'C',
@@ -160,6 +169,13 @@ name: "createLayout",
           }
           if(typeof(this.currentValues['menu_label'])!=='undefined'){
             this.menu_label = this.currentValues['menu_label'];
+          }
+          if(typeof(this.currentValues['template'])!=='undefined'){
+            if(this.currentValues['template']=='Y'){
+              this.template=true;
+            }else{
+              this.template=false
+            }
           }
           this.mode=this.LAYOUT_EDIT;
         }
@@ -266,6 +282,7 @@ name: "createLayout",
           backgroundType: this.backgroundType,
           backgroundImage: this.backgroundImageFile,
           backgroundDisplay: this.backgroundDisplay,
+          template: this.template,
           userId: this.$store.getters.getLoggedInUserId,
           user: this.$store.getters.getLoggedInUser,
           orgId: this.$store.getters.getOrgId
