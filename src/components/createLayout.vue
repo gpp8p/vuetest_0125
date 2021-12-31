@@ -315,6 +315,7 @@ name: "createLayout",
           backgroundType: this.backgroundType,
           backgroundImage: this.backgroundImageFile,
           backgroundDisplay: this.backgroundDisplay,
+          template: this.template,
           userId: this.$store.getters.getLoggedInUserId,
           user: this.$store.getters.getLoggedInUser,
           orgId: this.$store.getters.getOrgId
