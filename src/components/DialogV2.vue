@@ -65,6 +65,7 @@
             ></organizations>
         <layout-list v-if="dialogType==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected"></layout-list>
         <insert-card-select :cmd = "cmd" v-if="dialogType==this.DIALOG_INSERT_CARD" @cardSaved="cardSaved"></insert-card-select>
+        <select-template :cmd = "cmd" v-if="dialogType==this.DIALOG_SELECT_TEMPLATE"></select-template>
       </div>
       <div class="dialogComponentFooter">
           <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -87,13 +88,14 @@
     import cardConfigurationSettings from "../components/cardConfigurationSettings.vue";
     import layoutList from "../components/layoutList.vue";
     import insertCardSelect from "../components/insertCardSelect.vue";
+    import selectTemplate from "../components/selectTemplate.vue";
 
 
  //   import store from "@/store";
     import RegisterUser from "@/components/registerUser";
     export default {
         name: "Dialog",
-        components :{RegisterUser, menuOpt, newCardCreate, newLayout, AreYouSure, PermList, organizations, userExists, cardConfigurationSettings, layoutList, insertCardSelect},
+        components :{RegisterUser, menuOpt, newCardCreate, newLayout, AreYouSure, PermList, organizations, userExists, cardConfigurationSettings, layoutList, insertCardSelect, selectTemplate},
         props:{
             dialogType:{
                 type: Number,
@@ -254,6 +256,14 @@
                 }
                 case 'saveSpace':{
                   this.cmd='saveSpace';
+                  break;
+                }
+                case 'cloneTemplate':{
+                  mOpts = this.getMenuOpts('selectTemplate');
+                  this.currentMenuOpts = mOpts.currentMenuOpts;
+                  this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+                  this.setTitle('Click on template to use');
+                  this.dialogType=this.DIALOG_SELECT_TEMPLATE;
                   break;
                 }
                 case 'updateLayout':{
@@ -472,7 +482,16 @@
                   return {
                     currentMenuOpts: [
                       ['Cancel', 'Cancel'],
+                      ['Clone Template', 'cloneTemplate'],
                       ['Save', 'saveSpace']
+                    ],
+                    currentSelectedMenuOption: 'Cancel'
+                  }
+                }
+                case 'selectTemplate':{
+                  return {
+                    currentMenuOpts: [
+                      ['Cancel', 'Cancel'],
                     ],
                     currentSelectedMenuOption: 'Cancel'
                   }
@@ -769,6 +788,7 @@
                 DIALOG_CONFIGURE_CARD:10,
                 DIALOG_LAYOUT_LIST:11,
                 DIALOG_INSERT_CARD:12,
+                DIALOG_SELECT_TEMPLATE:13,
                 titleMsg:'',
 
                 sureMsg:'',
