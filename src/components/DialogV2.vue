@@ -66,7 +66,7 @@
         <layout-list v-if="dialogType==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected"></layout-list>
         <insert-card-select :cmd = "cmd" v-if="dialogType==this.DIALOG_INSERT_CARD" @cardSaved="cardSaved"></insert-card-select>
         <select-template :cmd = "cmd" v-if="dialogType==this.DIALOG_SELECT_TEMPLATE" @templateSelected="templateSelected" ></select-template>
-        <clone-template :cmd="cmd" v-if="dialogType==this.DIALOG_CLONE_TEMPLATE" :sourceTemplate = "this.selectedTemplateDescription" :sourceTemplateId = "this.selectedTemplateId"></clone-template>
+        <clone-template :cmd = "dialogCmd" :cmdVersion = "dialogCmdVersion" @setTitle="setTitle" @clearCmd="clearCmd" v-if="dialogType==this.DIALOG_CLONE_TEMPLATE" :sourceTemplate = "this.selectedTemplateDescription" :sourceTemplateId = "this.selectedTemplateId"></clone-template>
       </div>
       <div class="dialogComponentFooter">
           <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -90,7 +90,7 @@
     import layoutList from "../components/layoutList.vue";
     import insertCardSelect from "../components/insertCardSelect.vue";
     import selectTemplate from "../components/selectTemplate.vue";
-    import cloneTemplate from "../components/cloneLayout.vue";
+    import cloneTemplate from "./cloneTemplate.vue";
 
 
  //   import store from "@/store";
@@ -265,7 +265,14 @@
                   this.currentMenuOpts = mOpts.currentMenuOpts;
                   this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
                   this.setTitle('Click on template to use');
+//                  this.dialogCmd='selectTemplate';
                   this.dialogType=this.DIALOG_SELECT_TEMPLATE;
+                  break;
+                }
+                case 'doCloneTemplate':{
+                  console.log('doCloneTemplate matched');
+                  this.dialogCmd = 'doCloneTemplate';
+                  this.dialogCmdVersion++;
                   break;
                 }
                 case 'updateLayout':{
@@ -782,7 +789,7 @@
             clearCmd(){
               this.cmd='';
               this.dialogCmd='';
-              this.$emit('clearCmd');
+//              this.$emit('clearCmd');
             }
         },
 
@@ -828,7 +835,9 @@
                 subValue: {},
 
                 selectedTemplateDescription:'',
-                selectedTemplateId:0
+                selectedTemplateId:0,
+                dialogCmd:'',
+                dialogCmdVersion:0
 
 
 

@@ -13,7 +13,7 @@
             Layout Name:
          </span>
          <span>
-            <input v-model="menu_label"  size="35" @change="menu_label_changed" />
+            <input v-model="menu_label"  size="35"  />
          </span>
      </span>
     <span class="labelPlusInput">
@@ -21,7 +21,7 @@
           Layout Description:
         </span>
        <span>
-          <input v-model="description" @change="description_changed" size="45"/>
+          <input v-model="description"  size="45" />
        </span>
      </span>
 
@@ -31,20 +31,39 @@
 
 <script>
 export default {
-  name: "cloneLayout",
+  name: "cloneTemplate",
   data(){
     return {
       description: '',
-      menu_label: ''
+      menu_label: '',
+      entriesOk:false,
+      menu_label_entered:false,
+      description_entered: false
+    }
+  },
+  methods:{
+
+    entriesAreOk(){
+      if(this.description.length >0 && this.menu_label.length >0){
+        return true;
+      }else{
+        return false;
+      }
     }
   },
   watch: {
-    cmd: function () {
+    cmdVersion: function () {
       switch(this.cmd){
-        case 'cloneLayout':{
-          console.log('watch triggered in cloneLayout - ', this.cmd);
+        case 'doCloneTemplate':{
+//          debugger;
+
+          console.log('watch triggered in cloneTemplate - ', this.cmd,' entriesOk-', this.entriesAreOk());
           break;
         }
+      }
+//      this.$emit('clearCmd');
+      if(this.entriesAreOk()){
+        this.$emit('setTitle','Entries are OK!');
       }
     }
   },
@@ -53,6 +72,10 @@ export default {
     cmd:{
       type: String,
       required: true
+    },
+    cmdVersion:{
+      type:Number,
+      required:true
     },
     sourceTemplate:{
       type: String,
