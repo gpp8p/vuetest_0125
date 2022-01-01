@@ -73,6 +73,7 @@ name: "selectTemplate",
   methods:{
     templateSelected(msg){
       console.log(msg);
+      this.$emit('templateSelected', msg);
     }
   }
 }

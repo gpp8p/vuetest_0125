@@ -65,7 +65,8 @@
             ></organizations>
         <layout-list v-if="dialogType==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected"></layout-list>
         <insert-card-select :cmd = "cmd" v-if="dialogType==this.DIALOG_INSERT_CARD" @cardSaved="cardSaved"></insert-card-select>
-        <select-template :cmd = "cmd" v-if="dialogType==this.DIALOG_SELECT_TEMPLATE"></select-template>
+        <select-template :cmd = "cmd" v-if="dialogType==this.DIALOG_SELECT_TEMPLATE" @templateSelected="templateSelected" ></select-template>
+        <clone-template :cmd="cmd" v-if="dialogType==this.DIALOG_CLONE_TEMPLATE" :sourceTemplate = "this.selectedTemplateDescription" :sourceTemplateId = "this.selectedTemplateId"></clone-template>
       </div>
       <div class="dialogComponentFooter">
           <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -89,13 +90,14 @@
     import layoutList from "../components/layoutList.vue";
     import insertCardSelect from "../components/insertCardSelect.vue";
     import selectTemplate from "../components/selectTemplate.vue";
+    import cloneTemplate from "../components/cloneLayout.vue";
 
 
  //   import store from "@/store";
     import RegisterUser from "@/components/registerUser";
     export default {
         name: "Dialog",
-        components :{RegisterUser, menuOpt, newCardCreate, newLayout, AreYouSure, PermList, organizations, userExists, cardConfigurationSettings, layoutList, insertCardSelect, selectTemplate},
+        components :{RegisterUser, menuOpt, newCardCreate, newLayout, AreYouSure, PermList, organizations, userExists, cardConfigurationSettings, layoutList, insertCardSelect, selectTemplate, cloneTemplate},
         props:{
             dialogType:{
                 type: Number,
@@ -496,6 +498,16 @@
                     currentSelectedMenuOption: 'Cancel'
                   }
                 }
+                case 'cloneTemplate':{
+                  return {
+                    currentMenuOpts: [
+                      ['Back', 'backToTemplateSelect'],
+                      ['Clone Template', 'doCloneTemplate'],
+                      ['Cancel', 'Cancel'],
+                    ],
+                    currentSelectedMenuOption: 'Cancel'
+                  }
+                }
                 case 'editExistingLayout':{
                   return {
                     currentMenuOpts: [
@@ -669,6 +681,16 @@
             orgSelected(msg){
               console.log('orgSelected:', msg);
             },
+            templateSelected(msg){
+              console.log('templateSelected = ', msg);
+              this.selectedTemplateDescription = msg.description;
+              this.selectedTemplateId = msg.id;
+              var mOpts = this.getMenuOpts('cloneTemplate');
+              this.currentMenuOpts = mOpts.currentMenuOpts;
+              this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+              this.setTitle('Enter description and label for new layout');
+              this.dialogType = this.DIALOG_CLONE_TEMPLATE;
+            },
             rusure(msg){
               debugger;
               if(msg){
@@ -789,6 +811,7 @@
                 DIALOG_LAYOUT_LIST:11,
                 DIALOG_INSERT_CARD:12,
                 DIALOG_SELECT_TEMPLATE:13,
+                DIALOG_CLONE_TEMPLATE:14,
                 titleMsg:'',
 
                 sureMsg:'',
@@ -802,7 +825,10 @@
                   eventArgs:[]
                 },
                 dialogDataChanged: false,
-                subValue: {}
+                subValue: {},
+
+                selectedTemplateDescription:'',
+                selectedTemplateId:0
 
 
 
