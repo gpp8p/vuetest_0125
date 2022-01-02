@@ -24,12 +24,27 @@
           <input v-model="description"  size="45" />
        </span>
      </span>
+    <span class="labelPlusInput">
+        <span>
+          Permissions::
+        </span>
+       <span>
+          <o-radio v-model="permType" name="imageType"  native-value="default">
+          Use Defaults
+          </o-radio>
+          <o-radio v-model="permType" name="imageType"  native-value="template">
+          Copy from Template
+          </o-radio>
+       </span>
+     </span>
 
   </span>
 
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "cloneTemplate",
   data(){
@@ -38,7 +53,8 @@ export default {
       menu_label: '',
       entriesOk:false,
       menu_label_entered:false,
-      description_entered: false
+      description_entered: false,
+      permType: 'default'
     }
   },
   methods:{
@@ -49,6 +65,26 @@ export default {
       }else{
         return false;
       }
+    },
+    makeTemplateClone(){
+      axios.post('http://localhost:8000/api/shan/cloneTemplate?XDEBUG_SESSION_START=14668', {
+        params:{
+          templateId: this.sourceTemplateId,
+          orgId: this.$store.getters.getOrgId,
+          description: this.description,
+          menu_label: this.menu_label,
+          permType: this.permType
+        }
+      })
+      .then(response => {
+        console.log(response);
+
+
+      })
+      .catch(e => {
+        console.log(e,'- cloneTemplate failed');
+      });
+
     }
   },
   watch: {
@@ -64,6 +100,7 @@ export default {
 //      this.$emit('clearCmd');
       if(this.entriesAreOk()){
         this.$emit('setTitle','Entries are OK!');
+        this.makeTemplateClone();
       }
     }
   },
