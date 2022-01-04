@@ -31,6 +31,7 @@
               @dragStart="dragStart"
               @moved="dialogMoved"
               @configSelected = "configSelected"
+              @cloneSuccessful="cloneSuccessful"
               @clearCmd="clearCmd"
               v-bind:style='this.styleObject'
       ></Dialog>
@@ -426,6 +427,17 @@
           linkSelected(msg){
 //            console.log('link selected', msg);
             this.$emit('linkSelected', msg);
+          },
+          cloneSuccessful(msg){
+            debugger;
+            console.log('edit layout cloneSuccessful', msg);
+            this.dialogType=0;
+            store.commit('setCurrentLayoutId', msg);
+            this.$router.push({
+              name: 'displayLayout',
+              params: {layoutId: msg}
+            })
+            this.$router.go();
           },
           deleteThisLayout(){
             console.log('deleteThisLayoutCalled');

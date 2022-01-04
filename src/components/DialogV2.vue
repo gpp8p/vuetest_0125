@@ -66,7 +66,15 @@
         <layout-list v-if="dialogType==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected"></layout-list>
         <insert-card-select :cmd = "cmd" v-if="dialogType==this.DIALOG_INSERT_CARD" @cardSaved="cardSaved"></insert-card-select>
         <select-template :cmd = "cmd" v-if="dialogType==this.DIALOG_SELECT_TEMPLATE" @templateSelected="templateSelected" ></select-template>
-        <clone-template :cmd = "dialogCmd" :cmdVersion = "dialogCmdVersion" @setTitle="setTitle" @clearCmd="clearCmd" v-if="dialogType==this.DIALOG_CLONE_TEMPLATE" :sourceTemplate = "this.selectedTemplateDescription" :sourceTemplateId = "this.selectedTemplateId"></clone-template>
+        <clone-template :cmd = "dialogCmd"
+                        :cmdVersion = "dialogCmdVersion"
+                        @setTitle="setTitle"
+                        @clearCmd="clearCmd"
+                        @cloneSuccessful="cloneSuccessful"
+                        v-if="dialogType==this.DIALOG_CLONE_TEMPLATE"
+                        :sourceTemplate = "this.selectedTemplateDescription"
+                        :sourceTemplateId = "this.selectedTemplateId"
+        ></clone-template>
       </div>
       <div class="dialogComponentFooter">
           <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -687,6 +695,10 @@
             },
             orgSelected(msg){
               console.log('orgSelected:', msg);
+            },
+            cloneSuccessful(msg){
+              console.log("in Dialog2 clone successful",msg);
+              this.$emit('cloneSuccessful', msg);
             },
             templateSelected(msg){
               console.log('templateSelected = ', msg);

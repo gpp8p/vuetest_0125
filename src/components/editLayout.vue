@@ -46,6 +46,7 @@
                  @moved="dialogMoved"
                  @configSelected = "configSelected"
                  @cardSaved="cardSaved"
+                 @cloneSuccessful="cloneSuccessful"
                  :cmd="dialogCmd"
                  :cmdObjectVersion="cmdObjectVersion"
                  v-bind:style='this.dialogStyleObject'
@@ -83,6 +84,7 @@
     import Dialog from "../components/DialogV2.vue";
 //    import rtEditorDialog from "./rtEditorDialog.vue";
     import LinkMaster2 from "@/components/linkMaster3";
+    import store from "@/store";
 
 
 //    import simpleCkDialog from "../components/simpleCk.vue";
@@ -639,7 +641,18 @@
               this.dialogKey=this.dialogKey+1;
 
             },
-            cardDataLoaded(msg){
+            cloneSuccessful(msg){
+              debugger;
+              console.log('edit layout cloneSuccessful', msg);
+              this.dialogType=0;
+              store.commit('setCurrentLayoutId', msg);
+              this.$router.push({
+                name: 'displayLayout',
+                params: {layoutId: msg}
+              })
+              this.$router.go();
+            },
+              cardDataLoaded(msg){
  //             debugger;
               console.log('cardDataLoaded',msg);
               this.cardCurrentConfigurationValues = msg[1];
