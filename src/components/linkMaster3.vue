@@ -494,7 +494,8 @@ export default {
       {
         console.log(response);
         if(response.data=='ok'){
-          alert('returned ok');
+//          alert('returned ok');
+          this.$emit('configurationHasBeenSaved');
         }
       }).catch(function(error) {
         alert('returned with an error');

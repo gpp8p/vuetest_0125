@@ -139,8 +139,8 @@ name: "linkMaster",
             }).then(response=>
             {
               console.log(response);
-              alert('card saved');
-//              this.$emit('configurationHasBeenSaved')
+//              alert('card saved');
+              this.$emit('configurationHasBeenSaved')
             }).catch(function(error) {
               console.log(error);
             });

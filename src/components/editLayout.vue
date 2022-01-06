@@ -65,6 +65,7 @@
                             @configSelected = "configSelected"
                             @saveCardData="saveCardData"
                             @saveCardContent="saveCardContent"
+                            @configurationHasBeenSaved="linksSaved"
                             @clearCmd="clearRtCmd"
                             :cmd="rtCmd"
                             v-bind:style='this.styleObject'
@@ -464,6 +465,18 @@
                   break;
                 }
               }
+            },
+            linksSaved(msg){
+              console.log('links saved successfully', msg);
+              this.RICH_TEXT_EDITOR=false;
+              var thisLayout = this.$store.getters.getCurrentLayoutId;
+
+
+              this.$router.push({
+                name: 'displayLayout',
+                params: {layoutId: thisLayout}
+              })
+              this.$router.go();
             },
             configSelected(msg){
                 debugger;
