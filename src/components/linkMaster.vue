@@ -22,6 +22,7 @@
              :current-page.sync="currentPage"
              :pagination-simple="isPaginationSimple"
              :pagination-position="paginationPosition"
+             :iconPack="mdi"
              aria-next-label="Next page"
              aria-previous-label="Previous page"
              aria-page-label="Page"
