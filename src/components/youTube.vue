@@ -15,10 +15,10 @@
     </div>
 
     <div v-if="this.mode==this.YT_EDIT" class="config">
-      <label for="ytubeUrl" style="justify-self: center;">You-Tube Url:</label>
-      <span><input type="text" size="40" id="ytubeUrl" maxlength="60" v-model ="ytubeUrl"/></span>
+      <label for="ytubeUrl" style="justify-self: center;">You-Tube Embed Code:</label>
+      <span><input type="text" size="40" id="ytubeUrl" maxlength="254" v-model ="ytubeUrl"/></span>
       <span></span>
-      <span><button @click="saveUrl">Save YouTube URL</button></span>
+      <span><button @click="saveUrl">Save You-Tube Embed Code</button></span>
 
     </div>
     <div v-if="this.mode==this.YT_META">
