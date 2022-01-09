@@ -869,7 +869,7 @@
         border: 2px solid blue;
         border-radius: 8px;
         box-shadow: 10px 10px 5px grey;
-        z-index: 10;
+        z-index: auto;
     }
     .dialogComponentHeader {
         height:10%;

@@ -83,7 +83,7 @@ export default {
   },
   methods:{
     saveClicked(){
-//        debugger;
+        debugger;
       axios.post('http://localhost:8000/createLayoutNoBlanks?XDEBUG_SESSION_START=17516', {
         name: this.layoutName,
         description: this.layoutDescription,

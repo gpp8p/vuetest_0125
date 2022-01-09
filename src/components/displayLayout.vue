@@ -493,7 +493,9 @@
 </script>
 
 <style scoped>
-
+.onTop{
+  z-index: auto;
+}
 
 
 </style>

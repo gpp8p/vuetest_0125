@@ -187,6 +187,9 @@ name: "createLayout",
 
     checkEntry(){
       var errorMsg = '';
+      if(this.backgroundType=='C'&&this.updatedColor==''){
+        errorMsg = errorMsg + 'backgroundColor, ';
+      }
       if(this.menu_label==0){
         errorMsg = errorMsg + 'Layout Name, ';
       }
@@ -200,10 +203,11 @@ name: "createLayout",
         errorMsg = errorMsg + 'Columns, ';
       }
       if(errorMsg.length >0){
-        return errorMsg + 'need to be enetered!';
+        return errorMsg + 'need to be enetered or selected!';
       } else {
         return 'Ok';
       }
+
 
 
     },
@@ -238,6 +242,7 @@ name: "createLayout",
         }
         case "backgroundColor":{
           this.updatedColor = msg[1];
+          console.log('backgroundColor set', this.updatedColor );
           this.backgroundColor = msg[1];
           this.$emit('layoutDataChanged', ['backgroundColor', this.updatedColor]);
           break;
