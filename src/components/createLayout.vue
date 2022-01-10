@@ -151,6 +151,7 @@ name: "createLayout",
           }
           if(typeof(this.currentValues['backgroundColor'])!=='undefined'){
             this.backgroundColor= this.currentValues['backgroundColor'];
+            this.updatedColor = this.currentValues['backgroundColor'];
           }
           if(typeof(this.currentValues['backgroundType'])!=='undefined'){
             this.backgroundType = this.currentValues['backgroundType'];
