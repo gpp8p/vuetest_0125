@@ -80,7 +80,11 @@ name: "pdf",
     cardContent:{
       type: Object,
       required: true
-    }
+    },
+    displayStatus:{
+      type: Boolean,
+      required: false
+    },
   },
   data() {
     return {
@@ -173,6 +177,12 @@ name: "pdf",
         }
         case 'pdfSave':{
           this.uploadedFileSave();
+          break;
+        }
+        case 'changePdf':{
+          this.mode = this.PDF_UPLOAD;
+          mOpts = this.getMenuOpts('pdf_file_select');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
           break;
         }
         case 'pdfMeta':{

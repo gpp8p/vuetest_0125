@@ -807,6 +807,7 @@
                 ['Configure','Configure'],
                 ['Resize/Move', 'Resize'],
                 ['Del','DeleteCard'],
+                ['Exit', 'exitEdit'],
                 ['Edit', 'Edit']
               ],
               currentMenuSelection: 'Configure'
@@ -903,7 +904,8 @@
                 ['Configure','Configure'],
                 ['Resize/Move', 'Resize'],
                 ['Del','DeleteCard'],
-                ['Edit', 'Edit']
+                ['Edit', 'Edit'],
+                ['Exit', 'exitEdit']
               ],
               currentMenuSelection: 'Configure'
             }

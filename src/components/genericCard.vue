@@ -98,6 +98,7 @@
                  :card-id=cardId
         ></archive>
         <pdf v-if="cardType=='pdf'"
+             :displayStatus = displayStatus
              :cardContent="cardContent"
              :card-id=cardId
              :cmdObject="cmdObject"

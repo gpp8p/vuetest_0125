@@ -305,6 +305,13 @@ export default {
           this.editClicked();
           break;
         }
+        case 'exitEdit':{
+          this.$router.push({
+            name: 'displayLayout',
+            params: { layoutId: this.$store.getters.getCurrentLayoutId }
+          })
+          break;
+        }
         case 'Resize':{
           this.moveClicked();
           break;
@@ -314,7 +321,7 @@ export default {
           break;
         }
         case 'Cancel':{
-          mOpts = this.getMenuOpts('textShowEntryMenu');
+          mOpts = this.getMenuOpts('entryMenu');
           this.currentMenuOpts = mOpts.currentMenuOpts;
           this.cardData = this.cardContent.cardText;
           this.mode=this.SHOW_TEXT;
@@ -427,7 +434,10 @@ export default {
             }
           }).then(response => {
             console.log(response);
-            this.mode= this.RICH_TEXT_EDITOR;
+            mOpts = this.getMenuOpts('entryMenu');
+            this.currentMenuOpts = mOpts.currentMenuOpts;
+
+            this.mode= this.SHOW_TEXT;
           }).catch(e => {
             console.log(e);
           });
