@@ -170,6 +170,7 @@ export default {
             currentMenuOpts: [
               ['Add', 'AddLink'],
               ['Exit', 'Cancel'],
+              ['Add Current Layout', 'addCurrent'],
               ['Create New Layout', 'CreateLayout'],
               ['Save', 'linkMasterSave']
             ],
@@ -345,6 +346,10 @@ export default {
           this.mode=this.CREATE_LAYOUT;
           break;
         }
+        case 'addCurrent':{
+          this.addCurrentLayout();
+          break;
+        }
         case 'rtnToMenuHome':{
           mOpts = this.getMenuOpts('setupMenuLink');
 
@@ -502,6 +507,26 @@ export default {
         console.log(error);
       });
 
+    },
+    addCurrentLayout(){
+      console.log('addCurrentLayout chosen');
+      axios.post('http://localhost:8000/api/shan/addCurrentLayout?XDEBUG_SESSION_START=17516', {
+        org_id: this.$store.getters.getOrgId,
+        layout_id: this.$store.getters.getCurrentLayoutId,
+        card_instance_id:this.cardId,
+      }).then(response=>
+      {
+        console.log(response);
+        if(response.data=='ok'){
+//          alert('returned ok');
+          this.$emit('configurationHasBeenSaved');
+        }else if(response.data=='already linked'){
+          alert('That layout already linked to by this menu');
+        }
+      }).catch(function(error) {
+        alert('returned with an error');
+        console.log(error);
+      });
     },
     findSelectedIndex(id){
       for(var i=0;i<this.currentCardData.availableLinks.length;i++){

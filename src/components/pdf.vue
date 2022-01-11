@@ -163,6 +163,8 @@ name: "pdf",
           break;
         }
         case 'pdfExit':{
+//          debugger;
+          this.showOptions=false;
           this.$router.push({
             name: 'displayLayout',
             params: { layoutId: this.$store.getters.getCurrentLayoutId }
