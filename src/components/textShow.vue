@@ -276,9 +276,11 @@ export default {
       this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
     },
     metaDataEntered(msg){
-      console.log(msg);
+      console.log('metaDataEntered-',msg);
       this.content.documentType=msg.documentType;
       this.content.accessType=msg.accessType;
+      this.cardContent.documentType=msg.documentType;
+      this.cardContent.accessType=msg.accessType;
       this.content.indexFile=msg.indexFile;
       var mOpts = this.getMenuOpts('richTextOpen');
       this.currentMenuOpts = mOpts.currentMenuOpts;
