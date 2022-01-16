@@ -10,6 +10,9 @@
         <select-picker :pType="accessTypeReference" :dialogKey="this.dKey" :label="accessTypeLabel" :options="accessTypeOptions" :currentValues="this.cardContent" @configSelected="configSelected"></select-picker>
       </span>
       <span>
+        <text-area-field :pType="keywordTypeReference" :dialogKey="this.dKey" :label="keywordLabelLabel" :currentValues="this.cardContent" @configSelected="configSelected"></text-area-field>
+      </span>
+      <span>
         <input-checkbox :pType="indexTypeReference" :dialogKey="this.dKey" :label="indexLabel" :options="accessTypeOptions" :currentValues="this.cardContent" @configSelected="configSelected"></input-checkbox>
       </span>
       <span class="submitButton">
@@ -21,13 +24,14 @@
 <script>
 import textField from "@/components/textField";
 import inputCheckbox from "@/components/inputCheckbox"
+import textAreaField from "@/components/textAreaField"
 
 
 import selectPicker from "@/components/selectPicker";
 import CardBase from "@/components/CardBase";
 export default {
 name: "MetaDataDialog",
-  components: {selectPicker, inputCheckbox, textField},
+  components: {selectPicker, inputCheckbox, textField, textAreaField},
   extends: CardBase,
   mounted(){
     this.loadOptions();
@@ -72,6 +76,10 @@ name: "MetaDataDialog",
           this.accessType = msg[1];
           break;
         }
+        case 'keyWords':{
+          this.keyWords = msg[1];
+          break;
+        }
         case 'checkbox': {
           if (msg[1] == 'activated') {
             this.indexFile = 1;
@@ -89,6 +97,7 @@ name: "MetaDataDialog",
       metaDataEntered['documentType']= this.documentType;
       metaDataEntered['accessType']=this.accessType;
       metaDataEntered['indexFile']=this.indexFile;
+      metaDataEntered['keyWords']=this.keyWords;
       this.$emit('metaDataEntered', metaDataEntered);
     }
 
@@ -100,7 +109,10 @@ name: "MetaDataDialog",
       inputFieldLabel: 'Card Name:',
       inputFieldReference: 'card_name',
       documentTypeReference:'documentType',
+      keywordTypeReference: 'keywords',
       documentTypeLabel: 'Document Type:',
+      keywordLabelLabel: 'Key Words:',
+      keyWords:'',
       documentTypeOptions:[],
       accessTypeReference:'accessType',
       accessTypeLabel:'Access:',
