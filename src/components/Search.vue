@@ -2,11 +2,11 @@
   <span class="searchComponent">
     <span>
       <span class="searchBox">
-        <text-area-field class="searchBox" :pType="searchTypeReference"  :label="searchLabel" :currentValues="this.cardContent" :backgroundColor = "searchBackground" @configSelected="configSelected"></text-area-field>
+        <text-area-field class="searchBox" :pType="searchTypeReference"  :label="searchLabel" :currentValues="this.cardContent" :backgroundColor = "searchBackground" @configSelected="entry"></text-area-field>
       </span>
     </span>
     <span></span>
-  <span class="searchButton"><o-button>Search</o-button></span>
+  <span class="searchButton"><o-button @click="submitQuery">Search</o-button></span>
 
   </span>
 
@@ -14,6 +14,7 @@
 
 <script>
 import textAreaField from "@/components/textAreaField"
+import axios from "axios";
 export default {
 name: "Search",
   components:{textAreaField},
@@ -21,7 +22,8 @@ name: "Search",
     return {
       searchTypeReference:'searchQuery',
       searchLabel:'Look For:',
-      searchBackground:'#ffffff'
+      searchBackground:'#ffffff',
+      searchQuery:''
     }
   },
   props:{
@@ -30,6 +32,27 @@ name: "Search",
       required: true
     },
   },
+  methods:{
+    entry(msg){
+      console.log('search:', msg);
+      this.searchQuery = msg[1];
+    },
+    submitQuery(){
+      axios.get('http://localhost:8000/api/shan/solrSimpleQuery?XDEBUG_SESSION_START=14668', {
+        params:{
+          orgId:this.$store.getters.getOrgId,
+          query:this.searchQuery
+        }
+      })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(e => {
+        console.log(e,'search query failed');
+      });
+
+    }
+  }
 
 }
 </script>
