@@ -2,7 +2,7 @@
   <section class="labelPlusInput">
       <span  class="labelStyle">{{label}} </span>
       <span class="textAreaStyle">
-          <o-input v-model='keyWords' @blur='textEntered' type="textarea"></o-input>
+          <o-input v-model='fieldContent' @input='textEntered' type="textarea"></o-input>
       </span>
   </section>
 
@@ -12,11 +12,13 @@
 export default {
 name: "textAreaField",
   mounted(){
-    this.keyWords = this.getCurrentValue();
+    this.fieldContent = this.getCurrentValue();
+    let root = document.documentElement;
+    root.style.setProperty('--fieldBackground', this.backgroundColor);
   },
   data(){
     return {
-      keyWords:''
+      fieldContent:''
     }
   },
   props:{
@@ -43,11 +45,15 @@ name: "textAreaField",
     textStyle:{
       type: String,
       required: true
+    },
+    backgroundColor:{
+      type: String,
+      required: true
     }
   },
   methods:{
     textEntered(){
-      this.$emit('configSelected', ['keyWords', this.keyWords]);
+      this.$emit('configSelected', [this.pType, this.fieldContent]);
     },
     getCurrentValue(){
 //        debugger;
@@ -63,8 +69,9 @@ name: "textAreaField",
 
 <style scoped>
 section {
-  --oruga-input-background-color: #DBAA6E;
+  --oruga-input-background-color: var(--fieldBackground);
   --oruga-input-max-width:80%;
+  --oruga-input-textarea-max-height:50px;
 }
 .labelPlusInput {
   display:grid;

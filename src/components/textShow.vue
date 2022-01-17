@@ -281,10 +281,10 @@ export default {
       this.content.accessType=msg.accessType;
       this.cardContent.documentType=msg.documentType;
       this.cardContent.accessType=msg.accessType;
-//    why are we updateing content - should be cardContent ?? but seems to work
       this.content.indexFile=msg.indexFile;
       this.cardContent.indexFile=msg.indexFile;
       this.cardContent.keyWords=msg.keyWords;
+      this.content.keyWords = msg.keyWords;
       var mOpts = this.getMenuOpts('richTextOpen');
       this.currentMenuOpts = mOpts.currentMenuOpts;
       this.mode=this.RICH_TEXT_EDITOR;

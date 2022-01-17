@@ -105,6 +105,10 @@
              :cmdObjectVersion="cmdObjectVersion"
              :cmd = cmd
         ></pdf>
+        <Search v-if="cardType=='Search'"
+                :cardContent="cardContent"
+
+        ></Search >
         <Document v-if="cardType=='Document'"
                  @cardClick="processCardClick"
                  @ghostCard="ghostCard"
@@ -147,11 +151,12 @@
   import archive from "../components/archive.vue";
   import Document from "../components/Document2.vue";
   import pdf from "../components/pdf.vue";
+  import Search from "../components/Search.vue";
 
   export default {
     name: "genericCard",
     extends: GenericCardBase,
-    components: {GreenComponent, textShow, linkMenu, loginLink, youTube, archive, Document, pdf},
+    components: {GreenComponent, textShow, linkMenu, loginLink, youTube, archive, Document, pdf, Search},
     props: {
       cardType: {
         type: String,

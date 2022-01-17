@@ -10,7 +10,7 @@
         <select-picker :pType="accessTypeReference" :dialogKey="this.dKey" :label="accessTypeLabel" :options="accessTypeOptions" :currentValues="this.cardContent" @configSelected="configSelected"></select-picker>
       </span>
       <span>
-        <text-area-field :pType="keywordTypeReference" :dialogKey="this.dKey" :label="keywordLabelLabel" :currentValues="this.cardContent" @configSelected="configSelected"></text-area-field>
+        <text-area-field :pType="keywordTypeReference" :dialogKey="this.dKey" :label="keywordLabelLabel" :currentValues="this.cardContent" :backgroundColor = "metaBackgrouond" @configSelected="configSelected"></text-area-field>
       </span>
       <span>
         <input-checkbox :pType="indexTypeReference" :dialogKey="this.dKey" :label="indexLabel" :options="accessTypeOptions" :currentValues="this.cardContent" @configSelected="configSelected"></input-checkbox>
@@ -109,7 +109,7 @@ name: "MetaDataDialog",
       inputFieldLabel: 'Card Name:',
       inputFieldReference: 'card_name',
       documentTypeReference:'documentType',
-      keywordTypeReference: 'keywords',
+      keywordTypeReference: 'keyWords',
       documentTypeLabel: 'Document Type:',
       keywordLabelLabel: 'Key Words:',
       keyWords:'',
@@ -122,6 +122,7 @@ name: "MetaDataDialog",
       indexTypeReference:'indexFile',
       indexFile:false,
       cardNameStyling: 'font-family:Geneva;font-size:12px;font-style:normal;font-weight:bold;',
+      metaBackgrouond: '#DBAA6E'
 
     }
   }
