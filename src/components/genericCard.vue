@@ -107,6 +107,7 @@
         ></pdf>
         <Search v-if="cardType=='Search'"
                 :cardContent="cardContent"
+                :displayStatus = displayStatus
 
         ></Search >
         <Document v-if="cardType=='Document'"

@@ -1,10 +1,13 @@
 <template>
   <span class="searchComponent">
-    <span>
+    <div class="cardHeader" v-if="showOptions==true">
+      <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
+    </div>
+    <div>
       <span class="searchBox">
         <text-area-field class="searchBox" :pType="searchTypeReference"  :label="searchLabel" :currentValues="this.cardContent" :backgroundColor = "searchBackground" @configSelected="entry"></text-area-field>
       </span>
-    </span>
+    </div>
     <span></span>
   <span class="searchButton"><o-button @click="submitQuery">Search</o-button></span>
 
@@ -15,20 +18,38 @@
 <script>
 import textAreaField from "@/components/textAreaField"
 import axios from "axios";
+import CardBase from "@/components/CardBase";
+import menuOpt from "../components/menuOptV2.vue";
 export default {
 name: "Search",
-  components:{textAreaField},
+  components:{textAreaField, menuOpt},
+  extends: CardBase,
+  mounted(){
+    if(this.displayStatus==true){
+      this.showOptions=false;
+    }else{
+      this.showOptions=true;
+    }
+    this.cardData=this.cardContent.cardText;
+    var mOpts = this.getMenuOpts('entryMenu');
+    this.currentMenuOpts = mOpts.currentMenuOpts;
+  },
   data(){
     return {
       searchTypeReference:'searchQuery',
       searchLabel:'Look For:',
       searchBackground:'#ffffff',
-      searchQuery:''
+      searchQuery:'',
+      showOptions: false,
     }
   },
   props:{
     cardContent:{
       type: Object,
+      required: true
+    },
+    displayStatus: {
+      type: Boolean,
       required: true
     },
   },
@@ -67,7 +88,15 @@ name: "Search",
 .searchComponent {
   width:100%;
   display:grid;
-  grid-template-rows: 20% 80%;
-
+  grid-template-rows: 10% 20% 80%;
+}
+.cardHeader {
+  color: blue;
+  height: 100%;
+  background-color: #fff722;
+  font-family: Geneva;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: bold;
 }
 </style>
