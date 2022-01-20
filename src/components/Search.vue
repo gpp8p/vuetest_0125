@@ -31,7 +31,7 @@ name: "Search",
       this.showOptions=true;
     }
     this.cardData=this.cardContent.cardText;
-    var mOpts = this.getMenuOpts('entryMenu');
+    var mOpts = this.getMenuOpts('entryMenuSearch');
     this.currentMenuOpts = mOpts.currentMenuOpts;
   },
   data(){
@@ -50,6 +50,10 @@ name: "Search",
     },
     displayStatus: {
       type: Boolean,
+      required: true
+    },
+    cardId: {
+      type: String,
       required: true
     },
   },
@@ -72,6 +76,28 @@ name: "Search",
         console.log(e,'search query failed');
       });
 
+    },
+
+    menuOptSelected(msg){
+      console.log(msg);
+      switch(msg){
+        case 'exitEdit':{
+          this.$router.push({
+            name: 'displayLayout',
+            params: { layoutId: this.$store.getters.getCurrentLayoutId }
+          })
+          break;
+        }
+        case 'Configure':{
+          this.configureClicked('textShow');
+          break;
+        }
+        case 'Resize':{
+          this.$emit('ghostCard');
+          break;
+        }
+
+      }
     }
   }
 

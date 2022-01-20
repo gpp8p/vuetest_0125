@@ -598,7 +598,7 @@
             });
       },
       configureClicked(cardType) {
-//      debugger;
+      debugger;
         this.styling={};
         this.loadCardConfiguration(this.cardId);
         this.dialog=true;
@@ -910,6 +910,19 @@
               currentMenuSelection: 'Configure'
             }
           }
+          case'entryMenuSearch':{
+            return {
+              currentMenuOpts:[
+                ['Configure','Configure'],
+                ['Resize/Move', 'Resize'],
+                ['Del','DeleteCard'],
+                ['Edit', 'Edit'],
+                ['Exit', 'exitEdit']
+              ],
+              currentMenuSelection: 'Configure'
+            }
+          }
+
         }
       },
 

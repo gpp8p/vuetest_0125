@@ -108,7 +108,15 @@
         <Search v-if="cardType=='Search'"
                 :cardContent="cardContent"
                 :displayStatus = displayStatus
-
+                :card-id=cardId
+                @cardClick="processCardClick"
+                @configSelected="configSelected"
+                @textEditor="textEditor"
+                @configurationHasBeenSaved="configurationHasBeenSaved"
+                @cardDataLoaded="cardDataLoaded"
+                @cardPropertySet="cardPropertySet"
+                @ghostCard="ghostCard"
+                ref="cardKey"
         ></Search >
         <Document v-if="cardType=='Document'"
                  @cardClick="processCardClick"
@@ -240,7 +248,7 @@
     },
     methods: {
       processClick(msg){
-//        debugger;
+        debugger;
         if(this.hasChildern(this.$refs)){
           console.log('hasChildern is true');
         }else{
@@ -260,7 +268,7 @@
         console.log('editMethod from', this.cardPosition);
       },
       ghostCard(){
-//        debugger;
+        debugger;
         this.$emit('ghostCard', [this.cardPosition, this.cardId]);
         this.ghost=true;
       },
