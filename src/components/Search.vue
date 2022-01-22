@@ -4,25 +4,26 @@
       <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
     </div>
     <div>
-      <span class="searchBox">
-        <text-area-field class="searchBox" :pType="searchTypeReference"  :label="searchLabel" :currentValues="this.cardContent" :backgroundColor = "searchBackground" @configSelected="entry"></text-area-field>
+      <span >
+        <search-box class="searchBox" :label="searchLabel" :inputSize="searchBoxSize" @search="submitQuery"  ></search-box>
       </span>
     </div>
-    <span></span>
-  <span class="searchButton"><o-button @click="submitQuery">Search</o-button></span>
+
+
 
   </span>
 
 </template>
 
 <script>
-import textAreaField from "@/components/textAreaField"
+//import textAreaField from "@/components/textAreaField"
 import axios from "axios";
 import CardBase from "@/components/CardBase";
 import menuOpt from "../components/menuOptV2.vue";
+import SearchBox from "@/components/searchBox";
 export default {
 name: "Search",
-  components:{textAreaField, menuOpt},
+  components:{SearchBox, menuOpt},
   extends: CardBase,
   mounted(){
     if(this.displayStatus==true){
@@ -41,6 +42,7 @@ name: "Search",
       searchBackground:'#ffffff',
       searchQuery:'',
       showOptions: false,
+      searchBoxSize:30
     }
   },
   props:{
@@ -58,15 +60,11 @@ name: "Search",
     },
   },
   methods:{
-    entry(msg){
-      console.log('search:', msg);
-      this.searchQuery = msg[1];
-    },
-    submitQuery(){
+    submitQuery(msg){
       axios.get('http://localhost:8000/api/shan/solrSimpleQuery?XDEBUG_SESSION_START=14668', {
         params:{
           orgId:this.$store.getters.getOrgId,
-          query:this.searchQuery
+          query:msg
         }
       })
       .then(response => {
@@ -109,7 +107,7 @@ name: "Search",
   padding: 10px;
 }
 .searchButton {
-  margin-left: 20%;
+  margin-left: 22%;
 }
 .searchComponent {
   width:100%;

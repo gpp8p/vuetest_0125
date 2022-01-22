@@ -2,7 +2,7 @@
   <section class="labelPlusInput">
       <span  class="labelStyle">{{label}} </span>
       <span class="textAreaStyle">
-          <o-input v-model='fieldContent' @input='textEntered' type="textarea"></o-input>
+          <o-input v-model='fieldContent' @input='textEntered' type = "textarea"></o-input>
       </span>
   </section>
 

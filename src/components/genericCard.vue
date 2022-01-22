@@ -248,7 +248,7 @@
     },
     methods: {
       processClick(msg){
-        debugger;
+//        debugger;
         if(this.hasChildern(this.$refs)){
           console.log('hasChildern is true');
         }else{
