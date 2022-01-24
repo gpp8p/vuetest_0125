@@ -5,7 +5,7 @@
     </div>
     <div>
       <span >
-        <search-box class="searchBox" :label="searchLabel" :inputSize="searchBoxSize" @search="submitQuery"  ></search-box>
+        <search-box class="searchBox"  :inputSize="searchBoxSize" @search="submitQuery"  ></search-box>
       </span>
     </div>
 
@@ -42,7 +42,7 @@ name: "Search",
       searchBackground:'#ffffff',
       searchQuery:'',
       showOptions: false,
-      searchBoxSize:30
+      searchBoxSize:25
     }
   },
   props:{

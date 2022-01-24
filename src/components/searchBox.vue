@@ -1,9 +1,23 @@
 <template>
-  <section class="inputPlusLabel">
-    <span  class="labelStyle"><o-button @click="submitSearch" :size="small">Search</o-button></span>
-    <span>
-      <input class="inputStyle" type="text" :maxlength="inputSize" v-model="fieldContent" />
+  <section class="searchBox">
+    <span class="inputPlusLabel">
+      <span  class="labelStyle"><o-button @click="submitSearch" :size="small">Search</o-button></span>
+      <span>
+        <input class="inputStyle" type="text" :maxlength="128" size="this.inputSize" v-model="fieldContent" />
+      </span>
     </span>
+    <span>
+      <span class="radioItem">
+          <o-radio v-model="this.currentSearchMode" name="searchType" @input="searchTypeSelected" native-value="search">
+            Search Rslts.
+          </o-radio>
+          <o-radio v-model="this.currentSearchMode" name="searchType" @input="searchTypeSelected" native-value="links">
+            Links
+          </o-radio>
+
+        </span>
+    </span>
+
   </section>
 
 </template>
@@ -12,47 +26,76 @@
 export default {
 name: "searchBox",
   props:{
-    label:{
-      type: String,
-      required: true
-    },
     inputSize:{
       type: Number,
       required: true
+    },
+    displayMode:{
+      type: String,
+      required: true
+    }
+  },
+  mounted(){
+    this.currentSearchMode = this.displayMode;
+  },
+  watch :{
+    displayMode: function(){
+      this.currentSearchMode = this.displayMode;
     }
   },
   data(){
     return {
-      fieldContent:''
+      fieldContent:'',
+      currentSearchMode:''
     }
   },
   methods:{
     submitSearch(){
       this.$emit('search',this.fieldContent);
+    },
+    searchTypeSelected(msg){
+      console.log(msg);
+      this.currentSearchMode = msg;
+      this.$emit('searchTypeSelected', this.currentSearchMode);
     }
   }
 }
 </script>
 
 <style scoped>
+.searchBox {
+  display:grid;
+  grid-template-rows: 50% 50%;
+}
+
 .inputStyle {
   background: #DBAA6E;
-  color:blue;
+  color: blue;
   font-weight: bold;
   font-size: 12px;
-  margin-bottom: 3px;
-  width:100%;
+  margin-left: 25%;
+  width: 80%;
 
 }
+.radioItem {
+  font-size: 12px;
+  margin-right: 5px;
+  font-weight: normal;
+  display:grid;
+  grid-template-columns: 50% 50%;
+}
+
 
 .labelStyle{
   font-family: Arial;
   font-size: medium;
   color: #0a3aff;
+  margin-top: 5px;
 }
 .inputPlusLabel {
   display:grid;
   margin-top: 3px;
-  grid-template-columns: 25% 75%;
+  grid-template-columns: 20% 80%;
+
 }
 </style>

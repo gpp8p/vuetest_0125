@@ -10,8 +10,12 @@
        {{ this.cardContent.linkMenuTitle }}
       </span>
 
-      <div v-bind:style='subStyle'>
+      <div v-bind:style='subStyle' v-if="this.mode==this.LINK_MENU_LINK_MODE">
         <span v-if="this.cardContent.orient=='vertical'" >
+          <span >
+            <search-box class="searchBox"  :inputSize="searchBoxSize" :displayMode="this.searchMode" @search="submitSearchQuery" @searchTypeSelected = "searchTypeSelected"  ></search-box>
+          </span>
+
           <ul>
             <m-link v-for="(link, index) in this.cardContent.availableLinks"
                     :key="index"
@@ -24,32 +28,33 @@
           </ul>
         </span>
         <span v-if="this.cardContent.orient=='horozontal'" class="flex-container">
-            <m-link-hz v-for="(link, index) in this.cardContent.availableLinks"
-                    :key="index"
-                    :description="link.description"
-                    :target="link.layout_link_to"
-                    :is_external="link.is_external"
-                    @linkSelected="linkSelected"
-            />
+                  <m-link-hz v-for="(link, index) in this.cardContent.availableLinks"
+                             :key="index"
+                             :description="link.description"
+                             :target="link.layout_link_to"
+                             :is_external="link.is_external"
+                             @linkSelected="linkSelected"
+                  />
         </span>
       </div>
-    </div>
-    <div class="cardStyle" v-if="this.editStatus==true">
-      <div class="cardHeader" v-if="displayStatus==false">
-        <span>
-          <a href="#" v-on:click="configureClicked" >Configure</a>
+      <div v-bind:style='subStyle' v-if="this.mode==this.LINK_MENU_SEARCH_MODE">
+        <span >
+            <search-box class="searchBox"  :inputSize="searchBoxSize" :displayMode="this.searchMode" @search="submitSearchQuery" @searchTypeSelected = "searchTypeSelected" ></search-box>
         </span>
-        <span>
-          <a href="#"  v-on:click="editClicked" >Edit</a>
-        </span>
+        <ul>
+          <search-result-link v-for="(result, index) in this.searchResults"
+                              :key="index"
+                              :description="result.description"
+                              :target="result.id"
+                              @linkSelected="linkSelected"
+          />
+        </ul>
       </div>
-      <span>
-        <textarea type="textarea" v-model="cardTitle" width="100%"></textarea>
-        <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
-      </span>
 
 
     </div>
+
+
   </div>
 </template>
 
@@ -59,10 +64,12 @@ import CardBase from "../components/CardBase.vue";
 import menuOpt from "../components/menuOptV2.vue";
 import mLink from "../components/mLink.vue";
 import mLinkHz from "../components/mLinkHz.vue"
+import searchResultLink from "../components/searchResultLink.vue"
+import SearchBox from "@/components/searchBox";
 import axios from "axios";
 export default {
   name: "linkMenu",
-  components: {menuOpt, mLink, mLinkHz},
+  components: {menuOpt, mLink, mLinkHz, SearchBox, searchResultLink},
   extends: CardBase,
   props: {
     cardStyle: {
@@ -187,7 +194,12 @@ export default {
         sub:{}
       },
 
-
+      mode:0,
+      LINK_MENU_LINK_MODE:0,
+      LINK_MENU_SEARCH_MODE:1,
+      searchBoxSize:18,
+      searchResults:[],
+      searchMode: 'links',
 
       cardSubConfig:{},
       content: {},
@@ -403,6 +415,39 @@ export default {
         var thisProp = this.cardProperties.substr(colonDelimiterLocatedAt+1);
         return thisProp;
       }
+    },
+    submitSearchQuery(msg) {
+      axios.get('http://localhost:8000/api/shan/solrSimpleQuery?XDEBUG_SESSION_START=14668', {
+        params: {
+          orgId: this.$store.getters.getOrgId,
+          query: msg
+        }
+      })
+          .then(response => {
+            console.log(response);
+            this.mode = this.LINK_MENU_SEARCH_MODE;
+            this.searchMode = 'search';
+            this.searchResults = response.data;
+          })
+          .catch(e => {
+            console.log(e, 'search query failed');
+          });
+    },
+
+    searchTypeSelected(msg){
+      console.log('searchTypeSelected', msg);
+      debugger;
+      this.searchMode = msg;
+      switch(msg){
+          case 'links':{
+            this.mode = this.LINK_MENU_LINK_MODE;
+            break;
+          }
+          case 'search':{
+            this.mode = this.LINK_MENU_SEARCH_MODE;
+            break;
+          }
+      }
     }
   }
 };
@@ -465,6 +510,10 @@ textarea {
   align-items: baseline;
   margin-top: 6px;
 
+}
+
+.searchBox{
+  padding: 10px;
 }
 
 </style>
