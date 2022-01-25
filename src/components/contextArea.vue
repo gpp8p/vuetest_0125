@@ -34,6 +34,7 @@
         methods: {
             goBack(){
 //                debugger;
+                sessionStorage.setItem('linkSelected', 0);
                 console.log('goBack()')
                 var thisStringLayoutIdStack = sessionStorage.getItem('layoutIdStack');
 //                debugger;

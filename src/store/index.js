@@ -18,7 +18,11 @@ export default new Vuex.Store({
             layoutIdStack:[],
             currentLayoutId:0,
             directLoginLink:0,
-            register: false
+            register: false,
+            queryState:0,
+            recentQuery:'',
+            linkSelected:0
+
         }
     },
     getters:{
@@ -58,6 +62,15 @@ export default new Vuex.Store({
         getDirectLoginLink(state){
             return state.credentials.directLoginLink
         },
+        getQueryState(state){
+            return state.credentials.queryState
+        },
+        getRecentQuery(state){
+            return state.credentials.recentQuery
+        },
+        getLinkSelected(state){
+            return state.credentials.linkSelected
+        }
 /*
         getRegister(state){
             return state.credentials.register
@@ -102,6 +115,15 @@ export default new Vuex.Store({
         setDirectLoginLink(state, directLoginLink){
             state.credentials.directLoginLink = directLoginLink;
         },
+        setQueryState(state, queryState){
+            state.credentials.queryState = queryState;
+        },
+        setRecentQuery(state, recentQuery){
+            state.credentials.recentQuery = recentQuery;
+        },
+        setLinkSelected(state, linkSelected){
+            state.credentials.linkSelected = linkSelected;
+        }
 /*
         setRegister(state, registerState){
             state.credentials.register = registerState;
