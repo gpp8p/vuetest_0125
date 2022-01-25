@@ -1,7 +1,7 @@
 <template>
   <span >
     <span v-if="this.is_external==0" @click="linkSelected">
-      <span v-if="this.linkIsSelected==true" class="greenColor">
+      <span v-if="this.linkIsSelected==true" class="selectedColor">
               <li >{{description}}</li>
       </span>
       <span v-if="this.linkIsSelected==false" class="blueColor">
@@ -79,10 +79,10 @@ mounted(){
 
 <style scoped>
 li:hover {
-  color:red;
+  color:green;
 }
-.greenColor {
-  color: green;
+.selectedColor {
+  color: red;
 }
 .blueColor {
   color:blue;
