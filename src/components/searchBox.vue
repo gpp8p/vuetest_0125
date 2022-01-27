@@ -33,14 +33,29 @@ name: "searchBox",
     displayMode:{
       type: String,
       required: true
+    },
+    existingQuery:{
+      type: String,
+      required: true
     }
   },
   mounted(){
+    debugger;
+    console.log('searchBox existingQuery-', this.existingQuery, this.existingQuery.length);
     this.currentSearchMode = this.displayMode;
+    if(this.existingQuery.length>0){
+      this.fieldContent=this.existingQuery;
+    }else{
+      this.fieldContent='';
+    }
   },
   watch :{
     displayMode: function(){
       this.currentSearchMode = this.displayMode;
+    },
+    existingQuery: function(){
+      this.fieldContent = this.existingQuery;
+      this.$emit('search',this.fieldContent);
     }
   },
   data(){

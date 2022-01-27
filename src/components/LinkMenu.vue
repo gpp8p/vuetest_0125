@@ -13,7 +13,7 @@
       <div v-bind:style='subStyle' v-if="this.mode==this.LINK_MENU_LINK_MODE">
         <span v-if="this.cardContent.orient=='vertical'" >
           <span >
-            <search-box class="searchBox"  :inputSize="searchBoxSize" :displayMode="this.searchMode" @search="submitSearchQuery" @searchTypeSelected = "searchTypeSelected"  ></search-box>
+            <search-box class="searchBox" :existingQuery="this.currentQuery" :inputSize="searchBoxSize" :displayMode="this.searchMode" @search="submitSearchQuery" @searchTypeSelected = "searchTypeSelected"  ></search-box>
           </span>
 
           <ul>
@@ -39,7 +39,7 @@
       </div>
       <div v-bind:style='subStyle' v-if="this.mode==this.LINK_MENU_SEARCH_MODE">
         <span >
-            <search-box class="searchBox"  :inputSize="searchBoxSize" :displayMode="this.searchMode" @search="submitSearchQuery" @searchTypeSelected = "searchTypeSelected" ></search-box>
+            <search-box class="searchBox"  :inputSize="searchBoxSize" :existingQuery="this.currentQuery" :displayMode="this.searchMode" @search="submitSearchQuery" @searchTypeSelected = "searchTypeSelected" ></search-box>
         </span>
         <ul>
           <search-result-link v-for="(result, index) in this.searchResults"
@@ -118,12 +118,22 @@ export default {
     }
   },
   mounted(){
-      debugger;
+//      debugger;
       if (typeof(this.elementStyles) === 'undefined'){
         this.subStyle = '';
       }else{
         this.subStyle = this.elementStyles.sub[0];
       }
+      debugger;
+      var existingQuery = '';
+      console.log('activeQuery - ', sessionStorage.getItem('searchActive'), sessionStorage.getItem('searchQuery'));
+      if(sessionStorage.getItem('searchActive')=='true'){
+        existingQuery =sessionStorage.getItem('searchQuery');
+        console.log('existingQuery - ', existingQuery);
+      }
+      this.currentQuery = existingQuery;
+
+
 
 
       console.log('cardContent=',this.cardContent);
@@ -212,6 +222,8 @@ export default {
       subStyleChange:0,
       showOptions: false,
       currentMenuOpts: ['Save', 'Cancel'],
+
+      currentQuery:'',
       /*
             configurationCurrentValues:{
               "backgroundTypeColor":'checked',
@@ -417,6 +429,9 @@ export default {
       }
     },
     submitSearchQuery(msg) {
+      sessionStorage.setItem('searchQuery', msg);
+      sessionStorage.setItem('searchActive', true);
+      this.existingQuery = msg;
       axios.get('http://localhost:8000/api/shan/solrSimpleQuery?XDEBUG_SESSION_START=14668', {
         params: {
           orgId: this.$store.getters.getOrgId,

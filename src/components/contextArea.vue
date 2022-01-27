@@ -35,6 +35,9 @@
             goBack(){
 //                debugger;
                 sessionStorage.setItem('linkSelected', 0);
+                sessionStorage.setItem('searchQuery', '');
+                sessionStorage.setItem('searchActive', false);
+
                 console.log('goBack()')
                 var thisStringLayoutIdStack = sessionStorage.getItem('layoutIdStack');
 //                debugger;
