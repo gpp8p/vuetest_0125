@@ -300,6 +300,8 @@ export default {
       this.cardContent.indexFile=msg.indexFile;
       this.cardContent.keyWords=msg.keyWords;
       this.content.keyWords = msg.keyWords;
+      this.cardContent.createDate = msg.createDate;
+      this.content.createDate = msg.createDate;
       var mOpts = this.getMenuOpts('richTextOpen');
       this.currentMenuOpts = mOpts.currentMenuOpts;
       this.mode=this.RICH_TEXT_EDITOR;

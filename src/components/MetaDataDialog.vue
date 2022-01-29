@@ -4,6 +4,9 @@
         <text-field :p-type="inputFieldReference" :dialogKey="this.dKey" :label="inputFieldLabel" :currentValues="this.cardContent" :textStyle="this.cardNameStyling"></text-field>
       </span>
       <span>
+        <date-field field :pType="dateTypeReference" :dialogKey="this.dKey" :label="dateLabel" :currentValues="this.cardContent" :backgroundColor = "metaBackgrouond" @configSelected="configSelected"></date-field>
+      </span>
+      <span>
         <select-picker :pType="documentTypeReference" :dialogKey="this.dKey" :label="documentTypeLabel" :options="documentTypeOptions" :currentValues="this.cardContent" @configSelected="configSelected"></select-picker>
       </span>
       <span>
@@ -25,13 +28,14 @@
 import textField from "@/components/textField";
 import inputCheckbox from "@/components/inputCheckbox"
 import textAreaField from "@/components/textAreaField"
+import dateField from "@/components/dateField"
 
 
 import selectPicker from "@/components/selectPicker";
 import CardBase from "@/components/CardBase";
 export default {
 name: "MetaDataDialog",
-  components: {selectPicker, inputCheckbox, textField, textAreaField},
+  components: {selectPicker, inputCheckbox, textField, textAreaField, dateField},
   extends: CardBase,
   mounted(){
     this.loadOptions();
@@ -86,7 +90,11 @@ name: "MetaDataDialog",
           } else {
             this.indexFile = 0;
           }
-
+          break;
+        }
+        case 'createDate':{
+          this.createDate = msg[1];
+          break;
         }
       }
       console.log(msg);
@@ -98,6 +106,7 @@ name: "MetaDataDialog",
       metaDataEntered['accessType']=this.accessType;
       metaDataEntered['indexFile']=this.indexFile;
       metaDataEntered['keyWords']=this.keyWords;
+      metaDataEntered['createDate']=this.createDate;
       this.$emit('metaDataEntered', metaDataEntered);
     }
 
@@ -113,6 +122,10 @@ name: "MetaDataDialog",
       documentTypeLabel: 'Document Type:',
       keywordLabelLabel: 'Key Words:',
       keyWords:'',
+      dateLabel:'Created On:',
+      dateTypeReference:'createDate',
+      createDate:'',
+
       documentTypeOptions:[],
       accessTypeReference:'accessType',
       accessTypeLabel:'Access:',
