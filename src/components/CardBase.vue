@@ -624,7 +624,7 @@
               console.log(response);
               this.documentTypeOptions = [];
               this.fileTypeOptions = [];
-              this.accessTypeOptions = []
+              this.accessTypeOptions = [];
               response.data.documentTypes.forEach((val, index) => {
                 console.log('Index: ' + index + ' Value: ' + val.document_type);
                 this.documentTypeOptions.push(val.document_type);

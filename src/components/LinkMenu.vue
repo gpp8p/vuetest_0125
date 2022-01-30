@@ -13,19 +13,47 @@
       <div v-bind:style='subStyle' v-if="this.mode==this.LINK_MENU_LINK_MODE">
         <span v-if="this.cardContent.orient=='vertical'" >
           <span >
-            <search-box class="searchBox" :existingQuery="this.currentQuery" :inputSize="searchBoxSize" :displayMode="this.searchMode" @search="submitSearchQuery" @searchTypeSelected = "searchTypeSelected"  ></search-box>
+            <search-box class="searchBox" :existingQuery="this.currentQuery" :inputSize="searchBoxSize" :displayMode="this.searchMode" @search="submitSearchQuery" @searchTypeSelected = "searchTypeSelected" @advancedSearchSelected="advancedSearchSelected" ></search-box>
           </span>
-
-          <ul>
-            <m-link v-for="(link, index) in this.cardContent.availableLinks"
-                    :key="index"
-                    :description="link.description"
-                    :target="link.layout_link_to"
-                    :is_external="link.isExternal"
-                    :link_url="link.link_url"
-                    @linkSelected="linkSelected"
-                    />
-          </ul>
+          <span v-if="this.advancedQuery==false" >
+            <ul>
+              <m-link v-for="(link, index) in this.cardContent.availableLinks"
+                      :key="index"
+                      :description="link.description"
+                      :target="link.layout_link_to"
+                      :is_external="link.isExternal"
+                      :link_url="link.link_url"
+                      @linkSelected="linkSelected"
+              />
+            </ul>
+          </span>
+          <span v-if="this.advancedQuery==true">
+            <span class="verticalLabelCss">
+                <span  class="vLabelCss">Key Words:</span>
+                <span>
+                    <o-input v-model='keyWordSearch' type = "textarea"></o-input>
+                </span>
+            </span>
+            <span class="verticalLabelCss">
+              <span  class="vLabelCss">Type:</span>
+              <select v-model="optSelected" ref="sel" class="selectStyle" @change="optionSelected()">
+                <option value="" disabled selected class="optionStyle">Select</option>
+                <option v-for="(opt, index) in this.documentTypeOptions" :key="index" v-bind:value="opt" :selected="opt==optSelected" class="optionStyle">{{ opt }}</option>
+              </select>
+            </span>
+            <span class="verticalLabelCss">
+              <span  class="vLabelCss">Date From:</span>
+              <span>
+                <input type="date" v-model='fromDate' required pattern="\d{4}-\d{2}-\d{2}" />
+              </span>
+            </span>
+            <span class="verticalLabelCss">
+              <span  class="vLabelCss">Date To:</span>
+              <span>
+                <input type="date" v-model='toDate' required pattern="\d{4}-\d{2}-\d{2}" />
+              </span>
+            </span>
+          </span>
         </span>
         <span v-if="this.cardContent.orient=='horozontal'" class="flex-container">
                   <m-link-hz v-for="(link, index) in this.cardContent.availableLinks"
@@ -126,6 +154,7 @@ export default {
       }
       debugger;
       var existingQuery = '';
+      this.loadOptions();
       console.log('activeQuery - ', sessionStorage.getItem('searchActive'), sessionStorage.getItem('searchQuery'));
       if(sessionStorage.getItem('searchActive')=='true'){
         existingQuery =sessionStorage.getItem('searchQuery');
@@ -224,6 +253,14 @@ export default {
       currentMenuOpts: ['Save', 'Cancel'],
 
       currentQuery:'',
+      advancedQuery:false,
+      documentTypeOptions:[],
+      fileTypeOptions:[],
+      accessTypeOptions:[],
+      optSelected:'',
+      fromDate:'',
+      toDate:''
+
       /*
             configurationCurrentValues:{
               "backgroundTypeColor":'checked',
@@ -463,6 +500,14 @@ export default {
             break;
           }
       }
+    },
+    advancedSearchSelected(msg){
+      if(msg=='advancedSearch'){
+        this.advancedQuery= true;
+      }else{
+        this.advancedQuery = false;
+      }
+
     }
   }
 };
@@ -515,6 +560,18 @@ textarea {
   font-family: Helvetica;
   font-size: small;
 }
+.verticalLabelCss {
+  display:grid;
+  grid-template-rows: 30% 60%;
+  padding:5px;
+}
+.vLabelCss {
+  color: blue;
+  font-size: 12px;
+  margin-right: 5px;
+  font-weight: normal;
+
+}
 
 
 .flex-container {
@@ -529,6 +586,14 @@ textarea {
 
 .searchBox{
   padding: 10px;
+}
+.selectStyle {
+  background: #DBAA6E;
+  color:blue;
+  font-weight: bold;
+  font-size: 12px;
+  margin-bottom: 3px;
+  width: 60%;
 }
 
 </style>

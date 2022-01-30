@@ -17,6 +17,12 @@
 
         </span>
     </span>
+    <span class="advancedSearchCss" @click = "advancedSearchSelected" v-if="this.advancedSearchShowing==false">
+      Advanced Search
+    </span>
+    <span class="advancedSearchCss" @click = "returnToLinksSelected" v-if="this.advancedSearchShowing==true">
+      Show Links
+    </span>
 
   </section>
 
@@ -61,7 +67,8 @@ name: "searchBox",
   data(){
     return {
       fieldContent:'',
-      currentSearchMode:''
+      currentSearchMode:'',
+      advancedSearchShowing:false
     }
   },
   methods:{
@@ -72,6 +79,15 @@ name: "searchBox",
       console.log(msg);
       this.currentSearchMode = msg;
       this.$emit('searchTypeSelected', this.currentSearchMode);
+    },
+    advancedSearchSelected(){
+      console.log('advanced search selected');
+      this.advancedSearchShowing = true;
+      this.$emit('advancedSearchSelected','advancedSearch');
+    },
+    returnToLinksSelected(){
+      this.advancedSearchShowing = false;
+      this.$emit('advancedSearchSelected','links');
     }
   }
 }
@@ -80,7 +96,7 @@ name: "searchBox",
 <style scoped>
 .searchBox {
   display:grid;
-  grid-template-rows: 50% 50%;
+  grid-template-rows: 40% 40% 20%;
 }
 
 .inputStyle {
@@ -98,6 +114,15 @@ name: "searchBox",
   font-weight: normal;
   display:grid;
   grid-template-columns: 50% 50%;
+}
+.advancedSearchCss {
+  font-size: 12px;
+  margin-right: 5px;
+  font-weight: normal;
+  color:blue;
+}
+.advancedSearchCss:hover {
+  color: red;
 }
 
 
