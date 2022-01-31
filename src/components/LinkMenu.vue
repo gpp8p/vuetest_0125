@@ -257,6 +257,7 @@ export default {
       documentTypeOptions:[],
       fileTypeOptions:[],
       accessTypeOptions:[],
+      keyWordSearch:'',
       optSelected:'',
       fromDate:'',
       toDate:''
@@ -468,11 +469,21 @@ export default {
     submitSearchQuery(msg) {
       sessionStorage.setItem('searchQuery', msg);
       sessionStorage.setItem('searchActive', true);
+      var advancedQueryObjectJson = '';
+      if(this.advancedQuery){
+        var thisAdvancedQueryObject = {};
+            thisAdvancedQueryObject.keyWordSearch= this.keyWordSearch;
+            thisAdvancedQueryObject.optSelected=this.optSelected;
+            thisAdvancedQueryObject.fromDate = this.fromDate.replaceAll('-', '');
+            thisAdvancedQueryObject.toDate = this.toDate.replaceAll('-', '');
+            advancedQueryObjectJson=JSON.stringify(thisAdvancedQueryObject);
+      }
       this.existingQuery = msg;
       axios.get('http://localhost:8000/api/shan/solrSimpleQuery?XDEBUG_SESSION_START=14668', {
         params: {
           orgId: this.$store.getters.getOrgId,
-          query: msg
+          query: msg,
+          advancedQuery: advancedQueryObjectJson
         }
       })
           .then(response => {
