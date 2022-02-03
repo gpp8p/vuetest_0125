@@ -163,6 +163,7 @@ name: "youTube",
       this.content.accessType=msg.accessType;
       this.content.indexFile=msg.indexFile;
       this.content.keyWords = msg.keyWords;
+      this.content.cardType = 'youTube';
       this.cardContent.createDate = msg.createDate;
       this.content.createDate = msg.createDate;
       this.content.ytubeUrl = this.cardContent.ytubeUrl;
