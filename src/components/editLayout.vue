@@ -724,7 +724,7 @@
 //      console.log("reloading" + msg);
 //                debugger;
                 axios
-                    .get("http://localhost:8000/api/shan/getLayout?layoutId=XDEBUG_SESSION_START=15122", {
+                    .get("http://localhost:8000/api/shan/getLayout?layoutId=XDEBUG_SESSION_START=18411", {
                         params: {
                             orgId: this.$store.getters.getOrgId,
                             userId: this.$store.getters.getLoggedInUserId,

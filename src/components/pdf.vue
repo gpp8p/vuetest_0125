@@ -225,6 +225,8 @@ name: "pdf",
       this.content.accessType=msg.accessType;
       this.content.indexFile=msg.indexFile;
       this.content.keyWords = msg.keyWords;
+      this.cardContent.createDate = msg.createDate;
+      this.content.createDate = msg.createDate;
       this.setCardData(this.content, 'saveCardContent', 'main');
       var mOpts = this.getMenuOpts('pdf_file_showing');
       this.currentMenuOpts = mOpts.currentMenuOpts;
