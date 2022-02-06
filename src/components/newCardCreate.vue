@@ -3,7 +3,7 @@
     <span v-if="selectedMenuOption=='Create New Card'" >
       <span class="labelPlusInput">
         <span>Card Name:</span>
-        <input v-model="cardName" size="40"/>
+        <input v-model="cardName" size="40" maxlen="80"/>
       </span>
       <span>
         <select-picker :pType="cardPtypeReference" :dialogKey="this.dKey" :label="cardTypeLabel" :options="cardTypeOptions" :currentValues="currentValues" @configSelected="configSelected"></select-picker>

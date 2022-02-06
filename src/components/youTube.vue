@@ -170,6 +170,8 @@ name: "youTube",
       this.content.spanWidth = this.$refs.ytComponent.parentNode.clientWidth;
       this.content.spanHeight = this.$refs.ytComponent.parentNode.clientHeight;
       this.content.cardType = 'youTube';
+//      debugger;
+      this.updateCardName(this.cardId, msg.cardName);
       this.setCardData(this.content, 'saveCardContent', 'main');
       this.$emit('configSelected',['display'])
     },

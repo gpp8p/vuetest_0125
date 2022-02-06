@@ -1,7 +1,7 @@
 <template>
     <span class="selectDefaults">
-      <span>
-        <text-field :p-type="inputFieldReference" :dialogKey="this.dKey" :label="inputFieldLabel" :currentValues="this.cardContent" :textStyle="this.cardNameStyling"></text-field>
+      <span class="labelPlusInput">
+        <span>{{this.inputFieldLabel}}</span><input type="text" v-model="cardName" size="40" maxlen="80" />
       </span>
       <span>
         <date-field field :pType="dateTypeReference" :dialogKey="this.dKey" :label="dateLabel" :currentValues="this.cardContent" :backgroundColor = "metaBackgrouond" @configSelected="configSelected"></date-field>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import textField from "@/components/textField";
+//mport textField from "@/components/textField";
 import inputCheckbox from "@/components/inputCheckbox"
 import textAreaField from "@/components/textAreaField"
 import dateField from "@/components/dateField"
@@ -35,7 +35,7 @@ import selectPicker from "@/components/selectPicker";
 import CardBase from "@/components/CardBase";
 export default {
 name: "MetaDataDialog",
-  components: {selectPicker, inputCheckbox, textField, textAreaField, dateField},
+  components: {selectPicker, inputCheckbox, textAreaField, dateField},
   extends: CardBase,
   mounted(){
     this.loadOptions();
@@ -51,6 +51,9 @@ name: "MetaDataDialog",
     }
     if(typeof(this.cardContent['accessType'])!=='undefined'){
       this.accessType= this.cardContent['accessType'];
+    }
+    if(typeof(this.cardContent.card_name)!='undefined'){
+      this.cardName = this.cardContent.card_name;
     }
     console.log('metaDataDialog mounted');
   },
@@ -107,6 +110,7 @@ name: "MetaDataDialog",
       metaDataEntered['indexFile']=this.indexFile;
       metaDataEntered['keyWords']=this.keyWords;
       metaDataEntered['createDate']=this.createDate;
+      metaDataEntered['cardName']=this.cardName;
       this.$emit('metaDataEntered', metaDataEntered);
     }
 
@@ -135,7 +139,8 @@ name: "MetaDataDialog",
       indexTypeReference:'indexFile',
       indexFile:false,
       cardNameStyling: 'font-family:Geneva;font-size:12px;font-style:normal;font-weight:bold;',
-      metaBackgrouond: '#DBAA6E'
+      metaBackgrouond: '#DBAA6E',
+      cardName:''
 
     }
   }
@@ -151,6 +156,14 @@ name: "MetaDataDialog",
 }
 .submitButton {
   margin-left: 60%;
+}
+
+.labelPlusInput {
+  display:grid;
+  grid-template-columns: 20% 80%;
+  font-family: Arial;
+  font-size: medium;
+  color: #0a3aff;
 }
 
 </style>

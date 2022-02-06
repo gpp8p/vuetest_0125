@@ -388,6 +388,19 @@
           }
         }
       },
+      updateCardName(cardId, newCardName){
+        debugger;
+        axios.post("http://localhost:8000/api/shan/updateCardName?XDEBUG_SESSION_START=14252", {
+          cardId: cardId,
+          newCardName: newCardName
+        }).then(response=>
+        {
+          console.log(response);
+        }).catch(function(error) {
+          console.log(error);
+        });
+      },
+
       loadCardConfiguration(cardId){
 //        debugger;
         axios
@@ -598,7 +611,7 @@
             });
       },
       configureClicked(cardType) {
-      debugger;
+//      debugger;
         this.styling={};
         this.loadCardConfiguration(this.cardId);
         this.dialog=true;
