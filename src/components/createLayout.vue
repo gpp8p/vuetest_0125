@@ -47,24 +47,12 @@
           <background-picker :currentValues="currentValues" :dialogKey="cmdObjectVersion" :pType="backgroundTypePtype" :noTransparent=true @configSelected="configSelected"></background-picker>
       </span>
      </span>
-      <span class="hzTwopBy">
-        <span class="labelPlusInput">
-          <span>Template:</span>
-          <span>
-            <o-checkbox v-model="template"></o-checkbox>
-          </span>
-        </span>
-
      <span class="labelPlusInput">
-        <span>Child of this Layout:</span>
+        <span>Template:</span>
         <span>
-          <o-checkbox v-model="child"></o-checkbox>
+          <o-checkbox v-model="template"></o-checkbox>
         </span>
       </span>
-
-
-      </span>
-
   </span>
 
 </template>
@@ -90,7 +78,6 @@ name: "createLayout",
       val:'#dbddb0',
       updatedColor:'',
       template:false,
-      child: false,
 
       backgroundImageFile:'',
       backgroundType:'C',
@@ -334,7 +321,6 @@ name: "createLayout",
           backgroundImage: this.backgroundImageFile,
           backgroundDisplay: this.backgroundDisplay,
           template: this.template,
-          child: this.child,
           userId: this.$store.getters.getLoggedInUserId,
           user: this.$store.getters.getLoggedInUser,
           orgId: this.$store.getters.getOrgId
@@ -372,11 +358,7 @@ name: "createLayout",
   font-size: medium;
   color: #0a3aff;
 }
-.hzTwopBy {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 50% 50%;
-}
+
 .colorSpan{
   width: 50px;
 

@@ -277,6 +277,21 @@
                   this.dialogType=this.DIALOG_SELECT_TEMPLATE;
                   break;
                 }
+                case 'copyLayout':{
+  //                debugger;
+                  console.log('copyLayoutSelected');
+//                  console.log(this.$store.getters.getCurrentLayoutDescription);
+//                  console.log(this.$store.getters.getCurrentLayoutLabel);
+                  this.selectedTemplateDescription = this.$store.getters.getCurrentLayoutDescription;
+                  this.selectedTemplateId = this.$store.getters.getCurrentLayoutId;
+                  mOpts = this.getMenuOpts('cloneTemplate');
+                  this.currentMenuOpts = mOpts.currentMenuOpts;
+                  this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+                  this.setTitle('Enter description and label for new layout');
+                  this.dialogType = this.DIALOG_CLONE_TEMPLATE;
+
+                  break;
+                }
                 case 'doCloneTemplate':{
                   console.log('doCloneTemplate matched');
                   this.dialogCmd = 'doCloneTemplate';
@@ -499,7 +514,8 @@
                   return {
                     currentMenuOpts: [
                       ['Cancel', 'Cancel'],
-                      ['Clone Template', 'cloneTemplate'],
+                      ['Copy Template', 'cloneTemplate'],
+                      ['Copy This Layout', 'copyLayout'],
                       ['Save', 'saveSpace']
                     ],
                     currentSelectedMenuOption: 'Cancel'
@@ -517,7 +533,7 @@
                   return {
                     currentMenuOpts: [
                       ['Back', 'backToTemplateSelect'],
-                      ['Clone Template', 'doCloneTemplate'],
+                      ['Copy', 'doCloneTemplate'],
                       ['Cancel', 'Cancel'],
                     ],
                     currentSelectedMenuOption: 'Cancel'

@@ -36,7 +36,7 @@ name: "menuOpt",
   .linkStyle{
     display: flex;
     justify-content: space-evenly;
-    width:100%;
+    width:80%;
   }
   .linkStyleItem {
     color: blue;

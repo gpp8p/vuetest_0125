@@ -21,7 +21,9 @@ export default new Vuex.Store({
             register: false,
             queryState:0,
             recentQuery:'',
-            linkSelected:0
+            linkSelected:0,
+            currentLayoutDescription:'',
+            currentLayoutLabel:''
 
         }
     },
@@ -58,6 +60,12 @@ export default new Vuex.Store({
         },
         getCurrentLayoutId(state){
             return state.credentials.currentLayoutId
+        },
+        getCurrentLayoutDescription(state){
+            return state.credentials.currentLayoutDescription
+        },
+        getCurrentLayoutLabel(state){
+            return state.credentials.currentLayoutLabel
         },
         getDirectLoginLink(state){
             return state.credentials.directLoginLink
@@ -111,6 +119,12 @@ export default new Vuex.Store({
         },
         setCurrentLayoutId(state, currentLayoutId){
             state.credentials.currentLayoutId = currentLayoutId;
+        },
+        setCurrentLayoutDescription(state, currentLayoutDescription){
+            state.credentials.currentLayoutDescription = currentLayoutDescription;
+        },
+        setCurrentLayoutLabel(state, currentLayoutLabel){
+            state.credentials.currentLayoutLabel = currentLayoutLabel;
         },
         setDirectLoginLink(state, directLoginLink){
             state.credentials.directLoginLink = directLoginLink;

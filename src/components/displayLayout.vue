@@ -387,6 +387,8 @@
                     console.log('getLayout-',response);
                     console.log('getLayout content', response.data.cards);
                     this.cardInstances = response.data.cards;
+                    store.commit('setCurrentLayoutDescription', response.data.layout.description);
+                    store.commit('setCurrentLayoutLabel', response.data.layout.menu_label);
                     this.gridParamDefinition = this.layoutGridParameters(
                         response.data.layout.height,
                         response.data.layout.width,
