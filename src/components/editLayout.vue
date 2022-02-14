@@ -586,6 +586,7 @@
                       break;
                     }
                     case 'rtLink':{
+                      console.log('link invoked in editLayout');
                       this.dialogCmd = 'layoutListLink';
                       this.dialogType = this.DIALOG_LAYOUT_LIST;
                       break;

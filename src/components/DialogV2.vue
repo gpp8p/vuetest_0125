@@ -71,6 +71,7 @@
                         @setTitle="setTitle"
                         @clearCmd="clearCmd"
                         @cloneSuccessful="cloneSuccessful"
+                        @cloneSuccessfulReturnToEdit="cloneSuccessfulReturnToEdit"
                         v-if="dialogType==this.DIALOG_CLONE_TEMPLATE"
                         :sourceTemplate = "this.selectedTemplateDescription"
                         :sourceTemplateId = "this.selectedTemplateId"
@@ -715,6 +716,10 @@
             cloneSuccessful(msg){
               console.log("in Dialog2 clone successful",msg);
               this.$emit('cloneSuccessful', msg);
+            },
+            cloneSuccessfulReturnToEdit(msg){
+              console.log('cloneSuccessfulReturnToEdit', msg);
+              this.$emit('configSelected',['layoutSelected', msg]);
             },
             templateSelected(msg){
               console.log('templateSelected = ', msg);

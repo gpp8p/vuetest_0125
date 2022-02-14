@@ -78,8 +78,12 @@ export default {
       })
       .then(response => {
         console.log(response);
-        this.$emit('cloneSuccessful', response.data);
-
+        console.log('route status after makeTemplateClone', this.$route.name);
+        if(this.$route.name == 'edit'){
+          this.$emit('cloneSuccessfulReturnToEdit', response.data);
+        }else{
+          this.$emit('cloneSuccessful', response.data);
+        }
       })
       .catch(e => {
         console.log(e,'- cloneTemplate failed');
