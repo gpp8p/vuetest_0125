@@ -60,7 +60,12 @@
       }else{
         console.log('this is a normal login');
         if(pathArray[0].length>0){
-          store.commit('setDefaultOrg', pathArray[0]);
+          if(pathArray[0]=="dist"){
+            pathArray=[""];
+            store.commit('setDefaultOrg', 'root');
+          }else{
+            store.commit('setDefaultOrg', pathArray[0]);
+          }
         }else{
           store.commit('setDefaultOrg', 'root');
         }
