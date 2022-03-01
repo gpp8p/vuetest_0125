@@ -302,9 +302,14 @@ export default {
       this.content.keyWords = msg.keyWords;
       this.cardContent.createDate = msg.createDate;
       this.content.createDate = msg.createDate;
+      this.content.cardText = this.cardContent.cardText;
+      this.content.cardType = 'textShow';
+      this.setCardData(this.content, 'saveCardContent', 'main');
+      this.updateCardName(this.cardId, msg.cardName);
       var mOpts = this.getMenuOpts('richTextOpen');
       this.currentMenuOpts = mOpts.currentMenuOpts;
       this.mode=this.RICH_TEXT_EDITOR;
+
     },
     metaTransition(msg){
       console.log(msg);
@@ -367,7 +372,8 @@ export default {
           if (!textHasBeenSelected) {
             this.titleMsg = 'Please select some text!';
           } else {
-            this.forwardToUrl = "http://localhost:8080/displayLayout/" + this.layoutLink;
+            var urlBase = this.$store.getters.getUrlBase;
+            this.forwardToUrl = urlBase + 'displayLayout/'+ this.layoutLink;
             this.editorInstance.execute('link', this.forwardToUrl);
             //                  this.currentMenuOpts = ['Cancel', 'Link to Another Space',  'Save'];
             mOpts = this.getMenuOpts('richTextOpen');
@@ -384,6 +390,7 @@ export default {
           this.cObject = {};
           this.cObject.action = 'save';
           this.cObject.linkedLayoutId = msg[1];
+          console.log('save invoked in textShow-', this.cObject);
           this.cObjectVersion=this.cObjectVersion+1;
           break;
         }

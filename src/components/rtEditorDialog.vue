@@ -560,7 +560,8 @@ export default {
       this.$emit('clearCmd');
     },
     saveLayoutLink(targetId, targetDescription){
-      var targetUrl = 'http://localhost:8080/displayLayout/'+targetId;
+      var urlBase = this.$store.getters.getUrlBase;
+      var targetUrl = urlBase+targetId;
       axios.post('http://localhost:8000/api/shan/createNewLink?XDEBUG_SESSION_START=17516', {
         org_id: this.$store.getters.getOrgId,
         layout_id: this.$store.getters.getCurrentLayoutId,

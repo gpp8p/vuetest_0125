@@ -638,16 +638,16 @@
               this.documentTypeOptions = [];
               this.fileTypeOptions = [];
               this.accessTypeOptions = [];
-              response.data.documentTypes.forEach((val, index) => {
-                console.log('Index: ' + index + ' Value: ' + val.document_type);
+              response.data.documentTypes.forEach((val) => {
+//                console.log('Index: ' + index + ' Value: ' + val.document_type);
                 this.documentTypeOptions.push(val.document_type);
               });
-              response.data.fileTypes.forEach((val, index) => {
-                console.log('Index: ' + index + ' Value: ' + val.file_type);
+              response.data.fileTypes.forEach((val) => {
+//                console.log('Index: ' + index + ' Value: ' + val.file_type);
                 this.fileTypeOptions.push(val.file_type);
               });
-              response.data.accessTypes.forEach((val, index) => {
-                console.log('Index: ' + index + ' Value: ' + val.access_type);
+              response.data.accessTypes.forEach((val) => {
+//                console.log('Index: ' + index + ' Value: ' + val.access_type);
                 this.accessTypeOptions.push(val.access_type);
               });
               /*

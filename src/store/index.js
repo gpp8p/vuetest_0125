@@ -23,7 +23,8 @@ export default new Vuex.Store({
             recentQuery:'',
             linkSelected:0,
             currentLayoutDescription:'',
-            currentLayoutLabel:''
+            currentLayoutLabel:'',
+            urlBase:''
 
         }
     },
@@ -78,6 +79,9 @@ export default new Vuex.Store({
         },
         getLinkSelected(state){
             return state.credentials.linkSelected
+        },
+        getUrlBase(state){
+            return state.credentials.urlBase
         }
 /*
         getRegister(state){
@@ -137,6 +141,9 @@ export default new Vuex.Store({
         },
         setLinkSelected(state, linkSelected){
             state.credentials.linkSelected = linkSelected;
+        },
+        setUrlBase(state, urlBase){
+            state.credentials.urlBase = urlBase;
         }
 /*
         setRegister(state, registerState){

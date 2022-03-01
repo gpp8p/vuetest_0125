@@ -9,66 +9,43 @@ import errorPage from "../components/errorPage.vue"
 import MySpaces from "@/components/MySpaces";
 import directLogin from "../components/directLogin.vue"
 
+
 Vue.use(VueRouter)
 
-  const routes = [
+const routes = [
 
-
-    {
-      path: '/test',
-      name: 'test',
-      component: errorPage
-
-    },
-    {
-      path: '/displayLayout/test',
-      name: 'test',
-      component: errorPage
-
-    },
-    {
-      path: '/MySpaces',
-      name: 'MySpaces',
-      component: MySpaces
-    },
-    {
-      path: '/displayLayout/edit/:layoutId',
-      name: 'edit',
-      component: editLayout
-
-    },
-    {
-       path: '/table',
-      name: 'table',
-      component: errorPage
-    },
-    {
-      path: '/displayLayout/:layoutId',
-      name: 'displayLayout',
-      component: displayLayout
-    },
-    {
-      path: '/directLogin/:layoutId',
-      name: 'directLogin',
-      component: directLogin
-    },
-    {
-      path:'/logError/:errorMessage',
-      name:'errorPage',
-      component: errorPage
-    },
-    {
-      path: '/Bar',
-      name: 'bar',
-      component: errorPage
-    },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/MySpaces',
+    name: 'MySpaces',
+    component: MySpaces
+  },
+  {
+    path: '/displayLayout/edit/:layoutId',
+    name: 'edit',
+    component: editLayout
+
+  },
+  {
+    path: '/displayLayout/:layoutId',
+    name: 'displayLayout',
+    component: displayLayout
+  },
+  {
+    path: '/directLogin/:layoutId',
+    name: 'directLogin',
+    component: directLogin
+  },
+/*
+  {
+    path: '/displayLayout',
+    name: 'newLayout',
+    component: displayLayout
+  },
+ */
+  {
+    path:'/logError/:errorMessage',
+    name:'errorPage',
+    component: errorPage
   }
 ]
 
@@ -77,5 +54,5 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-
+console.log('router loaded');
 export default router
