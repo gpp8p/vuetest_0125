@@ -285,10 +285,17 @@ export default {
       this.content.cardText = msg;
       this.content.cardType = 'textShow';
       this.setCardData(this.content, 'saveCardContent', 'main');
-      this.mode=this.SHOW_TEXT;
+//      this.mode=this.SHOW_TEXT;
+      this.$router.push({
+        name: 'displayLayout',
+        params: { layoutId: this.$store.getters.getCurrentLayoutId }
+      })
+/*
+      this.mode=this.RICH_TEXT_EDITOR;
       var mOpts = this.getMenuOpts('richTextOpen');
       this.currentMenuOpts = mOpts.currentMenuOpts;
       this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+*/
     },
     metaDataEntered(msg){
       console.log('metaDataEntered-',msg);

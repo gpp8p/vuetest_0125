@@ -193,15 +193,20 @@
                 this.menuItems=this.getMenuItems();
             },
             getMenuItems(){
-//                debugger;
+                debugger;
+
                 if(this.viewContext==this.VIEW_VIEWING){
+                  if(this.$store.getters.getIsAdmin>0){
+                    return ['Edit','Delete', 'Publish', 'Create', 'Access','My Spaces', 'Organizations','Test'];
+                  }else{
                     if(this.topPerm==this.VIEW_PERM){
-                        return ['Info', 'Comments','Test'];
+                      return ['Info', 'Comments','Test'];
                     }else if(this.topPerm==this.AUTHOR_PERM){
-                        return ['Edit','Delete', 'Publish', 'Comments','Test'];
+                      return ['Edit','Delete', 'Publish','Access', 'Comments','Test'];
                     }else if((this.topPerm==this.ADMIN_PERM)){
-                        return ['Edit','Delete', 'Publish', 'Create', 'Access','My Spaces', 'Organizations','Test'];
+                      return ['Edit','Delete', 'Publish', 'Create', 'Access','My Spaces', 'Organizations','Test'];
                     }
+                  }
                 }else if(this.viewContext==this.VIEW_EDITING){
                     return ['Change Layout Setup', 'Insert Existing Card','Create A New Card', 'Exit'];
                 }

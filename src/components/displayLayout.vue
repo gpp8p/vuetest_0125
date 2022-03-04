@@ -418,10 +418,13 @@ export default {
     },
 
     canView(perms){
-
-      if(perms.admin) return true;
-      if(perms.author) return true;
-      if(perms.view) return true;
+      if(this.$store.getters.getIsAdmin>0){
+        return true;
+      }else{
+        if(perms.admin) return true;
+        if(perms.author) return true;
+        if(perms.view) return true;
+      }
 
 
 //                console.log(perms);
