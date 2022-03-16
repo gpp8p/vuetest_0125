@@ -81,8 +81,11 @@ name: "registerUser",
         this.$emit('setTitle','You must enter an Email !!');
       }else {
         this.$emit('setTitle', 'Register New User');
+        var apiPath = this.$store.getters.getApiBase;
+        console.log('apiPath - ',apiPath);
 
-        axios.get('http://localhost:8000/api/shan/userExists?XDEBUG_SESSION_START=14668', {
+        axios.get(apiPath+'api/shan/userExists?XDEBUG_SESSION_START=14668', {
+//          axios.get('http://localhost:8000/api/shan/userExists?XDEBUG_SESSION_START=14668', {
           params: {
             email: this.userEmail
           }
@@ -141,7 +144,12 @@ name: "registerUser",
       return false;
     },
     saveRegistration(){
-      axios.post('http://localhost:8000/api/shan/setupNewUser?XDEBUG_SESSION_START=17516', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+
+      axios.post(apiPath+'api/shan/setupNewUser?XDEBUG_SESSION_START=17516', {
+//        axios.post('http://localhost:8000/api/shan/setupNewUser?XDEBUG_SESSION_START=17516', {
         params:{
           name:this.userName,
           email:this.userEmail,
@@ -207,7 +215,12 @@ name: "registerUser",
  */
       }else if(this.cmd=='newUserOnlyRegistration'){
         if(this.checkEntryFields()){
-          axios.post('http://localhost:8000/api/shan/createUser?XDEBUG_SESSION_START=17516', {
+          var apiPath = this.$store.getters.getApiBase;
+          console.log('apiPath - ',apiPath);
+
+
+          axios.post(apiPath+'api/shan/createUser?XDEBUG_SESSION_START=17516', {
+//          axios.post('http://localhost:8000/api/shan/createUser?XDEBUG_SESSION_START=17516', {
             params:{
               name:this.userName,
               email:this.userEmail,

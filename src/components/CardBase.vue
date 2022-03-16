@@ -389,8 +389,14 @@
         }
       },
       updateCardName(cardId, newCardName){
+        var apiPath = this.$store.getters.getApiBase;
+        console.log('apiPath - ',apiPath);
+
+
         debugger;
-        axios.post("http://localhost:8000/api/shan/updateCardName?XDEBUG_SESSION_START=14252", {
+        axios.post(apiPath+ "api/shan/updateCardName?XDEBUG_SESSION_START=14252", {
+//          axios.post("http://localhost:8000/api/shan/updateCardName?XDEBUG_SESSION_START=14252", {
+
           cardId: cardId,
           newCardName: newCardName
         }).then(response=>
@@ -403,8 +409,13 @@
 
       loadCardConfiguration(cardId){
 //        debugger;
+        var apiPath = this.$store.getters.getApiBase;
+        console.log('apiPath - ',apiPath);
+
+
         axios
-          .get("http://localhost:8000/api/shan/getCardDataById?cardId=" + cardId+"&&XDEBUG_SESSION_START=15122")
+          .get(apiPath+"api/shan/getCardDataById?cardId=" + cardId+"&&XDEBUG_SESSION_START=15122")
+//            .get("http://localhost:8000/api/shan/getCardDataById?cardId=" + cardId+"&&XDEBUG_SESSION_START=15122")
           .then(response => {
             // JSON responses are automatically parsed.
 //          debugger;
@@ -543,7 +554,11 @@
           cardConfigurationPackage = [this.cardId, this.styling, this.content, subElements];
         }
         var jsonCardConfigurationPackage = JSON.stringify(cardConfigurationPackage);
-        axios.post('http://localhost:8000/api/shan/saveCardParameters?XDEBUG_SESSION_START=14252', {
+        var apiPath = this.$store.getters.getApiBase;
+        console.log('apiPath - ',apiPath);
+
+        axios.post(apiPath+'api/shan/saveCardParameters?XDEBUG_SESSION_START=14252', {
+//        axios.post('http://localhost:8000/api/shan/saveCardParameters?XDEBUG_SESSION_START=14252', {
           cardParams: jsonCardConfigurationPackage,
         }).then(response=>
         {
@@ -561,7 +576,11 @@
         console.log('saving-',cardContent);
         var cardConfigurationPackage = [this.cardId, cardContent];
         var jsonCardConfigurationPackage = JSON.stringify(cardConfigurationPackage);
-        axios.post('http://localhost:8000/api/shan/saveCardContent?XDEBUG_SESSION_START=14252', {
+        var apiPath = this.$store.getters.getApiBase;
+        console.log('apiPath - ',apiPath);
+
+        axios.post(apiPath+'api/shan/saveCardContent?XDEBUG_SESSION_START=14252', {
+//        axios.post('http://localhost:8000/api/shan/saveCardContent?XDEBUG_SESSION_START=14252', {
           cardParams: jsonCardConfigurationPackage,
           domElement: domElement,
           org: this.$store.getters.getOrgId,
@@ -577,7 +596,12 @@
         console.log(jsonCardConfigurationPackage);
       },
       deleteCardFromDb(cardId){
-        axios.get('http://localhost:8000/api/shan/deleteCard?XDEBUG_SESSION_START=14668', {
+        var apiPath = this.$store.getters.getApiBase;
+        console.log('apiPath - ',apiPath);
+
+
+        axios.get(apiPath+'api/shan/deleteCard?XDEBUG_SESSION_START=14668', {
+//              axios.get('http://localhost:8000/api/shan/deleteCard?XDEBUG_SESSION_START=14668', {
           params:{
             layoutId: this.$store.getters.getCurrentLayoutId,
             cardId: cardId,
@@ -594,7 +618,11 @@
             });
       },
       removeCardFromLayout(cardId){
-        axios.get('http://localhost:8000/api/shan/rmvlay?XDEBUG_SESSION_START=14668', {
+        var apiPath = this.$store.getters.getApiBase;
+        console.log('apiPath - ',apiPath);
+
+        axios.get(apiPath+'api/shan/rmvlay?XDEBUG_SESSION_START=14668', {
+//        axios.get('http://localhost:8000/api/shan/rmvlay?XDEBUG_SESSION_START=14668', {
           params:{
             layoutId: this.$store.getters.getCurrentLayoutId,
             cardId: cardId,
@@ -632,7 +660,12 @@
 
       },
       loadOptions() {
-        axios.get('http://localhost:8000/api/shan/documentDefaults?XDEBUG_SESSION_START=14668', {})
+        var apiPath = this.$store.getters.getApiBase;
+        console.log('apiPath - ',apiPath);
+
+
+        axios.get(apiPath+'api/shan/documentDefaults?XDEBUG_SESSION_START=14668', {})
+//        axios.get('http://localhost:8000/api/shan/documentDefaults?XDEBUG_SESSION_START=14668', {})
             .then(response => {
               console.log(response);
               this.documentTypeOptions = [];

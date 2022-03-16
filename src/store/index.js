@@ -24,7 +24,8 @@ export default new Vuex.Store({
             linkSelected:0,
             currentLayoutDescription:'',
             currentLayoutLabel:'',
-            urlBase:''
+            urlBase:'',
+            apiBase:''
 
         }
     },
@@ -82,6 +83,9 @@ export default new Vuex.Store({
         },
         getUrlBase(state){
             return state.credentials.urlBase
+        },
+        getApiBase(state){
+            return state.credentials.apiBase
         }
 /*
         getRegister(state){
@@ -144,6 +148,9 @@ export default new Vuex.Store({
         },
         setUrlBase(state, urlBase){
             state.credentials.urlBase = urlBase;
+        },
+        setApiBase(state, apiBase){
+            state.credentials.apiBase = apiBase;
         }
 /*
         setRegister(state, registerState){

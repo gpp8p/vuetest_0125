@@ -141,7 +141,12 @@ export default {
   },
   methods:{
     getOrgs(){
-      axios.get('http://localhost:8000/api/shan/orgList?XDEBUG_SESSION_START=14668', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+
+      axios.get(apiPath+'api/shan/orgList?XDEBUG_SESSION_START=14668', {
+//      axios.get('http://localhost:8000/api/shan/orgList?XDEBUG_SESSION_START=14668', {
       })
           .then(response => {
 // eslint-disable-next-line no-debugger

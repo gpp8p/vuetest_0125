@@ -332,6 +332,8 @@ export default {
     },
     menuOptSelected(msg) {
       console.log(msg);
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
       switch(msg){
         case 'Edit':{
           var mOpts = this.getMenuOpts('richTextOpen');
@@ -408,7 +410,11 @@ export default {
          }
          case 'RmvLay':{
            console.log('remove from layout selected');
-           axios.get('http://localhost:8000/api/shan/rmvlay?XDEBUG_SESSION_START=14668', {
+
+
+
+           axios.get(apiPath+'api/shan/rmvlay?XDEBUG_SESSION_START=14668', {
+//             axios.get('http://localhost:8000/api/shan/rmvlay?XDEBUG_SESSION_START=14668', {
              params:{
                layoutId: this.$store.getters.getCurrentLayoutId,
                cardId: this.cardId,
@@ -428,7 +434,12 @@ export default {
          }
          case 'DelCardFromDb':{
            console.log('remove from db selected');
-           axios.get('http://localhost:8000/api/shan/deleteCard?XDEBUG_SESSION_START=14668', {
+//           var apiPath = this.$store.getters.getApiBase;
+//           console.log('apiPath - ',apiPath);
+
+
+           axios.get(apiPath+'api/shan/deleteCard?XDEBUG_SESSION_START=14668', {
+//             axios.get('http://localhost:8000/api/shan/deleteCard?XDEBUG_SESSION_START=14668', {
              params:{
                layoutId: this.$store.getters.getCurrentLayoutId,
                cardId: this.cardId,
@@ -464,7 +475,9 @@ export default {
         }
         case 'CancelSourceUpload':{
           console.log('cancel src upload');
-          axios.get('http://localhost:8000/api/shan/removeUploadedFile?XDEBUG_SESSION_START=15122"', {
+
+          axios.get(apiPath+'api/shan/removeUploadedFile?XDEBUG_SESSION_START=15122"', {
+//          axios.get('http://localhost:8000/api/shan/removeUploadedFile?XDEBUG_SESSION_START=15122"', {
             params:{
               path: this.srcFilePathUploaded
             }

@@ -33,7 +33,11 @@ name: "insertCardSelect",
 
   mounted(){
     console.log('insertCardSelect has been mounted');
-    axios.get('http://localhost:8000/api/shan/cardList?XDEBUG_SESSION_START=14668', {
+    var apiPath = this.$store.getters.getApiBase;
+    console.log('apiPath - ',apiPath);
+
+    axios.get(apiPath+'api/shan/cardList?XDEBUG_SESSION_START=14668', {
+//    axios.get('http://localhost:8000/api/shan/cardList?XDEBUG_SESSION_START=14668', {
       params:{
         orgId: this.$store.getters.getOrgId
       }
@@ -50,7 +54,11 @@ name: "insertCardSelect",
   methods:{
       cardSelected(msg){
         console.log(msg);
-        axios.post('http://localhost:8000/api/shan/cardInsert?XDEBUG_SESSION_START=14668', {
+        var apiPath = this.$store.getters.getApiBase;
+        console.log('apiPath - ',apiPath);
+
+        axios.post(apiPath+'api/shan/cardInsert?XDEBUG_SESSION_START=14668', {
+//        axios.post('http://localhost:8000/api/shan/cardInsert?XDEBUG_SESSION_START=14668', {
           params:{
             cardId: msg.id,
             toLayout: this.$store.getters.getCurrentLayoutId

@@ -208,6 +208,8 @@
         },
         watch:{
           cmd: function(){
+            var apiPath = this.$store.getters.getApiBase;
+            console.log('apiPath - ',apiPath);
             console.log('cmd changed in editLayout', this.cmd);
             switch(this.cmd){
               case 'cancelDialog':{
@@ -230,8 +232,10 @@
                 console.log('change layout setup selected');
                 this.dialogCmd = '';
                 this.dialogType=this.DIALOG_NEW_LAYOUT;
+
+
                 axios
-                    .get("http://localhost:8000/api/shan/getLayoutParams?XDEBUG_SESSION_START=15122", {
+                    .get(apiPath+"api/shan/getLayoutParams?XDEBUG_SESSION_START=15122", {
                       params: {
                         layoutId: this.$store.getters.getCurrentLayoutId
                       }
@@ -724,8 +728,12 @@
 
 //      console.log("reloading" + msg);
 //                debugger;
+              var apiPath = this.$store.getters.getApiBase;
+              console.log('apiPath - ',apiPath);
+
+
                 axios
-                    .get("http://localhost:8000/api/shan/getLayout?layoutId=XDEBUG_SESSION_START=18411", {
+                    .get(apiPath+"api/shan/getLayout?layoutId=XDEBUG_SESSION_START=18411", {
                         params: {
                             orgId: this.$store.getters.getOrgId,
                             userId: this.$store.getters.getLoggedInUserId,
@@ -938,6 +946,8 @@
  */
                 console.log('cardThatWasClicked1-',cardThatWasClicked1);
                 console.log('cardThatWasClicked:'+cardThatWasClicked);
+                var apiPath = this.$store.getters.getApiBase;
+                console.log('apiPath - ',apiPath);
                 switch(this.cstatus) {
                   case this.CARDBEINGCONFIGED:
                     break;
@@ -1014,7 +1024,11 @@
                       var newHeight = this.bottomRightRow - this.topLeftRow;
 //                            debugger;
                       this.fillSelectedArea(this.genericCardMethods, this.topLeftRow, this.topLeftCol, this.bottomRightRow, this.bottomRightCol, '66BB6A');
-                      axios.post('http://localhost:8000/api/shan/resizeCard?XDEBUG_SESSION_START=12016', {
+
+
+
+
+                      axios.post(apiPath+'api/shan/resizeCard?XDEBUG_SESSION_START=12016', {
                           cardId: this.resizeCardId,
                           layoutId: this.$store.getters.getCurrentLayoutId,
                           row: this.topLeftRow,
@@ -1168,7 +1182,11 @@
  */
             insertCard(layoutId, title, cardType, tlrow, tlcol, brrow, brcol){
 //                debugger;
-                axios.post('http://localhost:8000/saveCardOnly?XDEBUG_SESSION_START=12016', {
+              var apiPath = this.$store.getters.getApiBase;
+              console.log('apiPath - ',apiPath);
+
+
+                axios.post(apiPath+'api/shan/saveCardOnly?XDEBUG_SESSION_START=12016', {
                     layoutId: layoutId,
                     cardTitle: title,
                     cardType: cardType,

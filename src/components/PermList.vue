@@ -223,7 +223,11 @@ name: "PermList",
     deleteClicked(msg){
       console.log('deleteClicked-',msg, 'layout-', this.layoutId);
       this.clearDeleteActive();
-      axios.post('http://localhost:8000/api/shan/removePerm?XDEBUG_SESSION_START=15022', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+      axios.post(apiPath+'api/shan/removePerm?XDEBUG_SESSION_START=15022', {
+//      axios.post('http://localhost:8000/api/shan/removePerm?XDEBUG_SESSION_START=15022', {
         params:{
           layoutId:this.layoutId,
           groupId:msg
@@ -244,7 +248,11 @@ name: "PermList",
           });
     },
     reloadLayoutPerms(){
-      axios.get('http://localhost:8000/api/shan/layoutPerms?XDEBUG_SESSION_START=14668', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+      axios.get(apiPath+'api/shan/layoutPerms?XDEBUG_SESSION_START=14668', {
+//      axios.get('http://localhost:8000/api/shan/layoutPerms?XDEBUG_SESSION_START=14668', {
         params:{
           orgId:this.$store.getters.getOrgId,
           userId:this.$store.getters.getLoggedInUserId,
@@ -264,7 +272,11 @@ name: "PermList",
           });
     },
     getOrgMembers(){
-      axios.get('http://localhost:8000/api/shan/availableOrgUsers?XDEBUG_SESSION_START=14668', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+      axios.get('api/shan/availableOrgUsers?XDEBUG_SESSION_START=14668', {
+//      axios.get('http://localhost:8000/api/shan/availableOrgUsers?XDEBUG_SESSION_START=14668', {
         params:{
           orgId: this.$store.getters.getOrgId,
           groupId: this.selectedGroupId
@@ -290,7 +302,11 @@ name: "PermList",
     },
     getOrgGroups(orgId, layoutId){
       debugger;
-      axios.get('http://localhost:8000/api/shan/orgGroups?XDEBUG_SESSION_START=14668', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+      axios.get('api/shan/orgGroups?XDEBUG_SESSION_START=14668', {
+//      axios.get('http://localhost:8000/api/shan/orgGroups?XDEBUG_SESSION_START=14668', {
         params:{
           orgId: orgId,
           layoutId:layoutId
@@ -316,7 +332,11 @@ name: "PermList",
     getGroupMembers(groupId){
 //              debugger;
       this.selectedGroupId = groupId;
-      axios.get('http://localhost:8000/api/shan/groupMembers?XDEBUG_SESSION_START=14668', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+      axios.get(apiPath+'api/shan/groupMembers?XDEBUG_SESSION_START=14668', {
+//      axios.get('http://localhost:8000/api/shan/groupMembers?XDEBUG_SESSION_START=14668', {
         params:{
           groupId: groupId
         }
@@ -359,7 +379,11 @@ name: "PermList",
     },
     removeUserFromGroup(userId){
       debugger;
-      axios.post('http://localhost:8000/api/shan/removeUserFromGroup?XDEBUG_SESSION_START=15022', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+      axios.post(apiPath+'api/shan/removeUserFromGroup?XDEBUG_SESSION_START=15022', {
+//      axios.post('http://localhost:8000/api/shan/removeUserFromGroup?XDEBUG_SESSION_START=15022', {
         params:{
           groupId: this.selectedGroupId,
           selectedUserId: userId
@@ -379,7 +403,11 @@ name: "PermList",
     },
     orgMemberSelected(userId){
       debugger;
-      axios.post('http://localhost:8000/api/shan/addUserToGroup?XDEBUG_SESSION_START=15022', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+      axios.post(apiPath+'api/shan/addUserToGroup?XDEBUG_SESSION_START=15022', {
+//      axios.post('http://localhost:8000/api/shan/addUserToGroup?XDEBUG_SESSION_START=15022', {
         params:{
           groupId: this.selectedGroupId,
 //          orgId:this.$store.getters.getOrgId,
@@ -423,9 +451,11 @@ name: "PermList",
       debugger;
       console.log(msg);
 
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
 
-
-      axios.post('http://localhost:8000/api/shan/addAccess?XDEBUG_SESSION_START=15022', {
+      axios.post(apiPath+'api/shan/addAccess?XDEBUG_SESSION_START=15022', {
+//      axios.post('http://localhost:8000/api/shan/addAccess?XDEBUG_SESSION_START=15022', {
         params:{
           orgId:this.$store.getters.getOrgId,
           layoutId:this.layoutId,

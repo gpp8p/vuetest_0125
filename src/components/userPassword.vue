@@ -92,7 +92,10 @@ name: "userPassword",
       return false;
     },
     updatePassword() {
-      axios.post('http://localhost:8000/api/shan/updatePassword?XDEBUG_SESSION_START=17516', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+      axios.post(apiPath+'api/shan/updatePassword?XDEBUG_SESSION_START=17516', {
+//      axios.post('http://localhost:8000/api/shan/updatePassword?XDEBUG_SESSION_START=17516', {
         params: {
           email: this.currentCardData.email,
           password: this.userPassword,
@@ -114,7 +117,10 @@ name: "userPassword",
 
 
     saveRegistration(){
-      axios.post('http://localhost:8000/api/shan/setupNewUser?XDEBUG_SESSION_START=17516', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+      axios.post(apiPath+'api/shan/setupNewUser?XDEBUG_SESSION_START=17516', {
+//      axios.post('http://localhost:8000/api/shan/setupNewUser?XDEBUG_SESSION_START=17516', {
         params:{
           name:this.userName,
           email:this.userEmail,
@@ -190,7 +196,10 @@ name: "userPassword",
  */
       }else if(this.cmd=='newUserOnlyRegistration'){
         if(this.checkEntryFields()){
-          axios.post('http://localhost:8000/api/shan/createUser?XDEBUG_SESSION_START=17516', {
+          var apiPath = this.$store.getters.getApiBase;
+          console.log('apiPath - ',apiPath);
+          axios.post(apiPath+'api/shan/createUser?XDEBUG_SESSION_START=17516', {
+//          axios.post('http://localhost:8000/api/shan/createUser?XDEBUG_SESSION_START=17516', {
             params:{
               name:this.userName,
               email:this.userEmail,

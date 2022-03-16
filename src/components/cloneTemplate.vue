@@ -67,7 +67,11 @@ export default {
       }
     },
     makeTemplateClone(){
-      axios.post('http://localhost:8000/api/shan/cloneTemplate?XDEBUG_SESSION_START=14668', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+      axios.post(apiPath+'api/shan/cloneTemplate?XDEBUG_SESSION_START=14668', {
+//      axios.post('http://localhost:8000/api/shan/cloneTemplate?XDEBUG_SESSION_START=14668', {
         params:{
           templateId: this.sourceTemplateId,
           orgId: this.$store.getters.getOrgId,

@@ -108,7 +108,10 @@
       },
       insertCard(layoutId, title, restricted, cardType, tlrow, tlcol, brrow, brcol){
                 debugger;
-        axios.post('http://localhost:8000/api/shan/saveCardOnly?XDEBUG_SESSION_START=12016', {
+        var apiPath = this.$store.getters.getApiBase;
+        console.log('apiPath - ',apiPath);
+        axios.post(apiPath+'api/shan/saveCardOnly?XDEBUG_SESSION_START=12016', {
+//        axios.post('http://localhost:8000/api/shan/saveCardOnly?XDEBUG_SESSION_START=12016', {
           layoutId: layoutId,
           cardTitle: title,
           restricted: restricted,

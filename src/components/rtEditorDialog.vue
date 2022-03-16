@@ -562,7 +562,11 @@ export default {
     saveLayoutLink(targetId, targetDescription){
       var urlBase = this.$store.getters.getUrlBase;
       var targetUrl = urlBase+targetId;
-      axios.post('http://localhost:8000/api/shan/createNewLink?XDEBUG_SESSION_START=17516', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+      axios.post(apiPath+'api/shan/createNewLink?XDEBUG_SESSION_START=17516', {
+
+//      axios.post('http://localhost:8000/api/shan/createNewLink?XDEBUG_SESSION_START=17516', {
         org_id: this.$store.getters.getOrgId,
         layout_id: this.$store.getters.getCurrentLayoutId,
         description: targetDescription,

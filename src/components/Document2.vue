@@ -423,7 +423,12 @@ export default {
 //      this.mode=this.RICH_TEXT_EDITOR;
     },
     loadOptions() {
-      axios.get('http://localhost:8000/api/shan/documentDefaults?XDEBUG_SESSION_START=14668', {})
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+
+      axios.get(apiPath+'api/shan/documentDefaults?XDEBUG_SESSION_START=14668', {})
+//      axios.get('http://localhost:8000/api/shan/documentDefaults?XDEBUG_SESSION_START=14668', {})
           .then(response => {
             console.log(response);
             this.documentTypeOptions = [];
@@ -455,7 +460,12 @@ export default {
     },
     getPdf(){
       console.log('getting pdf', this.fileLocation);
-      axios.get('http://localhost:8000/api/shan/getFile?XDEBUG_SESSION_START=14668',{
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+
+      axios.get(apiPath+'api/shan/getFile?XDEBUG_SESSION_START=14668',{
+//            axios.get('http://localhost:8000/api/shan/getFile?XDEBUG_SESSION_START=14668',{
         responseType: "blob",
         params:{
           path: this.fileLocation
@@ -540,6 +550,9 @@ export default {
     },
     menuOptSelected(msg) {
       console.log(msg);
+      console.log('cancel src upload');
+      var apiPath = this.$store.getters.getApiBase;
+
       switch (msg) {
         case 'EditDoc': {
           this.nextClicked();
@@ -655,8 +668,10 @@ export default {
           break;
         }
         case 'CancelSourceUpload':{
-          console.log('cancel src upload');
-          axios.get('http://localhost:8000/api/shan/removeUploadedFile?XDEBUG_SESSION_START=15122"', {
+          console.log('apiPath - ',apiPath);
+
+          axios.get(apiPath+'api/shan/removeUploadedFile?XDEBUG_SESSION_START=15122"', {
+//          axios.get('http://localhost:8000/api/shan/removeUploadedFile?XDEBUG_SESSION_START=15122"', {
             params:{
               path: this.srcFilePathUploaded
             }
@@ -688,7 +703,12 @@ export default {
         }
         case 'RmvLay': {
           console.log('remove from layout selected');
-          axios.get('http://localhost:8000/api/shan/rmvlay?XDEBUG_SESSION_START=14668', {
+
+//          var apiPath = this.$store.getters.getApiBase;
+          console.log('apiPath - ',apiPath);
+
+          axios.get(apiPath+'api/shan/rmvlay?XDEBUG_SESSION_START=14668', {
+//          axios.get('http://localhost:8000/api/shan/rmvlay?XDEBUG_SESSION_START=14668', {
             params: {
               layoutId: this.$store.getters.getCurrentLayoutId,
               cardId: this.cardId,
@@ -708,7 +728,10 @@ export default {
         }
         case 'DelCardFromDb': {
           console.log('remove from db selected');
-          axios.get('http://localhost:8000/api/shan/deleteCard?XDEBUG_SESSION_START=14668', {
+
+
+          axios.get(apiPath+'api/shan/deleteCard?XDEBUG_SESSION_START=14668', {
+//          axios.get('http://localhost:8000/api/shan/deleteCard?XDEBUG_SESSION_START=14668', {
             params: {
               layoutId: this.$store.getters.getCurrentLayoutId,
               cardId: this.cardId,

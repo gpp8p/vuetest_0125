@@ -120,6 +120,8 @@ name: "linkMaster",
       var cmdElements = this.cmd.split(':');
       debugger;
       console.log('linkMaster cmd changed - ',cmdElements);
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
       switch(cmdElements[0]){
         case 'save':{
           debugger;
@@ -132,7 +134,10 @@ name: "linkMaster",
             var cardConfigurationPackage = [this.cardId, this.currentCardData];
             var domElement = 'main';
             var jsonCardConfigurationPackage = JSON.stringify(cardConfigurationPackage);
-            axios.post('http://localhost:8000/api/shan/saveCardContent?XDEBUG_SESSION_START=14252', {
+
+
+            axios.post(apiPath+'api/shan/saveCardContent?XDEBUG_SESSION_START=14252', {
+//              axios.post('http://localhost:8000/api/shan/saveCardContent?XDEBUG_SESSION_START=14252', {
               cardParams: jsonCardConfigurationPackage,
               domElement: domElement,
               org: this.$store.getters.getOrgId,
@@ -165,7 +170,12 @@ name: "linkMaster",
   },
   methods:{
     getLinksForCard(cardId){
-      axios.get('http://localhost:8000/api/shan/getLinks?XDEBUG_SESSION_START=15122"', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+
+      axios.get(apiPath+'api/shan/getLinks?XDEBUG_SESSION_START=15122"', {
+//            axios.get('http://localhost:8000/api/shan/getLinks?XDEBUG_SESSION_START=15122"', {
         params:{
           cardId:cardId,
         }
@@ -183,7 +193,12 @@ name: "linkMaster",
       this.$emit('saveCardContent', [this.currentCardData, 'linkContent', 'main'] );
     },
     deleteThisLink(linkId){
-      axios.get('http://localhost:8000/api/shan/deleteLink?XDEBUG_SESSION_START=15122"', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+
+      axios.get(apiPath+'api/shan/deleteLink?XDEBUG_SESSION_START=15122"', {
+//            axios.get('http://localhost:8000/api/shan/deleteLink?XDEBUG_SESSION_START=15122"', {
         params:{
           linkId:linkId,
         }

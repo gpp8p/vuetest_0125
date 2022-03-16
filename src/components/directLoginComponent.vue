@@ -165,7 +165,11 @@
             sendLogin(email, password, setStatus){
                 debugger;
                 console.log('sendLogin - ',email,password, setStatus, this.$store.getters.getDefaultOrg);
-                axios.post('http://localhost:8000/api/auth/login?XDEBUG_SESSION_START=14427', {
+              var apiPath = this.$store.getters.getApiBase;
+              console.log('apiPath - ',apiPath);
+
+              axios.post(apiPath+'api/auth/login?XDEBUG_SESSION_START=14427', {
+//                axios.post('http://localhost:8000/api/auth/login?XDEBUG_SESSION_START=14427', {
                     email: email,
                     password: password,
                     default_org: this.$store.getters.getDefaultOrg

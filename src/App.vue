@@ -49,6 +49,7 @@ export default {
     console.log('entry path is - ', this.$route.path);
     console.log('fullPath is - ', this.$route.fullPath);
     store.commit('setUrlBase', 'http://localhost:8080/');
+    store.commit('setApiBase', 'http://localhost:8000/');
     var pathArray=this.$route.path.substring(1).split('/');
     if(pathArray.length==3 && pathArray[0]=='target'){
       console.log('this is a protected page link from static html');

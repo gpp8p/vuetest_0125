@@ -29,8 +29,13 @@ name: "htmlIframe",
   },
   methods: {
     getHtmlFile(){
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+
       console.log('getting pdf', this.fileLocation);
-      axios.get('http://localhost:8000/api/shan/getFile?XDEBUG_SESSION_START=14668',{
+      axios.get(apiPath+'/api/shan/getFile?XDEBUG_SESSION_START=14668',{
+//        axios.get('http://localhost:8000/api/shan/getFile?XDEBUG_SESSION_START=14668',{
         responseType: "blob",
         params:{
           path: this.fileLocation

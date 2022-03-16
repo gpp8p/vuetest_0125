@@ -81,7 +81,11 @@
             permChanged(msg){
                 console.log(msg);
                 debugger;
-                axios.post('http://localhost:8000/api/shan/setLayoutPerms?XDEBUG_SESSION_START=14668', {
+              var apiPath = this.$store.getters.getApiBase;
+              console.log('apiPath - ',apiPath);
+
+              axios.post(apiPath+'api/shan/setLayoutPerms?XDEBUG_SESSION_START=14668', {
+//                axios.post('http://localhost:8000/api/shan/setLayoutPerms?XDEBUG_SESSION_START=14668', {
                     params:{
                         groupId: this.groupId,
                         permType: msg[0],

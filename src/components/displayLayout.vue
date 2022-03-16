@@ -376,7 +376,10 @@ export default {
 //      this.cancelLayoutEdit();
 //      console.log("reloading" + msg);
       debugger;
-      axios.get('http://localhost:8000/api/shan/getLayout?XDEBUG_SESSION_START=19884', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+      axios.get(apiPath+'api/shan/getLayout?XDEBUG_SESSION_START=19884', {
+//      axios.get('http://localhost:8000/api/shan/getLayout?XDEBUG_SESSION_START=19884', {
         params:{
           orgId:orgId,
           userId:userId,
@@ -454,7 +457,10 @@ export default {
       }
       debugger;
       var currentOrgId = this.$store.getters.getOrgId;
-      axios.get('http://localhost:8000/api/shan/deleteLayout?XDEBUG_SESSION_START=19884', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ', apiPath);
+      axios.get(apiPath+'api/shan/deleteLayout?XDEBUG_SESSION_START=19884', {
+//      axios.get('http://localhost:8000/api/shan/deleteLayout?XDEBUG_SESSION_START=19884', {
         params:{
           layoutId:this.layoutId,
           orgId:currentOrgId

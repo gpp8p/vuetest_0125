@@ -61,7 +61,11 @@ name: "Search",
   },
   methods:{
     submitQuery(msg){
-      axios.get('http://localhost:8000/api/shan/solrSimpleQuery?XDEBUG_SESSION_START=14668', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+      axios.get(apiPath+'api/shan/solrSimpleQuery?XDEBUG_SESSION_START=14668', {
+//      axios.get('http://localhost:8000/api/shan/solrSimpleQuery?XDEBUG_SESSION_START=14668', {
         params:{
           orgId:this.$store.getters.getOrgId,
           query:msg

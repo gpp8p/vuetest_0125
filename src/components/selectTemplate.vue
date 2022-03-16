@@ -26,7 +26,10 @@ export default {
 name: "selectTemplate",
   mounted(){
 //    debugger;
-    axios.get('http://localhost:8000/api/shan/availableTemplates?XDEBUG_SESSION_START=15122"', {
+    var apiPath = this.$store.getters.getApiBase;
+    console.log('apiPath - ',apiPath);
+    axios.get(apiPath+'api/shan/availableTemplates?XDEBUG_SESSION_START=15122"', {
+//    axios.get('http://localhost:8000/api/shan/availableTemplates?XDEBUG_SESSION_START=15122"', {
       params:{
         orgId:this.$store.getters.getOrgId,
       }

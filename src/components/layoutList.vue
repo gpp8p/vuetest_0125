@@ -41,7 +41,11 @@ export default {
       this.perPage = this.linesPerPage;
     }
     debugger;
-    axios.get('http://localhost:8000/api/shan/getMySpaces?XDEBUG_SESSION_START=15122"', {
+    var apiPath = this.$store.getters.getApiBase;
+    console.log('apiPath - ',apiPath);
+
+    axios.get(apiPath+'api/shan/getMySpaces?XDEBUG_SESSION_START=15122"', {
+//    axios.get('http://localhost:8000/api/shan/getMySpaces?XDEBUG_SESSION_START=15122"', {
       params:{
         orgId:this.$store.getters.getOrgId,
         userId: this.$store.getters.getLoggedInUserId,

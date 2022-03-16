@@ -69,8 +69,11 @@
                 formData.append('fileRole', this.fileRole);
 // eslint-disable-next-line no-debugger
 //        debugger;
+              var apiPath = this.$store.getters.getApiBase;
+              console.log('apiPath - ',apiPath);
 
-                axios.post( 'http://localhost:8000/api/shan/fileUpload?XDEBUG_SESSION_START=15617',
+              axios.post( apiPath+'api/shan/fileUpload?XDEBUG_SESSION_START=15617',
+//                axios.post( 'http://localhost:8000/api/shan/fileUpload?XDEBUG_SESSION_START=15617',
                     formData,
                     {
                         headers: {

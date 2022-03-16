@@ -154,7 +154,10 @@ export default {
         case 'newOrg':{
           if(this.errs.allOk()){
             debugger;
-            axios.post('http://localhost:8000/api/shan/newOrg?XDEBUG_SESSION_START=14668', {
+            var apiPath = this.$store.getters.getApiBase;
+            console.log('apiPath - ',apiPath);
+            axios.post(apiPath+'api/shan/newOrg?XDEBUG_SESSION_START=14668', {
+//            axios.post('http://localhost:8000/api/shan/newOrg?XDEBUG_SESSION_START=14668', {
               params:{
                 name: this.orgName,
                 description: this.orgDescription,

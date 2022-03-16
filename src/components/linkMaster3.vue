@@ -487,7 +487,11 @@ export default {
         cardTitle = this.currentCardData.linkMenuTitle
       }
       var allCardLinks = JSON.stringify(this.currentCardData.availableLinks);
-      axios.post('http://localhost:8000/api/shan/updateCardLinks?XDEBUG_SESSION_START=17516', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+      axios.post(apiPath+'api/shan/updateCardLinks?XDEBUG_SESSION_START=17516', {
+//      axios.post('http://localhost:8000/api/shan/updateCardLinks?XDEBUG_SESSION_START=17516', {
         orient: this.currentCardData.orient,
         cardTitle: cardTitle,
         allLinks:allCardLinks,
@@ -511,7 +515,11 @@ export default {
     },
     addCurrentLayout(){
       console.log('addCurrentLayout chosen');
-      axios.post('http://localhost:8000/api/shan/addCurrentLayout?XDEBUG_SESSION_START=17516', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+      axios.post(apiPath+'api/shan/addCurrentLayout?XDEBUG_SESSION_START=17516', {
+//      axios.post('http://localhost:8000/api/shan/addCurrentLayout?XDEBUG_SESSION_START=17516', {
         org_id: this.$store.getters.getOrgId,
         layout_id: this.$store.getters.getCurrentLayoutId,
         card_instance_id:this.cardId,

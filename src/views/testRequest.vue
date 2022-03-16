@@ -34,7 +34,11 @@ export default {
   },
   methods:{
     sendData(){
-      axios.get('http://localhost:8000/api/shan/testGet?XDEBUG_SESSION_START=12666', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+      axios.get(apiPath+'api/shan/testGet?XDEBUG_SESSION_START=12666', {
+//      axios.get('http://localhost:8000/api/shan/testGet?XDEBUG_SESSION_START=12666', {
         params:{
           textEntered:this.textEntered
         }
@@ -47,7 +51,11 @@ export default {
     },
 
     postData(){
-      axios.post('http://localhost:8000/api/shan/testPost??XDEBUG_SESSION_START=11947', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+      axios.post(apiPath+'api/shan/testPost??XDEBUG_SESSION_START=11947', {
+//      axios.post('http://localhost:8000/api/shan/testPost??XDEBUG_SESSION_START=11947', {
           textEntered:this.textEntered
       }).then(response=>{
         console.log(response);
@@ -57,7 +65,11 @@ export default {
     },
 
     sendLogin(){
-      axios.post('http://localhost:8000/api/auth/login?XDEBUG_SESSION_START=11947', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+      axios.post(apiPath+'api/auth/login?XDEBUG_SESSION_START=11947', {
+//      axios.post('http://localhost:8000/api/auth/login?XDEBUG_SESSION_START=11947', {
         email:this.email,
         password:this.password
       }).then(response=>{

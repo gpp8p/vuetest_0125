@@ -276,8 +276,13 @@ name: "createLayout",
     saveData(){
         debugger;
       var err = this.checkEntry();
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+
       if(err=='Ok'){
-        axios.post('http://localhost:8000/api/shan/createLayoutNoBlanks?XDEBUG_SESSION_START=17516', {
+        axios.post(apiPath+'api/shan/createLayoutNoBlanks?XDEBUG_SESSION_START=17516', {
+//        axios.post('http://localhost:8000/api/shan/createLayoutNoBlanks?XDEBUG_SESSION_START=17516', {
           name: this.menu_label,
           description: this.description,
           height: this.height,
@@ -309,8 +314,13 @@ name: "createLayout",
     updateLayout(){
       debugger;
       var err = this.checkEntry();
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+
       if(err=='Ok'){
-        axios.post('http://localhost:8000/api/shan/updateLayout?XDEBUG_SESSION_START=17516', {
+        axios.post(apiPath+'api/shan/updateLayout?XDEBUG_SESSION_START=17516', {
+//          axios.post('http://localhost:8000/api/shan/updateLayout?XDEBUG_SESSION_START=17516', {
           layoutId:this.$store.getters.getCurrentLayoutId,
           name: this.menu_label,
           description: this.description,

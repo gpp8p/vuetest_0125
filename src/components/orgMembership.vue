@@ -94,6 +94,10 @@ name: "orgMembership",
   },
   watch :{
     cmd: function(){
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+
       switch(this.cmd){
         case 'Add Member':{
           console.log('orgMembership Add Member activated');
@@ -107,7 +111,9 @@ name: "orgMembership",
         }
         case 'Remove':{
           debugger;
-          axios.get('http://localhost:8000/api/shan/removeUserFromOrg?XDEBUG_SESSION_START=14668', {
+
+          axios.get(apiPath+'api/shan/removeUserFromOrg?XDEBUG_SESSION_START=14668', {
+//          axios.get('http://localhost:8000/api/shan/removeUserFromOrg?XDEBUG_SESSION_START=14668', {
             params: {
               userId:this.selectedUserId,
               orgId: this.orgId
@@ -135,6 +141,10 @@ name: "orgMembership",
   },
   methods:{
     memberSelected(msg){
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+
       switch(this.orgMemberViewStatus){
         case this.ORG_MEMBERS:{
           debugger;
@@ -153,7 +163,8 @@ name: "orgMembership",
         case this.AVAILABLE_MEMBERS:{
           console.log('member selected AVAILABLE_MEMBERS');
           console.log('selected member:',msg[1].id);
-          axios.post('http://localhost:8000/api/shan/addUserToOrg?XDEBUG_SESSION_START=15022', {
+          axios.post(apiPath+'api/shan/addUserToOrg?XDEBUG_SESSION_START=15022', {
+//          axios.post('http://localhost:8000/api/shan/addUserToOrg?XDEBUG_SESSION_START=15022', {
             userId:msg[1].id,
             orgId: this.orgId
           }).then(response=>
@@ -183,7 +194,11 @@ name: "orgMembership",
 //      this.$emit('memberSelected', msg);
     },
     getOrgMembers(orgId){
-      axios.get('http://localhost:8000/api/shan/orgUsers?XDEBUG_SESSION_START=14668', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+      axios.get(apiPath+'api/shan/orgUsers?XDEBUG_SESSION_START=14668', {
+//      axios.get('http://localhost:8000/api/shan/orgUsers?XDEBUG_SESSION_START=14668', {
         params: {
           orgId:orgId
         }
@@ -206,7 +221,11 @@ name: "orgMembership",
     },
 
     getAvailableOrgMembers(orgId){
-      axios.get('http://localhost:8000/api/shan/availableUsers?XDEBUG_SESSION_START=14668', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+      axios.get(apiPath+'api/shan/availableUsers?XDEBUG_SESSION_START=14668', {
+//      axios.get('http://localhost:8000/api/shan/availableUsers?XDEBUG_SESSION_START=14668', {
         params: {
           orgId:orgId
         }
@@ -229,7 +248,11 @@ name: "orgMembership",
     },
 
     getAllUsers(){
-      axios.get('http://localhost:8000/api/shan/allUsers?XDEBUG_SESSION_START=14668', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+ //     axios.get('http://localhost:8000/api/shan/allUsers?XDEBUG_SESSION_START=14668', {
+      axios.get(apiPath+'api/shan/allUsers?XDEBUG_SESSION_START=14668', {
 
       })
           .then(response => {
@@ -250,7 +273,12 @@ name: "orgMembership",
     },
     getOrgPerms(orgId){
       debugger;
-      axios.get('http://localhost:8000/api/shan/userOrgPerms?XDEBUG_SESSION_START=14668', {
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
+
+      axios.get(apiPath+'api/shan/userOrgPerms?XDEBUG_SESSION_START=14668', {
+//      axios.get('http://localhost:8000/api/shan/userOrgPerms?XDEBUG_SESSION_START=14668', {
         params: {
           orgId:orgId
         }

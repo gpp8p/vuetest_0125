@@ -108,7 +108,12 @@ name: "pdf",
   methods:{
     menuOptSelected(msg) {
       console.log(msg);
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+
       switch (msg) {
+
+
         case 'DeleteCard':{
           var mOpts = this.getMenuOpts('deleteChoice');
           this.currentMenuOpts = mOpts.currentMenuOpts;
@@ -116,7 +121,8 @@ name: "pdf",
         }
         case 'RmvLay':{
           console.log('remove from layout selected');
-          axios.get('http://localhost:8000/api/shan/rmvlay?XDEBUG_SESSION_START=14668', {
+          axios.get(apiPath+'api/shan/rmvlay?XDEBUG_SESSION_START=14668', {
+//          axios.get('http://localhost:8000/api/shan/rmvlay?XDEBUG_SESSION_START=14668', {
             params:{
               layoutId: this.$store.getters.getCurrentLayoutId,
               cardId: this.cardId,
@@ -136,7 +142,9 @@ name: "pdf",
         }
         case 'DelCardFromDb':{
           console.log('remove from db selected');
-          axios.get('http://localhost:8000/api/shan/deleteCard?XDEBUG_SESSION_START=14668', {
+
+          axios.get(apiPath+'api/shan/deleteCard?XDEBUG_SESSION_START=14668', {
+//          axios.get('http://localhost:8000/api/shan/deleteCard?XDEBUG_SESSION_START=14668', {
             params:{
               layoutId: this.$store.getters.getCurrentLayoutId,
               cardId: this.cardId,
