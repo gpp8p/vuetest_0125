@@ -10,12 +10,12 @@
        {{ this.cardContent.linkMenuTitle }}
       </span>
 
-      <div v-bind:style='subStyle' v-if="this.mode==this.LINK_MENU_LINK_MODE">
-        <span v-if="this.cardContent.orient=='vertical'" >
+      <div v-bind:style='subStyle' v-if="this.mode==this.LINK_MENU_LINK_MODE" >
+        <span v-if="this.cardContent.orient=='vertical'">
           <span >
             <search-box class="searchBox" :existingQuery="this.currentQuery" :inputSize="searchBoxSize" :displayMode="this.searchMode" @search="submitSearchQuery" @searchTypeSelected = "searchTypeSelected" @advancedSearchSelected="advancedSearchSelected" ></search-box>
           </span>
-          <span v-if="this.advancedQuery==false" >
+          <span v-if="this.advancedQuery==false">
             <ul>
               <m-link v-for="(link, index) in this.cardContent.availableLinks"
                       :key="index"
@@ -613,5 +613,7 @@ textarea {
   margin-bottom: 3px;
   width: 60%;
 }
+
+
 
 </style>

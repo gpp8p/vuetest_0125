@@ -13,7 +13,7 @@
       <select-picker :pType="fontStyleReference" :label="fontStyleLabel" :options="fontStyleOptions" :currentValues="currentValues.sub" @configSelected="configSelected"></select-picker>
     </span>
     <span>
-      <select-picker :pType="optionDirectionReference" :label="optionDirectionLabel" :options="optionDirection" :currentValues="currentValues.sub" @configSelected="configSelected"></select-picker>
+      <select-picker :pType="displayLimitReference" :label="displayLimitLabel" :options="displayLimitOptions" :currentValues="currentValues.sub" @configSelected="configSelected"></select-picker>
     </span>
     <span class="colorSet">
       <font-color-picker :pType="colorReference" :currentValues="currentValues" @configSelected="configSelected"></font-color-picker>
@@ -30,6 +30,7 @@ import flexFontSelect from "../components/flexFontSelect.vue";
 //import alignPicker from "../components/alignPicker.vue";
 import fontColorPicker from "@/components/fontColorPicker";
 import selectPicker from "@/components/selectPicker";
+
 export default {
   name: "LinkMenuConfiguration",
   components: {flexFontSelect, fontColorPicker, selectPicker},
@@ -66,6 +67,11 @@ export default {
       optionDirectionLabel: 'Direction',
       optionDirectionReference: 'optionDirection',
 
+      displayLimitLabel: 'Search Rslt Limit:',
+      displayLimitReference: 'displayLimit',
+      displayLimitOptions: ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15'],
+
+
 
 
       colorReference: 'color'
@@ -78,6 +84,7 @@ export default {
       msg.push(this.domElement);
       this.$emit('configSelected', msg);
     }
+
   }
 
 }

@@ -287,6 +287,11 @@
             this.subContentStyling[domElement].optionDirection  = "option-direction:" + cardData + ";";
             this.$emit('cardSubPropertySet', [cardData, cardDataElement, domElement]);
             break;
+          case 'displayLimit':
+            this.subContentStyling[domElement].displayLimit = "displayLimit:"+cardData+";";
+            this.subContentConfiguration['domElement']['displayLimit']=cardData;
+            break;
+
 /*
           case "youTubeUrl":
             this.cardData=cardData;
