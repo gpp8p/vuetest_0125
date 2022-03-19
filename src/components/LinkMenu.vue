@@ -26,6 +26,7 @@
                       @linkSelected="linkSelected"
               />
             </ul>
+            <pager></pager>
           </span>
           <span v-if="this.advancedQuery==true">
             <span class="verticalLabelCss">
@@ -56,7 +57,7 @@
           </span>
         </span>
         <span v-if="this.cardContent.orient=='horozontal'" class="flex-container">
-                  <m-link-hz v-for="(link, index) in this.cardContent.availableLinks"
+          <m-link-hz v-for="(link, index) in this.cardContent.availableLinks"
                              :key="index"
                              :description="link.description"
                              :target="link.layout_link_to"
@@ -94,10 +95,11 @@ import mLink from "../components/mLink.vue";
 import mLinkHz from "../components/mLinkHz.vue"
 import searchResultLink from "../components/searchResultLink.vue"
 import SearchBox from "@/components/searchBox";
+import pager from "../components/pager.vue";
 import axios from "axios";
 export default {
   name: "linkMenu",
-  components: {menuOpt, mLink, mLinkHz, SearchBox, searchResultLink},
+  components: {menuOpt, mLink, mLinkHz, SearchBox, searchResultLink, pager},
   extends: CardBase,
   props: {
     cardStyle: {
