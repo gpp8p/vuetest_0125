@@ -1,8 +1,12 @@
 <template>
   <span class="pagerLine">
-    <span class="splabel" @click="previous">Previous</span>
+    <span class="splabel">
+      <o-button @click="previous" :size="buttonSize">Previous</o-button>
+    </span>
     <span class="splabel"></span>
-    <span class="splabel" @click="next">Next</span>
+    <span class="splabel">
+      <o-button @click="next" :size="buttonSize">Next</o-button>
+    </span>
   </span>
 </template>
 
@@ -16,6 +20,11 @@ name: "pager",
     previous(){
       this.$emit('previousClicked');
     }
+  },
+  data(){
+    return {
+      buttonSize: 'small'
+    }
   }
 }
 </script>
@@ -27,7 +36,7 @@ name: "pager",
   margin-right: 5%;
   display:grid;
   grid-template-rows: 10%;
-  grid-template-columns: 20% 60% 20%;
+  grid-template-columns: 20% 50% 20%;
 
 }
 .splabel {

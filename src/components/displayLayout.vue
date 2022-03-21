@@ -169,7 +169,7 @@ export default {
       this.$emit('viewStatusChangeFunction', ['clearCmd'])
     },
     layoutGridParameters(height, width, backgroundColor, backgroundImageUrl, backgroundType, backgroundDisplay) {
-      debugger;
+//      debugger;
       console.log('height-',height);
       console.log('width-', width);
       console.log('screen width', screen.availWidth);
@@ -375,7 +375,7 @@ export default {
       this.layoutId = layoutId;
 //      this.cancelLayoutEdit();
 //      console.log("reloading" + msg);
-      debugger;
+//      debugger;
       var apiPath = this.$store.getters.getApiBase;
       console.log('apiPath - ',apiPath);
       axios.get(apiPath+'api/shan/getLayout?XDEBUG_SESSION_START=19884', {

@@ -26,7 +26,6 @@
                       @linkSelected="linkSelected"
               />
             </ul>
-            <pager></pager>
           </span>
           <span v-if="this.advancedQuery==true">
             <span class="verticalLabelCss">
@@ -71,13 +70,16 @@
             <search-box class="searchBox"  :inputSize="searchBoxSize" :existingQuery="this.currentQuery" :displayMode="this.searchMode" @search="submitSearchQuery" @searchTypeSelected = "searchTypeSelected" ></search-box>
         </span>
         <ul>
-          <search-result-link v-for="(result, index) in this.searchResults"
+          <search-result-link v-for="(result, index) in this.linksToShow"
                               :key="index"
                               :description="result.description"
                               :target="result.id"
                               @linkSelected="linkSelected"
           />
         </ul>
+          <pager @nextClicked="nextClicked" @previousClicked="previousClicked" v-if="this.showPager"></pager>
+        <br/>
+
       </div>
 
 
@@ -180,6 +182,17 @@ export default {
       }
       var mOpts = this.getMenuOpts('entryMenu');
       this.currentMenuOpts = mOpts.currentMenuOpts;
+      debugger;
+      var availableSubcontentStyles = this.subStyle.split(';');
+      for(var s=0;s<availableSubcontentStyles.length;s++){
+        var thisElement = availableSubcontentStyles[s];
+//        console.log(thisElement);
+        var parts = thisElement.split(":");
+        if(parts[0]=='displayLimit'){
+            this.displayLimit = parts[1];
+//          console.log(parts[0],'-', parts[1]);
+        }
+      }
 
 
 
@@ -200,7 +213,7 @@ export default {
 //      debugger;
     },
     subStyleChange(){
-//      debugger;
+      debugger;
       console.log('LinkMenu - watch on subStyleChange triggered. this.subContentStyling.sub:', this.subContentStyling.sub);
       var subStyleKeys = Object.keys(this.subContentStyling.sub);
       var combinedSubstyles = "";
@@ -262,7 +275,11 @@ export default {
       keyWordSearch:'',
       optSelected:'',
       fromDate:'',
-      toDate:''
+      toDate:'',
+      displayLimit:0,
+      linksToShow:[],
+      startingLinkToShow:0,
+      showPager:false,
 
       /*
             configurationCurrentValues:{
@@ -299,6 +316,46 @@ export default {
     moveClicked(){
       console.log('moveClicked');
       this.$emit('ghostCard');
+    },
+    nextClicked(){
+      debugger;
+      if((this.startingLinkToShow+parseInt(this.displayLimit)) > this.searchResults.length){
+        this.startingLinkToShow =  this.searchResults.length-this.startingLinkToShow;
+      }else{
+        this.startingLinkToShow=this.startingLinkToShow+parseInt(this.displayLimit);
+      }
+      console.log('nxt - startingLinkToShow', this.startingLinkToShow);
+      this.copyLinksToShow(parseInt(this.startingLinkToShow)) ;
+    },
+
+    previousClicked(){
+      if((this.searchResults.length-parseInt(this.displayLimit))<0){
+        this.startingLinkToShow=0;
+      }else{
+        this.startingLinkToShow=this.startingLinkToShow-parseInt(this.displayLimit);
+      }
+      console.log('prv - startingLinkToShow', this.startingLinkToShow);
+      this.copyLinksToShow(this.startingLinkToShow) ;
+    },
+    copyLinksToShow(startingPlace){
+      debugger;
+      if(this.searchResults.length>parseInt(this.displayLimit)){
+        this.linksToShow=[];
+        if(startingPlace+parseInt(this.displayLimit)>this.searchResults.length){
+          newTop = this.searchResults.length;
+        }else{
+          var newTop = startingPlace+parseInt(this.displayLimit);
+        }
+        console.log('newTop', newTop);
+        for(var l = startingPlace;l<newTop;l++){
+          console.log('l is',l);
+          this.linksToShow.push(this.searchResults[l]);
+          console.log('copying-',this.searchResults[l] );
+        }
+      }else{
+        this.linksToShow = this.searchResults;
+      }
+
     },
     getMenuOpts(menuContext){
       switch(menuContext){
@@ -485,6 +542,7 @@ export default {
             advancedQueryObjectJson=JSON.stringify(thisAdvancedQueryObject);
       }
       this.existingQuery = msg;
+      this.currentQuery = msg;
       var apiPath = this.$store.getters.getApiBase;
       console.log('apiPath - ',apiPath);
       axios.get(apiPath+'api/shan/solrSimpleQuery?XDEBUG_SESSION_START=14668', {
@@ -500,6 +558,14 @@ export default {
             this.mode = this.LINK_MENU_SEARCH_MODE;
             this.searchMode = 'search';
             this.searchResults = response.data;
+            this.copyLinksToShow(this.startingLinkToShow) ;
+            if(this.cardContent.availableLinks.length>this.displayLimit){
+              this.showPager=true;
+            }else{
+              this.showPager=false;
+            }
+
+
           })
           .catch(e => {
             console.log(e, 'search query failed');
