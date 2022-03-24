@@ -1,6 +1,6 @@
 <template >
 <span v-bind:style='thisCardStyle' v-on:click="processClick" id=cardId v-if="this.ghost==false">
-        <green-component  v-if="cardType=='greenComponent' || cardType=='Headline'" class="genericCardStyle"
+        <green-component  v-if="cardType=='greenComponent'" class="genericCardStyle"
                           :card-style=cardStyle
                           :card-id=cardId
                           :card-key=cardKey
@@ -20,6 +20,9 @@
                           @ghostCard="ghostCard"
                           ref="cardKey"
         ></green-component>
+
+
+
         <text-show v-if="cardType=='textShow' || cardType=='RichText'"
                    :card-style=cardStyle
                    :card-id=cardId
@@ -64,6 +67,28 @@
                    @ghostCard="ghostCard"
                    ref="cardKey"
         ></link-menu>
+       <Headline v-if="cardType=='Headline'"
+                  :card-style=cardStyle
+                  :card-id=cardId
+                  :card-key=cardKey
+                  :card-position=cardPosition
+                  :cardProperties = cardProperties
+                  :displayStatus = displayStatus
+                  :elementStyles="elementStyles"
+                  :cardContent="cardContent"
+                  :cmdObject="cmdObject"
+                  :cmdObjectVersion="cmdObjectVersion"
+                  :cmd = cmd
+                  @configSelected="configSelected"
+                  @cardClick="processCardClick"
+                  @textEditor="textEditor"
+                  @linkSelected="linkSelected"
+                  @configurationHasBeenSaved="configurationHasBeenSaved"
+                  @cardDataLoaded="cardDataLoaded"
+                  @cardPropertySet="cardPropertySet"
+                  @ghostCard="ghostCard"
+                  ref="cardKey"
+       ></Headline>
         <login-link v-if="cardType=='loginLink'"
                     :displayStatus = displayStatus
                     :card-id=cardId
@@ -161,11 +186,12 @@
   import Document from "../components/Document2.vue";
   import pdf from "../components/pdf.vue";
   import Search from "../components/Search.vue";
+  import Headline from "../components/Headline.vue";
 
   export default {
     name: "genericCard",
     extends: GenericCardBase,
-    components: {GreenComponent, textShow, linkMenu, loginLink, youTube, archive, Document, pdf, Search},
+    components: {GreenComponent, textShow, linkMenu, loginLink, youTube, archive, Document, pdf, Search, Headline},
     props: {
       cardType: {
         type: String,

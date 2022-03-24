@@ -513,7 +513,8 @@ export default {
       }
     },
     linkSelected(msg){
-//      console.log('link selected', msg);
+      console.log('link selected', msg);
+//      debugger;
       this.$emit('linkSelected', msg);
     },
     refId: function() {
@@ -554,18 +555,17 @@ export default {
         }
       })
           .then(response => {
-            console.log(response);
+            console.log('search response',response);
             this.mode = this.LINK_MENU_SEARCH_MODE;
             this.searchMode = 'search';
             this.searchResults = response.data;
+            console.log(this.searchResults);
             this.copyLinksToShow(this.startingLinkToShow) ;
             if(this.cardContent.availableLinks.length>this.displayLimit){
               this.showPager=true;
             }else{
               this.showPager=false;
             }
-
-
           })
           .catch(e => {
             console.log(e, 'search query failed');

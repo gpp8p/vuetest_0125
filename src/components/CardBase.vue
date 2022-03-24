@@ -961,6 +961,30 @@
               currentMenuSelection: 'Configure'
             }
           }
+          case'headline_edit_content':{
+            return {
+              currentMenuOpts:[
+                ['Cancel','exitEdit'],
+                ['Save', 'saveHeadline'],
+                ['Back', 'backToHeadlineEntry']
+
+              ],
+              currentMenuSelection: 'Cancel'
+            }
+          }
+          case'entryMenu_headline':{
+            return {
+              currentMenuOpts:[
+                ['Configure','Configure'],
+                ['Resize/Move', 'Resize'],
+                ['Del','DeleteCard'],
+                ['Edit Headline', 'EditHead'],
+                ['Edit Links', 'EditLinks'],
+                ['Exit', 'exitEdit']
+              ],
+              currentMenuSelection: 'Configure'
+            }
+          }
           case'entryMenuSearch':{
             return {
               currentMenuOpts:[
