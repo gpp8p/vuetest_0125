@@ -54,7 +54,7 @@ import createLayout from "../components/createLayout.vue";
 import axios from "axios";
 //import CardBase from "@/components/CardBase";
 export default {
-  name: "linkMaster2",
+  name: "linkMaster3",
   components :{ menuOpt, linkMenuList, linkMenuAdd, createLayout},
 //  extends: CardBase,
   mounted(){

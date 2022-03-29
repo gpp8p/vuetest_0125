@@ -78,6 +78,7 @@
                   :cardContent="cardContent"
                   :cmdObject="cmdObject"
                   :cmdObjectVersion="cmdObjectVersion"
+                  :headlineStyle="thisCardStyle"
                   :cmd = cmd
                   @configSelected="configSelected"
                   @cardClick="processCardClick"

@@ -3,15 +3,17 @@
     <div class="cardHeader" v-if="showOptions==true">
       <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
     </div>
-    <span class="headline" v-if="this.mode==this.HEADLINE_SHOW">
-       {{ this.cardContent.linkMenuTitle }}
-    </span>
+
     <span v-if="this.mode==this.HEADLINE_EDIT" class="headline_wrapper">
         <span class="head_label">Headline:</span>
         <input type="text" v-model="cardTitle"  size="80" width="100%" />
     </span>
-    <div v-bind:style='subStyle' v-if="this.mode==this.LINK_MENU_LINK_MODE" >
-      <span class="flex-container">
+    <div v-if="this.mode==this.HEADLINE_SHOW" >
+    <span class="headline" v-bind:style='headlineStyle'>
+       {{ this.cardContent.linkMenuTitle }}
+      </span>
+
+      <span class="flex-container" v-bind:style='subStyle'>
             <m-link-hz v-for="(link, index) in this.cardContent.availableLinks"
                        :key="index"
                        :description="link.description"
@@ -79,7 +81,7 @@ name: "Headline",
     cmdObjectVersion:{
       type: Number,
       required: false
-    }
+    },
   },
   mounted(){
     if (typeof(this.elementStyles) === 'undefined'){
@@ -97,6 +99,14 @@ name: "Headline",
     }else{
       this.showOptions=true;
     }
+    var cardStyleElements = this.cardStyle.split(';');
+    var hd = '';
+    for(var h=1; h < cardStyleElements.length;h++){
+      if(cardStyleElements[h].startsWith('font-size')|cardStyleElements[h].startsWith('font-family')|cardStyleElements[h].startsWith('color')|cardStyleElements[h].startsWith('font-style')|cardStyleElements[h].startsWith('font-weight')){
+        hd = hd+cardStyleElements[h]+';';
+      }
+    }
+    this.headlineStyle = hd.slice(0,-1);
     var mOpts = this.getMenuOpts('entryMenu_headline');
     this.currentMenuOpts = mOpts.currentMenuOpts;
   },
@@ -107,6 +117,7 @@ name: "Headline",
       HEADLINE_EDIT:1,
       HEADLINE_LINKS_EDIT:2,
       cardTitle:'',
+      headlineStyle:'',
       editStatus:false,
       subStyle: '',
       subStyleChange:0,
@@ -174,7 +185,7 @@ name: "Headline",
           this.moveClicked();
           break;
         }
-        case 'Edit':{
+        case 'EditLinks':{
           this.editClicked();
           break;
         }
@@ -273,6 +284,16 @@ name: "Headline",
           break;
         }
       }
+    },
+    linkSelected(msg){
+      console.log('link selected', msg);
+//      debugger;
+      this.$emit('linkSelected', msg);
+    },
+    editClicked(){
+      debugger;
+      this.loadCardConfiguration(this.cardId);
+      this.$emit('textEditor', [this.cardKey, this.setCardData,this.configurationCurrentValues, this.cardData, this.cardId, 'Headline', this.cardContent]);
     },
 
   }

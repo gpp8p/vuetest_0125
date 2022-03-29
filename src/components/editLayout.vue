@@ -51,7 +51,7 @@
                  :cmdObjectVersion="cmdObjectVersion"
                  v-bind:style='this.dialogStyleObject'
         ></Dialog>
-              <link-master2 v-if="this.RICH_TEXT_EDITOR==true"
+              <link-master3 v-if="this.RICH_TEXT_EDITOR==true"
                             :dialog-type="dialogType"
                             :key="dialogKey"
                             :currentValues=this.cardCurrentConfigurationValues
@@ -69,7 +69,7 @@
                             @clearCmd="clearRtCmd"
                             :cmd="rtCmd"
                             v-bind:style='this.styleObject'
-              ></link-master2>
+              ></link-master3>
 
 
 
@@ -84,14 +84,14 @@
     import genericCard from '../components/genericCard.vue';
     import Dialog from "../components/DialogV2.vue";
 //    import rtEditorDialog from "./rtEditorDialog.vue";
-    import LinkMaster2 from "@/components/linkMaster3";
+    import LinkMaster3 from "@/components/linkMaster3";
     import store from "@/store";
 
 
 //    import simpleCkDialog from "../components/simpleCk.vue";
     export default {
         name: "editLayout",
-        components:{LinkMaster2, genericCard, Dialog},
+        components:{LinkMaster3, genericCard, Dialog},
         props:{
           cmd:{
             type: String,
@@ -281,13 +281,17 @@
             }
           },
           textEditor(msg){
-            console.log('editLayout.textEditor -',msg);
+            console.log('editLayout.textEditor (textEditor) -',msg);
             debugger;
             this.updateCallback = msg[0][1];
             this.selectedCardId = msg[0][4];
             this.cardToEditType = msg[0][5];
             switch(this.cardToEditType){
               case 'linkMenu':{
+                this.cardData = JSON.stringify(msg[0][6]);
+                break;
+              }
+              case 'Headline':{
                 this.cardData = JSON.stringify(msg[0][6]);
                 break;
               }

@@ -407,7 +407,7 @@ export default {
     },
 */
     editClicked(){
-//      debugger;
+      debugger;
       this.loadCardConfiguration(this.cardId);
       this.$emit('textEditor', [this.cardKey, this.setCardData,this.configurationCurrentValues, this.cardData, this.cardId, 'linkMenu', this.cardContent]);
     },
