@@ -67,6 +67,28 @@
                    @ghostCard="ghostCard"
                    ref="cardKey"
         ></link-menu>
+        <NavigationMenu v-if="cardType=='NavigationMenu'"
+                   :card-style=cardStyle
+                   :card-id=cardId
+                   :card-key=cardKey
+                   :card-position=cardPosition
+                   :cardProperties = cardProperties
+                   :displayStatus = displayStatus
+                   :elementStyles="elementStyles"
+                   :cardContent="cardContent"
+                   :cmdObject="cmdObject"
+                   :cmdObjectVersion="cmdObjectVersion"
+                   :cmd = cmd
+                   @configSelected="configSelected"
+                   @cardClick="processCardClick"
+                   @textEditor="textEditor"
+                   @linkSelected="linkSelected"
+                   @configurationHasBeenSaved="configurationHasBeenSaved"
+                   @cardDataLoaded="cardDataLoaded"
+                   @cardPropertySet="cardPropertySet"
+                   @ghostCard="ghostCard"
+                   ref="cardKey"
+        ></NavigationMenu>
        <Headline v-if="cardType=='Headline'"
                   :card-style=cardStyle
                   :card-id=cardId
@@ -188,11 +210,12 @@
   import pdf from "../components/pdf.vue";
   import Search from "../components/Search.vue";
   import Headline from "../components/Headline.vue";
+  import NavigationMenu from "../components/NavigationMenu.vue"
 
   export default {
     name: "genericCard",
     extends: GenericCardBase,
-    components: {GreenComponent, textShow, linkMenu, loginLink, youTube, archive, Document, pdf, Search, Headline},
+    components: {GreenComponent, textShow, linkMenu, loginLink, youTube, archive, Document, pdf, Search, Headline, NavigationMenu},
     props: {
       cardType: {
         type: String,

@@ -13,11 +13,6 @@
         <input v-model="currentCardData.linkMenuTitle" size="55"/>
       </span>
       <span class="orient">
-        <span>Orientation:</span>
-        <span>
-          <o-radio v-model="currentCardData.orient" name="orientation" native-value="vertical">Vertical</o-radio>
-          <o-radio v-model="currentCardData.orient" name="orientation" native-value="horozontal">Horozontal</o-radio>
-        </span>
       </span>
     </span>
     <span>
@@ -63,6 +58,7 @@ export default {
     this.currentMenuOpts = mOpts.currentMenuOpts;
     this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
     this.currentCardData= JSON.parse(this.cardData);
+    this.currentCardData.orient = this.orient;
     this.mode=this.SHOW_LINKS;
   },
   props:{
@@ -97,6 +93,10 @@ export default {
     cardId:{
       type: Number,
       required: false
+    },
+    orient:{
+      type: String,
+      required: true
     }
   },
   data(){
@@ -148,7 +148,7 @@ export default {
       perPage: 8,
       nxtPage: 'Next Page',
       selected:'',
-      orient:'',
+//      orient:'',
       titleMsg:'',
       selectedLayout:{},
       linkOptionSelected:'',
@@ -296,6 +296,7 @@ export default {
           break;
         }
         case 'addBegining':{
+          debugger;
           this.currentCardData.availableLinks.unshift(this.selectedLayout);
           mOpts = this.getMenuOpts('setupMenuLink');
 

@@ -60,6 +60,7 @@
                             :cardData = "cardData"
                             :cardToEditType = "cardToEditType"
                             :cardId = "this.selectedCardId"
+                            :orient = 'this.newCardOrientation'
                             @dragStart="dragStart"
                             @moved="dialogMoved"
                             @configSelected = "configSelected"
@@ -165,6 +166,7 @@
                 CARDBEINGRESIZEDCLICK2:10,
 
                 newCardCoords: [],
+                newCardOrientation:'',
                 updateCallback: null,
                 cardData: '',
                 selectedCardId:0,
@@ -288,10 +290,12 @@
             this.cardToEditType = msg[0][5];
             switch(this.cardToEditType){
               case 'linkMenu':{
+                this.newCardOrientation = 'vertical';
                 this.cardData = JSON.stringify(msg[0][6]);
                 break;
               }
               case 'Headline':{
+                this.newCardOrientation='horozontal';
                 this.cardData = JSON.stringify(msg[0][6]);
                 break;
               }

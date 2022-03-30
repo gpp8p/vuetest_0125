@@ -11,10 +11,10 @@
       </span>
 
       <div v-bind:style='subStyle' v-if="this.mode==this.LINK_MENU_LINK_MODE" >
+        <span >
+          <search-box class="searchBox" :existingQuery="this.currentQuery" :inputSize="searchBoxSize" :displayMode="this.searchMode" @search="submitSearchQuery" @searchTypeSelected = "searchTypeSelected" @advancedSearchSelected="advancedSearchSelected" ></search-box>
+        </span>
         <span v-if="this.cardContent.orient=='vertical'">
-          <span >
-            <search-box class="searchBox" :existingQuery="this.currentQuery" :inputSize="searchBoxSize" :displayMode="this.searchMode" @search="submitSearchQuery" @searchTypeSelected = "searchTypeSelected" @advancedSearchSelected="advancedSearchSelected" ></search-box>
-          </span>
           <span v-if="this.advancedQuery==false">
             <ul>
               <m-link v-for="(link, index) in this.cardContent.availableLinks"
@@ -55,15 +55,6 @@
             </span>
           </span>
         </span>
-        <span v-if="this.cardContent.orient=='horozontal'" class="flex-container">
-          <m-link-hz v-for="(link, index) in this.cardContent.availableLinks"
-                             :key="index"
-                             :description="link.description"
-                             :target="link.layout_link_to"
-                             :is_external="link.is_external"
-                             @linkSelected="linkSelected"
-                  />
-        </span>
       </div>
       <div v-bind:style='subStyle' v-if="this.mode==this.LINK_MENU_SEARCH_MODE">
         <span >
@@ -94,14 +85,13 @@
 import CardBase from "../components/CardBase.vue";
 import menuOpt from "../components/menuOptV2.vue";
 import mLink from "../components/mLink.vue";
-import mLinkHz from "../components/mLinkHz.vue"
 import searchResultLink from "../components/searchResultLink.vue"
 import SearchBox from "@/components/searchBox";
 import pager from "../components/pager.vue";
 import axios from "axios";
 export default {
-  name: "linkMenu",
-  components: {menuOpt, mLink, mLinkHz, SearchBox, searchResultLink, pager},
+  name: "NavigationMenu",
+  components: {menuOpt, mLink, SearchBox, searchResultLink, pager},
   extends: CardBase,
   props: {
     cardStyle: {
@@ -195,6 +185,9 @@ export default {
       }
       if(typeof(this.cardContent.orient)=='undefined'){
         this.cardContent.orient = 'vertical';
+      }
+      if(typeof(this.cardContent.availableLinks)=='undefined'){
+        this.cardContent.availableLinks = [];
       }
 
 
@@ -564,7 +557,8 @@ export default {
             this.searchResults = response.data;
             console.log(this.searchResults);
             this.copyLinksToShow(this.startingLinkToShow) ;
-            if(this.cardContent.availableLinks.length>this.displayLimit){
+            if(response.data.length>this.displayLimit){
+//            if(this.cardContent.availableLinks.length>this.displayLimit){
               this.showPager=true;
             }else{
               this.showPager=false;
