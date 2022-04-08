@@ -24,27 +24,81 @@ name: "MySpaces",
   mounted(){
     console.log('mounted runs in layoutLinks');
     console.log('orgId - according vuex:', this.$store.getters.getOrgId );
+    console.log('MySpaces mounted - ',this.$route.params.showingDeleted);
 //    debugger;
-    var apiPath = this.$store.getters.getApiBase;
-    console.log('apiPath - ',apiPath);
-    axios.get(apiPath+'api/shan/getMySpaces?XDEBUG_SESSION_START=15122"', {
-//    axios.get('http://localhost:8000/api/shan/getMySpaces?XDEBUG_SESSION_START=15122"', {
-      params:{
-        orgId:this.$store.getters.getOrgId,
-        userId: this.$store.getters.getLoggedInUserId,
+    this.getMySpaces();
+  },
+  props:{
+    showingDeleted :{
+      type: Boolean,
+      required: false
+    }
+  },
+  watch:{
+    showingDeleted: function(){
+      if(this.showingDeleted==true){
+        console.log('showingDeleted-',this.showingDeleted);
+        this.getDeletedLayouts();
       }
-    }).then(response=> {
-      console.log('getMySpaces',response);
-      this.data=response.data;
-    }).catch(e=>{
-      console.log(e);
-    });
+    }
   },
   methods:{
     spaceSelected(msg){
 //      debugger;
       console.log(msg.id);
-      this.$emit('layoutSelected',msg['id']);
+      if(!this.showingDeleted){
+        this.$emit('layoutSelected',msg['id']);
+      }else{
+        var apiPath = this.$store.getters.getApiBase;
+        axios.get(apiPath+'api/shan/undeleteThisSpace?XDEBUG_SESSION_START=15122"', {
+          params:{
+            layoutId: msg.id,
+          }
+        }).then(response=> {
+          console.log(response);
+          this.$emit('undeleteSelected');
+          console.log('showingDeleted=',this.showingDeleted)
+          this.getMySpaces();
+          this.$emit('clearCmd');
+          this.$router.go();
+        }).catch(e=>{
+          console.log(e);
+        });
+      }
+
+
+    },
+    getMySpaces(){
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+      axios.get(apiPath+'api/shan/getMySpaces?XDEBUG_SESSION_START=15122"', {
+//    axios.get('http://localhost:8000/api/shan/getMySpaces?XDEBUG_SESSION_START=15122"', {
+        params:{
+          orgId:this.$store.getters.getOrgId,
+          userId: this.$store.getters.getLoggedInUserId,
+        }
+      }).then(response=> {
+        console.log('getMySpaces',response);
+        this.data=response.data;
+      }).catch(e=>{
+        console.log(e);
+      });
+    },
+    getDeletedLayouts(){
+      var apiPath = this.$store.getters.getApiBase;
+      axios.get(apiPath+'api/shan/getMyDeletedSpaces?XDEBUG_SESSION_START=15122"', {
+//    axios.get('http://localhost:8000/api/shan/getMySpaces?XDEBUG_SESSION_START=15122"', {
+        params:{
+          orgId:this.$store.getters.getOrgId,
+          userId: this.$store.getters.getLoggedInUserId,
+        }
+      }).then(response=> {
+        this.$emit('deletedLayoutsShowing');
+        console.log('getMySpaces',response);
+        this.data=response.data;
+      }).catch(e=>{
+        console.log(e);
+      });
     }
   },
   data(){

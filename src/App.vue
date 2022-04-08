@@ -15,7 +15,10 @@
                            @cardSaved="cardSaved"
                            @login="login"
                            @clearCmd="clearCmd"
+                           @deletedLayoutsShowing="deletedLayoutsShowing"
+                           @undeleteSelected="undeleteSelected"
                            :key="componentKey"
+                           :showingDeleted="showingDeleted"
                            :cmd="this.thisCmd"></router-view>
           </section>
 
@@ -89,7 +92,8 @@ export default {
       editViewStatusChangeFunction:null,
       displayViewStatusChangeFunction:null,
       thisCmd:'',
-      componentKey:0
+      componentKey:0,
+      showingDeleted:false
     }
   },
   methods: {
@@ -117,6 +121,14 @@ export default {
               })
 
        */
+    },
+    deletedLayoutsShowing(){
+      this.thisCmd='selectLayoutToUnDelete';
+    },
+    undeleteSelected(){
+      this.message='';
+      this.showingDeleted=false;
+      this.thisCmd='mySpaces';
     },
     tabSelected(msg){
       //               debugger;
@@ -163,6 +175,8 @@ export default {
         case 'Exit':{
 //            debugger;
 //            this.$eventHub.$emit('editStatusChanged', ['cancelEdit',0]);
+          this.showingDeleted = false;
+          this.message='';
           this.$router.push({
             name: 'displayLayout',
             params: { layoutId: this.$store.getters.getCurrentLayoutId }
@@ -177,7 +191,8 @@ export default {
           break;
         }
         case 'Publish':{
-          axios.get('http://localhost:8000/api/shan/publishOrg?XDEBUG_SESSION_START=15122"', {
+          var apiPath = this.$store.getters.getApiBase;
+          axios.get(apiPath+'api/shan/publishOrg?XDEBUG_SESSION_START=15122"', {
             params:{
               orgId:this.$store.getters.getOrgId,
             }
@@ -191,6 +206,17 @@ export default {
           break;
         }
         case 'My Spaces':{
+          this.thisCmd='mySpaces';
+          this.$router.push({
+            name: 'MySpaces',
+            params: {}
+          })
+          break;
+        }
+        case 'Show Deleted':{
+          console.log('Show Deleted selected');
+          this.showingDeleted = true;
+          this.message = 'Please Click on the Space You Wish to Undelete';
           this.$router.push({
             name: 'MySpaces',
             params: {}
@@ -211,7 +237,8 @@ export default {
         }
         case 'Test':{
           debugger;
-          axios.get('http://localhost:8000/api/shan/layoutTest?XDEBUG_SESSION_START=14668', {
+          apiPath = this.$store.getters.getApiBase;
+          axios.get(apiPath+'api/shan/layoutTest?XDEBUG_SESSION_START=14668', {
 
           })
               .then(response => {
@@ -312,14 +339,16 @@ export default {
     },
     layoutSelected(msg){
       console.log('layoutSelected',msg);
+
       store.commit('setCurrentLayoutId', msg);
-
-
       this.$router.push({
         name: 'displayLayout',
         params: {layoutId: msg}
       })
       this.$router.go();
+
+
+
     },
     testEmit(msg){
       console.log('router view caught:', msg);

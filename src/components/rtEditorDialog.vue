@@ -330,7 +330,8 @@ export default {
           if(!textHasBeenSelected){
             this.titleMsg='Please select some text!';
           }else{
-            this.forwardToUrl = "http://localhost:8080/displayLayout/"+this.layoutLink;
+            var urlBase = this.$store.getters.getUrlBase;
+            this.forwardToUrl = urlBase+"displayLayout/"+this.layoutLink;
             this.editorInUse.execute( 'link', this.forwardToUrl );
             //                  this.currentMenuOpts = ['Cancel', 'Link to Another Space',  'Save'];
             mOpts = this.getMenuOpts('richTextOpen');

@@ -42,6 +42,8 @@
             VIEW_VIEWING:0,
             VIEW_EDITING:1,
             VIEW_NEWCARD:2,
+            VIEW_SPACES:10,
+            VIEW_DELETES:11,
 
               WAITINGFORCLICK:0,
               TOPLEFTCLICKED:1,
@@ -96,6 +98,18 @@
 //                debugger;
                 this.menuItems = this.getMenuItems();
          //       this.$emit('viewStatusChangeFunction', ['clearCmd']);
+                break;
+              }
+              case 'mySpaces':{
+                this.viewContext=this.VIEW_SPACES;
+                this.menuItems = this.getMenuItems();
+                this.$emit('viewStatusChangeFunction', ['clearCmd']);
+                break;
+              }
+              case 'selectLayoutToUnDelete':{
+                this.viewContext=this.VIEW_DELETES;
+                this.menuItems = this.getMenuItems();
+                this.$emit('viewStatusChangeFunction', ['clearCmd']);
                 break;
               }
             }
@@ -209,6 +223,10 @@
                   }
                 }else if(this.viewContext==this.VIEW_EDITING){
                     return ['Change Layout Setup', 'Insert Existing Card','Create A New Card', 'Exit'];
+                }else if(this.viewContext==this.VIEW_SPACES){
+                    return ['Exit', 'Show Deleted'];
+                }else if(this.viewContext==this.VIEW_DELETES){
+                    return ['Exit'];
                 }
 
             },

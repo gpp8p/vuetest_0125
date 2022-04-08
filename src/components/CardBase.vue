@@ -52,7 +52,8 @@
             break
           case "backgroundImage":
             debugger;
-            var backGroundImageReference = "url(http://localhost:8000/storage/"+cardData+")";
+            var urlBase = this.$store.getters.getUrlBase;
+            var backGroundImageReference = "url("+urlBase+"storage/"+cardData+")";
 //            var backGroundImageReference = "url('" + cardData + "')";
 //            this.$el.style.backgroundImage = backGroundImageReference;
             this.configurationCurrentValues['backgroundImage']=backGroundImageReference;
