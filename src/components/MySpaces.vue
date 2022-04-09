@@ -19,6 +19,7 @@
 
 <script>
 import axios from "axios";
+//import store from "@/store";
 export default {
 name: "MySpaces",
   mounted(){
@@ -27,6 +28,8 @@ name: "MySpaces",
     console.log('MySpaces mounted - ',this.$route.params.showingDeleted);
 //    debugger;
     this.getMySpaces();
+
+
   },
   props:{
     showingDeleted :{
@@ -45,8 +48,9 @@ name: "MySpaces",
   methods:{
     spaceSelected(msg){
 //      debugger;
-      console.log(msg.id);
+      console.log('undelete spaceSelected - ',msg.id);
       if(!this.showingDeleted){
+        console.log('spaceSelected in MySpaces msg - ', msg);
         this.$emit('layoutSelected',msg['id']);
       }else{
         var apiPath = this.$store.getters.getApiBase;
@@ -56,11 +60,13 @@ name: "MySpaces",
           }
         }).then(response=> {
           console.log(response);
-          this.$emit('undeleteSelected');
+
           console.log('showingDeleted=',this.showingDeleted)
           this.getMySpaces();
-          this.$emit('clearCmd');
+//          this.$emit('clearCmd');
           this.$router.go();
+
+
         }).catch(e=>{
           console.log(e);
         });
@@ -79,6 +85,7 @@ name: "MySpaces",
         }
       }).then(response=> {
         console.log('getMySpaces',response);
+        this.$emit('undeleteSelected');
         this.data=response.data;
       }).catch(e=>{
         console.log(e);
@@ -101,6 +108,8 @@ name: "MySpaces",
       });
     }
   },
+
+
   data(){
     return {
       data:[],

@@ -129,6 +129,9 @@ export default {
       this.message='';
       this.showingDeleted=false;
       this.thisCmd='mySpaces';
+//      debugger;
+      this.getOrgHome();
+      console.log('undeleteSelected - ', this.thisCmd);
     },
     tabSelected(msg){
       //               debugger;
@@ -349,6 +352,25 @@ export default {
 
 
 
+    },
+    getOrgHome(){
+      var apiPath = this.$store.getters.getApiBase;
+      axios.get(apiPath+'api/shan/getOrgHome?XDEBUG_SESSION_START=14668', {
+//              axios.get('http://localhost:8000/api/shan/deleteCard?XDEBUG_SESSION_START=14668', {
+        params:{
+          orgId:this.$store.getters.getOrgId
+        }
+      })
+          .then(response => {
+            console.log('getOrgHome-',response);
+
+            store.commit('setOrgHome', response.data);
+            store.commit('setCurrentLayoutId', response.data);
+          })
+          .catch(e => {
+            this.errors.push(e);
+            console.log('getOrgHome failed');
+          });
     },
     testEmit(msg){
       console.log('router view caught:', msg);

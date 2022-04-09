@@ -473,6 +473,12 @@ export default {
           alert('Not authorized to delete this page');
         }else{
           alert('Links to this page have been removed');
+          this.$emit('deletedLayoutsShowing');
+          this.thisCmd='mySpaces';
+          this.$router.push({
+            name: 'MySpaces',
+            params: {}
+          })
         }
 
       }).catch(e => {
@@ -480,7 +486,6 @@ export default {
         this.errors.push(e);
       });
     },
-
 
 
 
