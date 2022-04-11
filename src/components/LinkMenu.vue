@@ -156,7 +156,7 @@ export default {
       }else{
         this.subStyle = this.elementStyles.sub[0];
       }
-      debugger;
+//      debugger;
       var existingQuery = '';
       this.loadOptions();
       console.log('activeQuery - ', sessionStorage.getItem('searchActive'), sessionStorage.getItem('searchQuery'));

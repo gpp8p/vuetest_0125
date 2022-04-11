@@ -50,6 +50,10 @@ name: "linkMenuAdd",
       extLinkMenuLabel:''
     }
   },
+  mounted(){
+    this.linkChoice = 'intSelected';
+    this.mode = this.SHOW_INTERNAL_LINKS;
+  },
   props:{
     cmd:{
       type: String,

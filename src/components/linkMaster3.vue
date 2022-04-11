@@ -169,7 +169,7 @@ export default {
         case 'setupMenuLink': {
           return {
             currentMenuOpts: [
-              ['Add', 'AddLink'],
+              ['Add A Link', 'AddLink'],
               ['Exit', 'Cancel'],
               ['Add Current Layout', 'addCurrent'],
               ['Create New Layout', 'CreateLayout'],
@@ -361,6 +361,9 @@ export default {
           break;
         }
         case 'saveAndAdd':{
+          console.log('saveAndAdd');
+//          debugger;
+
           this.currentCmd = 'Save';
           break;
         }
@@ -387,6 +390,16 @@ export default {
         }
       }
     },
+    addNewLinkToList(){
+      console.log('in addNewLinkToList - ', this.selectedLayout);
+      this.currentCardData.availableLinks.push(this.selectedLayout);
+      var mOpts = this.getMenuOpts('setupMenuLink');
+
+      this.currentMenuOpts = mOpts.currentMenuOpts;
+      this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+      this.selectedLayout={};
+      this.titleMsg='Building a Menu';
+    },
     layoutData(msg){
       console.log('layout saved:',msg);
       var newElement ={};
@@ -401,7 +414,9 @@ export default {
       var url2 = url1.concat(msg[0]);
       newElement.link_url=url2;
 
+
       this.selectedLayout=newElement;
+      this.addNewLinkToList();
       var str1 = "Add ";
       this.titleMsg = str1.concat(newElement.description, ' to the menu ?');
       var mOpts = this.getMenuOpts('addLinkToMenu');
@@ -413,28 +428,20 @@ export default {
 
     },
     layoutSelected(msg){
-      console.log('selected layout:', msg.description);
+      console.log('selected layout:', msg);
       this.selectedLayout = {};
-      if(this.linkOptionSelected=='internal'){
-        this.selectedLayout.isExternal=0;
-        var url1 = this.urlBase;
-        var url2 = url1.concat(msg.layout_link_to);
-        this.selectedLayout.link_url=url2;
-        this.selectedLayout.id=-1;
-        this.selectedLayout.description = msg.description;
-        this.selectedLayout.layout_link_to = msg.layout_link_to;
-        this.selectedLayout.width = msg.width;
-        this.selectedLayout.height= msg.height;
-        this.selectedLayout.menu_label = msg.menu_label;
-      }else{
-        this.selectedLayout.isExternal=1;
-      }
-      var str1 = "Add ";
-      this.titleMsg = str1.concat(msg.description, ' to the menu ?');
-      var mOpts = this.getMenuOpts('addLinkToMenu');
+      this.selectedLayout.isExternal=0;
+      var url1 = this.urlBase;
+      var url2 = url1.concat(msg.layout_link_to);
+      this.selectedLayout.link_url=url2;
+      this.selectedLayout.id=-1;
+      this.selectedLayout.description = msg.description;
+      this.selectedLayout.layout_link_to = msg.layout_link_to;
+      this.selectedLayout.width = msg.width;
+      this.selectedLayout.height= msg.height;
+      this.selectedLayout.menu_label = msg.menu_label;
 
-      this.currentMenuOpts = mOpts.currentMenuOpts;
-      this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+      this.addNewLinkToList();
 
       this.mode=this.SHOW_LINKS;
 
