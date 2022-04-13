@@ -28,13 +28,26 @@
             @newExtLink="newExtLink" >
         </link-menu-add>
       </span>
+      <span v-if="mode==this.CREATE_LAYOUT">
+        <create-layout  :cmd="currentCmd" @err="createError" @layoutData="layoutData"></create-layout>
+      </span>
+      <span v-if="mode==this.DIALOG_SELECT_TEMPLATE">
+        <select-template :cmd = "cmd"  @templateSelected="templateSelected" ></select-template>
+      </span>
+      <span v-if="mode==this.DIALOG_CLONE_TEMPLATE">
+              <clone-template
+                              :cmd = "this.currentCmd"
+                              :cmdVersion = "cmdVersion"
+                              @setTitle="setTitle"
+                              @clearCmd="clearCmd"
+                              @cloneSuccessful="cloneSuccessful"
+                              @cloneSuccessfulReturnToEdit="cloneSuccessfulReturnToEdit"
 
-      <create-layout v-if="mode==this.CREATE_LAYOUT" :cmd="currentCmd" @err="createError" @layoutData="layoutData"></create-layout>
-
-
-    </span>
+                              :sourceTemplate = "this.selectedTemplateDescription"
+                              :sourceTemplateId = "this.selectedTemplateId"
+              ></clone-template>
+      </span>
   </span>
-  <span>
     <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
   </span>
 </div>
@@ -47,10 +60,12 @@ import linkMenuList from "../components/linkMenuList.vue";
 import linkMenuAdd from "../components/linkMenuAdd.vue";
 import createLayout from "../components/createLayout.vue";
 import axios from "axios";
+import selectTemplate from "../components/selectTemplate.vue";
+import cloneTemplate from "./cloneTemplate.vue";
 //import CardBase from "@/components/CardBase";
 export default {
   name: "linkMaster3",
-  components :{ menuOpt, linkMenuList, linkMenuAdd, createLayout},
+  components :{ menuOpt, linkMenuList, linkMenuAdd, createLayout, selectTemplate, cloneTemplate},
 //  extends: CardBase,
   mounted(){
     this.titleMsg='Building a Menu';
@@ -138,6 +153,8 @@ export default {
       SHOW_LINKS:0,
       ADD_LINK:1,
       CREATE_LAYOUT:2,
+      DIALOG_CLONE_TEMPLATE:14,
+      DIALOG_SELECT_TEMPLATE:15,
       isPaginated: true,
       isPaginationSimple: false,
       paginationPosition: 'bottom',
@@ -157,6 +174,10 @@ export default {
       currentMenuOpts:[],
       currentSelectedMenuOption:'',
       currentCmd:'',
+      cmdVersion:0,
+      selectedTemplateDescription:'',
+      selectedTemplateId:0,
+
 
 
     }
@@ -245,9 +266,28 @@ export default {
             currentMenuOpts:[
               ['Cancel','Cancel'],
               ['Save and Add', 'saveAndAdd'],
+              ['Copy Template', 'cloneTemplate'],
               ['Back', 'rtnToMenuHome'],
             ],
             currentMenuSelection: 'Cancel'
+          }
+        }
+        case 'doCloneTemplate':{
+          return {
+            currentMenuOpts: [
+              ['Back', 'backToTemplateSelect'],
+              ['Copy', 'doCopyTemplate'],
+              ['Cancel', 'Cancel'],
+            ],
+            currentSelectedMenuOption: 'Cancel'
+          }
+        }
+        case 'selectTemplate':{
+          return {
+            currentMenuOpts: [
+              ['Cancel', 'Cancel'],
+            ],
+            currentSelectedMenuOption: 'Cancel'
           }
         }
       }
@@ -346,6 +386,22 @@ export default {
           this.currentMenuOpts = mOpts.currentMenuOpts;
           this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
           this.mode=this.CREATE_LAYOUT;
+          break;
+        }
+        case 'cloneTemplate':{
+          debugger;
+          mOpts = this.getMenuOpts('selectTemplate');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+          this.setTitle('Click on template to use');
+//                  this.dialogCmd='selectTemplate';
+          this.mode=this.DIALOG_SELECT_TEMPLATE;
+          break;
+        }
+        case 'doCopyTemplate':{
+          console.log('doCloneTemplate matched');
+          this.currentCmd = 'doCloneTemplate';
+          this.cmdVersion++;
           break;
         }
         case 'addCurrent':{
@@ -545,6 +601,9 @@ export default {
         console.log(error);
       });
     },
+    setTitle(msg){
+      this.titleMsg = msg;
+    },
     findSelectedIndex(id){
       for(var i=0;i<this.currentCardData.availableLinks.length;i++){
         var thisMenuLink = this.currentCardData.availableLinks[i];
@@ -552,7 +611,43 @@ export default {
           return i;
         }
       }
+    },
+    templateSelected(msg){
+      debugger;
+      console.log('templateSelected = ', msg);
+      this.selectedTemplateDescription = msg.description;
+      this.selectedTemplateId = msg.id;
+      var mOpts = this.getMenuOpts('doCloneTemplate');
+      this.currentMenuOpts = mOpts.currentMenuOpts;
+      this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+      this.setTitle('Enter description and label for new layout');
+      this.mode = this.DIALOG_CLONE_TEMPLATE;
+    },
+    cloneSuccessfulReturnToEdit(msg){
+      console.log('clone successful',msg);
+      var apiPath = this.$store.getters.getApiBase;
+      axios.get(apiPath+'api/shan/layoutInfo?XDEBUG_SESSION_START=15122"', {
+        params:{
+          layoutId:msg,
+        }
+      }).then(response=> {
+        console.log(response);
+        var url1 = this.urlBase;
+        var url2 = url1.concat(msg);
+        this.selectedLayout.id=msg;
+        this.selectedLayout.description = response.data.description;
+        this.selectedLayout.layout_link_to = url2;
+        this.selectedLayout.width = response.data.width;
+        this.selectedLayout.height= response.data.height;
+        this.selectedLayout.menu_label = response.data.menu_label;
+        this.addNewLinkToList();
+        this.mode=this.SHOW_LINKS;
+      }).catch(e=>{
+        console.log(e);
+      });
+
     }
+
 
   }
 
@@ -566,14 +661,14 @@ export default {
   display: grid;
   grid-template-rows: 10% 80% 10%;
   position: relative;
-  background-color: #81e7cb;
+  background-color: #ab97ff;
   border: 2px solid blue;
   border-radius: 8px;
   box-shadow: 10px 10px 5px grey;
 }
 .dialogComponentHeader {
   height:25px;
-  background-color: #fff722;
+  background-color: #ab97ff;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   text-align: center;
@@ -608,7 +703,7 @@ export default {
 .linkStyle{
   font-family: Arial;
   font-size: medium;
-  color: #0a3aff;
+  color: #ab97ff;
   margin-left: 10%;
   margin-right: 10%;
 }
@@ -630,7 +725,7 @@ export default {
   height:100%;
   width:100%;
   position: relative;
-  background-color: #81e7cb;
+  background-color: #ab97ff;
 }
 .labelPlusInput {
   margin-left:10px;
@@ -639,7 +734,7 @@ export default {
   grid-template-columns: 10% 50% 40%;
   font-family: Arial;
   font-size: medium;
-  color: #0a3aff;
+  color: #ab97ff;
 }
 .orient {
   display: grid;

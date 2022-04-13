@@ -99,7 +99,7 @@ export default {
     cmdVersion: function () {
       switch(this.cmd){
         case 'doCloneTemplate':{
-//          debugger;
+          debugger;
 
           console.log('watch triggered in cloneTemplate - ', this.cmd,' entriesOk-', this.entriesAreOk());
           break;

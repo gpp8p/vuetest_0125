@@ -130,8 +130,8 @@ name: "linkMenuAdd",
   color: #0a3aff;
 }
 section {
-  --oruga-table-background-color: #81e7cb;
-  --oruga-table-background: #81e7cb;
+  --oruga-table-background-color: #ab97ff;
+  --oruga-table-background: #ab97ff;
 }
 
 .linkTable{
@@ -141,7 +141,7 @@ section {
   font-size: 14px;
   font-style: normal;
   font-weight: bold;
-  background-color: #81e7cb;
+  background-color: #ab97ff;
 }
 
 </style>
