@@ -34,10 +34,11 @@
       <span v-if="mode==this.DIALOG_SELECT_TEMPLATE">
         <select-template :cmd = "cmd"  @templateSelected="templateSelected" ></select-template>
       </span>
-      <span v-if="mode==this.DIALOG_CLONE_TEMPLATE">
+      <span v-if="mode==this.DIALOG_COPY_CLONE">
               <clone-template
                               :cmd = "this.currentCmd"
                               :cmdVersion = "cmdVersion"
+                              :copyIt="copyIt"
                               @setTitle="setTitle"
                               @clearCmd="clearCmd"
                               @cloneSuccessful="cloneSuccessful"
@@ -62,6 +63,7 @@ import createLayout from "../components/createLayout.vue";
 import axios from "axios";
 import selectTemplate from "../components/selectTemplate.vue";
 import cloneTemplate from "./cloneTemplate.vue";
+
 //import CardBase from "@/components/CardBase";
 export default {
   name: "linkMaster3",
@@ -153,8 +155,10 @@ export default {
       SHOW_LINKS:0,
       ADD_LINK:1,
       CREATE_LAYOUT:2,
-      DIALOG_CLONE_TEMPLATE:14,
+      DIALOG_COPY_CLONE:14,
       DIALOG_SELECT_TEMPLATE:15,
+      DIALOG_COPY_THIS_PAGE:16,
+      copyIt:false,
       isPaginated: true,
       isPaginationSimple: false,
       paginationPosition: 'bottom',
@@ -267,7 +271,17 @@ export default {
               ['Cancel','Cancel'],
               ['Save and Add', 'saveAndAdd'],
               ['Copy Template', 'cloneTemplate'],
+              ['Copy This Page', 'copyThisPage'],
               ['Back', 'rtnToMenuHome'],
+            ],
+            currentMenuSelection: 'Cancel'
+          }
+        }
+        case'copyingPage':{
+          return {
+            currentMenuOpts:[
+              ['Cancel','Cancel'],
+              ['Copy This Page', 'doCopyThisPage']
             ],
             currentMenuSelection: 'Cancel'
           }
@@ -398,8 +412,25 @@ export default {
           this.mode=this.DIALOG_SELECT_TEMPLATE;
           break;
         }
+        case 'copyThisPage':{
+//          debugger;
+          mOpts = this.getMenuOpts('copyingPage');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+          this.copyIt=true;
+          this.selectedTemplateId = this.$store.getters.getCurrentLayoutId;
+          this.selectedTemplateDescription = "Current Page";
+          this.mode=this.DIALOG_COPY_CLONE;
+          break;
+        }
         case 'doCopyTemplate':{
           console.log('doCloneTemplate matched');
+          this.currentCmd = 'doCloneTemplate';
+          this.cmdVersion++;
+          break;
+        }
+        case 'doCopyThisPage':{
+          console.log('doCopyPage matched');
           this.currentCmd = 'doCloneTemplate';
           this.cmdVersion++;
           break;
@@ -621,7 +652,7 @@ export default {
       this.currentMenuOpts = mOpts.currentMenuOpts;
       this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
       this.setTitle('Enter description and label for new layout');
-      this.mode = this.DIALOG_CLONE_TEMPLATE;
+      this.mode = this.DIALOG_COPY_CLONE;
     },
     cloneSuccessfulReturnToEdit(msg){
       console.log('clone successful',msg);
@@ -636,10 +667,13 @@ export default {
         var url2 = url1.concat(msg);
         this.selectedLayout.id=msg;
         this.selectedLayout.description = response.data.description;
-        this.selectedLayout.layout_link_to = url2;
+        this.selectedLayout.layout_link_to = msg;
+        this.selectedLayout.link_url = url2
         this.selectedLayout.width = response.data.width;
         this.selectedLayout.height= response.data.height;
         this.selectedLayout.menu_label = response.data.menu_label;
+        this.selectedLayout.isExternal = 0;
+        this.selectedLayout.type = 'U';
         this.addNewLinkToList();
         this.mode=this.SHOW_LINKS;
       }).catch(e=>{

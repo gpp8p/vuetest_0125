@@ -77,7 +77,8 @@ export default {
           orgId: this.$store.getters.getOrgId,
           description: this.description,
           menu_label: this.menu_label,
-          permType: this.permType
+          permType: this.permType,
+          copyIt: this.copyIt
         }
       })
       .then(response => {
@@ -128,6 +129,10 @@ export default {
     },
     sourceTemplateId:{
       type: Number,
+      required: true
+    },
+    copyIt:{
+      type: Boolean,
       required: true
     }
   },
