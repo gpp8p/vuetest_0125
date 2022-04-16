@@ -68,7 +68,7 @@
                 formData.append('org', this.$store.getters.getOrgId);
                 formData.append('fileRole', this.fileRole);
 // eslint-disable-next-line no-debugger
-//        debugger;
+        debugger;
               var apiPath = this.$store.getters.getApiBase;
               console.log('apiPath - ',apiPath);
 
