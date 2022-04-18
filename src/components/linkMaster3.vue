@@ -425,6 +425,7 @@ export default {
         }
         case 'doCopyTemplate':{
           console.log('doCloneTemplate matched');
+          this.copyIt=false;
           this.currentCmd = 'doCloneTemplate';
           this.cmdVersion++;
           break;
