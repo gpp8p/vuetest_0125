@@ -73,6 +73,7 @@
                         @cloneSuccessful="cloneSuccessful"
                         @cloneSuccessfulReturnToEdit="cloneSuccessfulReturnToEdit"
                         v-if="dialogType==this.DIALOG_CLONE_TEMPLATE"
+                        :copyIt="copyIt"
                         :sourceTemplate = "this.selectedTemplateDescription"
                         :sourceTemplateId = "this.selectedTemplateId"
         ></clone-template>
@@ -289,6 +290,7 @@
                   this.currentMenuOpts = mOpts.currentMenuOpts;
                   this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
                   this.setTitle('Enter description and label for new layout');
+                  this.copyIt=true;
                   this.dialogType = this.DIALOG_CLONE_TEMPLATE;
 
                   break;
@@ -870,7 +872,9 @@
                 selectedTemplateDescription:'',
                 selectedTemplateId:0,
                 dialogCmd:'',
-                dialogCmdVersion:0
+                dialogCmdVersion:0,
+
+                copyIt:false
 
 
 
