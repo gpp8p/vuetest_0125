@@ -10,9 +10,6 @@
         <select-picker :pType="documentTypeReference" :dialogKey="this.dKey" :label="documentTypeLabel" :options="documentTypeOptions" :currentValues="this.cardContent" @configSelected="configSelected"></select-picker>
       </span>
       <span>
-        <select-picker :pType="accessTypeReference" :dialogKey="this.dKey" :label="accessTypeLabel" :options="accessTypeOptions" :currentValues="this.cardContent" @configSelected="configSelected"></select-picker>
-      </span>
-      <span>
         <text-area-field :pType="keywordTypeReference" :dialogKey="this.dKey" :label="keywordLabelLabel" :currentValues="this.cardContent" :backgroundColor = "metaBackgrouond" @configSelected="configSelected"></text-area-field>
       </span>
       <span>
@@ -150,7 +147,7 @@ name: "MetaDataDialog",
 <style scoped>
 .selectDefaults{
   display:grid;
-  grid-template-rows: 20% 20% 20% 20%;
+  grid-template-rows: 20% 20% 20%;
   margin-left: 60px;
   margin-top: 30px;
 }

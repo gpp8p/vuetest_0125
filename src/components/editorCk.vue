@@ -190,6 +190,7 @@ export default {
         },
         simpleUpload: {
           uploadUrl: 'http://localhost:8000/api/shan/imageUploadCk?XDEBUG_SESSION_START=19403'
+//          uploadUrl: 'http://sptests.org:8000/api/shan/imageUploadCk?XDEBUG_SESSION_START=19403'
    //       uploadUrl: this.$store.getters.getApiBase+'shan/imageUploadCk?XDEBUG_SESSION_START=19403'
         },
         fontFamily: {

@@ -28,6 +28,15 @@
             @newExtLink="newExtLink" >
         </link-menu-add>
       </span>
+      <span v-if="this.mode===this.EDIT_LINK">
+        <link-menu-add
+            :cmd="this.currentCmd"
+            @internalLinkOption="internalLinkOption"
+            @externalLinkOption="externalLinkOption"
+            @layoutSelected="editSelectedLink"
+            @newExtLink="newExtLink" >
+        </link-menu-add>
+      </span>
       <span v-if="mode==this.CREATE_LAYOUT">
         <create-layout  :cmd="currentCmd" @err="createError" @layoutData="layoutData"></create-layout>
       </span>
@@ -154,6 +163,7 @@ export default {
       mode:0,
       SHOW_LINKS:0,
       ADD_LINK:1,
+      EDIT_LINK:21,
       CREATE_LAYOUT:2,
       DIALOG_COPY_CLONE:14,
       DIALOG_SELECT_TEMPLATE:15,
@@ -181,6 +191,7 @@ export default {
       cmdVersion:0,
       selectedTemplateDescription:'',
       selectedTemplateId:0,
+      replacementLink:{}
 
 
 
@@ -207,6 +218,7 @@ export default {
           return {
             currentMenuOpts: [
               ['Remove','removeLink'],
+              ['Change Link', 'changeLink'],
               ['Do Not Remove','clearLinkList']
             ],
             currentSelectedMenuOption: 'Cancel'
@@ -304,6 +316,23 @@ export default {
             currentSelectedMenuOption: 'Cancel'
           }
         }
+        case 'linkSubstitution_a':{
+          return {
+            currentMenuOpts: [
+              ['Cancel', 'Cancel'],
+            ],
+            currentSelectedMenuOption: 'Cancel'
+          }
+        }
+        case 'linkSubstitution_b':{
+          return {
+            currentMenuOpts: [
+              ['Cancel', 'Cancel'],
+              ['Replace with this link', 'linkReplace']
+            ],
+            currentSelectedMenuOption: 'Cancel'
+          }
+        }
       }
     },
     internalLinkOption(){
@@ -392,6 +421,39 @@ export default {
             this.currentMenuOpts = mOpts.currentMenuOpts;
             this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
           }
+          break;
+        }
+        case 'changeLink':{
+          this.titleMsg='Please select a page to substitute for this link';
+          mOpts = this.getMenuOpts('linkSubstitution_a');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+          this.mode=this.EDIT_LINK;
+          break;
+        }
+        case 'linkReplace':{
+          debugger;
+          console.log('linkReplace');
+          var newElement ={};
+          newElement.description = this.replacementLink.description;
+          newElement.id = this.replacementLink.id;
+          newElement.isExternal = this.replacementLink.isExternal;
+          newElement.height=this.replacementLink.height;
+          newElement.width=this.replacementLink.width;
+          newElement.menu_label=this.replacementLink.menu_label;
+          newElement.layout_link_to = this.replacementLink.layout_link_to;
+          var url1 = this.urlBase;
+          var url2 = url1.concat(this.replacementLink.layout_link_to);
+          newElement.link_url=url2;
+          var indexToReplace = this.findSelectedIndex(this.selectedLink);
+          debugger;
+          this.currentCardData.availableLinks[indexToReplace] = newElement;
+          mOpts = this.getMenuOpts('setupMenuLink');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+          this.mode = this.SHOW_LINKS;
+
+
           break;
         }
         case 'CreateLayout':{
@@ -554,7 +616,7 @@ export default {
 
     },
     linkSelected(msg){
-      console.log(msg);
+      console.log('at link selected',msg);
       console.log(msg.id);
       console.log(this.selectedLayout.description);
       this.selectedLink = this.findSelectedIndex(msg.id);
@@ -567,13 +629,23 @@ export default {
         this.currentMenuOpts = mOpts.currentMenuOpts;
         this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
       }else{
+        this.selectedLink = msg.id;
         mOpts = this.getMenuOpts('setupMenuLink1');
         this.currentMenuOpts = mOpts.currentMenuOpts;
         this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
-        str1 = "Remove ";
-        this.titleMsg = str1.concat(msg.description, 'from the menu ?');
+        str1 = "Remove or Replace ";
+        this.titleMsg = str1.concat(msg.description, '?');
 
       }
+    },
+    editSelectedLink(msg){
+      console.log('at editSelectedLink',msg);
+      this.replacementLink = msg;
+      this.replacementLink.id = msg.selectedLinkId;
+      this.titleMsg='Substitute this link ?';
+      var mOpts = this.getMenuOpts('linkSubstitution_b');
+      this.currentMenuOpts = mOpts.currentMenuOpts;
+      this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
     },
     linkMasterSave(){
       var cardTitle='';
@@ -638,8 +710,9 @@ export default {
     },
     findSelectedIndex(id){
       for(var i=0;i<this.currentCardData.availableLinks.length;i++){
-        var thisMenuLink = this.currentCardData.availableLinks[i];
-        if(thisMenuLink.id == id){
+//        debugger;
+//        var thisMenuLink = this.currentCardData.availableLinks[i];
+        if(this.currentCardData.availableLinks[i].id == id){
           return i;
         }
       }
@@ -716,6 +789,7 @@ export default {
 }
 .headingText{
   margin-top: 5px;
+  color: yellow;
 }
 .dialogComponentBody {
   height: 78%;

@@ -100,6 +100,7 @@ name: "linkMenuAdd",
       newLink.height = msg.height;
       newLink.isExternal = 0;
       newLink.id=-1;
+      newLink.selectedLinkId = msg.id;
       newLink.layout_link_to = msg.id;
       newLink.menu_label=msg.menu_label;
       newLink.width=msg.width;

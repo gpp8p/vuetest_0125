@@ -59,7 +59,7 @@ export default {
   },
   methods:{
     spaceSelected(msg){
-//      debugger;
+      debugger;
       this.$emit('spaceSelected', msg.id);
       this.$emit('layoutSelected', msg);
     }
