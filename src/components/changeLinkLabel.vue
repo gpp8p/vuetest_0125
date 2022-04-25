@@ -1,6 +1,6 @@
 <template>
 
-    <span class="labelPlusInput">
+    <span class="optionLabelInput">
         <span>
           Option Label:
         </span>
@@ -54,10 +54,11 @@ name: "changeLinkLabel",
 </script>
 
 <style scoped>
-.labelPlusInput {
+.optionLabelInput {
   display:grid;
   margin-top: 3px;
-  grid-template-columns: 30% 70%;
+  margin-left: 5%;
+  grid-template-columns: 20% 80%;
   font-family: Arial;
   font-size: medium;
   color: #0a3aff;
