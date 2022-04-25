@@ -5,11 +5,11 @@
   </span>
 
   <span class="linkMasterWrapper">
-    <span class="labelPlusInput">
+    <span class="labelPlusInput" >
       <span>
         Title:
       </span>
-      <span class="titleField">
+      <span class="titleField" v-if="this.mode===this.ADD_LINK">
         <input v-model="currentCardData.linkMenuTitle" size="55"/>
       </span>
       <span class="orient">
@@ -57,6 +57,13 @@
                               :sourceTemplateId = "this.selectedTemplateId"
               ></clone-template>
       </span>
+      <span v-if="mode==this.EDIT_LINK_LABEL">
+        <change-link-label
+            :cmd = "this.currentCmd"
+            :cmdVersion = "cmdVersion"
+            :linkLabel =  "selectedLinkDescription"
+        ></change-link-label>
+      </span>
   </span>
     <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
   </span>
@@ -72,11 +79,12 @@ import createLayout from "../components/createLayout.vue";
 import axios from "axios";
 import selectTemplate from "../components/selectTemplate.vue";
 import cloneTemplate from "./cloneTemplate.vue";
+import changeLinkLabel from "./changeLinkLabel.vue";
 
 //import CardBase from "@/components/CardBase";
 export default {
   name: "linkMaster3",
-  components :{ menuOpt, linkMenuList, linkMenuAdd, createLayout, selectTemplate, cloneTemplate},
+  components :{ menuOpt, linkMenuList, linkMenuAdd, createLayout, selectTemplate, cloneTemplate, changeLinkLabel},
 //  extends: CardBase,
   mounted(){
     this.titleMsg='Building a Menu';
@@ -164,6 +172,7 @@ export default {
       SHOW_LINKS:0,
       ADD_LINK:1,
       EDIT_LINK:21,
+      EDIT_LINK_LABEL:22,
       CREATE_LAYOUT:2,
       DIALOG_COPY_CLONE:14,
       DIALOG_SELECT_TEMPLATE:15,
@@ -191,7 +200,8 @@ export default {
       cmdVersion:0,
       selectedTemplateDescription:'',
       selectedTemplateId:0,
-      replacementLink:{}
+      replacementLink:{},
+      selectedLinkDescription:''
 
 
 
@@ -219,7 +229,18 @@ export default {
             currentMenuOpts: [
               ['Remove','removeLink'],
               ['Change Link', 'changeLink'],
+              ['Change Link Label', 'changeLinkLabel'],
               ['Do Not Remove','clearLinkList']
+            ],
+            currentSelectedMenuOption: 'Cancel'
+          }
+        }
+        case 'editingLinkLabel': {
+          return {
+            currentMenuOpts: [
+              ['Exit', 'Cancel'],
+              ['Change Label','changeLabel'],
+              ['Back', 'rtnToMenuHome'],
             ],
             currentSelectedMenuOption: 'Cancel'
           }
@@ -431,6 +452,18 @@ export default {
           this.mode=this.EDIT_LINK;
           break;
         }
+        case 'changeLinkLabel':{
+          this.titleMsg='Change label that appears for this link';
+          mOpts = this.getMenuOpts('editingLinkLabel');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+          this.mode = this.EDIT_LINK_LABEL;
+          break;
+        }
+        case 'changeLabel':{
+
+          break;
+        }
         case 'linkReplace':{
           debugger;
           console.log('linkReplace');
@@ -503,6 +536,7 @@ export default {
           break;
         }
         case 'rtnToMenuHome':{
+          this.titleMsg='Building a Menu';
           mOpts = this.getMenuOpts('setupMenuLink');
 
           this.currentMenuOpts = mOpts.currentMenuOpts;
@@ -620,6 +654,7 @@ export default {
       console.log(msg.id);
       console.log(this.selectedLayout.description);
       this.selectedLink = this.findSelectedIndex(msg.id);
+      this.selectedLinkDescription = msg.description;
       var currentlySelectedKeys = Object.keys(this.selectedLayout);
       if(currentlySelectedKeys.length>0){
         var str1 = "Insert ";
