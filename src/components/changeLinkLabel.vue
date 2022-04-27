@@ -24,7 +24,7 @@ name: "changeLinkLabel",
       type: String,
       required: true
     },
-    cmdObjectVersion:{
+    cmdVersion:{
       type: Number,
       required:false
     },
@@ -34,9 +34,11 @@ name: "changeLinkLabel",
     }
   },
   watch:{
-    cmdObjectVersion: function(){
+    cmdVersion: function(){
+      console.log('cmdVersion watch triggered');
       switch(this.cmd){
-        case 'saveLinkLabel':{
+        case 'replaceDescription':{
+          this.$emit('newDescription', this.description);
           break;
         }
       }

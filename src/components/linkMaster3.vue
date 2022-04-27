@@ -62,6 +62,7 @@
             :cmd = "this.currentCmd"
             :cmdVersion = "cmdVersion"
             :linkLabel =  "selectedLinkDescription"
+            @newDescription = "replaceDescription"
         ></change-link-label>
       </span>
   </span>
@@ -461,7 +462,8 @@ export default {
           break;
         }
         case 'changeLabel':{
-
+          this.currentCmd = 'replaceDescription';
+          this.cmdVersion++;
           break;
         }
         case 'linkReplace':{
@@ -572,6 +574,23 @@ export default {
           this.currentCmd = 'clear';
           break
         }
+      }
+    },
+    replaceDescription(msg){
+      var replacementMade = false;
+      for(var l = 0; l<this.currentCardData.availableLinks.length; l++){
+        if(this.currentCardData.availableLinks[l].id==this.selectedLink){
+          this.currentCardData.availableLinks[l].description = msg;
+          this.titleMsg='Building a Menu';
+          var mOpts = this.getMenuOpts('setupMenuLink');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+          replacementMade = true;
+          this.mode=this.SHOW_LINKS;
+        }
+      }
+      if(!replacementMade){
+        alert('error while rerplacing menu label');
       }
     },
     addNewLinkToList(){
