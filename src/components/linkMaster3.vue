@@ -338,10 +338,14 @@ export default {
             currentSelectedMenuOption: 'Cancel'
           }
         }
+        
         case 'linkSubstitution_a':{
           return {
             currentMenuOpts: [
               ['Cancel', 'Cancel'],
+              ['Copy Template', 'cloneTemplate_ls'],
+              ['Copy This Page', 'copyThisPage_ls'],
+              ['Create New Page', 'CreateLayout_a'],
             ],
             currentSelectedMenuOption: 'Cancel'
           }
