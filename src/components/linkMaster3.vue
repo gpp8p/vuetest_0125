@@ -40,6 +40,9 @@
       <span v-if="mode==this.CREATE_LAYOUT">
         <create-layout  :cmd="currentCmd" @err="createError" @layoutData="layoutData"></create-layout>
       </span>
+      <span v-if="mode==this.SUBSTITUTE_CREATED_LAYOUT">
+        <create-layout  :cmd="currentCmd" :cmdObjectVersion = "cmdVersion" @err="createError" @layoutData="substituteLayoutData"></create-layout>
+      </span>
       <span v-if="mode==this.DIALOG_SELECT_TEMPLATE">
         <select-template :cmd = "cmd"  @templateSelected="templateSelected" ></select-template>
       </span>
@@ -175,6 +178,7 @@ export default {
       EDIT_LINK:21,
       EDIT_LINK_LABEL:22,
       CREATE_LAYOUT:2,
+      SUBSTITUTE_CREATED_LAYOUT:23,
       DIALOG_COPY_CLONE:14,
       DIALOG_SELECT_TEMPLATE:15,
       DIALOG_COPY_THIS_PAGE:16,
@@ -338,7 +342,7 @@ export default {
             currentSelectedMenuOption: 'Cancel'
           }
         }
-        
+
         case 'linkSubstitution_a':{
           return {
             currentMenuOpts: [
@@ -355,6 +359,15 @@ export default {
             currentMenuOpts: [
               ['Cancel', 'Cancel'],
               ['Replace with this link', 'linkReplace']
+            ],
+            currentSelectedMenuOption: 'Cancel'
+          }
+        }
+        case 'linkSubstitution_create':{
+          return {
+            currentMenuOpts: [
+              ['Cancel', 'Cancel'],
+              ['Replace with New Page', 'replaceNp']
             ],
             currentSelectedMenuOption: 'Cancel'
           }
@@ -457,6 +470,11 @@ export default {
           this.mode=this.EDIT_LINK;
           break;
         }
+        case 'replaceNp':{
+          this.currentCmd = 'saveNewPage';
+          this.cmdVersion++;
+          break;
+        }
         case 'changeLinkLabel':{
           this.titleMsg='Change label that appears for this link';
           mOpts = this.getMenuOpts('editingLinkLabel');
@@ -501,6 +519,13 @@ export default {
           this.currentMenuOpts = mOpts.currentMenuOpts;
           this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
           this.mode=this.CREATE_LAYOUT;
+          break;
+        }
+        case 'CreateLayout_a':{
+          mOpts = this.getMenuOpts('linkSubstitution_create');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+          this.mode = this.SUBSTITUTE_CREATED_LAYOUT;
           break;
         }
         case 'cloneTemplate':{
@@ -607,8 +632,7 @@ export default {
       this.selectedLayout={};
       this.titleMsg='Building a Menu';
     },
-    layoutData(msg){
-      console.log('layout saved:',msg);
+    setNewLayoutData(msg){
       var newElement ={};
       newElement.description = msg[2];
       newElement.id = -1;
@@ -620,14 +644,40 @@ export default {
       var url1 = this.urlBase;
       var url2 = url1.concat(msg[0]);
       newElement.link_url=url2;
-
-
-      this.selectedLayout=newElement;
+      return newElement;
+    },
+    layoutData(msg){
+      console.log('layout saved:',msg);
+      this.selectedLayout=this.setNewLayoutData(msg);
       this.addNewLinkToList();
       var str1 = "Add ";
-      this.titleMsg = str1.concat(newElement.description, ' to the menu ?');
+      this.titleMsg = str1.concat(this.selectedLayout.description, ' to the menu ?');
       var mOpts = this.getMenuOpts('addLinkToMenu');
+      this.currentMenuOpts = mOpts.currentMenuOpts;
+      this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
 
+      this.mode=this.SHOW_LINKS;
+
+    },
+    substituteLayoutData(msg){
+      console.log('substituteLayoutData',msg);
+      this.replacementLink=this.setNewLayoutData(msg);
+      var newElement ={};
+      newElement.description = this.replacementLink.description;
+      newElement.id = this.replacementLink.id;
+      newElement.isExternal = this.replacementLink.isExternal;
+      newElement.height=this.replacementLink.height;
+      newElement.width=this.replacementLink.width;
+      newElement.menu_label=this.replacementLink.menu_label;
+      newElement.layout_link_to = this.replacementLink.layout_link_to;
+      var url1 = this.urlBase;
+      var url2 = url1.concat(this.replacementLink.layout_link_to);
+      newElement.link_url=url2;
+
+      var indexToReplace = this.findSelectedIndex(this.selectedLink);
+      debugger;
+      this.currentCardData.availableLinks[indexToReplace] = newElement;
+      var mOpts = this.getMenuOpts('setupMenuLink');
       this.currentMenuOpts = mOpts.currentMenuOpts;
       this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
 

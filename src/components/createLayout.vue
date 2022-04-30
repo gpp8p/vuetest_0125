@@ -142,44 +142,49 @@ name: "createLayout",
 //      debugger;
         console.log('currentValues is:',this.currentValues);
         console.log('cmd is:', this.cmd);
-        if(this.cmd=='editLayoutParams'){
-          this.$emit('setEditLayoutMenu');
-          if(typeof(this.currentValues['backgroundDisplay'])!=='undefined'){
-            this.backgroundDisplay= this.currentValues['backgroundDisplay'];
-          }
-          if(typeof(this.currentValues['backgroundColor'])!=='undefined'){
-            this.backgroundColor= this.currentValues['backgroundColor'];
-            this.updatedColor = this.currentValues['backgroundColor'];
-          }
-          if(typeof(this.currentValues['backgroundType'])!=='undefined'){
-            this.backgroundType = this.currentValues['backgroundType'];
-          }
-          if(typeof(this.currentValues['backgroundImage'])!=='undefined'){
-            this.backgroundImageFile = this.currentValues['backgroundImage'];
-          }
-          if(typeof(this.currentValues['height'])!=='undefined'){
-            this.height = this.currentValues['height'];
-          }
-          if(typeof(this.currentValues['width'])!=='undefined'){
-            this.width = this.currentValues['width'];
-          }
-          if(typeof(this.currentValues['description'])!=='undefined'){
-            this.description = this.currentValues['description'];
-          }
-          if(typeof(this.currentValues['menu_label'])!=='undefined'){
-            this.menu_label = this.currentValues['menu_label'];
-          }
-          if(typeof(this.currentValues['template'])!=='undefined'){
-            if(this.currentValues['template']=='Y'){
-              this.template=true;
-            }else{
-              this.template=false
+        switch(this.cmd){
+          case'editLayoutParams':{
+            this.$emit('setEditLayoutMenu');
+            if(typeof(this.currentValues['backgroundDisplay'])!=='undefined'){
+              this.backgroundDisplay= this.currentValues['backgroundDisplay'];
             }
+            if(typeof(this.currentValues['backgroundColor'])!=='undefined'){
+              this.backgroundColor= this.currentValues['backgroundColor'];
+              this.updatedColor = this.currentValues['backgroundColor'];
+            }
+            if(typeof(this.currentValues['backgroundType'])!=='undefined'){
+              this.backgroundType = this.currentValues['backgroundType'];
+            }
+            if(typeof(this.currentValues['backgroundImage'])!=='undefined'){
+              this.backgroundImageFile = this.currentValues['backgroundImage'];
+            }
+            if(typeof(this.currentValues['height'])!=='undefined'){
+              this.height = this.currentValues['height'];
+            }
+            if(typeof(this.currentValues['width'])!=='undefined'){
+              this.width = this.currentValues['width'];
+            }
+            if(typeof(this.currentValues['description'])!=='undefined'){
+              this.description = this.currentValues['description'];
+            }
+            if(typeof(this.currentValues['menu_label'])!=='undefined'){
+              this.menu_label = this.currentValues['menu_label'];
+            }
+            if(typeof(this.currentValues['template'])!=='undefined'){
+              if(this.currentValues['template']=='Y'){
+                this.template=true;
+              }else{
+                this.template=false
+              }
+            }
+            this.mode=this.LAYOUT_EDIT;
+            break;
           }
-          this.mode=this.LAYOUT_EDIT;
+          case 'saveNewPage':{
+            this.saveData();
+            break;
+          }
         }
-
-
     }
   },
   methods:{
