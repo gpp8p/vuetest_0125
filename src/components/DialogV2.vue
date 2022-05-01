@@ -301,6 +301,13 @@
                   this.dialogCmdVersion++;
                   break;
                 }
+                case 'doCopyLayout':{
+                  console.log('doCopyLayout selected');
+                  this.dialogCmd = 'doCopyLayout';
+                  this.dialogCmdVersion++;
+
+                  break;
+                }
                 case 'updateLayout':{
                   this.cmd='updateLayout';
                   break
@@ -537,6 +544,16 @@
                     currentMenuOpts: [
                       ['Back', 'backToTemplateSelect'],
                       ['Copy', 'doCloneTemplate'],
+                      ['Cancel', 'Cancel'],
+                    ],
+                    currentSelectedMenuOption: 'Cancel'
+                  }
+                }
+                case 'copyLayout':{
+                  return {
+                    currentMenuOpts: [
+                      ['Back', 'backToTemplateSelect'],
+                      ['Copy', 'doCopyLayout'],
                       ['Cancel', 'Cancel'],
                     ],
                     currentSelectedMenuOption: 'Cancel'

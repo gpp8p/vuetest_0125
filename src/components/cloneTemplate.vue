@@ -84,9 +84,12 @@ export default {
       .then(response => {
         console.log(response);
         console.log('route status after makeTemplateClone', this.$route.name);
+        debugger;
         if(this.$route.name == 'edit'){
+//        from a link mod
           this.$emit('cloneSuccessfulReturnToEdit', response.data);
         }else{
+//        from a top-level create
           this.$emit('cloneSuccessful', response.data);
         }
       })
@@ -98,12 +101,18 @@ export default {
   },
   watch: {
     cmdVersion: function () {
+      console.log('cmdVersion in cloneTemplate triggered cmd - ',this.cmd);
       switch(this.cmd){
         case 'doCloneTemplate':{
           debugger;
 
           console.log('watch triggered in cloneTemplate - ', this.cmd,' entriesOk-', this.entriesAreOk());
+
           break;
+        }
+        case 'doCopyLayout':{
+          console.log('watch triggered in cloneTemplate doCopyLayout - ', this.cmd,' entriesOk-', this.entriesAreOk());
+          break
         }
       }
 //      this.$emit('clearCmd');
@@ -111,6 +120,7 @@ export default {
         this.$emit('setTitle','Entries are OK!');
         this.makeTemplateClone();
       }
+
     }
   },
 

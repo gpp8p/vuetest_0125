@@ -182,6 +182,7 @@ export default {
       DIALOG_COPY_CLONE:14,
       DIALOG_SELECT_TEMPLATE:15,
       DIALOG_COPY_THIS_PAGE:16,
+//      DIALOG_SELECT_TEMPLATE_REPLACE:24,
       copyIt:false,
       isPaginated: true,
       isPaginationSimple: false,
@@ -206,7 +207,8 @@ export default {
       selectedTemplateDescription:'',
       selectedTemplateId:0,
       replacementLink:{},
-      selectedLinkDescription:''
+      selectedLinkDescription:'',
+      cloneTemplateMode:'A'
 
 
 
@@ -235,7 +237,8 @@ export default {
               ['Remove','removeLink'],
               ['Change Link', 'changeLink'],
               ['Change Link Label', 'changeLinkLabel'],
-              ['Do Not Remove','clearLinkList']
+              ['Back','clearLinkList'],
+              ['Exit', 'Cancel'],
             ],
             currentSelectedMenuOption: 'Cancel'
           }
@@ -454,7 +457,8 @@ export default {
         case 'removeLink':{
           debugger;
           if (this.selectedLink > -1) {
-            this.currentCardData.availableLinks.splice(this.selectedLink, 1);
+            var selectedIndex = this.findSelectedIndex(this.selectedLink);
+            this.currentCardData.availableLinks.splice(selectedIndex, 1);
             this.titleMsg='Building a Menu';
             mOpts = this.getMenuOpts('setupMenuLink');
             this.currentMenuOpts = mOpts.currentMenuOpts;
@@ -535,6 +539,17 @@ export default {
           this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
           this.setTitle('Click on template to use');
 //                  this.dialogCmd='selectTemplate';
+          this.cloneTemplateMode = 'A';
+          this.mode=this.DIALOG_SELECT_TEMPLATE;
+          break;
+        }
+        case 'cloneTemplate_ls':{
+          mOpts = this.getMenuOpts('selectTemplate');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+          this.setTitle('Click on template to use');
+//                  this.dialogCmd='selectTemplate';
+          this.cloneTemplateMode = 'R';
           this.mode=this.DIALOG_SELECT_TEMPLATE;
           break;
         }
@@ -856,7 +871,18 @@ export default {
         this.selectedLayout.menu_label = response.data.menu_label;
         this.selectedLayout.isExternal = 0;
         this.selectedLayout.type = 'U';
-        this.addNewLinkToList();
+        if(this.cloneTemplateMode=='A'){
+          this.addNewLinkToList();
+          this.cloneTemplateMode = '';
+        }else{
+          var selectedIndex = this.findSelectedIndex(this.selectedLink);
+          console.log('replace with template copy',selectedIndex);
+          this.currentCardData.availableLinks[selectedIndex]=this.selectedLayout;
+          var mOpts = this.getMenuOpts('setupMenuLink');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+        }
+
         this.mode=this.SHOW_LINKS;
       }).catch(e=>{
         console.log(e);

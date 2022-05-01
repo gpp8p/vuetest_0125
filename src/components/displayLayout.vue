@@ -397,7 +397,7 @@ export default {
             response.data.layout.height,
             response.data.layout.width,
             response.data.layout.backgroundColor,
-            response.data.layout.backGroundImageUrl,
+            response.data.layout.backgroundImageUrl,
             response.data.layout.backgroundType,
             response.data.layout.backgroundDisplay,
         );

@@ -343,7 +343,7 @@
               var background = layoutObject.backgroundColor;
               var backgroundType= layoutObject.backgroundType;
               var backgroundDisplay = layoutObject.backgroundDisplay;
-              var backgroundImageUrl = layoutObject.backGroundImageUrl;
+              var backgroundImageUrl = layoutObject.backgroundImageUrl;
               var widthFactor;
               if(width<11){
                 widthFactor = 98.5;
