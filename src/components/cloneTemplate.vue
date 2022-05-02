@@ -13,7 +13,7 @@
             Layout Name:
          </span>
          <span>
-            <input v-model="menu_label"  size="35"  />
+            <input v-model="menu_label"  size="31" maxlength="31"  />
          </span>
      </span>
     <span class="labelPlusInput">
@@ -21,7 +21,7 @@
           Layout Description:
         </span>
        <span>
-          <input v-model="description"  size="45" />
+          <input v-model="description"  size="45" maxlength="45" />
        </span>
      </span>
     <span class="labelPlusInput">
