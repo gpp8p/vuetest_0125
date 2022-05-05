@@ -47,6 +47,19 @@
           <background-picker :currentValues="currentValues" :dialogKey="cmdObjectVersion" :pType="backgroundTypePtype" :noTransparent=true @configSelected="configSelected"></background-picker>
       </span>
      </span>
+    <span class="labelPlusInput">
+        <span>
+          Permissions::
+        </span>
+       <span>
+          <o-radio v-model="permType" name="imageType"  native-value="default">
+          Use Defaults
+          </o-radio>
+          <o-radio v-model="permType" name="imageType"  native-value="template">
+          Use Permissions from this page
+          </o-radio>
+       </span>
+     </span>
      <span class="labelPlusInput">
         <span>Template:</span>
         <span>
@@ -103,7 +116,8 @@ name: "createLayout",
 
 
       menuOptions: ['Save', 'Cancel' ],
-      openMenuOption: 'Save'
+      openMenuOption: 'Save',
+      permType: 'default'
     }
   },
   props:{
@@ -300,7 +314,8 @@ name: "createLayout",
           userId: this.$store.getters.getLoggedInUserId,
           user: this.$store.getters.getLoggedInUser,
           orgId: this.$store.getters.getOrgId,
-          layoutId: this.$store.getters.getCurrentLayoutId
+          layoutId: this.$store.getters.getCurrentLayoutId,
+          permType: this.permType
         }).then(response=>
         {
 //            debugger;

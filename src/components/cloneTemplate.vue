@@ -33,7 +33,7 @@
           Use Defaults
           </o-radio>
           <o-radio v-model="permType" name="imageType"  native-value="template">
-          Copy from Template
+          Use Permissions from this page
           </o-radio>
        </span>
      </span>
@@ -73,6 +73,7 @@ export default {
       axios.post(apiPath+'api/shan/cloneTemplate?XDEBUG_SESSION_START=14668', {
 //      axios.post('http://localhost:8000/api/shan/cloneTemplate?XDEBUG_SESSION_START=14668', {
         params:{
+          layoutId: this.$store.getters.getCurrentLayoutId,
           templateId: this.sourceTemplateId,
           orgId: this.$store.getters.getOrgId,
           description: this.description,
