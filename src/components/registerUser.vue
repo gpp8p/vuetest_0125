@@ -6,7 +6,7 @@
             Email:
          </span>
          <span>
-            <input type="text" v-model="userEmail" ref="email" size="60" class="inputStyle" placeholder="Email" @blur="focusChangedUserEmail"/>
+            <input type="text" v-model="userEmail" ref="email" size="60" class="inputStyle"  placeholder="Email" @blur="focusChangedUserEmail"/>
          </span>
      </span>
      <span class="labelPlusInput">
@@ -47,9 +47,19 @@ name: "registerUser",
     cmd:{
       type: String,
       required: false
+    },
+    selectedOrgId:{
+      type: Number,
+      required: false
     }
   },
   mounted(){
+    if(typeof(this.selectedOrgId)=='undefined'){
+      this.orgId = this.$store.getters.getOrgId;
+    }else {
+      this.orgId = this.selectedOrgId;
+    }
+    console.log('orgId is:', this.orgId);
     let self = this
     Vue.nextTick()
         .then(function () {
@@ -62,7 +72,8 @@ name: "registerUser",
       userEmail:'',
       userPassword:'',
       userPasswordRepeat:'',
-      existingUserData:{}
+      existingUserData:{},
+      orgId:0
     }
   },
   methods:{
@@ -80,6 +91,11 @@ name: "registerUser",
       if(this.userEmail==''){
         this.$emit('setTitle','You must enter an Email !!');
       }else {
+        if(!this.validateEmail(this.userEmail)){
+          this.$emit('setTitle', 'You must enter a valid email');
+          this.userEmail='';
+          return;
+        }
         this.$emit('setTitle', 'Register New User');
         var apiPath = this.$store.getters.getApiBase;
         console.log('apiPath - ',apiPath);
@@ -122,16 +138,31 @@ name: "registerUser",
       }else{
         this.$emit('setTitle','Register New User');
       }
+      if(this.userPassword.length<6){
+        this.$emit('setTitle','Password must be 6 or more characters!!');
+      }
     },
     focusChangedPass2(){
       debugger;
-      this.checkEntryFields();
-      this.$emit('setTitle','Click on Save Registration to register !');
+      if(this.checkEntryFields()==true){
+        this.$emit('setTitle','Click on Save Registration to register !');
+      }else{
+        this.$emit('setTitle','Problem with your entries - please correct!!');
+      }
     },
+    validateEmail(email){
+      var re = /\S+@\S+\.\S+/;
+      return re.test(email);
+    },
+
 
     checkEntryFields(){
       if(this.userPasswordRepeat==''){
         this.$emit('setTitle','You must enter a Password!!');
+      }
+      if(this.userPassword.length<6){
+        this.$emit('setTitle','Password must be 6 or more characters!!');
+        return false;
       }
       if(this.userPassword!=this.userPasswordRepeat){
         this.$emit('setTitle','The passwords must match !');
@@ -140,10 +171,17 @@ name: "registerUser",
         return true;
       }else{
         this.$emit('setTitle','All fields must be entered !');
+        return false
       }
       return false;
     },
     saveRegistration(){
+      debugger;
+      if(this.checkEntryFields()==false){
+        this.$emit('setTitle','Entry errors - please correct !');
+        this.$emit('clearCmd');
+        return;
+      }
       var apiPath = this.$store.getters.getApiBase;
       console.log('apiPath - ',apiPath);
 
@@ -154,7 +192,7 @@ name: "registerUser",
           name:this.userName,
           email:this.userEmail,
           password:this.userPassword,
-          org: this.$store.getters.getOrgId
+          org: this.orgId
         }
       }).then(response=>
       {
@@ -225,7 +263,7 @@ name: "registerUser",
               name:this.userName,
               email:this.userEmail,
               password:this.userPassword,
-              org: this.$store.getters.getOrgId
+              org: this.orgId
             }
           }).then(response=>
           {

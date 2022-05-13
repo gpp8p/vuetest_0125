@@ -83,8 +83,13 @@ name: "userPassword",
     checkEntryFields(){
       if(this.userPasswordRepeat==''){
         this.$emit('setTitle','You must enter a Password!!');
+        return false;
       }
-      if(this.userPassword!=this.userPasswordRepeat){
+      else if(this.userPassword.length<6){
+        this.$emit('setTitle','Password must be 6 or more characters!!');
+        return false;
+      }
+      else if(this.userPassword!=this.userPasswordRepeat){
         this.$emit('setTitle','The passwords must match !');
       }else{
         return true;
@@ -160,7 +165,7 @@ name: "userPassword",
             console.log('password entry ok');
             this.updatePassword();
           }else{
-            alert('You must enter password in both fields and they must match');
+            alert('You must enter password longer than six characters in both fields and they must match');
           }
           this.$emit('clearCmd');
           break;

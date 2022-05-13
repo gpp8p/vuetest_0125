@@ -10,7 +10,7 @@
              @clearCmd="clearCmd"
              :selectedMenuOption="selectedMenuOption"
     ></org-new>
-    <registerUser v-if="orgView==NEW_USER" :cmd="cmd" @registrationSaved="registrationSaved"></registerUser>
+    <registerUser v-if="orgView==NEW_USER" :cmd="cmd" :selectedOrgId="selectedOrgId" @registrationSaved="registrationSaved"></registerUser>
     <user-password v-if="this.orgView==this.USER_PASSWORD" :cmd="cmd" @clearCmd="clearCmd" :current-card-data="currentCardData" @registrationSaved="registrationSaved"></user-password>
   </span>
 </template>

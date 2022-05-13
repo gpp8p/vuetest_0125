@@ -53,7 +53,7 @@
                   :selectedMenuOption="currentSelectedMenuOption"
                   :cmd="cmd"
         ></PermList>
-        <register-user v-if="dialogType==this.DIALOG_REGISTER" :cmd="cmd" @registrationSaved="registrationSaved" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted" @userExists="userExists"></register-user>
+        <register-user v-if="dialogType==this.DIALOG_REGISTER" :cmd="cmd" @registrationSaved="registrationSaved" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted" @userExists="userExists" @clearCmd="clearCmd"></register-user>
         <user-exists v-if="dialogType==this.DIALOG_USER_EXISTS" ></user-exists>
         <organizations :cmd="cmd" v-if="dialogType==this.DIALOG_ORGANIZATIONS"
                        :selectedMenuOption="currentSelectedMenuOption"
@@ -360,6 +360,7 @@
                 }
                 case 'Save OrgRegistration':{
                   this.$emit('configSelected', ['Save OrgRegistration']);
+                  this.cmd='saveRegistration';
                   break;
                 }
                 case 'SubText':{
