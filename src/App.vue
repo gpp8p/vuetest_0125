@@ -51,10 +51,18 @@ export default {
   created(){
     console.log('entry path is - ', this.$route.path);
     console.log('fullPath is - ', this.$route.fullPath);
-    store.commit('setUrlBase', 'http://localhost:8080/');
-    store.commit('setApiBase', 'http://localhost:8000/');
-//    store.commit('setUrlBase', 'http://sptests.org/');
-//    store.commit('setApiBase', 'http://sptests.org:8000/');
+    console.log('current href is -', window.location.href);
+//    store.commit('setUrlBase', 'http://localhost:8080/');
+//    store.commit('setApiBase', 'http://localhost:8000/');
+
+    var thisHref = window.location.href;
+    if(thisHref.includes('localhost')){
+      store.commit('setUrlBase', 'http://localhost:8080/');
+      store.commit('setApiBase', 'http://localhost:8000/');
+    }else{
+      store.commit('setUrlBase', 'http://sptests.org/');
+      store.commit('setApiBase', 'http://sptests.org:8000/');
+    }
 
     var pathArray=this.$route.path.substring(1).split('/');
     if(pathArray.length==3 && pathArray[0]=='target'){
