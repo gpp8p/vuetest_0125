@@ -122,6 +122,7 @@ name: "Headline",
       subStyle: '',
       subStyleChange:0,
       showOptions: false,
+      currentMenuOpts:[],
       subContentStyling:{
         sub:{}
       },
@@ -190,6 +191,7 @@ name: "Headline",
           break;
         }
         case 'DeleteCard':{
+          debugger;
           var mOpts = this.getMenuOpts('deleteChoice');
           this.currentMenuOpts = mOpts.currentMenuOpts;
           break;
