@@ -1,5 +1,5 @@
 <template>
-  <div class="cardStyle ck-content">
+  <div class="cardStyle ck-content scrollbar-hidden">
     <div class="cardHeader" v-if="showOptions==true">
       <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
     </div>
@@ -581,7 +581,19 @@ export default {
   height: 100%;
   width: 100%;
   overflow: auto;
+  scrollbar-width:none;
+
 }
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge add Firefox */
+.scrollbar-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none; /* Firefox */
+}
+
 .cardHeader {
   color: blue;
   height: 10%;
@@ -594,7 +606,11 @@ export default {
 .cardBody {
   height: 90%;
   margin:10px;
+  scrollbar-width:none;
+
+
 }
+
 .cardFooter {
   height: 5%;
   width:100%;
