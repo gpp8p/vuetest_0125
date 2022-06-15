@@ -311,6 +311,7 @@ export default {
       this.content.createDate = msg.createDate;
       this.content.cardText = this.cardContent.cardText;
       this.content.cardType = 'textShow';
+      this.content.removeDocumentFromIndex=msg.removeDocumentFromIndex;
       this.setCardData(this.content, 'saveCardContent', 'main');
       this.updateCardName(this.cardId, msg.cardName);
       var mOpts = this.getMenuOpts('richTextOpen');

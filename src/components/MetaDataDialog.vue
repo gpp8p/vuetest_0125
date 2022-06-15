@@ -101,6 +101,11 @@ name: "MetaDataDialog",
     },
     done(){
       var metaDataEntered={};
+      if(this.cardContent==1 && this.indexFile == 0){
+        metaDataEntered['removeDocumentFromIndex']=true;
+      }else{
+        metaDataEntered['removeDocumentFromIndex']=false;
+      }
       metaDataEntered['done']=true;
       metaDataEntered['documentType']= this.documentType;
       metaDataEntered['accessType']=this.accessType;
