@@ -58,9 +58,14 @@ export default {
       required: false
     }
   },
+  created(){
+    this.editorConfig.simpleUpload.uploadUrl = this.$store.getters.getApiBase+'api/shan/imageUploadCk?XDEBUG_SESSION_START=19403';
+  },
   mounted(){
     console.log('mounting ckeditor cardData- ', this.cardData);
     this.editorData = this.cardData;
+//    this.editorConfig.simpleUpload.uploadUrl = this.$store.getters.getApiBase+'shan/imageUploadCk?XDEBUG_SESSION_START=19403';
+
 /*
     var spanHeight = document.getElementById('app').clientHeight;
     var spanWidth = document.getElementById('app').clientwidth;
@@ -189,9 +194,10 @@ export default {
           ]
         },
         simpleUpload: {
-          uploadUrl: 'http://localhost:8000/api/shan/imageUploadCk?XDEBUG_SESSION_START=19403'
+//         uploadUrl: 'http://localhost:8000/api/shan/imageUploadCk?XDEBUG_SESSION_START=19403'
 //          uploadUrl: 'http://sptests.org:8000/api/shan/imageUploadCk?XDEBUG_SESSION_START=19403'
    //       uploadUrl: this.$store.getters.getApiBase+'shan/imageUploadCk?XDEBUG_SESSION_START=19403'
+//            uploadUrl:''
         },
         fontFamily: {
           options: [
