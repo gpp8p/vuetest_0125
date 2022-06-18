@@ -101,7 +101,7 @@ name: "MetaDataDialog",
     },
     done(){
       var metaDataEntered={};
-      if(this.cardContent==1 && this.indexFile == 0){
+      if(this.cardContent.indexFile==1 && this.indexFile == 0){
         metaDataEntered['removeDocumentFromIndex']=true;
       }else{
         metaDataEntered['removeDocumentFromIndex']=false;
