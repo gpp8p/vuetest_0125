@@ -51,12 +51,17 @@ export default {
     console.log('textShow - activeQuery - ', sessionStorage.getItem('searchActive'), sessionStorage.getItem('searchQuery'));
     if(sessionStorage.getItem('searchActive')=='true'){
       existingQuery =sessionStorage.getItem('searchQuery');
-      console.log('existingQuery - ', existingQuery);
-      this.cardData=this.cardContent.cardText;
-      var newSearchedExpression = "<span style='background-color: yellow; color:red;'>"+existingQuery+"</span>";
-      this.cardData = this.cardData.replaceAll(existingQuery, newSearchedExpression);
-      console.log('new card data -', this.cardData);
-      console.log('inserting search tags');
+      if(existingQuery.length>0){
+        console.log('existingQuery - ', existingQuery);
+        this.cardData=this.cardContent.cardText;
+        var newSearchedExpression = "<span style='background-color: yellow; color:#ff0000;'>"+existingQuery+"</span>";
+        this.cardData = this.cardData.replaceAll(existingQuery, newSearchedExpression);
+        console.log('new card data -', this.cardData);
+        console.log('inserting search tags');
+      }else{
+        this.cardData=this.cardContent.cardText;
+      }
+
     }else{
       this.cardData=this.cardContent.cardText;
     }

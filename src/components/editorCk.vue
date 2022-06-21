@@ -60,6 +60,7 @@ export default {
   },
   created(){
     this.editorConfig.simpleUpload.uploadUrl = this.$store.getters.getApiBase+'api/shan/imageUploadCk?XDEBUG_SESSION_START=19403';
+    console.log('simpleUpload.uploadUrl = ', this.editorConfig.simpleUpload.uploadUrl);
   },
   mounted(){
     console.log('mounting ckeditor cardData- ', this.cardData);
