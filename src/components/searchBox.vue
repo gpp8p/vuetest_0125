@@ -1,10 +1,11 @@
 <template>
   <section class="searchBox">
     <span class="inputPlusLabel">
-      <span  class="labelStyle"><o-button @click="submitSearch" :size="small">Search</o-button></span>
-      <span>
-        <input class="inputStyle" type="text" :maxlength="128" size="this.inputSize" v-model="fieldContent" />
+      <span  class="labelStyle"><a @click="submitSearch" >Search:</a></span>
+      <span >
+        <input class="inputStyle"  type="text"  v-on:keyup.enter="submitSearch"  size="25" v-model="fieldContent" />
       </span>
+      <span class="labelStyle" @click="clearSearch">Clear</span>
     </span>
     <span>
       <span class="radioItem">
@@ -75,6 +76,10 @@ name: "searchBox",
     submitSearch(){
       this.$emit('search',this.fieldContent);
     },
+    clearSearch(){
+      this.fieldContent ="";
+      this.$emit('clearSearch');
+    },
     searchTypeSelected(msg){
       console.log(msg);
       this.currentSearchMode = msg;
@@ -104,7 +109,7 @@ name: "searchBox",
   color: blue;
   font-weight: bold;
   font-size: 12px;
-  margin-left: 25%;
+  margin-left: 10%;
   width: 80%;
 
 }
@@ -125,17 +130,25 @@ name: "searchBox",
   color: red;
 }
 
-
+.labelStyle:hover {
+  background-color: yellow;
+}
 .labelStyle{
   font-family: Arial;
   font-size: medium;
+  text-align: center;
   color: #0a3aff;
-  margin-top: 5px;
+  background-color: #d3d4cd;
+  border: 3px solid red;
+  border-radius: 5px;
+  padding-right: 4px;
+  padding-left: 3px;
+
 }
 .inputPlusLabel {
   display:grid;
-  margin-top: 3px;
-  grid-template-columns: 20% 80%;
+  margin-bottom:4px;
+  grid-template-columns: 25% 55% 20%;
 
 }
 </style>

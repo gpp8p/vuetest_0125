@@ -12,7 +12,7 @@
 
       <div v-bind:style='subStyle' v-if="this.mode==this.LINK_MENU_LINK_MODE" >
         <span >
-          <search-box class="searchBox" :existingQuery="this.currentQuery" :inputSize="searchBoxSize" :displayMode="this.searchMode" @search="submitSearchQuery" @searchTypeSelected = "searchTypeSelected" @advancedSearchSelected="advancedSearchSelected" ></search-box>
+          <search-box class="searchBox" :existingQuery="this.currentQuery" :inputSize="searchBoxSize" :displayMode="this.searchMode" @search="submitSearchQuery" @clearSearch="clearSearch" @searchTypeSelected = "searchTypeSelected" @advancedSearchSelected="advancedSearchSelected" ></search-box>
         </span>
         <span v-if="this.cardContent.orient=='vertical'">
           <span v-if="this.advancedQuery==false">
@@ -525,6 +525,12 @@ export default {
         var thisProp = this.cardProperties.substr(colonDelimiterLocatedAt+1);
         return thisProp;
       }
+    },
+    clearSearch(){
+      sessionStorage.setItem('searchQuery', '');
+      sessionStorage.setItem('searchActive', false);
+      this.existingQuery = '';
+      this.currentQuery = '';
     },
     submitSearchQuery(msg) {
       sessionStorage.setItem('searchQuery', msg);
