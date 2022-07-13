@@ -82,6 +82,7 @@
                    @configSelected="configSelected"
                    @cardClick="processCardClick"
                    @textEditor="textEditor"
+                   @newLayout="newLayout"
                    @linkSelected="linkSelected"
                    @configurationHasBeenSaved="configurationHasBeenSaved"
                    @cardDataLoaded="cardDataLoaded"
@@ -335,6 +336,9 @@
       textEditor(msg){
 //        debugger;
         this.$emit('textEditor', [msg]);
+      },
+      newLayout(msg){
+        this.$emit('newLayout', [msg]);
       },
       editClick(msg){
         this.$emit('editClick', [msg]);

@@ -17,6 +17,7 @@
                            @clearCmd="clearCmd"
                            @deletedLayoutsShowing="deletedLayoutsShowing"
                            @undeleteSelected="undeleteSelected"
+                           @gotoNewPage="gotoNewPage"
                            :key="componentKey"
                            :showingDeleted="showingDeleted"
                            :cmd="this.thisCmd"></router-view>
@@ -120,6 +121,11 @@ export default {
       this.thisCmd = "cardSaved";
       this.componentKey+=1;
     },
+    gotoNewPage(msg){
+      debugger;
+      console.log('gotoNewPage reached-', msg);
+      this.tabSelected('Edit');
+    },
     register(){
       debugger;
       this.thisCmd='register';
@@ -145,7 +151,7 @@ export default {
       console.log('undeleteSelected - ', this.thisCmd);
     },
     tabSelected(msg){
-      //               debugger;
+                     debugger;
       switch(msg){
         case 'Edit':{
 //            this.$eventHub.$emit('editStatusChanged', ['openEdit',0]);

@@ -55,7 +55,7 @@
                               @clearCmd="clearCmd"
                               @cloneSuccessful="cloneSuccessful"
                               @cloneSuccessfulReturnToEdit="cloneSuccessfulReturnToEdit"
-
+                              @addCloneSuccessful="addCloneSuccessful"
                               :sourceTemplate = "this.selectedTemplateDescription"
                               :sourceTemplateId = "this.selectedTemplateId"
               ></clone-template>
@@ -84,6 +84,9 @@ import axios from "axios";
 import selectTemplate from "../components/selectTemplate.vue";
 import cloneTemplate from "./cloneTemplate.vue";
 import changeLinkLabel from "./changeLinkLabel.vue";
+import store from "@/store";
+//import store from "@/store";
+//import store from "@/store";
 
 //import CardBase from "@/components/CardBase";
 export default {
@@ -91,13 +94,24 @@ export default {
   components :{ menuOpt, linkMenuList, linkMenuAdd, createLayout, selectTemplate, cloneTemplate, changeLinkLabel},
 //  extends: CardBase,
   mounted(){
-    this.titleMsg='Building a Menu';
-    var mOpts = this.getMenuOpts('setupMenuLink');
-    this.currentMenuOpts = mOpts.currentMenuOpts;
-    this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
-    this.currentCardData= JSON.parse(this.cardData);
-    this.currentCardData.orient = this.orient;
-    this.mode=this.SHOW_LINKS;
+//    debugger;
+    if(this.cmd=='newLayout'){
+      this.titleMsg='Creating a new page';
+      var mOpts = this.getMenuOpts('addNewPage');
+      this.currentMenuOpts = mOpts.currentMenuOpts;
+      this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+      this.currentCardData= JSON.parse(this.cardData);
+      this.currentCardData.orient = this.orient;
+      this.mode=this.CREATE_LAYOUT;
+    }else{
+      this.titleMsg='Building a Menu';
+      mOpts = this.getMenuOpts('setupMenuLink');
+      this.currentMenuOpts = mOpts.currentMenuOpts;
+      this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+      this.currentCardData= JSON.parse(this.cardData);
+      this.currentCardData.orient = this.orient;
+      this.mode=this.SHOW_LINKS;
+    }
   },
   props:{
     dialogType:{
@@ -243,6 +257,17 @@ export default {
             currentSelectedMenuOption: 'Cancel'
           }
         }
+        case 'addNewPage': {
+          return {
+            currentMenuOpts: [
+              ['Copy Template', 'cloneTemplate'],
+              ['Copy This Page', 'copyThisPageAdd'],
+              ['Exit', 'Cancel'],
+              ['Save', 'linkMasterSave']
+            ],
+            currentSelectedMenuOption: 'Cancel'
+          }
+        }
         case 'editingLinkLabel': {
           return {
             currentMenuOpts: [
@@ -327,6 +352,15 @@ export default {
             currentMenuSelection: 'Cancel'
           }
         }
+        case'copyingPageAdd':{
+          return {
+            currentMenuOpts:[
+              ['Cancel','Cancel'],
+              ['Copy It', 'doAddThisPageCopy']
+            ],
+            currentMenuSelection: 'Cancel'
+          }
+        }
         case 'doCloneTemplate':{
           return {
             currentMenuOpts: [
@@ -402,6 +436,7 @@ export default {
 //      debugger;
       switch(msg){
         case 'Cancel':{
+          this.mode=0;
           this.currentSelectedMenuOption = msg;
           this.$emit('configSelected',['cancel']);
           break;
@@ -564,6 +599,16 @@ export default {
           this.mode=this.DIALOG_COPY_CLONE;
           break;
         }
+        case 'copyThisPageAdd':{
+          mOpts = this.getMenuOpts('copyingPageAdd');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+          this.copyIt=true;
+          this.selectedTemplateId = this.$store.getters.getCurrentLayoutId;
+          this.selectedTemplateDescription = "Current Page";
+          this.mode=this.DIALOG_COPY_CLONE;
+          break;
+        }
         case 'doCopyTemplate':{
           console.log('doCloneTemplate matched');
           this.copyIt=false;
@@ -573,7 +618,14 @@ export default {
         }
         case 'doCopyThisPage':{
           console.log('doCopyPage matched');
+//          this.mode=0;
           this.currentCmd = 'doCloneTemplate';
+          this.cmdVersion++;
+          break;
+        }
+        case 'doAddThisPageCopy':{
+          console.log('in doCopyThisPageAdd');
+          this.currentCmd = 'doAddThisPageCopy';
           this.cmdVersion++;
           break;
         }
@@ -640,12 +692,23 @@ export default {
     addNewLinkToList(){
       console.log('in addNewLinkToList - ', this.selectedLayout);
       this.currentCardData.availableLinks.push(this.selectedLayout);
+/*
+      store.commit('setCurrentLayoutId', this.selectedLayout);
+      this.$router.push({
+        name: 'edit',
+        params: { layoutId: this.$store.getters.getCurrentLayoutId }
+      })
+*/
+
+
       var mOpts = this.getMenuOpts('setupMenuLink');
 
       this.currentMenuOpts = mOpts.currentMenuOpts;
       this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
       this.selectedLayout={};
       this.titleMsg='Building a Menu';
+
+
     },
     setNewLayoutData(msg){
       var newElement ={};
@@ -771,6 +834,7 @@ export default {
       this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
     },
     linkMasterSave(){
+//      debugger;
       var cardTitle='';
       if(typeof(this.currentCardData.linkMenuTitle)=='undefined'){
         cardTitle = ''
@@ -780,7 +844,14 @@ export default {
       var allCardLinks = JSON.stringify(this.currentCardData.availableLinks);
       var apiPath = this.$store.getters.getApiBase;
       console.log('apiPath - ',apiPath);
-
+      console.log('currentCardData - ', this.currentCardData);
+      console.log('orient-', this.currentCardData.orient);
+      console.log('cardTitle-',cardTitle );
+      console.log('allLinks-', allCardLinks);
+      console.log('org_id-', this.$store.getters.getOrgId);
+      console.log('layout_id-', this.$store.getters.getCurrentLayoutId);
+      console.log('card_instance_id-',this.cardId);
+//      debugger;
       axios.post(apiPath+'api/shan/updateCardLinks?XDEBUG_SESSION_START=17516', {
 //      axios.post('http://localhost:8000/api/shan/updateCardLinks?XDEBUG_SESSION_START=17516', {
         orient: this.currentCardData.orient,
@@ -795,11 +866,20 @@ export default {
       {
         console.log(response);
         if(response.data=='ok'){
+          if(this.cloneTemplateMode=='P'){
+            debugger;
+            var newRoute = '/displayLayout/edit/'+this.$store.getters.getCurrentLayoutId;
+            this.$router.push({ path: newRoute, layoutId:this.$store.getters.getCurrentLayoutId});
+            this.$router.go();
+          }else{
+            this.$emit('configurationHasBeenSaved');
+          }
+//          debugger;
 //          alert('returned ok');
-          this.$emit('configurationHasBeenSaved');
         }
       }).catch(function(error) {
-        alert('returned with an error');
+ //       debugger;
+        alert('returned with an error'+error);
         console.log(error);
       });
 
@@ -851,6 +931,13 @@ export default {
       this.setTitle('Enter description and label for new layout');
       this.mode = this.DIALOG_COPY_CLONE;
     },
+    addCloneSuccessful(msg){
+      this.cloneTemplateMode='P';
+//      debugger;
+      store.commit('setCurrentLayoutId', msg);
+      console.log('current layout id in store:', this.$store.getters.getCurrentLayoutId)
+      this.cloneSuccessfulReturnToEdit(msg);
+    },
     cloneSuccessfulReturnToEdit(msg){
       console.log('clone successful',msg);
       var apiPath = this.$store.getters.getApiBase;
@@ -860,9 +947,11 @@ export default {
         }
       }).then(response=> {
         console.log(response);
+//        debugger;
         var url1 = this.urlBase;
         var url2 = url1.concat(msg);
         this.selectedLayout.id=msg;
+        this.$store.commit('setCurrentLayoutId', this.selectedLayout.id);
         this.selectedLayout.description = response.data.description;
         this.selectedLayout.layout_link_to = msg;
         this.selectedLayout.link_url = url2
@@ -871,9 +960,26 @@ export default {
         this.selectedLayout.menu_label = response.data.menu_label;
         this.selectedLayout.isExternal = 0;
         this.selectedLayout.type = 'U';
-        if(this.cloneTemplateMode=='A'){
+        if(this.cloneTemplateMode=='A') {
           this.addNewLinkToList();
           this.cloneTemplateMode = '';
+        }else if(this.cloneTemplateMode=='P'){
+          console.log('cloneTemplateMode is P');
+          this.addNewLinkToList();
+          this.currentCardData.orient = 'vertical';
+          this.linkMasterSave();
+//          this.$store.commit('setCurrentLayoutId', this.selectedLayout.id);
+//          alert('new page created - select edit to add content');
+//          var newRoute = '/displayLayout/edit/'+msg;
+//          this.$router.push({ path: newRoute});
+//          this.$router.go();
+/*
+          this.$router.push({
+            name: 'edit',
+            params: { layoutId: this.$store.getters.getCurrentLayoutId }
+          })
+*/
+//          this.$emit('gotoNewPage', this.$store.getters.getCurrentLayoutId );
         }else{
           var selectedIndex = this.findSelectedIndex(this.selectedLink);
           console.log('replace with template copy',selectedIndex);

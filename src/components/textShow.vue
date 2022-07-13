@@ -71,6 +71,20 @@ export default {
     this.mode=this.SHOW_TEXT;
     var mOpts = this.getMenuOpts('entryMenu');
     this.currentMenuOpts = mOpts.currentMenuOpts;
+    console.log('mounted');
+    this.$nextTick(() => {
+      this.cheight = this.$refs.textContent.clientHeight;
+      this.cwidth = this.$refs.textContent.clientWidth;
+//      console.log(this.$refs.textContent.clientHeight);
+//      console.log(this.$refs.textContent.clientWidth);
+      if(typeof(this.cardContent.cardText)=='undefined' && this.displayStatus==false){
+        this.editClicked();
+        var mOpts = this.getMenuOpts('richTextOpen');
+        this.currentMenuOpts = mOpts.currentMenuOpts;
+        this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+      }
+    })
+
   },
   props: {
     cardStyle: {
@@ -149,6 +163,8 @@ export default {
       cObjectVersion:0,
       srcFilePathUploaded:'',
       srcFileRole: 'document',
+      cheight:0,
+      cwidth:0
 
     }
 
@@ -237,9 +253,12 @@ export default {
 */
     editClicked(){
 //      debugger;
-      console.log('height-',this.height);
-      var editorHeight = this.height+275;
-      var editorWidth = this.width+29;
+      console.log('editClicked');
+      this.logDim();
+//      var editorHeight = this.height+275;
+      var editorHeight = this.cheight+275;
+//      var editorWidth = this.width+29;
+      var editorWidth = this.cwidth+29;
       var editorHeightParam = editorHeight+'px';
       var editorWidthParam = editorWidth+'px';
       let root = document.documentElement;
@@ -249,6 +268,10 @@ export default {
       this.mode=this.RICH_TEXT_EDITOR;
 //      this.loadCardConfiguration(this.cardId);
 //      this.$emit('textEditor', [this.cardKey, this.setCardData,this.configurationCurrentValues, this.cardData, this.cardId, 'textShow']);
+    },
+    logDim(){
+      console.log('height-',this.height);
+      console.log('width-', this.width);
     },
     refId: function() {
       return "card" + this.cardId;
@@ -268,6 +291,7 @@ export default {
     },
     editorReady(msg){
       console.log('editorReady event');
+      this.logDim();
       this.editorInstance = msg;
     },
     currentContent(msg){
@@ -342,6 +366,8 @@ export default {
       console.log('apiPath - ',apiPath);
       switch(msg){
         case 'Edit':{
+          console.log('edit selected');
+          this.logDim();
           var mOpts = this.getMenuOpts('richTextOpen');
           this.currentMenuOpts = mOpts.currentMenuOpts;
           this.editClicked();

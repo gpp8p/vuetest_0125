@@ -24,6 +24,7 @@
                                 @editClick="editClick"
                                 @cardClick="cardClick"
                                 @textEditor="textEditor"
+                                @newLayout="newLayout"
                                 @configurationHasBeenSaved="cardSaved"
                                 @cardDataLoaded="cardDataLoaded"
                                 @linkHelperRequested="linkHelperRequested"
@@ -68,6 +69,7 @@
                             @saveCardContent="saveCardContent"
                             @configurationHasBeenSaved="linksSaved"
                             @clearCmd="clearRtCmd"
+                            @gotoNewPage="gotoNewPage"
                             :cmd="rtCmd"
                             v-bind:style='this.styleObject'
               ></link-master3>
@@ -203,6 +205,7 @@
             console.log('in mounted - calling reloadLayout');
             this.dialogMode=0;
             this.reloadLayout(this.$route.params.layoutId);
+            store.commit('setCurrentLayoutId', this.$route.params.layoutId);
             this.displayStatus=false;
             this.$emit('viewStatusChangeFunction',['editLayout', this.viewStatusChangeFunction]);
             this.$eventHub.$emit('editStatusChanged',['openEdit',0]);
@@ -282,12 +285,29 @@
               }
             }
           },
+          gotoNewPage(msg){
+//            this.$emit('gotoNewPage', msg);
+            debugger;
+            this.RICH_TEXT_EDITOR=false;
+            this.reloadLayout(msg);
+          },
+          newLayout(msg){
+            debugger;
+            console.log('newLayout', msg);
+            this.rtCmd = 'newLayout';
+            this.updateCallback = msg[0][1];
+            this.selectedCardId = msg[0][4];
+            this.cardToEditType = msg[0][5];
+            this.cardData = JSON.stringify(msg[0][6]);
+            this.RICH_TEXT_EDITOR=true;
+          },
           textEditor(msg){
             console.log('editLayout.textEditor (textEditor) -',msg);
             debugger;
             this.updateCallback = msg[0][1];
             this.selectedCardId = msg[0][4];
             this.cardToEditType = msg[0][5];
+            this.rtCmd = '';
             switch(this.cardToEditType){
               case 'linkMenu':{
                 this.newCardOrientation = 'vertical';
@@ -816,7 +836,7 @@
 
                     })
                     .catch(e => {
-//                        debugger;
+                        debugger;
                         console.log(e);
                         this.errors.push(e);
                     });

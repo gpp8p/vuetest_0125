@@ -170,7 +170,7 @@ export default {
       }else{
         this.showOptions=true;
       }
-      var mOpts = this.getMenuOpts('entryMenu');
+      var mOpts = this.getMenuOpts('entryMenuAdd');
       this.currentMenuOpts = mOpts.currentMenuOpts;
       debugger;
       var availableSubcontentStyles = this.subStyle.split(';');
@@ -366,6 +366,18 @@ export default {
             currentMenuSelection: 'Configure'
           }
         }
+        case'entryMenuAdd':{
+          return {
+            currentMenuOpts:[
+              ['Configure','Configure'],
+              ['Resize/Move', 'Resize'],
+              ['Del','DeleteCard'],
+              ['Edit', 'Edit'],
+              ['New','NewLayout']
+            ],
+            currentMenuSelection: 'Configure'
+          }
+        }
         case 'deleteChoice':{
           return {
             currentMenuOpts :[
@@ -406,6 +418,11 @@ export default {
       debugger;
       this.loadCardConfiguration(this.cardId);
       this.$emit('textEditor', [this.cardKey, this.setCardData,this.configurationCurrentValues, this.cardData, this.cardId, 'linkMenu', this.cardContent]);
+    },
+    newLayoutClicked(){
+      this.loadCardConfiguration(this.cardId);
+      this.$emit('newLayout', [this.cardKey, this.setCardData,this.configurationCurrentValues, this.cardData, this.cardId, 'linkMenu', this.cardContent]);
+
     },
 /*
     editClicked(){
@@ -448,6 +465,10 @@ export default {
         }
         case 'Edit':{
           this.editClicked();
+          break;
+        }
+        case 'NewLayout':{
+          this.newLayoutClicked();
           break;
         }
         case 'DeleteCard':{
