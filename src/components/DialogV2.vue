@@ -260,6 +260,7 @@
                 }
 
                 case 'New Space':{
+                  debugger;
                   var mOpts = this.getMenuOpts('createNewLayout');
                   this.currentMenuOpts = mOpts.currentMenuOpts;
                   this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
@@ -268,6 +269,7 @@
                 }
                 case 'saveSpace':{
                   this.cmd='saveSpace';
+                  this.cmdObjectVersion++;
                   break;
                 }
                 case 'cloneTemplate':{
@@ -310,6 +312,7 @@
                 }
                 case 'updateLayout':{
                   this.cmd='updateLayout';
+                  this.dialogCmdVersion++;
                   break
                 }
 
@@ -320,6 +323,7 @@
                 }
                 case 'Save':{
                   this.cmd='save';
+                  this.dialogCmdVersion++;
                   break;
                 }
                 case 'SaveConfiguration':{

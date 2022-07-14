@@ -38,10 +38,10 @@
         </link-menu-add>
       </span>
       <span v-if="mode==this.CREATE_LAYOUT">
-        <create-layout  :cmd="currentCmd" @err="createError" @layoutData="layoutData"></create-layout>
+        <create-layout  :cmd="currentCmd" :cmdObjectVersion = "cmdVersion" @err="createError" @layoutData="layoutData" @editLayoutData="editLayoutData" ></create-layout>
       </span>
       <span v-if="mode==this.SUBSTITUTE_CREATED_LAYOUT">
-        <create-layout  :cmd="currentCmd" :cmdObjectVersion = "cmdVersion" @err="createError" @layoutData="substituteLayoutData"></create-layout>
+        <create-layout  :cmd="currentCmd" :cmdObjectVersion = "cmdVersion" @err="createError" @layoutData="substituteLayoutData" @editLayoutData="editLayoutData"></create-layout>
       </span>
       <span v-if="mode==this.DIALOG_SELECT_TEMPLATE">
         <select-template :cmd = "cmd"  @templateSelected="templateSelected" ></select-template>
@@ -263,7 +263,7 @@ export default {
               ['Copy Template', 'cloneTemplate'],
               ['Copy This Page', 'copyThisPageAdd'],
               ['Exit', 'Cancel'],
-              ['Save', 'linkMasterSave']
+              ['Save', 'AddPageSave']
             ],
             currentSelectedMenuOption: 'Cancel'
           }
@@ -624,7 +624,7 @@ export default {
           break;
         }
         case 'doAddThisPageCopy':{
-          console.log('in doCopyThisPageAdd');
+          console.log('in doAddThisPageCopy');
           this.currentCmd = 'doAddThisPageCopy';
           this.cmdVersion++;
           break;
@@ -660,6 +660,11 @@ export default {
             this.linkMasterSave();
           }
 
+          break;
+        }
+        case 'AddPageSave':{
+          this.currentCmd = 'AddPageSave';
+          this.cmdVersion++;
           break;
         }
         case 'clearLinkList':{
@@ -736,6 +741,13 @@ export default {
 
       this.mode=this.SHOW_LINKS;
 
+    },
+    editLayoutData(msg){
+      this.selectedLayout=this.setNewLayoutData(msg);
+      this.currentCardData.availableLinks.push(this.selectedLayout);
+      this.currentCardData.orient = 'vertical';
+      this.cloneTemplateMode=='P';
+      this.linkMasterSave();
     },
     substituteLayoutData(msg){
       console.log('substituteLayoutData',msg);

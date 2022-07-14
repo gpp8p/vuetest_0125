@@ -112,6 +112,8 @@ name: "createLayout",
 
       LAYOUT_CREATE:0,
       LAYOUT_EDIT:1,
+      RETURN_TO_LINKS:3,
+      RETURN_TO_EDIT:4,
       mode:0,
 
 
@@ -135,25 +137,29 @@ name: "createLayout",
     }
   },
   watch:{
+/*
     cmd: function(){
       console.log('createLayout cmd changed - ', this.cmd);
       switch(this.cmd){
         case 'Save':{
-          this.saveData();
+          this.saveData(this.RETURN_TO_LINKS);
           break;
         }
+
         case 'saveSpace':{
-          this.saveData();
+          this.saveData(this.RETURN_TO_LINKS);
           break;
         }
+
         case 'updateLayout':{
           this.updateLayout();
           break;
         }
       }
     },
+ */
     cmdObjectVersion: function(){
-//      debugger;
+      debugger;
         console.log('currentValues is:',this.currentValues);
         console.log('cmd is:', this.cmd);
         switch(this.cmd){
@@ -195,7 +201,24 @@ name: "createLayout",
             break;
           }
           case 'saveNewPage':{
-            this.saveData();
+            this.saveData(this.RETURN_TO_LINKS);
+            break;
+          }
+          case 'saveSpace':{
+            debugger;
+            this.saveData(this.RETURN_TO_LINKS);
+            break;
+          }
+          case 'Save':{
+            this.saveData(this.RETURN_TO_LINKS);
+            break;
+          }
+          case 'updateLayout':{
+            this.updateLayout();
+            break;
+          }
+          case 'AddPageSave':{
+            this.saveData(this.RETURN_TO_EDIT);
             break;
           }
         }
@@ -292,7 +315,7 @@ name: "createLayout",
     getColorVal(){
 
     },
-    saveData(){
+    saveData(returnMode){
         debugger;
       var err = this.checkEntry();
       var apiPath = this.$store.getters.getApiBase;
@@ -320,7 +343,17 @@ name: "createLayout",
         {
 //            debugger;
           this.layoutId=response.data;
-          this.$emit('layoutData', [this.layoutId,this.menu_label, this.description, this.height, this.width, this.val, this.updatedColor]);
+          switch(returnMode){
+            case(this.RETURN_TO_LINKS):{
+              this.$emit('layoutData', [this.layoutId,this.menu_label, this.description, this.height, this.width, this.val, this.updatedColor]);
+              break;
+            }
+            case(this.RETURN_TO_EDIT):{
+              this.$emit('editLayoutData', [this.layoutId,this.menu_label, this.description, this.height, this.width, this.val, this.updatedColor]);
+              break;
+            }
+          }
+
 //        this.$emit('layoutSaved', [this.layoutId, this.height, this.width, this.description, this.menu_label, this.val]);
 //                this.$refs.editGrid.createBlankLayout(msg[2],msg[3],msg[1],msg[0]);
         }).catch(function(error) {
