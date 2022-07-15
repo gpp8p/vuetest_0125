@@ -56,6 +56,7 @@
                               @cloneSuccessful="cloneSuccessful"
                               @cloneSuccessfulReturnToEdit="cloneSuccessfulReturnToEdit"
                               @addCloneSuccessful="addCloneSuccessful"
+                              @doCloneTemplateAddSuccessful ="addCloneSuccessful"
                               :sourceTemplate = "this.selectedTemplateDescription"
                               :sourceTemplateId = "this.selectedTemplateId"
               ></clone-template>
@@ -260,7 +261,7 @@ export default {
         case 'addNewPage': {
           return {
             currentMenuOpts: [
-              ['Copy Template', 'cloneTemplate'],
+              ['Copy Template', 'cloneTemplateAdd'],
               ['Copy This Page', 'copyThisPageAdd'],
               ['Exit', 'Cancel'],
               ['Save', 'AddPageSave']
@@ -366,6 +367,16 @@ export default {
             currentMenuOpts: [
               ['Back', 'backToTemplateSelect'],
               ['Copy', 'doCopyTemplate'],
+              ['Cancel', 'Cancel'],
+            ],
+            currentSelectedMenuOption: 'Cancel'
+          }
+        }
+        case 'doCopyTemplateAdd':{
+          return {
+            currentMenuOpts: [
+              ['Back', 'backToTemplateSelect'],
+              ['Copy', 'doCopyTemplateAdd'],
               ['Cancel', 'Cancel'],
             ],
             currentSelectedMenuOption: 'Cancel'
@@ -578,6 +589,16 @@ export default {
           this.mode=this.DIALOG_SELECT_TEMPLATE;
           break;
         }
+        case 'cloneTemplateAdd':{
+          mOpts = this.getMenuOpts('selectTemplate');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+          this.setTitle('Click on template to use');
+//                  this.dialogCmd='selectTemplate';
+          this.cloneTemplateMode = 'T';
+          this.mode=this.DIALOG_SELECT_TEMPLATE;
+          break;
+        }
         case 'cloneTemplate_ls':{
           mOpts = this.getMenuOpts('selectTemplate');
           this.currentMenuOpts = mOpts.currentMenuOpts;
@@ -613,6 +634,13 @@ export default {
           console.log('doCloneTemplate matched');
           this.copyIt=false;
           this.currentCmd = 'doCloneTemplate';
+          this.cmdVersion++;
+          break;
+        }
+        case 'doCopyTemplateAdd':{
+          console.log('doCloneTemplate matched');
+          this.copyIt=false;
+          this.currentCmd = 'doCloneTemplateAdd';
           this.cmdVersion++;
           break;
         }
@@ -878,7 +906,7 @@ export default {
       {
         console.log(response);
         if(response.data=='ok'){
-          if(this.cloneTemplateMode=='P'){
+          if(this.cloneTemplateMode=='P' || this.cloneTemplateMode=='T'){
             debugger;
             var newRoute = '/displayLayout/edit/'+this.$store.getters.getCurrentLayoutId;
             this.$router.push({ path: newRoute, layoutId:this.$store.getters.getCurrentLayoutId});
@@ -937,12 +965,18 @@ export default {
       console.log('templateSelected = ', msg);
       this.selectedTemplateDescription = msg.description;
       this.selectedTemplateId = msg.id;
-      var mOpts = this.getMenuOpts('doCloneTemplate');
+      var mOpts = {}
+      if(this.cloneTemplateMode=='T'){
+        mOpts = this.getMenuOpts('doCopyTemplateAdd');
+      }else{
+        mOpts = this.getMenuOpts('doCloneTemplate');
+      }
       this.currentMenuOpts = mOpts.currentMenuOpts;
       this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
       this.setTitle('Enter description and label for new layout');
       this.mode = this.DIALOG_COPY_CLONE;
     },
+
     addCloneSuccessful(msg){
       this.cloneTemplateMode='P';
 //      debugger;

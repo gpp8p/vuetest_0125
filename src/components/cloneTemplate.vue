@@ -89,8 +89,10 @@ export default {
 //        debugger;
         if(this.$route.name == 'edit'){
 //        from a link mod
-          if(this.cmd == 'doAddThisPageCopy'){
+          if(this.cmd == 'doAddThisPageCopy') {
             this.$emit('addCloneSuccessful', response.data);
+          }else if(this.cmd == 'doCloneTemplateAdd'){
+            this.$emit('doCloneTemplateAddSuccessful', response.data);
           }else{
             this.$emit('cloneSuccessfulReturnToEdit', response.data);
           }
@@ -111,6 +113,13 @@ export default {
       console.log('cmdVersion in cloneTemplate triggered cmd - ',this.cmd);
       switch(this.cmd){
         case 'doCloneTemplate':{
+//          debugger;
+
+          console.log('watch triggered in cloneTemplate - ', this.cmd,' entriesOk-', this.entriesAreOk());
+
+          break;
+        }
+        case 'doCloneTemplateAdd':{
 //          debugger;
 
           console.log('watch triggered in cloneTemplate - ', this.cmd,' entriesOk-', this.entriesAreOk());
