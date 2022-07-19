@@ -102,8 +102,8 @@ name: "PermList",
         }
         case "Add Member":{
           this.getOrgMembers();
-          this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
-          this.$emit('setTitle','Click on member to add');
+ //         this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
+ //         this.$emit('setTitle','Click on member to add');
           break;
         }
         case "Remove":{
@@ -273,9 +273,37 @@ name: "PermList",
     },
     getOrgMembers(){
       var apiPath = this.$store.getters.getApiBase;
-      console.log('apiPath - ',apiPath);
+      console.log('getOrgMembers - apiPath - ',apiPath);
+      axios.get(apiPath+'api/shan/getAvailableMembers?XDEBUG_SESSION_START=14668', {
+//      axios.get('http://localhost:8000/api/shan/layoutPerms?XDEBUG_SESSION_START=14668', {
+        params:{
+          orgId: this.$store.getters.getOrgId,
+          groupId: this.selectedGroupId
+        }
+      })
+          .then(response => {
+// eslint-disable-next-line no-debugger
+            // JSON responses are automatically parsed.
+            debugger;
+            console.log(response);
+            this.orgMembers=response.data;
+            this.$emit("setMenu",'groupMenu');
+            this.$emit('setTitle','Click on member to add');
+            this.view=this.ORG_MEMBERS;
 
-      axios.get('api/shan/availableOrgUsers?XDEBUG_SESSION_START=14668', {
+          })
+          .catch(e => {
+            this.errors.push(e);
+            console.log('viewableLayouts failed');
+          });
+    },
+
+/*
+    getOrgMembers(){
+      debugger;
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+      axios.get('api/shan/getAvailableOrgUsers?XDEBUG_SESSION_START=14668', {
 //      axios.get('http://localhost:8000/api/shan/availableOrgUsers?XDEBUG_SESSION_START=14668', {
         params:{
           orgId: this.$store.getters.getOrgId,
@@ -285,7 +313,7 @@ name: "PermList",
           .then(response => {
 // eslint-disable-next-line no-debugger
             // JSON responses are automatically parsed.
-//            debugger;
+            debugger;
             console.log(response);
             this.orgMembers=response.data;
             this.$emit("setMenu",'groupMenu');
@@ -300,6 +328,7 @@ name: "PermList",
             console.log('orgMembers failed');
           });
     },
+*/
     getOrgGroups(orgId, layoutId){
       debugger;
       var apiPath = this.$store.getters.getApiBase;
@@ -330,7 +359,7 @@ name: "PermList",
     },
 
     getGroupMembers(groupId){
-//              debugger;
+              debugger;
       this.selectedGroupId = groupId;
       var apiPath = this.$store.getters.getApiBase;
       console.log('apiPath - ',apiPath);

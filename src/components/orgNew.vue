@@ -56,6 +56,7 @@
           @componentSettingsMounted="componentSettingsMounted"
           @userExists="userExists"
           :cmd="cmd"
+          :cmdVersion="cmdVersion"
       ></register-user>
     </span>
     <span v-if="this.viewStatus==this.NEWORG_EXISTING_USER">
@@ -81,6 +82,10 @@ export default {
     },
     cmd:{
       type: String,
+      required: false
+    },
+    cmdVersion:{
+      type: Number,
       required: false
     }
   },

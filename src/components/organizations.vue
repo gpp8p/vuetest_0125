@@ -3,6 +3,7 @@
     <org-list v-if="orgView==this.ORG_LIST" :cmd="cmd" @orgSelected="orgSelected" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle"></org-list>
     <org-membership :cmd="cmd" :orgId="selectedOrgId" v-if="orgView==this.ORG_MEMBERS" @memberSelected="memberSelected" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle" @setMenu="setMenu" @clearCmd="clearCmd"></org-membership>
     <org-new :cmd="cmd" v-if="orgView==this.ORG_NEW"
+             :cmdVersion="cmdVersion"
              @componentSettingsMounted="componentSettingsMounted"
              @setTitle="setTitle"
              @setMenu="setMenu"
@@ -10,7 +11,7 @@
              @clearCmd="clearCmd"
              :selectedMenuOption="selectedMenuOption"
     ></org-new>
-    <registerUser v-if="orgView==NEW_USER" :cmd="cmd" :selectedOrgId="selectedOrgId" @registrationSaved="registrationSaved"></registerUser>
+    <registerUser v-if="orgView==NEW_USER" :cmd="cmd" :cmdVersion="cmdVersion" :selectedOrgId="selectedOrgId" @registrationSaved="registrationSaved"></registerUser>
     <user-password v-if="this.orgView==this.USER_PASSWORD" :cmd="cmd" @clearCmd="clearCmd" :current-card-data="currentCardData" @registrationSaved="registrationSaved"></user-password>
   </span>
 </template>
@@ -35,6 +36,10 @@ export default {
     },
     cmd:{
       type: String,
+      required: false
+    },
+    cmdVersion:{
+      type: Number,
       required: false
     }
   },

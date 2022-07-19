@@ -51,6 +51,10 @@ name: "registerUser",
     selectedOrgId:{
       type: Number,
       required: false
+    },
+    cmdVersion:{
+      type: Number,
+      required: false
     }
   },
   mounted(){

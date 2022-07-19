@@ -9,17 +9,25 @@
             </span>
         </span>
         <span v-if="this.logStatus===this.SHOW_LOGIN" class="login">
-                     <span></span>
+          <span>
+                    <span class="labelPlusInput">
+                        <label class="labelStyle" for="email">Mail:</label>
+                        <input type="text" id="email" name="email" size="30" v-model="email" ref="emailField" class="loginField"/>
+                    </span>
+                    <span class="labelPlusInput">
+                      <label class="labelStyle" for="password">Password:</label>
+                      <input type="password" id="password" size="30" maxlength="65" v-model="password" class="loginField"/>
+                    </span>
+                    <div class="cmdLineWrapper">
+                      <span class="loginCmdLine">
+                         <span class="labelLinkStyle" @click="doLogin">Login</span>
+                         <span class="labelLinkStyle" @click="cancelLogin">Cancel</span>
+                         <span class="labelLinkStyle" @click="register">Register</span>
+                      </span>
+                    </div>
 
-                     <label class="labelStyle" for="email">Mail:</label>
-                    <input type="text" id="email" name="email" size="30" v-model="email" ref="emailField" class="loginField"/>
-                    <span ></span>
-                    <label class="labelStyle" for="password">Password:</label>
-                    <input type="password" id="password" size="30" maxlength="65" v-model="password" class="loginField"/>
+          </span>
 
-                      <span></span>
-                     <span class="labelLinkStyle" @click="doLogin">Login </span>
-                     <span class="labelLinkStyle" @click="cancelLogin">Cancel</span>
 
 
 
@@ -65,6 +73,8 @@
     export default {
         name: "directLoginComponent",
         mounted(){
+          debugger;
+          console.log('direct login component mounted');
           if(this.cmd=='directLogin'){
             this.logStatus=this.SHOW_LOGIN;
           }else{
@@ -224,7 +234,7 @@
 <style scoped>
     .loggedIn {
         display: grid;
-        grid-template-columns: 100%;
+        grid-template-columns: 30% 30% 30%;
         grid-template-rows: 30% 30% 30%;
         justify-items: center;
         color: blue;
@@ -234,7 +244,7 @@
     }
     .notLogged {
         display: grid;
-        grid-template-columns: 100%;
+        grid-template-columns: 30% 30% 30%;
         grid-template-rows: 30% 30% 30%;
         justify-items: center;
         color: blue;
@@ -243,7 +253,7 @@
     }
     .login {
         display: grid;
-        grid-template-columns: 30% 15% 20%;
+        grid-template-columns: 30% 40% 20%;
         grid-template-rows: 40% 40% 20% 20%;
         row-gap: 3px;
         justify-items: left;
@@ -252,6 +262,18 @@
         margin-top: 20px;
 
 
+    }
+    .labelPlusInput {
+      margin-left: 100%;
+    }
+    .cmdLineWrapper {
+      display: flex;
+      margin-left: 100%;
+
+    }
+    .loginCmdLine {
+
+      margin: auto;
     }
 
 
@@ -280,6 +302,7 @@
     }
     .loginField {
         background-color: #dbddd0;
+      margin-left: 100%;
     }
 
 
