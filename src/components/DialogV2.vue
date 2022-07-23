@@ -241,7 +241,7 @@
             menuOptSelected(msg){
               console.log('menuOptSelected in Dialog2-',msg);
               this.cmd='';
- //             debugger;
+              debugger;
               switch(msg){
                 case 'Cancel':{
                   if(this.dialogDataChanged){
@@ -360,10 +360,19 @@
                   break;
                 }
                 case 'Save Registration':{
-                  this.$emit('configSelected', ['Save Registration']);
+//                  this.$emit('configSelected', ['Save Registration']);
+                  this.$emit('configSelected', ['Save OrgRegistration']);
+                  this.cmd='saveRegistration';
+                  this.registerCmdVersion++;
                   break;
                 }
                 case 'Save OrgRegistration':{
+                  this.$emit('configSelected', ['Save OrgRegistration']);
+                  this.cmd='saveRegistration';
+                  this.registerCmdVersion++;
+                  break;
+                }
+                case 'saveRegistration':{
                   this.$emit('configSelected', ['Save OrgRegistration']);
                   this.cmd='saveRegistration';
                   this.registerCmdVersion++;

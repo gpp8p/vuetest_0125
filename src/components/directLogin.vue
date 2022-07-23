@@ -4,8 +4,8 @@
       <direct-login-component :cmd = "this.cmd" @login="login" @register="register" @newLayout="newLayout" @logError="logError" @message="message"></direct-login-component>
     </span>
     <span v-if="this.mode==this.REGISTERING" class="registerWrapper">
-      <register-user :cmd="registerCommand" :cmdVersion="directLoginCmdVersion" class="register"></register-user>
-      <span class="registerCmd"><span @click="cancelRegister" class="registerCmd1">Cancel</span><span class="registerCmd1">Register</span></span>
+      <register-user :cmd="registerCommand" :cmdVersion="directLoginCmdVersion" @registrationSaved="registrationSaved" class="register"></register-user>
+      <span class="registerCmd"><span @click="cancelRegister" class="registerCmd1">Cancel</span><span @click="doRegister" class="registerCmd1">Register</span></span>
     </span>
   </div>
 </template>
@@ -24,6 +24,7 @@ name: "directLogin",
   },
   mounted(){
     console.log('direct login mounted');
+    console.log(this.route);
     this.$emit('layoutMessage',['error','This page is protected.  Please log in.',0]);
   },
   data(){
@@ -52,6 +53,15 @@ name: "directLogin",
     },
     cancelRegister(){
       this.mode=this.LOGGING_IN;
+    },
+    doRegister(){
+      this.registerCommand='saveRegistration';
+      this.directLoginCmdVersion++;
+    },
+    registrationSaved(){
+      this.$emit('layoutMessage',['success','Registration successful - Please Log In',0]);
+      this.mode=this.LOGGING_IN;
+
     }
   }
 }
