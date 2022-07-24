@@ -313,6 +313,12 @@ export default {
 //      this.cardContent = msg;
       this.content.cardText = msg;
       this.content.cardType = 'textShow';
+      if(typeof(this.cardContent['keyWords'])!='undefined'){
+        this.content.keyWords=this.cardContent['keyWords'];
+      }
+      if(typeof(this.cardContent['createDate'])!='undefined'){
+        this.content.createDate = this.cardContent['createDate'];
+      }
       this.setCardData(this.content, 'saveCardContent', 'main');
 //      this.mode=this.SHOW_TEXT;
       this.$router.push({
