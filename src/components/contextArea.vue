@@ -19,10 +19,18 @@
             }
         },
         props:{
-            layout :{
-                type:Number,
-                required:true
-            }
+          layout :{
+            type:Number,
+            required:true
+          },
+          cmd:{
+            type: String,
+            required: false
+          },
+          cmdVersion:{
+            type: Number,
+            required:false
+          },
         },
         watch: {
             layout: function(){
@@ -33,6 +41,15 @@
                 if(thisLayoutIdStack.length>1){
                     this.showBackButton = true;
                 }
+            },
+            cmdVersion: function(){
+              switch(this.cmd) {
+                case 'returnTopLayout':{
+                  debugger;
+                  this.getOrgHome();
+                  break;
+                }
+              }
             }
         },
         methods: {

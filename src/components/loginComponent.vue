@@ -138,7 +138,8 @@
                 this.setLoginStatus(this.LOGGED_IN);
             },
             doLogout(){
-                this.sendLogin('GuestUser@nomail.com', 'GuestUser', this.setLoginStatus);
+              this.$emit('logout');
+              this.sendLogin('GuestUser@nomail.com', 'GuestUser', this.setLoginStatus);
             },
             register(){
  //               debugger;

@@ -1,11 +1,11 @@
 <template>
     <div class="hdrBarDiv">
-        <span class="contextArea"><context-area :layout="nextLayout"></context-area></span>
+        <span class="contextArea"><context-area :layout="nextLayout" :cmd="thisCmd" :cmdVersion="thisCmdVersion" @topLevelPage="topLevelPage"></context-area></span>
         <span class="tabArea">
             <menu-component :items='menuItems' :selected-item="this.selectedMenuItem" @menuSelection="tabSelected"></menu-component>
             <span class="messageArea">{{this.message}}</span>
         </span>
-        <span class="loginArea"><login-component @login="login" :cmd="this.cmd" @register="register" @newLayout="newLayout" @logError="logError"></login-component></span>
+        <span class="loginArea"><login-component @login="login" @logout="logout" :cmd="this.cmd" @register="register" @newLayout="newLayout" @logError="logError"></login-component></span>
 
     </div>
 
@@ -55,6 +55,8 @@
               WAITINGTOSAVE:8,
               CANCELLAYOUTUPDATE:7,
               CARDBEINGCONFIGED:8,
+              thisCmd:'',
+              thisCmdVersion:0
           }
         },
         mounted(){
@@ -150,6 +152,11 @@
 //                debugger;
                 this.layoutChanged();
                 this.$emit('login', [msg[0]]);
+            },
+            logout(){
+//                debugger;
+                this.thisCmd = "returnTopLayout";
+                this.thisCmdVersion++;
             },
             register(){
                 this.$emit('register');
