@@ -2,7 +2,7 @@
   <span class="newLayoutWrapper">
      <span class="labelPlusInput">
          <span>
-            Layout Name:
+            Page Name:
          </span>
          <span>
             <input v-model="menu_label"  size="32" maxlength="32" @change="menu_label_changed" />
@@ -10,7 +10,7 @@
      </span>
      <span class="labelPlusInput">
         <span>
-          Layout Description:
+          Page Description:
         </span>
        <span>
           <input v-model="description" @change="description_changed" maxlength="45" size="45"/>
@@ -30,7 +30,7 @@
      </span>
      <span class="labelPlusInput">
         <span>
-          Layout Columns:
+          Columns:
         </span>
        <span v-if="this.mode==this.LAYOUT_CREATE">
          <input v-model="width" size="8"/>

@@ -230,7 +230,7 @@
                     }
                   }
                 }else if(this.viewContext==this.VIEW_EDITING){
-                    return ['Change Layout Setup', 'Insert Existing Card','Create A New Card', 'Exit'];
+                    return ['Change Page Setup', 'Insert Existing Card','Create A New Card', 'Exit'];
                 }else if(this.viewContext==this.VIEW_SPACES){
                     return ['Exit', 'Show Deleted'];
                 }else if(this.viewContext==this.VIEW_DELETES){

@@ -2,7 +2,7 @@
   <span class="newLayoutWrapper">
      <span class="labelPlusInput">
          <span>
-            Source Template:
+            Template:
          </span>
          <span>
             {{this.sourceTemplate}}
@@ -10,7 +10,7 @@
      </span>
      <span class="labelPlusInput">
          <span>
-            Layout Name:
+            Page Name:
          </span>
          <span>
             <input v-model="menu_label"  size="31" maxlength="31"  />
@@ -18,7 +18,7 @@
      </span>
     <span class="labelPlusInput">
         <span>
-          Layout Description:
+          Page Description:
         </span>
        <span>
           <input v-model="description"  size="45" maxlength="45" />

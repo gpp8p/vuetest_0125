@@ -292,7 +292,7 @@
                   mOpts = this.getMenuOpts('cloneTemplate');
                   this.currentMenuOpts = mOpts.currentMenuOpts;
                   this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
-                  this.setTitle('Enter description and label for new layout');
+                  this.setTitle('Enter description and label for new page');
                   this.copyIt=true;
                   this.dialogType = this.DIALOG_CLONE_TEMPLATE;
 
@@ -541,7 +541,7 @@
                     currentMenuOpts: [
                       ['Cancel', 'Cancel'],
                       ['Copy Template', 'cloneTemplate'],
-                      ['Copy This Layout', 'copyLayout'],
+                      ['Copy This Page', 'copyLayout'],
                       ['Save', 'saveSpace']
                     ],
                     currentSelectedMenuOption: 'Cancel'
@@ -763,7 +763,7 @@
               var mOpts = this.getMenuOpts('cloneTemplate');
               this.currentMenuOpts = mOpts.currentMenuOpts;
               this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
-              this.setTitle('Enter description and label for new layout');
+              this.setTitle('Enter description and label for new page');
               this.dialogType = this.DIALOG_CLONE_TEMPLATE;
             },
             rusure(msg){

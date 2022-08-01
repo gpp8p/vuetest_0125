@@ -973,7 +973,7 @@ export default {
       }
       this.currentMenuOpts = mOpts.currentMenuOpts;
       this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
-      this.setTitle('Enter description and label for new layout');
+      this.setTitle('Enter description and label for new page');
       this.mode = this.DIALOG_COPY_CLONE;
     },
 

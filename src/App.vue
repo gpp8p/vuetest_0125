@@ -253,7 +253,7 @@ export default {
           this.thisCmd='insertCard';
           break;
         }
-        case 'Change Layout Setup':{
+        case 'Change Page Setup':{
           this.thisCmd='changeLayoutSetup';
           break;
         }
