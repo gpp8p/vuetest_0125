@@ -334,7 +334,7 @@ name: "PermList",
       var apiPath = this.$store.getters.getApiBase;
       console.log('apiPath - ',apiPath);
 
-      axios.get('api/shan/orgGroups?XDEBUG_SESSION_START=14668', {
+      axios.get(apiPath+'api/shan/orgGroups?XDEBUG_SESSION_START=14668', {
 //      axios.get('http://localhost:8000/api/shan/orgGroups?XDEBUG_SESSION_START=14668', {
         params:{
           orgId: orgId,
