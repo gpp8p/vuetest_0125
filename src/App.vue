@@ -61,7 +61,7 @@ export default {
       store.commit('setUrlBase', 'http://localhost:8080/');
       store.commit('setApiBase', 'http://localhost:8000/');
     }else{
-      store.commit('setUrlBase', 'http://sptests.org/');
+      store.commit('setUrlBase', 'http://sptests.org:8080/');
       store.commit('setApiBase', 'http://sptests.org:8000/');
     }
 

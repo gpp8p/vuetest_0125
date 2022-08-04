@@ -52,10 +52,10 @@
           Permissions::
         </span>
        <span>
-          <o-radio v-model="permType" name="imageType"  native-value="default">
+          <o-radio v-model="permType" name="permType"  native-value="default">
           Use Defaults
           </o-radio>
-          <o-radio v-model="permType" name="imageType"  native-value="template">
+          <o-radio v-model="permType" name="permType"  native-value="template">
           Use Permissions from this page
           </o-radio>
        </span>
