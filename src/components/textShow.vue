@@ -597,7 +597,7 @@ export default {
         case 'deleteChoice':{
           return {
             currentMenuOpts :[
-                ['Remove from Layout', 'RmvLay'],
+                ['Remove from Page', 'RmvLay'],
                 ['Delete Card', 'DelCardFromDb'],
                 ['Cancel', 'Cancel']
             ],

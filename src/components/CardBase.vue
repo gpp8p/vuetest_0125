@@ -848,7 +848,7 @@
           case 'deleteChoice': {
             return {
               currentMenuOpts: [
-                ['Remove from Layout', 'RmvLay'],
+                ['Remove from Page', 'RmvLay'],
                 ['Delete Card', 'DelCardFromDb'],
                 ['Cancel', 'Cancel']
               ],
@@ -894,7 +894,7 @@
           case 'richTextOpen':{
             return {
               currentMenuOpts:[
-                ['Cancel','Cancel'],
+                ['Card Setup','Cancel'],
                 ['Link','Link to Another Space'],
                 ['Upload Source', 'UpSource'],
                 ['Save', 'Save'],
@@ -943,10 +943,10 @@
           case'textShowEntryMenu':{
             return {
               currentMenuOpts:[
+                ['Edit', 'Edit'],
                 ['Configure','Configure'],
                 ['Resize/Move', 'Resize'],
                 ['Del','DeleteCard'],
-                ['Edit', 'Edit'],
                 ['Enter Metadata', 'metaData'],
               ],
               currentMenuSelection: 'Configure'
@@ -955,10 +955,10 @@
           case'entryMenu':{
             return {
               currentMenuOpts:[
+                ['Edit', 'Edit'],
                 ['Configure','Configure'],
                 ['Resize/Move', 'Resize'],
                 ['Del','DeleteCard'],
-                ['Edit', 'Edit'],
                 ['Exit', 'exitEdit']
               ],
               currentMenuSelection: 'Configure'
