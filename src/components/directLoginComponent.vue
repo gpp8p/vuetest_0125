@@ -18,6 +18,7 @@
                       <label class="labelStyle" for="password">Password:</label>
                       <input type="password" id="password" size="30" maxlength="65" v-model="password" class="loginField"/>
                     </span>
+
                     <div class="cmdLineWrapper">
                       <span class="loginCmdLine">
                          <span class="labelLinkStyle" @click="doLogin">Login</span>
@@ -264,10 +265,15 @@
 
     }
     .labelPlusInput {
-      margin-left: 100%;
+      display: grid;
+      grid-template-columns:20% 80%;
+      margin-left: 20%;
+      margin-bottom: 5%;
+
     }
     .cmdLineWrapper {
       display: flex;
+      margin-top: 10%;
       margin-left: 100%;
 
     }
@@ -303,6 +309,7 @@
     .loginField {
         background-color: #dbddd0;
       margin-left: 100%;
+      width: 200%;
     }
 
 
