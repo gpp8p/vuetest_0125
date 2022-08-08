@@ -10,7 +10,7 @@
     },
     methods: {
       setCardData(cardData, cardDataElement, domElement) {
-      debugger;
+//      debugger;
       console.log('Card Base setCardData -','cardData:',cardData,'cardDataElement:', cardDataElement,'domElement - ',domElement);
       if(domElement=='main'){
         switch (cardDataElement) {
@@ -814,7 +814,7 @@
                 ['Resize/Move', 'Resize'],
                 ['Del', 'DeleteCard'],
                 ['Change Clip','ytEdit'],
-                ['Save','ytSave'],
+//                ['Save','ytSave'],
                 ['Enter Metadata', 'metaData'],
 
               ],

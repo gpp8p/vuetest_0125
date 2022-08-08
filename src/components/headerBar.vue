@@ -215,7 +215,7 @@
                 this.menuItems=this.getMenuItems();
             },
             getMenuItems(){
-                debugger;
+//                debugger;
 
                 if(this.viewContext==this.VIEW_VIEWING){
                   if(this.$store.getters.getIsAdmin>0){

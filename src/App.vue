@@ -119,7 +119,7 @@ export default {
                 params: { layoutId: this.$store.getters.getCurrentLayoutId, layoutCmd: this.thisCmd }
               })
       */
-//        debugger;
+        debugger;
       this.thisCmd = "cardSaved";
       this.componentKey+=1;
     },

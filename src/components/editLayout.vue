@@ -334,7 +334,7 @@
 
           },
             cardSaved(msg){
-//              debugger;
+              debugger;
               this.dialogType=0;
               this.$emit('cardSaved', msg);
             },
@@ -511,7 +511,7 @@
               this.$router.go();
             },
             configSelected(msg){
-                debugger;
+//                debugger;
                 console.log('editLayout configSelected - ', msg);
                 switch(msg[0]){
                     case 'cancel':{

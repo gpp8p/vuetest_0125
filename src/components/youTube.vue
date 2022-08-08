@@ -154,7 +154,7 @@ name: "youTube",
       this.content.spanHeight = this.$refs.ytComponent.parentNode.clientHeight;
       this.content.cardType = 'youTube';
       this.setCardData(this.content, 'saveCardContent', 'main');
-      this.$emit('configSelected', ['display']);
+//      this.$emit('configSelected', ['display']);
     },
     metaDataEntered(msg){
       console.log('metadata entered-',msg);

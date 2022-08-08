@@ -324,6 +324,7 @@
         this.ghost=true;
       },
       configurationHasBeenSaved(){
+        debugger;
         this.$emit('configurationHasBeenSaved');
       },
       configSelected(msg){
