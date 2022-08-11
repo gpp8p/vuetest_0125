@@ -97,6 +97,7 @@
 
             }else{
               console.log('doing guest login');
+//              debugger;
               this.sendLogin('GuestUser@nomail.com', 'GuestUser', this.setLoginStatus);
             }
 //            console.log(this.$store.getters.getDefaultOrg[0]);
@@ -128,7 +129,6 @@
         },
         methods:{
             doLogin(){
-
                 this.sendLogin(this.email, this.password, this.setLoginStatus);
             },
             showLogin(){
@@ -168,7 +168,7 @@
 //                axios.post('http://localhost:8000/api/auth/login?XDEBUG_SESSION_START=14427', {
                     email: email,
                     password: password,
-                    default_org: this.$store.getters.getDefaultOrg
+                    default_org: this.$store.getters.getDefaultOrg,
                 }).then(response=>
                 {
                     if(response.data.resultType==='Ok'){

@@ -239,8 +239,8 @@ export default {
             currentMenuOpts: [
               ['Add A Link', 'AddLink'],
               ['Exit', 'Cancel'],
-              ['Add Current Layout', 'addCurrent'],
-              ['Create New Layout', 'CreateLayout'],
+              ['Add Current Page', 'addCurrent'],
+              ['Create New Page', 'CreateLayout'],
               ['Save', 'linkMasterSave']
             ],
             currentSelectedMenuOption: 'Cancel'
@@ -675,10 +675,12 @@ export default {
 //          debugger;
 
           this.currentCmd = 'Save';
+          this.cmdVersion++;
           break;
         }
         case'addExtToMenu':{
           this.currentCmd = 'addExtToMenu';
+          this.cmdVersion++;
           break;
         }
         case 'linkMasterSave':{
@@ -700,6 +702,7 @@ export default {
           mOpts = this.getMenuOpts('setupMenuLink');
           this.currentMenuOpts = mOpts.currentMenuOpts;
           this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+          this.cmdVersion++;
           this.currentCmd = 'clear';
           break
         }

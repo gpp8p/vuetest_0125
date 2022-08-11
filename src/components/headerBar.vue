@@ -215,7 +215,7 @@
                 this.menuItems=this.getMenuItems();
             },
             getMenuItems(){
-//                debugger;
+                debugger;
 
                 if(this.viewContext==this.VIEW_VIEWING){
                   if(this.$store.getters.getIsAdmin>0){
@@ -239,6 +239,7 @@
 
             },
             layoutChanged(){
+                debugger;
                 console.log('layoutChanged');
                 this.layoutPerms = this.$store.getters.getPerms;
                 if(this.layoutPerms.view) this.topPerm=this.VIEW_PERM;
