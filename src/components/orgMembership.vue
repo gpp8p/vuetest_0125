@@ -1,6 +1,7 @@
 <template>
   <span>
-          <membership :members="this.orgUsers" :membershipType="membershipType" @memberSelected="memberSelected"></membership>
+    <membership :members="this.orgUsers" :membershipType="membershipType" @memberSelected="memberSelected"></membership>
+    <o-checkbox @input="restrictClicked" v-model="restrict">{{restrictLabel}}</o-checkbox>
   </span>
 </template>
 
@@ -73,6 +74,8 @@ name: "orgMembership",
       perPage: 5,
       nxtPage: 'Next Page',
       selected: '',
+      restrictLabel: 'Restrict membership ?',
+      restrict:'',
       columns: [
         {
           field: 'id',
@@ -192,6 +195,15 @@ name: "orgMembership",
       }
       console.log(msg);
 //      this.$emit('memberSelected', msg);
+    },
+    restrictClicked(){
+      console.log('restrict=',this.restrict);
+      if(this.restrict){
+        this.$emit('setMenu','orgMembersRestrict');
+      }else{
+        this.$emit('setMenu','orgMembersMenu');
+      }
+//      debugger;
     },
     getOrgMembers(orgId){
       var apiPath = this.$store.getters.getApiBase;

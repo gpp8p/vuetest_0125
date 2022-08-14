@@ -684,6 +684,18 @@
                     currentSelectedMenuOption: 'Done'
                   }
                 }
+                case 'orgMembersRestrict':{
+                  return {
+                    currentMenuOpts:[
+                      ['Add Member','Add Member'],
+                      ['New User', 'NewUser'],
+                      ['Back', 'OrgTopBack'],
+                      ['Permited List', 'permitedList'],
+                      ['Done', 'Done'],
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
                 case 'orgMembersAdmin':{
                   return {
                     currentMenuOpts:[
