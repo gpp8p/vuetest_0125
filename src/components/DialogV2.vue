@@ -78,6 +78,7 @@
                         :sourceTemplate = "this.selectedTemplateDescription"
                         :sourceTemplateId = "this.selectedTemplateId"
         ></clone-template>
+        <register-restrict v-if="dialogType==this.DIALOG_REGISTER_RESTRICT" :cmd="this.cmd" :cmdVersion="registerCmdVersion"></register-restrict>
       </div>
       <div class="dialogComponentFooter">
           <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -102,13 +103,14 @@
     import insertCardSelect from "../components/insertCardSelect.vue";
     import selectTemplate from "../components/selectTemplate.vue";
     import cloneTemplate from "./cloneTemplate.vue";
+    import registerRestrict from "./registerRestrict.vue";
 
 
  //   import store from "@/store";
     import RegisterUser from "@/components/registerUser";
     export default {
         name: "Dialog",
-        components :{RegisterUser, menuOpt, newCardCreate, newLayout, AreYouSure, PermList, organizations, userExists, cardConfigurationSettings, layoutList, insertCardSelect, selectTemplate, cloneTemplate},
+        components :{RegisterUser, menuOpt, newCardCreate, newLayout, AreYouSure, PermList, organizations, userExists, cardConfigurationSettings, layoutList, insertCardSelect, selectTemplate, cloneTemplate, registerRestrict},
         props:{
             dialogType:{
                 type: Number,
@@ -145,6 +147,7 @@
           var mOpts = this.getMenuOpts(this.cmd);
           switch(this.cmd){
             case 'createNewLayout':{
+              console.log('createNewLayout invoked via cmd - ', this.cmd);
               this.setTitle('Set Up New Space');
               break;
             }
@@ -400,6 +403,24 @@
                 }
                 case 'changePassword':{
                   this.cmd = 'changePassword';
+                  break;
+                }
+                case 'permitedList':{
+                  this.setTitle('Currently allowed to register for this organization');
+                  mOpts = this.getMenuOpts('restrictListShow');
+                  this.currentMenuOpts = mOpts.currentMenuOpts;
+                  this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+
+                  this.dialogType= this.DIALOG_REGISTER_RESTRICT;
+                  break;
+                }
+                case 'addRestrict':{
+                  this.setTitle('Add a new email to the list');
+                  mOpts = this.getMenuOpts('restrictListAdd');
+                  this.currentMenuOpts = mOpts.currentMenuOpts;
+                  this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+                  this.cmd='newAllowedRegistrant';
+                  this.registerCmdVersion++;
                   break;
                 }
                 default:{
@@ -696,6 +717,26 @@
                     currentSelectedMenuOption: 'Done'
                   }
                 }
+                case 'restrictListShow':{
+                  return {
+                    currentMenuOpts:[
+                      ['Add Email','addRestrict'],
+                      ['Back', 'OrgTopBack'],
+                      ['Done', 'Done'],
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'restrictListAdd':{
+                  return {
+                    currentMenuOpts:[
+                      ['Save and Add','saveAddRestrict'],
+                      ['Back', 'OrgTopBack'],
+                      ['Done', 'Done'],
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
                 case 'orgMembersAdmin':{
                   return {
                     currentMenuOpts:[
@@ -899,6 +940,7 @@
                 DIALOG_INSERT_CARD:12,
                 DIALOG_SELECT_TEMPLATE:13,
                 DIALOG_CLONE_TEMPLATE:14,
+                DIALOG_REGISTER_RESTRICT:15,
                 titleMsg:'',
 
                 sureMsg:'',

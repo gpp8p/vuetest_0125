@@ -217,6 +217,5 @@ span {
   --oruga-table-background: #ab97ff;
   --oruga-table-detail-background: #ab97ff;
   --oruga-pagination-link-current-background-color: green;
-
 }
 </style>
