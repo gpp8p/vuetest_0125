@@ -203,7 +203,35 @@ name: "orgMembership",
       }else{
         this.$emit('setMenu','orgMembersMenu');
       }
+      this.setOrgRestrict();
 //      debugger;
+    },
+    setOrgRestrict(){
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+      var restrictValue = 0;
+      if(this.restrict){
+        restrictValue = 1;
+      }
+      axios.get(apiPath+'api/shan/setOrgRestrict?XDEBUG_SESSION_START=14668', {
+//      axios.get('http://localhost:8000/api/shan/orgUsers?XDEBUG_SESSION_START=14668', {
+        params: {
+          orgId:this.orgId,
+          restricted:restrictValue
+        }
+      }).then(response => {
+// eslint-disable-next-line no-debugger
+        // JSON responses are automatically parsed.
+        debugger;
+        console.log(response);
+      })
+          .catch(e => {
+            this.errors.push(e);
+            console.log('orgMembers failed');
+          });
+
+
+
     },
     getOrgMembers(orgId){
       var apiPath = this.$store.getters.getApiBase;
@@ -220,7 +248,12 @@ name: "orgMembership",
             // JSON responses are automatically parsed.
             debugger;
             console.log(response);
-            this.orgUsers=response.data;
+            this.orgUsers=response.data.orgUsers;
+            if(response.data[0].registration_restricted == 0){
+              this.restrict=false;
+            }else{
+              this.restrict=true;
+            }
             this.orgView=this.ORG_MEMBERS;
   //          this.$emit('componentSettingsMounted',[['Back','Done', 'Add Member'],'Done']);
 //            this.$emit('setTitle','Organization Members - Click to Select');
