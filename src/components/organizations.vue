@@ -47,14 +47,27 @@ export default {
     selectedMenuOption: function(){
         switch(this.selectedMenuOption){
           case 'Back':{
-            this.orgView=this.ORG_LIST;
+            if(this.$store.getters.getIsAdmin==1){
+              this.$emit('setTitle','Click on Organization to See Members');
+              this.orgView = this.ORG_LIST;
+            }else{
+              this.$emit('setTitle', 'Site Users');
+              this.$emit('setMenu', 'orgMembersMenu');
+              this.orgView = this.ORG_MEMBERS;
+            }
+
 //            this.$emit('componentSettingsMounted',[['Done', 'Add New Organization'],'Done']);
-            this.$emit('setTitle','Click on Organization to See Members');
             break;
           }
           case 'OrgTopBack':{
-            this.orgView=this.ORG_LIST;
-            this.$emit('setMenu','addNewOrg');
+            if(this.$store.getters.getIsAdmin==1){
+              this.$emit('setTitle','Click on Organization to See Members');
+              this.orgView = this.ORG_LIST;
+            }else{
+              this.$emit('setTitle', 'Site Users');
+              this.$emit('setMenu', 'orgMembersMenu');
+              this.orgView = this.ORG_MEMBERS;
+            }
             break;
           }
           case 'Add New Organization':{
@@ -74,8 +87,13 @@ export default {
           break;
         }
         case 'orgMemberBack':{
-          this.$emit('setMenu','orgMembersAdmin');
-          this.orgView=this.ORG_LIST;
+          if(this.$store.getters.getIsAdmin==1){
+            this.orgView = this.ORG_LIST;
+          }else{
+            this.$emit('setTitle', 'Site Users');
+            this.$emit('setMenu', 'orgMembersMenu');
+            this.orgView = this.ORG_MEMBERS;
+          }
           break;
         }
         case 'userPassword':{
@@ -141,7 +159,15 @@ export default {
   },
   mounted(){
     this.$emit('setMenu','addNewOrg');
-    this.orgView = this.ORG_LIST;
+    if(this.$store.getters.getIsAdmin==1){
+      this.$emit('setTitle','Click on Organization to See Members');
+      this.orgView = this.ORG_LIST;
+    }else{
+      this.$emit('setTitle', 'Site Users');
+      this.$emit('setMenu', 'orgMembersMenu');
+      this.orgView = this.ORG_MEMBERS;
+    }
+
 //    this.getOrgs();
   },
   methods:{

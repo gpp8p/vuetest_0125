@@ -697,7 +697,7 @@
                 case 'orgMembersMenu':{
                   return {
                     currentMenuOpts:[
-                      ['Add Member','Add Member'],
+                      ['Add User','Add Member'],
                       ['New User', 'NewUser'],
                       ['Back', 'OrgTopBack'],
                       ['Done', 'Done'],
@@ -742,6 +742,18 @@
                     currentMenuOpts:[
                       ['Add Member','Add Member'],
                       ['New User', 'NewUser'],
+                      ['Back', 'Back'],
+                      ['Done', 'Done'],
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'orgMembersAdminRestrict':{
+                  return {
+                    currentMenuOpts:[
+                      ['Add Member','Add Member'],
+                      ['New User', 'NewUser'],
+                      ['Permited List', 'permitedList'],
                       ['Back', 'Back'],
                       ['Done', 'Done'],
                     ],

@@ -1,7 +1,7 @@
 <template>
   <span>
     <membership :members="this.orgUsers" :membershipType="membershipType" @memberSelected="memberSelected"></membership>
-    <o-checkbox @input="restrictClicked" v-model="restrict">{{restrictLabel}}</o-checkbox>
+    <o-checkbox @input="restrictClicked" v-if="this.orgPermissions.admin==true" v-model="restrict">{{restrictLabel}}</o-checkbox>
   </span>
 </template>
 
@@ -25,8 +25,9 @@ name: "orgMembership",
   mounted(){
     if(this.orgId>0){
       if(this.$store.getters.getIsAdmin==1){
-        this.$emit('setMenu','orgMembersMenu');
+//        this.$emit('setMenu','orgMembersMenu');
 //        this.$emit('componentSettingsMounted',[['Back','Done', 'Add Member', 'Remove'],'Done']);
+        this.getOrgPerms(this.orgId);
         this.$emit('setTitle','Organization Members - Click to Select');
       }else{
         debugger;
@@ -198,11 +199,14 @@ name: "orgMembership",
     },
     restrictClicked(){
       console.log('restrict=',this.restrict);
+/*
       if(this.restrict){
         this.$emit('setMenu','orgMembersRestrict');
       }else{
         this.$emit('setMenu','orgMembersMenu');
       }
+*/
+      this.getOrgPerms(this.orgId);
       this.setOrgRestrict();
 //      debugger;
     },
@@ -251,10 +255,13 @@ name: "orgMembership",
             this.orgUsers=response.data.orgUsers;
             if(response.data[0].registration_restricted == 0){
               this.restrict=false;
+//              this.$emit('setMenu','orgMembersMenu');
             }else{
               this.restrict=true;
+//              this.$emit('setMenu','orgMembersRestrict');
             }
             this.orgView=this.ORG_MEMBERS;
+            this.getOrgPerms(orgId);
   //          this.$emit('componentSettingsMounted',[['Back','Done', 'Add Member'],'Done']);
 //            this.$emit('setTitle','Organization Members - Click to Select');
 
@@ -336,7 +343,11 @@ name: "orgMembership",
             this.orgPermissions.author = response.data.author;
             this.orgPermissions.admin = response.data.admin;
             if(this.orgPermissions.admin==true){
-              this.$emit('setMenu','orgMembersAdmin');
+              if(!this.restrict){
+                this.$emit('setMenu','orgMembersAdmin');
+              }else{
+                this.$emit('setMenu','orgMembersAdminRestrict');
+              }
 //              this.$emit('componentSettingsMounted',[['Back','Done', 'Add Member'],'Done']);
               this.$emit('setTitle','Organization Members - Click to Select');
             }else{
