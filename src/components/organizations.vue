@@ -196,6 +196,7 @@ export default {
     },
     orgSelected(msg){
       this.selectedOrgId=msg;
+      this.$emit('orgSelected', this.selectedOrgId);
       this.orgView=this.ORG_MEMBERS;
     },
     orgCreated(){

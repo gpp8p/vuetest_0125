@@ -23,6 +23,8 @@ name: "orgMembership",
     }
   },
   mounted(){
+    debugger;
+    this.orgId = this.$store.getters.getOrgId;
     if(this.orgId>0){
       if(this.$store.getters.getIsAdmin==1){
 //        this.$emit('setMenu','orgMembersMenu');

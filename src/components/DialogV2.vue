@@ -78,7 +78,7 @@
                         :sourceTemplate = "this.selectedTemplateDescription"
                         :sourceTemplateId = "this.selectedTemplateId"
         ></clone-template>
-        <register-restrict v-if="dialogType==this.DIALOG_REGISTER_RESTRICT" :cmd="this.cmd" :cmdVersion="registerCmdVersion"></register-restrict>
+        <register-restrict v-if="dialogType==this.DIALOG_REGISTER_RESTRICT" :org="this.selectedOrgId" @allowedRegistrantSaved="allowedRegistrantSaved" @childCmd="setChildCmd"  ></register-restrict>
       </div>
       <div class="dialogComponentFooter">
           <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -191,6 +191,11 @@
  */
 
         },
+      computed: {
+        currentCmd: function() {
+          return this.cmd;
+        }
+      },
         methods: {
             showError(msg){
               debugger;
@@ -381,6 +386,14 @@
                   this.registerCmdVersion++;
                   break;
                 }
+                case 'regBackToTop':{
+                  mOpts = this.getMenuOpts('restrictListShow');
+                  this.currentMenuOpts = mOpts.currentMenuOpts;
+                  this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+                  this.cmd='regBackToTop';
+                  this.registerCmdVersion++;
+                  break;
+                }
                 case 'SubText':{
                   console.log('Dialog subElementValues - ', this.subElementValues);
 /*
@@ -415,12 +428,20 @@
                   break;
                 }
                 case 'addRestrict':{
-                  this.setTitle('Add a new email to the list');
+                  this.setTitle('Currently allowed to register for this site:');
                   mOpts = this.getMenuOpts('restrictListAdd');
                   this.currentMenuOpts = mOpts.currentMenuOpts;
                   this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
-                  this.cmd='newAllowedRegistrant';
-                  this.registerCmdVersion++;
+                  this.childCmd('newAllowedRegistrant');
+                  break;
+                }
+                case 'saveAddRestrict':{
+                  this.setTitle('Add a new email to the list');
+                  mOpts = this.getMenuOpts('restrictListShow');
+                  this.currentMenuOpts = mOpts.currentMenuOpts;
+                  this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+                  this.childCmd('saveAddRestrict');
+                  this.componentKey += 1;
                   break;
                 }
                 default:{
@@ -721,7 +742,6 @@
                   return {
                     currentMenuOpts:[
                       ['Add Email','addRestrict'],
-                      ['Back', 'OrgTopBack'],
                       ['Done', 'Done'],
                     ],
                     currentSelectedMenuOption: 'Done'
@@ -731,7 +751,7 @@
                   return {
                     currentMenuOpts:[
                       ['Save and Add','saveAddRestrict'],
-                      ['Back', 'OrgTopBack'],
+                      ['Back', 'regBackToTop'],
                       ['Done', 'Done'],
                     ],
                     currentSelectedMenuOption: 'Done'
@@ -812,6 +832,8 @@
             },
             orgSelected(msg){
               console.log('orgSelected:', msg);
+              this.selectedOrgId = msg;
+
             },
             cloneSuccessful(msg){
               console.log("in Dialog2 clone successful",msg);
@@ -919,10 +941,21 @@
             setTitle(msg){
               this.titleMsg = msg;
             },
+            allowedRegistrantSaved(){
+              var mOpts = this.getMenuOpts('restrictListShow');
+              this.currentMenuOpts = mOpts.currentMenuOpts;
+              this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+              this.cmd='loadNewAllowedReg';
+              this.registerCmdVersion++;
+            },
             clearCmd(){
               this.cmd='';
               this.dialogCmd='';
+              this.registerCmdVersion++;
 //              this.$emit('clearCmd');
+            },
+            setChildCmd(msg){
+              this.childCmd = msg;
             }
         },
 
@@ -975,6 +1008,10 @@
 
                 copyIt:false,
                 registerCmdVersion:0,
+                registerCmd:'',
+                childCmd: null,
+                selectedOrgId:null,
+                componentKey:0
 
 
 

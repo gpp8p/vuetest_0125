@@ -23,7 +23,7 @@ import axios from "axios";
 export default {
 name: "registerRestrictShow",
   props:{
-    orgId:{
+    org:{
       type: Number,
       required: true
     },
@@ -37,27 +37,35 @@ name: "registerRestrictShow",
     }
   },
   mounted(){
-    var apiPath = this.$store.getters.getApiBase;
-    axios.get(apiPath+'api/shan/getRestrictedRegistrants?XDEBUG_SESSION_START=14668', {
-//          axios.get('http://localhost:8000/api/shan/removeUserFromOrg?XDEBUG_SESSION_START=14668', {
-      params: {
-        orgId: this.orgId
+    this.getAllowedRegistrants();
+  },
+  methods:{
+    getAllowedRegistrants(){
+      var orgToUse;
+      if(this.org===null){
+        orgToUse = this.$store.getters.getOrgId;
+      }else{
+        orgToUse = this.org;
       }
-    })
-        .then(response => {
+      debugger;
+      var apiPath = this.$store.getters.getApiBase;
+      axios.get(apiPath+'api/shan/getAllowedRegistrants?XDEBUG_SESSION_START=14668', {
+        params: {
+          orgId: orgToUse
+        }
+      })
+          .then(response => {
 // eslint-disable-next-line no-debugger
-          // JSON responses are automatically parsed.
-          debugger;
-          if(response.data=="ok"){
+            // JSON responses are automatically parsed.
+            debugger;
             this.approvedReg = response.data;
-          }
-          console.log(response);
-        })
-        .catch(e => {
-          this.errors.push(e);
-          console.log('getRestrictedRegistrants failed');
-        });
-
+            console.log(response);
+          })
+          .catch(e => {
+            this.errors.push(e);
+            console.log('getRestrictedRegistrants failed');
+          });
+    }
   },
   data(){
     return {
