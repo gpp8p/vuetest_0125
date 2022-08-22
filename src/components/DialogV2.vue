@@ -78,7 +78,7 @@
                         :sourceTemplate = "this.selectedTemplateDescription"
                         :sourceTemplateId = "this.selectedTemplateId"
         ></clone-template>
-        <register-restrict v-if="dialogType==this.DIALOG_REGISTER_RESTRICT" :org="this.selectedOrgId" @allowedRegistrantSaved="allowedRegistrantSaved" @childCmd="setChildCmd"  ></register-restrict>
+        <register-restrict v-if="dialogType==this.DIALOG_REGISTER_RESTRICT" :org="this.selectedOrgId" @allowedRegistrantSaved="allowedRegistrantSaved" @childCmd="setChildCmd" @allowedMemberSelected="allowedMemberSelected" ></register-restrict>
       </div>
       <div class="dialogComponentFooter">
           <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -444,6 +444,23 @@
                   this.componentKey += 1;
                   break;
                 }
+                case 'editAllowedMember':{
+                  this.setTitle('Edit this allowed registrant');
+                  mOpts = this.getMenuOpts('editAllowedMember');
+                  this.currentMenuOpts = mOpts.currentMenuOpts;
+                  this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+                  this.childCmd('editAllowedMember');
+
+                  break;
+                }
+                case 'updateAllowedMember':{
+                  this.childCmd('updateAllowedMember');
+                  break;
+                }
+                case 'deleteAllowedMember':{
+                  this.childCmd('deleteAllowedMember');
+                  break;
+                }
                 default:{
                   this.currentSelectedMenuOption = msg;
                   this.cmd = msg;
@@ -757,6 +774,27 @@
                     currentSelectedMenuOption: 'Done'
                   }
                 }
+                case 'allowedMemberSelected':{
+                  return {
+                    currentMenuOpts:[
+                      ['Edit', 'editAllowedMember'],
+                      ['Delete', 'deleteAllowedMember'],
+                      ['Back', 'regBackToTop'],
+                      ['Done', 'Done'],
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+                case 'editAllowedMember':{
+                  return {
+                    currentMenuOpts:[
+                      ['Save Changes', 'updateAllowedMember'],
+                      ['Back', 'regBackToTop'],
+                      ['Done', 'Done'],
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
                 case 'orgMembersAdmin':{
                   return {
                     currentMenuOpts:[
@@ -947,6 +985,12 @@
               this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
               this.cmd='loadNewAllowedReg';
               this.registerCmdVersion++;
+            },
+            allowedMemberSelected(){
+              var mOpts = this.getMenuOpts('allowedMemberSelected');
+              this.currentMenuOpts = mOpts.currentMenuOpts;
+              this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+
             },
             clearCmd(){
               this.cmd='';

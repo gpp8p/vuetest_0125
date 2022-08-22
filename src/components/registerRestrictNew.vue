@@ -36,6 +36,10 @@ export default {
     org:{
       type: Number,
       required: true
+    },
+    selectedMember:{
+      type: Object,
+      required: false
     }
   },
 
@@ -86,8 +90,48 @@ export default {
           this.saveAddRestrict();
           break;
         }
+        case 'editAllowedMember':{
+          debugger;
+          this.userEmail = this.selectedMember.email;
+          this.userName = this.selectedMember.name;
+          break;
+        }
+        case 'updateAllowedMember':{
+          debugger;
+          this.updateAllowedMember();
+          break;
+        }
+
       }
-    }
+    },
+    updateAllowedMember(){
+      var apiPath = this.$store.getters.getApiBase;
+      axios.get(apiPath+'api/shan/updateAllowedRegistrant?XDEBUG_SESSION_START=14668', {
+        params: {
+          regId: this.selectedMember.id,
+          name: this.userName,
+          email: this.userEmail
+        }
+      })
+          .then(response => {
+// eslint-disable-next-line no-debugger
+            // JSON responses are automatically parsed.
+            debugger;
+            if(response.data=="ok"){
+              this.$emit('allowedRegistrantSaved');
+            }else{
+              console.log('error saving allowedRergistrant'.response);
+              this.$emit('errorRegRestriction');
+            }
+            console.log(response);
+          })
+          .catch(e => {
+            this.errors.push(e);
+            console.log('getRestrictedRegistrants failed');
+          });
+    },
+
+
   }
 
 

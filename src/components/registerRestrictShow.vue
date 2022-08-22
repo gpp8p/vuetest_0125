@@ -37,7 +37,8 @@ name: "registerRestrictShow",
     }
   },
   mounted(){
-    this.getAllowedRegistrants();
+      this.$emit('subCmd', this.subCmd);
+      this.getAllowedRegistrants();
   },
   methods:{
     getAllowedRegistrants(){
@@ -65,7 +66,20 @@ name: "registerRestrictShow",
             this.errors.push(e);
             console.log('getRestrictedRegistrants failed');
           });
+    },
+    memberSelected(msg){
+      console.log('memberSelected-',msg);
+      this.$emit('allowedMemberSelected', msg);
+    },
+    subCmd(subCommand){
+      switch(subCommand){
+        case 'loadAllowedMembers':{
+          this.getAllowedRegistrants();
+        }
+      }
     }
+
+
   },
   data(){
     return {
