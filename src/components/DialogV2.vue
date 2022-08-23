@@ -390,8 +390,7 @@
                   mOpts = this.getMenuOpts('restrictListShow');
                   this.currentMenuOpts = mOpts.currentMenuOpts;
                   this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
-                  this.cmd='regBackToTop';
-                  this.registerCmdVersion++;
+                  this.childCmd('regBackToTop');
                   break;
                 }
                 case 'SubText':{
