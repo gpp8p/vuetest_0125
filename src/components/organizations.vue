@@ -163,6 +163,7 @@ export default {
       this.$emit('setTitle','Click on Organization to See Members');
       this.orgView = this.ORG_LIST;
     }else{
+      this.selectedOrgId = this.$store.getters.getOrgId;
       this.$emit('setTitle', 'Site Users');
       this.$emit('setMenu', 'orgMembersMenu');
       this.orgView = this.ORG_MEMBERS;

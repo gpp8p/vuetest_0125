@@ -1,7 +1,7 @@
 <template>
   <span>
     <membership :members="this.orgUsers" :membershipType="membershipType" @memberSelected="memberSelected"></membership>
-    <o-checkbox @input="restrictClicked" v-if="this.orgPermissions.admin==true" v-model="restrict">{{restrictLabel}}</o-checkbox>
+    <o-checkbox @input="restrictClicked" v-if="this.orgPermissions.admin==true || this.$store.getters.getIsAdmin==1" v-model="restrict">{{restrictLabel}}</o-checkbox>
   </span>
 </template>
 
@@ -24,7 +24,8 @@ name: "orgMembership",
   },
   mounted(){
     debugger;
-    this.orgId = this.$store.getters.getOrgId;
+//    this.orgId = this.$store.getters.getOrgId;
+
     if(this.orgId>0){
       if(this.$store.getters.getIsAdmin==1){
 //        this.$emit('setMenu','orgMembersMenu');
@@ -96,6 +97,21 @@ name: "orgMembership",
 
         }
       ]
+    }
+  },
+  computed:{
+    adminAccess(){
+      debugger;
+      if(typeof(this.orgPermissions.admin)=='undefined' ){
+        this.getOrgPerms(this.orgId);
+      }
+      if(this.$store.getters.getIsAdmin==1){
+        return true;
+      }else if(this.orgPermissions.admin==true){
+        return true;
+      }else{
+        return false;
+      }
     }
   },
   watch :{
