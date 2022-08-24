@@ -1,6 +1,7 @@
 <template>
-  <span class="newUserWrapper">
-    <form>
+  <span class="newUserWrapper" >
+    <span v-if="this.registrationAllowed">
+   <form>
     <span class="labelPlusInput">
          <span>
             Email:
@@ -34,6 +35,11 @@
          </span>
      </span>
       </form>
+    </span>
+    <span v-if="!this.registrationAllowed" class="message">
+      Sorry - registration for this site must be pre-approved.  Please contact the system administrator.
+    </span>
+
   </span>
 </template>
 
@@ -78,7 +84,9 @@ name: "registerUser",
       userPassword:'',
       userPasswordRepeat:'',
       existingUserData:{},
-      orgId:0
+      orgId:0,
+      registrationAllowed:true,
+      registrationIsOpen:true
     }
   },
   methods:{
@@ -180,6 +188,50 @@ name: "registerUser",
       }
       return false;
     },
+    checkOpenRegistration(){
+      debugger;
+      var apiPath = this.$store.getters.getApiBase;
+      axios.get(apiPath+'api/shan/allowOpenRegistration?XDEBUG_SESSION_START=17516', {
+//        axios.post('http://localhost:8000/api/shan/setupNewUser?XDEBUG_SESSION_START=17516', {
+        params:{
+          orgId: this.orgId
+        }
+      }).then(response=>
+      {
+        debugger;
+        if(response.data=='Y'){
+          this.saveRegistration();
+        }else{
+          debugger;
+          this.registrationPermitted();
+        }
+      }).catch(function(error) {
+        console.log(error);
+      });
+
+    },
+    registrationPermitted(){
+      debugger;
+      var apiPath = this.$store.getters.getApiBase;
+      axios.get(apiPath+'api/shan/registrationPermitted?XDEBUG_SESSION_START=17516', {
+//        axios.post('http://localhost:8000/api/shan/setupNewUser?XDEBUG_SESSION_START=17516', {
+        params:{
+          orgId: this.orgId,
+          userEmail: this.userEmail
+        }
+      }).then(response=>
+      {
+        debugger;
+        if(response.data=='Y'){
+          this.saveRegistration();
+        }else{
+          this.registrationAllowed = false;
+        }
+      }).catch(function(error) {
+        console.log(error);
+      });
+
+    },
     saveRegistration(){
       debugger;
       if(this.checkEntryFields()==false){
@@ -223,7 +275,8 @@ name: "registerUser",
       switch(this.cmd){
         case 'saveRegistration':{
           if(this.checkEntryFields()){
-            this.saveRegistration()
+            debugger;
+            this.checkOpenRegistration();
           }
           break;
         }
@@ -281,6 +334,11 @@ name: "registerUser",
 .inputStyle {
   padding:4px;
   border-radius:4px;
+}
+.message {
+  font-family: Geneva;
+  font-size: large;
+  color:#0a3aff;
 }
 
 </style>
