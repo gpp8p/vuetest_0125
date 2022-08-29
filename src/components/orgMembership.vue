@@ -360,7 +360,7 @@ name: "orgMembership",
             this.orgPermissions.view = response.data.view;
             this.orgPermissions.author = response.data.author;
             this.orgPermissions.admin = response.data.admin;
-            if(this.orgPermissions.admin==true){
+            if(this.orgPermissions.admin==true || this.$store.getters.getIsAdmin==1){
               if(!this.restrict){
                 this.$emit('setMenu','orgMembersAdmin');
               }else{

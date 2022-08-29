@@ -61,6 +61,10 @@ name: "registerUser",
     cmdVersion:{
       type: Number,
       required: false
+    },
+    ignoreOpenRegistration:{
+      type: Boolean,
+      required: false
     }
   },
   mounted(){
@@ -276,7 +280,11 @@ name: "registerUser",
         case 'saveRegistration':{
           if(this.checkEntryFields()){
             debugger;
-            this.checkOpenRegistration();
+            if(!this.ignoreOpenRegistration){
+              this.checkOpenRegistration();
+            }else{
+              this.saveRegistration();
+            }
           }
           break;
         }

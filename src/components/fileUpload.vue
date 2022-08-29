@@ -28,8 +28,7 @@
           pType: {
             type: String,
             required: false
-          },
-
+          }
 
         },
         mounted(){
@@ -50,7 +49,8 @@
                 user: 'dev',
                 returnedData:'',
                 uploadStatus:true,
-                fileAlreadySelected:false
+                fileAlreadySelected:false,
+                targetOrg:''
             }
         },
         methods :{

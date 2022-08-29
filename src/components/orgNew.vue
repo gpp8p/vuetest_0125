@@ -26,14 +26,6 @@
            <input v-model.lazy="hpRows" size="5" class="inputStyle"   /> - Rows <input v-model.lazy="hpCols" size="5" class="inputStyle"   /> - Columns
          </span>
      </span>
-     <span class="labelPlusInput">
-          <span>
-            Background:
-          </span>
-       <span class="backgroundPick">
-          <background-picker :currentValues="currentBackground" :dialogKey="dialogKey" :pType="backgroundColorType" :noTransparent=true @configSelected="configSelected"></background-picker>
-      </span>
-     </span>
 
 
      <span class="adminSelect" v-if="adminIdentified==false">
@@ -57,6 +49,7 @@
           @userExists="userExists"
           :cmd="cmd"
           :cmdVersion="cmdVersion"
+          :ignoreOpenRegistration = "this.ignoreOpenRegistration"
       ></register-user>
     </span>
     <span v-if="this.viewStatus==this.NEWORG_EXISTING_USER">
@@ -70,11 +63,12 @@
 import Vue from 'vue';
 import registerUser from "../components/registerUser.vue";
 import orgMembership from "../components/orgMembership.vue";
-import backgroundPicker from "@/components/backgroundPicker";
+//import backgroundPicker from "@/components/backgroundPicker";
 import axios from "axios";
 export default {
   name: "orgNew",
-  components: {registerUser, orgMembership, backgroundPicker},
+//  components: {registerUser, orgMembership, backgroundPicker},
+  components: {registerUser, orgMembership},
   props:{
     selectedMenuOption: {
       type: String,
@@ -110,6 +104,7 @@ export default {
       NEWORG_NEWUSER:1,
       NEWORG_EXISTING_USER:2,
       allUserId:0,
+      ignoreOpenRegistration:true,
 
       orgAdminName:'',
       orgAdminEmail:'',

@@ -80,6 +80,7 @@ name: "createLayout",
   components: {backgroundPicker},
   mounted(){
     console.log('cmdObjectVersion is', this.cmdObjectVersion);
+    this.$emit('childCmd', this.childCmd);
   },
   data(){
     return {
@@ -225,7 +226,9 @@ name: "createLayout",
     }
   },
   methods:{
-
+    childCmd(parentCmd){
+      console.log('childCmd in createLayout - ', parentCmd);
+    },
     checkEntry(){
       var errorMsg = '';
       if(this.backgroundType=='C'&&this.updatedColor==''){

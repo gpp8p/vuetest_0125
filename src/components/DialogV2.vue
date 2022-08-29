@@ -43,6 +43,7 @@
             @layoutEditSaved="layoutEditSaved"
             @setEditLayoutMenu="setEditLayoutMenu"
             @error="showError"
+            @childCmd="setChildCmd"
             :cmd="cmd"
             :cmdObjectVersion="cmdObjectVersion"
             :currentValues="currentValues"
@@ -321,7 +322,8 @@
                 }
                 case 'updateLayout':{
                   this.cmd='updateLayout';
-                  this.dialogCmdVersion++;
+//                  this.dialogCmdVersion++;
+                  this.cmdObjectVersion++;
                   break
                 }
 
