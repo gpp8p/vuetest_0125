@@ -2,7 +2,7 @@
     <div class="hdrBarDiv">
         <span class="contextArea"><context-area :layout="nextLayout" :cmd="thisCmd" :cmdVersion="thisCmdVersion" @topLevelPage="topLevelPage"></context-area></span>
         <span class="tabArea">
-            <menu-component :items='menuItems' :selected-item="this.selectedMenuItem" @menuSelection="tabSelected"></menu-component>
+          <menu-component :items='menuItems' :selected-item="this.selectedMenuItem" @menuSelection="tabSelected"></menu-component>
             <span class="messageArea">{{this.message}}</span>
         </span>
         <span class="loginArea"><login-component @login="login" @logout="logout" :cmd="this.cmd" @register="register" @newLayout="newLayout" @logError="logError"></login-component></span>

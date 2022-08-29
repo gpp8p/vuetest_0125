@@ -6,18 +6,19 @@
                            :itemIndex="index"
                            :selectedItemIndex="selectedItem"
                            @menuSelection="itemSelected"
-                ></menu-item>
+                ></menu-item><a v-bind:href="helpUrl" class="help" target="_blank">Help</a>
         </span>
 </template>
 
 <script>
     import menuItem from "./menuItem.vue";
+//    import store from './store';
 //    import menuItemSelected from "./menuItemSelected.vue"
     export default {
         name: "menuComponent",
         components: { menuItem },
         mounted(){
-
+          this.helpUrl = this.$store.getters.getHelpUrl;
         },
         props:{
             items:{
@@ -37,7 +38,8 @@
         },
         data(){
             return {
-                useMenuItemSelected: false
+                useMenuItemSelected: false,
+                helpUrl:''
             }
         }
     }
@@ -53,4 +55,16 @@
         margin-top: 6px;
         color: blue;
     }
+    .help {
+      text-decoration: none;
+      background-color: #ffcd90;
+      font-family: Arial;
+      font-size: 17px;
+      padding: 1px;
+    }
+    .help:hover {
+      background-color: #fff722;
+      color: #1132ff;
+    }
+
 </style>

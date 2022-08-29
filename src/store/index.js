@@ -25,7 +25,8 @@ export default new Vuex.Store({
             currentLayoutDescription:'',
             currentLayoutLabel:'',
             urlBase:'',
-            apiBase:''
+            apiBase:'',
+            helpUrl:'http://localhost/spaces/help/141.html'
 
         }
     },
@@ -86,6 +87,9 @@ export default new Vuex.Store({
         },
         getApiBase(state){
             return state.credentials.apiBase
+        },
+        getHelpUrl(state){
+            return state.credentials.helpUrl
         }
 /*
         getRegister(state){
@@ -151,6 +155,9 @@ export default new Vuex.Store({
         },
         setApiBase(state, apiBase){
             state.credentials.apiBase = apiBase;
+        },
+        setHelpUrl(state, helpUrl){
+            state.credentials.helpUrl = helpUrl;
         }
 /*
         setRegister(state, registerState){
