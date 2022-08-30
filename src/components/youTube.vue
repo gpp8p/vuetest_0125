@@ -220,6 +220,10 @@ name: "youTube",
           this.mode=this.YT_SHOW;
           break;
         }
+        case 'Configure':{
+          this.configureClicked('textShow');
+          break;
+        }
         case 'metaData':{
           this.destroy();
           mOpts = this.getMenuOpts('metaData_youTube');

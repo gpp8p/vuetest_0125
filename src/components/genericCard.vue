@@ -1,25 +1,5 @@
 <template >
 <span v-bind:style='thisCardStyle' v-on:click="processClick" id=cardId v-if="this.ghost==false">
-        <green-component  v-if="cardType=='greenComponent'" class="genericCardStyle"
-                          :card-style=cardStyle
-                          :card-id=cardId
-                          :card-key=cardKey
-                          :card-position=cardPosition
-                          :cardProperties = cardProperties
-                          :displayStatus = displayStatus
-                          :elementStyles="elementStyles"
-                          :cardContent="cardContent"
-                          :cmdObject="cmdObject"
-                          :cmdObjectVersion="cmdObjectVersion"
-                          @configSelected="configSelected"
-                          @editClick = editClick
-                          @cardClick="processCardClick"
-                          @configurationHasBeenSaved="configurationHasBeenSaved"
-                          @cardDataLoaded="cardDataLoaded"
-                          @cardPropertySet="cardPropertySet"
-                          @ghostCard="ghostCard"
-                          ref="cardKey"
-        ></green-component>
 
 
 
@@ -45,28 +25,6 @@
                    ref="cardKey"
         ></text-show>
 
-        <link-menu v-if="cardType=='linkMenu'"
-                   :card-style=cardStyle
-                   :card-id=cardId
-                   :card-key=cardKey
-                   :card-position=cardPosition
-                   :cardProperties = cardProperties
-                   :displayStatus = displayStatus
-                   :elementStyles="elementStyles"
-                   :cardContent="cardContent"
-                   :cmdObject="cmdObject"
-                   :cmdObjectVersion="cmdObjectVersion"
-                   :cmd = cmd
-                   @configSelected="configSelected"
-                   @cardClick="processCardClick"
-                   @textEditor="textEditor"
-                   @linkSelected="linkSelected"
-                   @configurationHasBeenSaved="configurationHasBeenSaved"
-                   @cardDataLoaded="cardDataLoaded"
-                   @cardPropertySet="cardPropertySet"
-                   @ghostCard="ghostCard"
-                   ref="cardKey"
-        ></link-menu>
         <NavigationMenu v-if="cardType=='NavigationMenu'"
                    :card-style=cardStyle
                    :card-id=cardId
@@ -136,17 +94,14 @@
                   @cardDataLoaded="cardDataLoaded"
                   ref="cardKey"
         ></you-tube>
-  <archive v-if="cardType=='archive'"
-                 @cardClick="processCardClick"
-                 @ghostCard="ghostCard"
-                 @configurationHasBeenSaved="configurationHasBeenSaved"
-                 @cardPropertySet="cardPropertySet"
-                 @cardDataLoaded="cardDataLoaded"
-                 ref="cardKey"
-                 :displayStatus = displayStatus
-                 :card-id=cardId
-        ></archive>
+
         <pdf v-if="cardType=='pdf'"
+             @configSelected="configSelected"
+             @cardClick="processCardClick"
+             @ghostCard="ghostCard"
+             @configurationHasBeenSaved="configurationHasBeenSaved"
+             @cardPropertySet="cardPropertySet"
+             @cardDataLoaded="cardDataLoaded"
              :displayStatus = displayStatus
              :cardContent="cardContent"
              :card-id=cardId
@@ -154,39 +109,6 @@
              :cmdObjectVersion="cmdObjectVersion"
              :cmd = cmd
         ></pdf>
-        <Search v-if="cardType=='Search'"
-                :cardContent="cardContent"
-                :displayStatus = displayStatus
-                :card-id=cardId
-                @cardClick="processCardClick"
-                @configSelected="configSelected"
-                @textEditor="textEditor"
-                @configurationHasBeenSaved="configurationHasBeenSaved"
-                @cardDataLoaded="cardDataLoaded"
-                @cardPropertySet="cardPropertySet"
-                @ghostCard="ghostCard"
-                ref="cardKey"
-        ></Search >
-        <Document v-if="cardType=='Document'"
-                 @cardClick="processCardClick"
-                 @ghostCard="ghostCard"
-                 @configurationHasBeenSaved="configurationHasBeenSaved"
-                 @cardPropertySet="cardPropertySet"
-                 @cardDataLoaded="cardDataLoaded"
-                 @configSelected="configSelected"
-                 ref="cardKey"
-                 :cardContent="cardContent"
-                 :card-style=cardStyle
-                 :card-position=cardPosition
-                 :cardProperties = cardProperties
-                 :card-key=cardKey
-                 :displayStatus = displayStatus
-                 :card-id=cardId
-                 :cmdObject="cmdObject"
-                 :cmdObjectVersion="cmdObjectVersion"
-                 :elementStyles="elementStyles"
-                 :cmd = cmd
-        ></Document>
 
 
 </span>
@@ -200,23 +122,19 @@
 <script>
   /* eslint-disable no-console,no-debugger */
 
-  import GreenComponent from "../components/greenComponent";
+//  import GreenComponent from "../components/greenComponent";
   import GenericCardBase from "../components/GenericCardBase.vue";
   import textShow from "./textShow.vue";
-  import linkMenu from "../components/LinkMenu";
   import loginLink from "../components/loginLink";
   import youTube from "../components/youTube.vue";
-  import archive from "../components/archive.vue";
-  import Document from "../components/Document2.vue";
   import pdf from "../components/pdf.vue";
-  import Search from "../components/Search.vue";
   import Headline from "../components/Headline.vue";
   import NavigationMenu from "../components/NavigationMenu.vue"
 
   export default {
     name: "genericCard",
     extends: GenericCardBase,
-    components: {GreenComponent, textShow, linkMenu, loginLink, youTube, archive, Document, pdf, Search, Headline, NavigationMenu},
+    components: {textShow, loginLink, youTube, pdf, Headline, NavigationMenu},
     props: {
       cardType: {
         type: String,

@@ -95,6 +95,7 @@ name: "pdf",
       currentMenuOpts: [],
       content: {},
       configurationCurrentValues: {},
+      styling: {},
       showOptions: false,
       errMsg:false,
       errorMessage:'',
@@ -107,6 +108,7 @@ name: "pdf",
   },
   methods:{
     menuOptSelected(msg) {
+      debugger;
       console.log(msg);
       var apiPath = this.$store.getters.getApiBase;
       console.log('apiPath - ',apiPath);
@@ -203,6 +205,11 @@ name: "pdf",
           mOpts = this.getMenuOpts('pdf_file_showing');
           this.currentMenuOpts = mOpts.currentMenuOpts;
           this.mode=this.PDF_SHOW;
+          break;
+        }
+        case 'Configure':{
+          debugger;
+          this.configureClicked('textShow');
           break;
         }
 

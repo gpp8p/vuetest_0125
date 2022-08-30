@@ -773,6 +773,7 @@
               currentMenuOpts:[
                 ['Enter MetaData', 'pdfMeta'],
                 ['Exit', 'pdfExit'],
+                ['Configure', 'Configure'],
                 ['Change Pdf File','changePdf']
               ],
               currentMenuSelection: 'Exit'
@@ -814,7 +815,9 @@
                 ['Resize/Move', 'Resize'],
                 ['Del', 'DeleteCard'],
                 ['Change Clip','ytEdit'],
+                ['Configure', 'Configure'],
 //                ['Save','ytSave'],
+
                 ['Enter Metadata', 'metaData'],
 
               ],
