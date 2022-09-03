@@ -11,10 +11,10 @@
         <span v-if="this.logStatus===this.SHOW_LOGIN" class="login">
 
                      <label class="labelStyle" for="email">Mail:</label>
-                    <input type="text" id="email" name="email" size="30" v-model="email" ref="emailField" class="loginField"/>
+                    <input type="text" id="email" name="email" size="25" v-model="email" ref="emailField" class="loginField"/>
 
                     <label class="labelStyle" for="password">Password:</label>
-                    <input type="password" id="password" size="30" maxlength="65" v-model="password" class="loginField"/>
+                    <input type="password" id="password" size="25" maxlength="65" v-model="password" class="loginField"/>
 
 
                      <span class="labelLinkStyle" @click="doLogin">Login </span>
