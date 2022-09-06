@@ -1003,7 +1003,17 @@
               currentMenuSelection: 'Configure'
             }
           }
-
+          case 'imageEntry':{
+            return {
+              currentMenuOpts:[
+                ['Configure', 'Configure'],
+                ['Resize/Move', 'Resize'],
+                ['Del', 'DeleteCard'],
+                ['Edit','editImage'],
+              ],
+              currentMenuSelection: 'Configure'
+            }
+          }
         }
       },
 

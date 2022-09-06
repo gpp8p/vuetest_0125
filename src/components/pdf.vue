@@ -223,6 +223,8 @@ name: "pdf",
       this.currentMenuOpts = mOpts.currentMenuOpts;
       this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
       this.showOptions==true;
+      this.uploadedFileSave();
+      debugger;
       this.mode =this.PDF_SHOW;
     },
     uploadedFileSave(){

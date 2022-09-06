@@ -8,10 +8,12 @@
 
 <script>
 import CardBase from "@/components/CardBase";
+import menuOpt from "../components/menuOptV2.vue";
 
 export default {
   name: "imageCard",
   extends: CardBase,
+  components :{menuOpt},
   mounted(){
     this.$emit('childCmd', this.childCmd);
     if(this.displayStatus==true){
@@ -19,6 +21,10 @@ export default {
     }else{
       this.showOptions=true;
     }
+    var mOpts = this.getMenuOpts('imageEntry');
+    this.currentMenuOpts = mOpts.currentMenuOpts;
+    console.log('image card mounted');
+
   },
   props:{
     displayStatus: {
@@ -54,7 +60,32 @@ export default {
     },
     menuOptSelected(msg){
       console.log('menuOptSelected in imageCard -', msg);
-    }
+      switch(msg){
+        case 'Resize':{
+          console.log('moveClicked');
+          this.$emit('ghostCard');
+          break;
+        }
+        case 'Configure':{
+          this.configureClicked('imageCard');
+          break;
+        }
+        case 'DeleteCard':{
+          var mOpts = this.getMenuOpts('deleteChoice');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          break;
+        }
+        case 'RmvLay':{
+          this.removeCardFromLayout(this.cardId);
+          break;
+        }
+        case 'DelCardFromDb':
+          this.deleteCardFromDb(this.cardId);
+          break;
+      }
+    },
+
+
 
   }
 }

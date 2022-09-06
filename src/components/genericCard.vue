@@ -94,6 +94,19 @@
                   @cardDataLoaded="cardDataLoaded"
                   ref="cardKey"
         ></you-tube>
+        <image-card v-if="cardType=='imageCard'"
+                  :displayStatus = displayStatus
+                  :card-id=cardId
+                  :yturl="cardContent.ytubeUrl"
+                  :cardContent="cardContent"
+                  @configSelected="configSelected"
+                  @cardClick="processCardClick"
+                  @ghostCard="ghostCard"
+                  @configurationHasBeenSaved="configurationHasBeenSaved"
+                  @cardPropertySet="cardPropertySet"
+                  @cardDataLoaded="cardDataLoaded"
+                  ref="cardKey"
+        ></image-card>
 
         <pdf v-if="cardType=='pdf'"
              @configSelected="configSelected"
@@ -130,11 +143,12 @@
   import pdf from "../components/pdf.vue";
   import Headline from "../components/Headline.vue";
   import NavigationMenu from "../components/NavigationMenu.vue"
+  import imageCard from "@/components/imageCard";
 
   export default {
     name: "genericCard",
     extends: GenericCardBase,
-    components: {textShow, loginLink, youTube, pdf, Headline, NavigationMenu},
+    components: {textShow, loginLink, youTube, pdf, Headline, NavigationMenu, imageCard},
     props: {
       cardType: {
         type: String,
