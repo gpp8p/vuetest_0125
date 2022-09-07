@@ -298,6 +298,7 @@
         this.$emit('linkSelected', msg);
       },
       setCardBackground(newBackground){
+        debugger;
         var backgroundAt = this.thisCardStyle.indexOf('background-color:#');
         var styleBegining = this.thisCardStyle.slice(0,backgroundAt);
         var newStyle = styleBegining+'background-color:#'+newBackground+this.thisCardStyle.slice((backgroundAt+24));

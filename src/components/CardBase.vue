@@ -39,9 +39,18 @@
             this.styling.backgroundType="backgroundType:checked;";
             break;
           case 'backgroundTypeColor':
+            debugger;
             this.configurationCurrentValues['backgroundTypeColor']="checked";
             this.styling.backgroundTypeImage="backgroundTypeColor:checked;"
             delete this.styling.backgroundTypeImage;
+            delete this.styling.backgroundImage
+            break;
+          case 'backgroundTypeImage':
+            debugger;
+            this.configurationCurrentValues['backgroundTypeImage']="checked";
+            this.styling.backgroundTypeImage="backgroundTypeImage:checked;"
+            delete this.styling.backgroundTypeColor;
+            delete this.styling.backgroundColor;
             break;
 
           case "backgroundColor":
@@ -52,8 +61,12 @@
             break
           case "backgroundImage":
             debugger;
-            var urlBase = this.$store.getters.getUrlBase;
-            var backGroundImageReference = "url("+urlBase+"storage/"+cardData+")";
+            var cardDataAsArray = cardData.split("/");
+            var editedCardDataArray = cardDataAsArray.splice(3);
+            var editedCardData = editedCardDataArray.join("/");
+            console.log(editedCardData);
+            var apiBase = this.$store.getters.getApiBase;
+            var backGroundImageReference = "url("+apiBase+editedCardData+")";
 //            var backGroundImageReference = "url('" + cardData + "')";
 //            this.$el.style.backgroundImage = backGroundImageReference;
             this.configurationCurrentValues['backgroundImage']=backGroundImageReference;
@@ -63,11 +76,7 @@
             this.styling.backgroundSize="background-size:100% 100%;";
             this.$emit('cardPropertySet',[backGroundImageReference, cardDataElement]);
             break;
-          case 'backgroundTypeImage':
-            this.configurationCurrentValues['backgroundTypeImage']="checked";
-            this.styling.backgroundTypeImage="backgroundTypeImage:checked;"
-            delete this.styling.backgroundTypeColor;
-            break;
+
           case "fontFamily":
 //            this.$el.style.fontFamily=cardData;
             this.configurationCurrentValues['fontFamily']=cardData;

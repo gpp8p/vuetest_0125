@@ -137,6 +137,7 @@
             imageSelected(){
                 console.log('image has been selected');
                 this.backgroundTypeSelection = this.IMAGE_SELECTED;
+                this.$emit('configSelected', ['backgroundTypeImage',''] );
                 this.$emit('configSelected', ['backgroundType',this.backgroundTypeSelection] );
             },
             backDisplaySelected(msg){

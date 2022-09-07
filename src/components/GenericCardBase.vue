@@ -10,6 +10,7 @@
         console.log('GenericCardBase setCardData - cardData:', cardData, 'cardDataElement', cardDataElement);
         switch (cardDataElement) {
           case "backgroundColor":
+            debugger;
             this.$el.style.backgroundColor=cardData;
             break
           case "backgroundImage":
