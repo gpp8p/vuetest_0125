@@ -17,7 +17,7 @@
     </span>
     <span>
       <span v-if="this.mode===this.SHOW_LINKS">
-        <link-menu-list :cmd="this.currentCmd" @clearCmd="clearCmd" :currentCardData="this.currentCardData" @linkSelected="linkSelected" ></link-menu-list>
+        <link-menu-list :cmd="this.currentCmd" @clearCmd="clearCmd" :key="linkListKey" :currentCardData="this.currentCardData" @linkSelected="linkSelected" ></link-menu-list>
       </span>
       <span v-if="this.mode===this.ADD_LINK">
         <link-menu-add
@@ -223,7 +223,8 @@ export default {
       selectedTemplateId:0,
       replacementLink:{},
       selectedLinkDescription:'',
-      cloneTemplateMode:'A'
+      cloneTemplateMode:'A',
+      linkListKey:0
 
 
 
@@ -252,7 +253,10 @@ export default {
               ['Remove','removeLink'],
               ['Change Link', 'changeLink'],
               ['Change Link Label', 'changeLinkLabel'],
+              ['Move Link Up', 'moveUp'],
+              ['Move Link Down', 'moveDown'],
               ['Back','clearLinkList'],
+              ['Save', 'linkMasterSave'],
               ['Exit', 'Cancel'],
             ],
             currentSelectedMenuOption: 'Cancel'
@@ -518,6 +522,42 @@ export default {
           this.currentMenuOpts = mOpts.currentMenuOpts;
           this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
           this.mode=this.EDIT_LINK;
+          break;
+        }
+        case 'moveUp':{
+          var selectedIndexAt = this.findSelectedIndex(this.selectedLink);
+          console.log('selectedIndexAt=', selectedIndexAt);
+          debugger;
+          if(selectedIndexAt >0) {
+            var elementAbove = this.currentCardData.availableLinks[selectedIndexAt - 1];
+            var elementAt = this.currentCardData.availableLinks[selectedIndexAt];
+            this.currentCardData.availableLinks[selectedIndexAt - 1] = elementAt;
+            this.currentCardData.availableLinks[selectedIndexAt] = elementAbove;
+            console.log('above-', this.currentCardData.availableLinks[selectedIndexAt - 1]);
+            console.log('at-', this.currentCardData.availableLinks[selectedIndexAt]);
+            this.linkListKey++;
+            this.selectedLink={};
+          }else {
+            alert("Selected link at the top of the list");
+          }
+
+
+          break;
+        }
+        case 'moveDown':{
+          selectedIndexAt = this.findSelectedIndex(this.selectedLink);
+          console.log('selectedIndexAt=', selectedIndexAt);
+          debugger;
+          if(selectedIndexAt < this.currentCardData.availableLinks.length) {
+            var elementBelow = this.currentCardData.availableLinks[selectedIndexAt + 1];
+            elementAt = this.currentCardData.availableLinks[selectedIndexAt];
+            this.currentCardData.availableLinks[selectedIndexAt + 1] = elementAt;
+            this.currentCardData.availableLinks[selectedIndexAt] = elementBelow;
+            this.linkListKey++;
+          }else {
+            alert("Selected link at the top of the list");
+          }
+
           break;
         }
         case 'replaceNp':{
