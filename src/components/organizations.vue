@@ -70,7 +70,7 @@ export default {
             }
             break;
           }
-          case 'Add New Organization':{
+          case 'Add New Site':{
             this.orgView=this.ORG_NEW;
             this.$emit('setTitle','New Organization');
             this.$emit('setMenu','saveNewOrg');

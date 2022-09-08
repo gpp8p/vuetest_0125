@@ -143,7 +143,7 @@
           }
         },
         mounted(){
-//          debugger;
+          debugger;
           console.log('Dialog2 mounted');
           var mOpts = this.getMenuOpts(this.cmd);
           switch(this.cmd){
@@ -509,6 +509,16 @@
                     currentSelectedMenuOption: 'Appearence'
                   }
                 }
+                case 'pdf':{
+                  return {
+                    currentMenuOpts: [
+                      ['Appearence','Appearence'],
+                      ['Save','SaveConfiguration'],
+                      ['Cancel', 'Cancel']
+                    ],
+                    currentSelectedMenuOption: 'Appearence'
+                  }
+                }
                 case 'greenComponent':{
                   return {
                     currentMenuOpts:[
@@ -707,7 +717,7 @@
                   return {
                     currentMenuOpts:[
                       ['Done', 'Done'],
-                      ['Add New Organization','Add New Organization']
+                      ['Add New Site','Add New Site']
                     ],
                     currentSelectedMenuOption: 'Done'
                   }

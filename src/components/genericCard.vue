@@ -110,17 +110,18 @@
 
         <pdf v-if="cardType=='pdf'"
              @configSelected="configSelected"
-             @cardClick="processCardClick"
              @ghostCard="ghostCard"
              @configurationHasBeenSaved="configurationHasBeenSaved"
              @cardPropertySet="cardPropertySet"
              @cardDataLoaded="cardDataLoaded"
+             @cardClick="processCardClick"
              :displayStatus = displayStatus
              :cardContent="cardContent"
              :card-id=cardId
              :cmdObject="cmdObject"
              :cmdObjectVersion="cmdObjectVersion"
              :cmd = cmd
+             ref="cardKey"
         ></pdf>
 
 
@@ -231,7 +232,7 @@
     },
     methods: {
       processClick(msg){
-//        debugger;
+        debugger;
         if(this.hasChildern(this.$refs)){
           console.log('hasChildern is true');
         }else{

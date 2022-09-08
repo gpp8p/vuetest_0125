@@ -99,7 +99,7 @@ name: "orgList",
 //            debugger;
             console.log(response);
             this.orgs=response.data;
-            this.$emit('componentSettingsMounted',[['Done', 'Add New Organization'],'Done']);
+            this.$emit('componentSettingsMounted',[['Done', 'Add New Site'],'Done']);
             this.$emit('setTitle','Click on Organization to See Members');
 
           })

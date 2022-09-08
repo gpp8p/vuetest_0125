@@ -219,14 +219,14 @@
 
                 if(this.viewContext==this.VIEW_VIEWING){
                   if(this.$store.getters.getIsAdmin>0){
-                    return ['Edit','Delete', 'Publish', 'Create', 'Access','My Spaces', 'Organizations'];
+                    return ['Edit','Delete', 'Publish', 'Create', 'Access','My Spaces', 'Sites'];
                   }else{
                     if(this.topPerm==this.VIEW_PERM){
                       return [];
                     }else if(this.topPerm==this.AUTHOR_PERM){
                       return ['Edit','Delete', 'Publish','Access'];
                     }else if((this.topPerm==this.ADMIN_PERM)){
-                      return ['Edit','Delete', 'Publish', 'Create', 'Access','My Spaces', 'Organizations'];
+                      return ['Edit','Delete', 'Publish', 'Create', 'Access','My Spaces', 'Sites'];
                     }
                   }
                 }else if(this.viewContext==this.VIEW_EDITING){

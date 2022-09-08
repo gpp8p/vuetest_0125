@@ -176,6 +176,11 @@ name: "pdf",
           }
           break;
         }
+        case 'Resize':{
+          console.log('moveClicked');
+          this.$emit('ghostCard');
+          break;
+        }
         case 'pdfExit':{
 //          debugger;
           this.showOptions=false;
@@ -209,7 +214,7 @@ name: "pdf",
         }
         case 'Configure':{
           debugger;
-          this.configureClicked('textShow');
+          this.configureClicked('pdf');
           break;
         }
 

@@ -782,6 +782,8 @@
               currentMenuOpts:[
                 ['Enter MetaData', 'pdfMeta'],
                 ['Exit', 'pdfExit'],
+                ['Resize/Move', 'Resize'],
+                ['Del', 'DeleteCard'],
                 ['Configure', 'Configure'],
                 ['Change Pdf File','changePdf']
               ],

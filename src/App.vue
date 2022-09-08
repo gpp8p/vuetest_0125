@@ -179,7 +179,7 @@ export default {
           this.thisCmd='createNewLayout';
           break;
         }
-        case 'Organizations':{
+        case 'Sites':{
           this.thisCmd='organizations';
 //            this.displayViewStatusChangeFunction(['organizations',0]);
           break;
