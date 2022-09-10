@@ -7,14 +7,14 @@
             </span>
 
         </span>
-      <span class="borderPick">
-            <border-picker :currentValues="currentValues" :dialogKey="dialogKey" :pType="borderColorType" @configSelected="configSelected"></border-picker>
-      </span>
       <span>
             <shadow-picker :currentValues="currentValues" :dialogKey="dialogKey" :pType="shadowType" @configSelected="configSelected"></shadow-picker>
       </span>
       <span>
             <round-corner-picker :currentValues="currentValues" :dialogKey="dialogKey" :pType="roundType" @configSelected="configSelected"></round-corner-picker>
+      </span>
+      <span class="borderPick">
+            <border-picker :currentValues="currentValues" :dialogKey="dialogKey" :pType="borderColorType" @configSelected="configSelected"></border-picker>
       </span>
 
     </span>

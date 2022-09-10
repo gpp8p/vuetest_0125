@@ -183,6 +183,35 @@
             this.styling.border = "border:"+borderColorSet+";";
             this.$emit('cardPropertySet',[borderColorSet, 'borderColor']);
             break;
+          case 'backgroundDisplay':{
+            console.log('backgroundDisplay updated to - ', cardData);
+            switch(cardData){
+              case 'crop':{
+                this.styling.backgroundSize = 'background-size:cover;';
+                this.styling.backgroundRepeat = 'background-repeat:no-repeat;';
+                this.styling.backgroundPosition = 'background-position: center center;';
+                break
+              }
+              case 'stretch':{
+                this.styling.backgroundSize = 'background-size: 100% 100%;';
+                this.styling.backgroundRepeat = 'background-repeat:no-repeat;';
+                break;
+              }
+              case 'existing':{
+                this.styling.backgroundSize = 'background-size:contain;';
+                this.styling.backgroundRepeat = 'background-repeat:no-repeat;';
+                break;
+              }
+              case 'repeat':{
+                this.styling.backgroundSize = 'background-size:contain;';
+                this.styling.backgroundRepeat = 'background-repeat:repeat;';
+                break;
+              }
+
+            }
+            this.$emit('cardPropertySet',[cardData, 'backgroundDisplay']);
+            break;
+          }
           default:{
             this.content[cardDataElement]=cardData;
           }

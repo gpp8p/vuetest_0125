@@ -247,7 +247,7 @@
         }
       },
       editMethod(background){
-//        debugger;
+        debugger;
         this.setCardBackground(background);
         console.log('editMethod from', this.cardPosition);
       },

@@ -6,7 +6,7 @@
     name: "GenericCardBase",
     methods:{
       setCardData(cardData, cardDataElement) {
-//        debugger;
+        debugger;
         console.log('GenericCardBase setCardData - cardData:', cardData, 'cardDataElement', cardDataElement);
         switch (cardDataElement) {
           case "backgroundColor":
@@ -66,6 +66,35 @@
           case "borderColor":
             this.$el.style.border = cardData;
             break;
+          case "backgroundDisplay":{
+            switch(cardData){
+              case 'existing':{
+                console.log('existing chosen');
+                this.$el.style.backgroundSize = 'contain';
+                this.$el.style.backgroundRepeat = 'no-repeat';
+                break
+              }
+              case 'crop':{
+                console.log('crop chosen');
+                this.$el.style.backgroundSize = 'cover';
+                this.$el.style.backgroundPosition = 'center center';
+                break;
+              }
+              case 'stretch':{
+                console.log('stretch chosen');
+                this.$el.style.backgroundSize = '100% 100%';
+                break;
+              }
+              case 'repeat':{
+                console.log('repeat chosen');
+                this.$el.style.backgroundSize = 'contain';
+                this.$el.style.backgroundPosition = 'center center';
+                this.$el.style.backgroundRepeat = 'repeat';
+                break;
+              }
+            }
+            break;
+          }
         }
         return this.cardKey;
       }
