@@ -256,6 +256,9 @@
                       this.cardCurrentConfigurationValues.width = response.data[0].width;
                       this.cardCurrentConfigurationValues.menu_label = response.data[0].menu_label;
                       this.cardCurrentConfigurationValues.template = response.data[0].template;
+                      if(this.cardCurrentConfigurationValues.backgroundColor==''){
+                        this.cardCurrentConfigurationValues.backgroundColor = '#dbddd0';
+                      }
                       this.dialogCmd = 'editLayoutParams';
                       this.cmdObjectVersion++;
 

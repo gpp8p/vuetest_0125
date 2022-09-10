@@ -39,14 +39,7 @@
          {{this.width}}
        </span>
      </span>
-     <span class="labelPlusInput">
-          <span>
-            Background:
-          </span>
-       <span class="backgroundPick">
-          <background-picker :currentValues="currentValues" :dialogKey="cmdObjectVersion" :pType="backgroundTypePtype" :noTransparent=true @configSelected="configSelected"></background-picker>
-      </span>
-     </span>
+
     <span class="labelPlusInput">
         <span>
           Permissions::
@@ -59,6 +52,15 @@
           Use Permissions from this page
           </o-radio>
        </span>
+     </span>
+≈
+     <span class="labelPlusInput">
+          <span>
+            Background:
+          </span>
+       <span class="backgroundPick">
+          <background-picker :currentValues="currentValues" :dialogKey="cmdObjectVersion" :pType="backgroundTypePtype" :noTransparent=true @configSelected="configSelected"></background-picker>
+      </span>
      </span>
      <span class="labelPlusInput">
         <span>Template:</span>
@@ -413,7 +415,7 @@ name: "createLayout",
 .newLayoutWrapper {
   margin-left: 4px;
   display:grid;
-  grid-template-rows: 15% 15% 15% 15% 15%;
+  grid-template-rows: 10% 10% 10% 10% 10%;
 
 }
 .labelPlusInput {
