@@ -327,8 +327,13 @@
             this.$emit('cardSubPropertySet', [cardData, cardDataElement, domElement]);
             break;
           case 'displayLimit':
-            this.subContentStyling[domElement].displayLimit = "displayLimit:"+cardData+";";
-            this.subContentConfiguration['domElement']['displayLimit']=cardData;
+            if(cardData=='No Search'){
+              this.subContentStyling[domElement].displayLimit = "displayLimit:0;";
+              this.subContentConfiguration['domElement']['displayLimit']='0';
+            }else{
+              this.subContentStyling[domElement].displayLimit = "displayLimit:"+cardData+";";
+              this.subContentConfiguration['domElement']['displayLimit']=cardData;
+            }
             break;
 
 /*
