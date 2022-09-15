@@ -73,7 +73,7 @@ import LinkMenuConfiguration from "@/components/LinkMenuConfiguration.vue"
         this.openMenuOption = this.selectedMenuOption;
       },
       cmd: function(){
-        console.log('cmd changes in green component settings:', this.cmd);
+        console.log('cmd changes in component settings:', this.cmd);
         switch(this.cmd){
           case 'Save':{
             this.$emit('configSelected',['save']);

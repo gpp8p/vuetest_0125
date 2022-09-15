@@ -926,7 +926,7 @@
             createBlankCardInstance(row, col, height, width, id, background){
       console.log('createBlankCardInstance:'+row+' '+col+' '+height+' '+width+ ' '+id);
                 var thisGridCss = this.computeGridCss(row, col, height, width);
-                var thisCardStyle = thisGridCss+";"+"background-color:"+background+";color:blue;";
+                var thisCardStyle = thisGridCss+";"+"background-color:"+background+";color:#0000FF;";
                 var thisInstance = {card_component: 'simpleCard', card_position: [row,col,height,width], id:id, toDelete: false, card_parameters: {style: thisCardStyle}};
                 return thisInstance;
 
