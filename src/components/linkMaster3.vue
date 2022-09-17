@@ -106,7 +106,7 @@ export default {
       this.mode=this.CREATE_LAYOUT;
     }else{
       this.titleMsg='Building a Menu';
-      mOpts = this.getMenuOpts('setupMenuLink');
+      mOpts = this.getMenuOpts('setupMenuLinkNav');
       this.currentMenuOpts = mOpts.currentMenuOpts;
       this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
       this.currentCardData= JSON.parse(this.cardData);
@@ -242,6 +242,19 @@ export default {
               ['Exit', 'Cancel'],
               ['Add Current Page', 'addCurrent'],
               ['Create New Page', 'CreateLayout'],
+              ['Save', 'linkMasterSave']
+            ],
+            currentSelectedMenuOption: 'Cancel'
+          }
+        }
+        case 'setupMenuLinkNav': {
+          return {
+            currentMenuOpts: [
+              ['Add A Link', 'AddLink'],
+              ['Exit', 'Cancel'],
+              ['Add Current Page', 'addCurrent'],
+              ['Create New Page', 'CreateLayout'],
+              ['Edit Headline', 'navMenuHeadline'],
               ['Save', 'linkMasterSave']
             ],
             currentSelectedMenuOption: 'Cancel'
@@ -473,7 +486,7 @@ export default {
         case 'addBegining':{
           debugger;
           this.currentCardData.availableLinks.unshift(this.selectedLayout);
-          mOpts = this.getMenuOpts('setupMenuLink');
+          mOpts = this.getMenuOpts('setupMenuLinkNav');
 
           this.currentMenuOpts = mOpts.currentMenuOpts;
           this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
@@ -484,7 +497,7 @@ export default {
         case 'addEnd':{
 //          debugger;
           this.currentCardData.availableLinks.push(this.selectedLayout);
-          mOpts = this.getMenuOpts('setupMenuLink');
+          mOpts = this.getMenuOpts('setupMenuLinkNav');
 
           this.currentMenuOpts = mOpts.currentMenuOpts;
           this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
@@ -510,7 +523,7 @@ export default {
             var selectedIndex = this.findSelectedIndex(this.selectedLink);
             this.currentCardData.availableLinks.splice(selectedIndex, 1);
             this.titleMsg='Building a Menu';
-            mOpts = this.getMenuOpts('setupMenuLink');
+            mOpts = this.getMenuOpts('setupMenuLinkNav');
             this.currentMenuOpts = mOpts.currentMenuOpts;
             this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
           }
@@ -595,7 +608,7 @@ export default {
           var indexToReplace = this.findSelectedIndex(this.selectedLink);
           debugger;
           this.currentCardData.availableLinks[indexToReplace] = newElement;
-          mOpts = this.getMenuOpts('setupMenuLink');
+          mOpts = this.getMenuOpts('setupMenuLinkNav');
           this.currentMenuOpts = mOpts.currentMenuOpts;
           this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
           this.mode = this.SHOW_LINKS;
@@ -703,7 +716,7 @@ export default {
         }
         case 'rtnToMenuHome':{
           this.titleMsg='Building a Menu';
-          mOpts = this.getMenuOpts('setupMenuLink');
+          mOpts = this.getMenuOpts('setupMenuLinkNav');
 
           this.currentMenuOpts = mOpts.currentMenuOpts;
           this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
@@ -739,7 +752,7 @@ export default {
         }
         case 'clearLinkList':{
           this.titleMsg='Building a Menu';
-          mOpts = this.getMenuOpts('setupMenuLink');
+          mOpts = this.getMenuOpts('setupMenuLinkNav');
           this.currentMenuOpts = mOpts.currentMenuOpts;
           this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
           this.cmdVersion++;
@@ -754,7 +767,7 @@ export default {
         if(this.currentCardData.availableLinks[l].id==this.selectedLink){
           this.currentCardData.availableLinks[l].description = msg;
           this.titleMsg='Building a Menu';
-          var mOpts = this.getMenuOpts('setupMenuLink');
+          var mOpts = this.getMenuOpts('setupMenuLinkNav');
           this.currentMenuOpts = mOpts.currentMenuOpts;
           this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
           replacementMade = true;
@@ -777,7 +790,7 @@ export default {
 */
 
 
-      var mOpts = this.getMenuOpts('setupMenuLink');
+      var mOpts = this.getMenuOpts('setupMenuLinkNav');
 
       this.currentMenuOpts = mOpts.currentMenuOpts;
       this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
@@ -838,7 +851,7 @@ export default {
       var indexToReplace = this.findSelectedIndex(this.selectedLink);
       debugger;
       this.currentCardData.availableLinks[indexToReplace] = newElement;
-      var mOpts = this.getMenuOpts('setupMenuLink');
+      var mOpts = this.getMenuOpts('setupMenuLinkNav');
       this.currentMenuOpts = mOpts.currentMenuOpts;
       this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
 

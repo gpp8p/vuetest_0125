@@ -19,7 +19,7 @@
 
       </span>
       <span v-if="this.backgroundTypeSelection==this.COLOR_SELECTED || this.backgroundTypeSelection==this.IMAGE_SELECTED" class="pickers">
-            <span v-if="this.backgroundTypeSelection==this.COLOR_SELECTED">
+            <span v-if="this.backgroundTypeSelection==this.COLOR_SELECTED && this.val !='transparent'">
                 <color-picker :currentValues="currentValues" :pType="backgroundColorPtype" @selectedValue="configSelected"></color-picker>
             </span>
             <span v-if="this.backgroundTypeSelection==this.IMAGE_SELECTED" class="imageSelectorStyle">
@@ -125,13 +125,18 @@
                 this.backgroundDisplayType = this.currentValues['backgroundDisplay'];
               }else{
                 this.backgroundTypeSelection = this.COLOR_SELECTED;
-                this.val='color';
+                if(this.currentValues['backgroundColor']=='transparent'){
+                  this.val='transparent';
+                }else{
+                  this.val='color';
+                }
               }
 
             },
             colorSelected(){
                 console.log('color has been selected');
                 this.backgroundTypeSelection = this.COLOR_SELECTED;
+
                 this.$emit('configSelected', ['backgroundTypeColor',this.backgroundTypeSelection] );
             },
             imageSelected(){
