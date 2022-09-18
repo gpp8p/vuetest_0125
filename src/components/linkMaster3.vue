@@ -5,19 +5,16 @@
   </span>
 
   <span class="linkMasterWrapper">
-    <span class="labelPlusInput" >
-      <span>
-        Title:
-      </span>
-      <span class="titleField" v-if="this.mode===this.ADD_LINK">
-        <input v-model="currentCardData.linkMenuTitle" size="55"/>
-      </span>
-      <span class="orient">
-      </span>
+    <span>
+
     </span>
     <span>
       <span v-if="this.mode===this.SHOW_LINKS">
         <link-menu-list :cmd="this.currentCmd" @clearCmd="clearCmd" :key="linkListKey" :currentCardData="this.currentCardData" @linkSelected="linkSelected" ></link-menu-list>
+      </span>
+      <span v-if="this.mode===this.DIALOG_EDIT_TITLE" class="labelPlusInput">
+        <span>Card Title:</span>
+        <input v-model="currentCardData.linkMenuTitle" size="55"/>
       </span>
       <span v-if="this.mode===this.ADD_LINK">
         <link-menu-add
@@ -197,6 +194,7 @@ export default {
       DIALOG_COPY_CLONE:14,
       DIALOG_SELECT_TEMPLATE:15,
       DIALOG_COPY_THIS_PAGE:16,
+      DIALOG_EDIT_TITLE: 25,
 //      DIALOG_SELECT_TEMPLATE_REPLACE:24,
       copyIt:false,
       isPaginated: true,
@@ -224,7 +222,8 @@ export default {
       replacementLink:{},
       selectedLinkDescription:'',
       cloneTemplateMode:'A',
-      linkListKey:0
+      linkListKey:0,
+      titleLabel: 'Card Title'
 
 
 
@@ -472,6 +471,11 @@ export default {
         case 'AddLink':{
           this.selectedLayout={};
           this.mode=this.ADD_LINK;
+          break;
+        }
+        case 'navMenuHeadline':{
+          this.selectedLayout={};
+          this.mode=this.DIALOG_EDIT_TITLE;
           break;
         }
         case 'backToAdd':{
@@ -1185,7 +1189,7 @@ export default {
   grid-template-columns: 10% 50% 40%;
   font-family: Arial;
   font-size: medium;
-  color: #ab97ff;
+  color: #090a4e;
 }
 .orient {
   display: grid;
