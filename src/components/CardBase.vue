@@ -1029,8 +1029,7 @@
                 ['Configure','Configure'],
                 ['Resize/Move', 'Resize'],
                 ['Del','DeleteCard'],
-                ['Edit Headline', 'EditHead'],
-                ['Edit Links', 'EditLinks'],
+                ['Edit', 'EditLinks'],
                 ['Exit', 'exitEdit']
               ],
               currentMenuSelection: 'Configure'
