@@ -81,6 +81,7 @@ export default {
 name: "createLayout",
   components: {backgroundPicker},
   mounted(){
+    this.updatedColor = this.currentValues['backgroundColor'];
     console.log('cmdObjectVersion is', this.cmdObjectVersion);
     this.$emit('childCmd', this.childCmd);
   },
@@ -346,7 +347,7 @@ name: "createLayout",
           permType: this.permType
         }).then(response=>
         {
-//            debugger;
+            debugger;
           this.layoutId=response.data;
           switch(returnMode){
             case(this.RETURN_TO_LINKS):{

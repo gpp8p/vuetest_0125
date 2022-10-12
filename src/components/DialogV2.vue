@@ -150,6 +150,7 @@
             case 'createNewLayout':{
               console.log('createNewLayout invoked via cmd - ', this.cmd);
               this.setTitle('Set Up New Space');
+              this.clearCmd();
               break;
             }
           }
@@ -1007,7 +1008,7 @@
               this.cmd='';
               this.dialogCmd='';
               this.registerCmdVersion++;
-//              this.$emit('clearCmd');
+              this.$emit('clearCmd');
             },
             setChildCmd(msg){
               this.childCmd = msg;

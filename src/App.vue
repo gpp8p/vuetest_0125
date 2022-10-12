@@ -60,9 +60,11 @@ export default {
     if(thisHref.includes('localhost')){
       store.commit('setUrlBase', 'http://localhost:8080/');
       store.commit('setApiBase', 'http://localhost:8000/');
+      store.commit('setHelpUrl', 'http://localhost/spaces/2/54.html')
     }else{
       store.commit('setUrlBase', 'http://sptests.org:8080/');
       store.commit('setApiBase', 'http://sptests.org:8000/');
+      store.commit('setHelpUrl','http://sptests.org/spaces/2/3.html');
     }
 
     var pathArray=this.$route.path.substring(1).split('/');

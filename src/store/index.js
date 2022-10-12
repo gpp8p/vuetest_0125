@@ -26,7 +26,8 @@ export default new Vuex.Store({
             currentLayoutLabel:'',
             urlBase:'',
             apiBase:'',
-            helpUrl:'http://localhost/spaces/2/54.html'
+//            helpUrl:'http://localhost/spaces/2/54.html'
+            helpUrl:''
 
         }
     },

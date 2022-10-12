@@ -35,7 +35,7 @@
         </link-menu-add>
       </span>
       <span v-if="mode==this.CREATE_LAYOUT">
-        <create-layout  :cmd="currentCmd" :cmdObjectVersion = "cmdVersion" @err="createError" @layoutData="layoutData" @editLayoutData="editLayoutData" ></create-layout>
+        <create-layout  :currentValues="newConfigValues" :cmdObjectVersion = "cmdVersion" :cmd="currentCmd" @err="createError" @layoutData="layoutData" @editLayoutData="editLayoutData" ></create-layout>
       </span>
       <span v-if="mode==this.SUBSTITUTE_CREATED_LAYOUT">
         <create-layout  :cmd="currentCmd" :cmdObjectVersion = "cmdVersion" @err="createError" @layoutData="substituteLayoutData" @editLayoutData="editLayoutData"></create-layout>
@@ -223,7 +223,8 @@ export default {
       selectedLinkDescription:'',
       cloneTemplateMode:'A',
       linkListKey:0,
-      titleLabel: 'Card Title'
+      titleLabel: 'Card Title',
+      newConfigValues:{}
 
 
 
@@ -621,14 +622,17 @@ export default {
           break;
         }
         case 'CreateLayout':{
+          console.log('CreateLayout chosen');
           mOpts = this.getMenuOpts('creatingLayout');
-
           this.currentMenuOpts = mOpts.currentMenuOpts;
           this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+          this.newConfigValues['backgroundColor']='#dbddd0';
+          this.newConfigValues['backgroundTypeColor']='checked';
           this.mode=this.CREATE_LAYOUT;
           break;
         }
         case 'CreateLayout_a':{
+          console.log('CreateLayout_a chosen');
           mOpts = this.getMenuOpts('linkSubstitution_create');
           this.currentMenuOpts = mOpts.currentMenuOpts;
           this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
