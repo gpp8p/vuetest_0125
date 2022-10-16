@@ -213,6 +213,7 @@
         },
         watch:{
           cmd: function(){
+//            debugger;
             var apiPath = this.$store.getters.getApiBase;
             console.log('apiPath - ',apiPath);
             console.log('cmd changed in editLayout', this.cmd);

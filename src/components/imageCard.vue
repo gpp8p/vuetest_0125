@@ -46,6 +46,7 @@ export default {
       configurationCurrentValues:{},
       showOptions:false,
       currentMenuOpts:[],
+      fileRole:'imageCardImage'
     }
   },
   methods:{
@@ -79,9 +80,14 @@ export default {
           this.removeCardFromLayout(this.cardId);
           break;
         }
-        case 'DelCardFromDb':
+        case 'DelCardFromDb':{
           this.deleteCardFromDb(this.cardId);
           break;
+        }
+        case 'Cancel':{
+          this.$emit('configSelected',['cancel']);
+          break;
+        }
       }
     },
 

@@ -153,6 +153,14 @@
               this.clearCmd();
               break;
             }
+            case 'imageCard':{
+              this.dialogType=this.DIALOG_CONFIGURE_CARD;
+              this.currentSelectedMenuOption = 'Appearence';
+              mOpts = this.getMenuOpts('imageCardConfig');
+              this.currentMenuOpts = mOpts.currentMenuOpts;
+              this.clearCmd();
+              break;
+            }
           }
           console.log('mOpts -', mOpts);
           this.currentMenuOpts = mOpts.currentMenuOpts;
@@ -177,6 +185,7 @@
                 this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
                 break;
               }
+
             }
 /*
             var cmdElements = this.cmd.split(':');
@@ -878,6 +887,20 @@
                     currentSelectedMenuOption: 'Done'
                   }
                 }
+                case 'imageCardConfig':{
+                  return {
+                    currentMenuOpts:[
+                      ['Appearence','Appearence'],
+                      ['Headline Text', 'Text'] ,
+                      ['Sub Text', 'SubText'],
+                      ['Save','SaveConfiguration'],
+                      ['Cancel', 'Cancel']
+
+                    ],
+                    currentSelectedMenuOption: 'Done'
+                  }
+                }
+
               }
             },
             orgSelected(msg){
