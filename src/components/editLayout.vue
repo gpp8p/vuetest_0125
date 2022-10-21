@@ -119,6 +119,7 @@
                  DIALOG_LAYOUT_LIST:11,
                 DIALOG_INSERT_CARD:12,
                 DIALOG_NEW_LAYOUT:4,
+                IMAGE_CARD_EDIT:25,
 
                 displayStatus:true,
                 dialogKey:0,
@@ -287,6 +288,11 @@
                 this.dialogMode=this.LINK_MENU_EDIT;
                 break;
               }
+              case 'imageCard':{
+                this.cardData = JSON.stringify(msg[0][6]);
+                this.dialogMode = this.IMAGE_CARD_EDIT;
+                break;
+              }
             }
           },
           gotoNewPage(msg){
@@ -316,25 +322,34 @@
               case 'linkMenu':{
                 this.newCardOrientation = 'vertical';
                 this.cardData = JSON.stringify(msg[0][6]);
+                this.RICH_TEXT_EDITOR=true;
                 break;
               }
               case 'Headline':{
                 this.newCardOrientation='horozontal';
                 this.cardData = JSON.stringify(msg[0][6]);
+                this.RICH_TEXT_EDITOR=true;
                 break;
               }
               case 'textShow':{
                 this.cardData = msg[0][3];
+                this.RICH_TEXT_EDITOR=true;
                 break;
               }
               case 'rtLink':{
                 this.cardData = JSON.stringify(msg[0][6]);
+                this.RICH_TEXT_EDITOR=true;
                 console.log('rtLink');
                 break;
               }
+              case 'imageCard':{
+                this.cardData = JSON.stringify(msg[0][6]);
+                this.dialogType = this.IMAGE_CARD_EDIT;
+
+              }
             }
 //            currentCardData:msg[0][6]
-            this.RICH_TEXT_EDITOR=true;
+
 
           },
             cardSaved(msg){

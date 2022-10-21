@@ -38,6 +38,27 @@ export default {
     cardContent:{
       type: Object,
       required:true
+    },
+    cmdObject:{
+      type:Object,
+      required: false
+    },
+    cmdObjectVersion:{
+      type: Number,
+      required:false
+    }
+  },
+  watch :{
+    cmdObjectVersion: function(){
+      debugger;
+      switch(this.cmdObject.action){
+        case 'addLink':{
+ //         var mOpts = this.getMenuOpts('insertLink');
+ //         this.currentMenuOpts = mOpts.currentMenuOpts;
+          this.layoutLink = this.cmdObject.linkedLayoutId;
+          break;
+        }
+      }
     }
   },
   data(){
@@ -46,7 +67,13 @@ export default {
       configurationCurrentValues:{},
       showOptions:false,
       currentMenuOpts:[],
-      fileRole:'imageCardImage'
+      fileRole:'imageCardImage',
+      cardTitle:'',
+      styling: {},
+      layoutLink:0,
+      subContentStyling:{
+        sub:{}
+      },
     }
   },
   methods:{
@@ -58,6 +85,11 @@ export default {
           console.log('child cmd in imageCard');
         }
       }
+    },
+    editClicked(){
+      debugger;
+      this.loadCardConfiguration(this.cardId);
+      this.$emit('textEditor', [this.cardKey, this.setCardData,this.configurationCurrentValues, this.cardData, this.cardId, 'imageCard', this.cardContent]);
     },
     menuOptSelected(msg){
       console.log('menuOptSelected in imageCard -', msg);
@@ -86,6 +118,14 @@ export default {
         }
         case 'Cancel':{
           this.$emit('configSelected',['cancel']);
+          break;
+        }
+        case 'editImage':{
+          this.editClicked();
+          break;
+        }
+        case 'linkImage':{
+          this.$emit('configSelected',['rtLink']);
           break;
         }
       }

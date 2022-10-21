@@ -561,6 +561,7 @@ export default {
       this.$emit('clearCmd');
     },
     saveLayoutLink(targetId, targetDescription){
+      debugger;
       var urlBase = this.$store.getters.getUrlBase;
       var targetUrl = urlBase+targetId;
       var apiPath = this.$store.getters.getApiBase;

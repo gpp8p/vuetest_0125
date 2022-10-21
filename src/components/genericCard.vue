@@ -99,8 +99,11 @@
                   :card-id=cardId
                   :yturl="cardContent.ytubeUrl"
                   :cardContent="cardContent"
+                  :cmdObject="cmdObject"
+                  :cmdObjectVersion="cmdObjectVersion"
                   @configSelected="configSelected"
                   @cardClick="processCardClick"
+                  @textEditor="textEditor"
                   @ghostCard="ghostCard"
                   @configurationHasBeenSaved="configurationHasBeenSaved"
                   @cardPropertySet="cardPropertySet"

@@ -1054,6 +1054,7 @@
                 ['Resize/Move', 'Resize'],
                 ['Del', 'DeleteCard'],
                 ['Edit','editImage'],
+                ['Link', 'linkImage']
               ],
               currentMenuSelection: 'Configure'
             }

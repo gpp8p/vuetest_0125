@@ -80,6 +80,10 @@
                         :sourceTemplateId = "this.selectedTemplateId"
         ></clone-template>
         <register-restrict v-if="dialogType==this.DIALOG_REGISTER_RESTRICT" :org="this.selectedOrgId" @allowedRegistrantSaved="allowedRegistrantSaved" @childCmd="setChildCmd" @allowedMemberSelected="allowedMemberSelected" ></register-restrict>
+        <image-card-editor v-if="dialogType==this.IMAGE_CARD_EDIT"
+               :cmd="cmd"
+               :cmdObjectVersion="cmdObjectVersion"
+        ></image-card-editor>
       </div>
       <div class="dialogComponentFooter">
           <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -105,13 +109,14 @@
     import selectTemplate from "../components/selectTemplate.vue";
     import cloneTemplate from "./cloneTemplate.vue";
     import registerRestrict from "./registerRestrict.vue";
+    import imageCardEditor from "./imageCardEditor";
 
 
  //   import store from "@/store";
     import RegisterUser from "@/components/registerUser";
     export default {
         name: "Dialog",
-        components :{RegisterUser, menuOpt, newCardCreate, newLayout, AreYouSure, PermList, organizations, userExists, cardConfigurationSettings, layoutList, insertCardSelect, selectTemplate, cloneTemplate, registerRestrict},
+        components :{RegisterUser, menuOpt, newCardCreate, newLayout, AreYouSure, PermList, organizations, userExists, cardConfigurationSettings, layoutList, insertCardSelect, selectTemplate, cloneTemplate, registerRestrict, imageCardEditor},
         props:{
             dialogType:{
                 type: Number,
@@ -894,10 +899,11 @@
                       ['Headline Text', 'Text'] ,
                       ['Sub Text', 'SubText'],
                       ['Save','SaveConfiguration'],
+                      ['Image', 'imageStyle'],
                       ['Cancel', 'Cancel']
 
                     ],
-                    currentSelectedMenuOption: 'Done'
+                    currentSelectedMenuOption: 'Appearence'
                   }
                 }
 
@@ -1065,6 +1071,7 @@
                 DIALOG_SELECT_TEMPLATE:13,
                 DIALOG_CLONE_TEMPLATE:14,
                 DIALOG_REGISTER_RESTRICT:15,
+                IMAGE_CARD_EDIT:25,
                 titleMsg:'',
 
                 sureMsg:'',
