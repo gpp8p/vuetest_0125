@@ -9,6 +9,7 @@
 <script>
 import CardBase from "@/components/CardBase";
 import menuOpt from "../components/menuOptV2.vue";
+import axios from "axios";
 
 export default {
   name: "imageCard",
@@ -56,6 +57,7 @@ export default {
  //         var mOpts = this.getMenuOpts('insertLink');
  //         this.currentMenuOpts = mOpts.currentMenuOpts;
           this.layoutLink = this.cmdObject.linkedLayoutId;
+          this.saveLayoutLink(this.cmdObject.linkedLayoutId);
           break;
         }
       }
@@ -71,6 +73,7 @@ export default {
       cardTitle:'',
       styling: {},
       layoutLink:0,
+      content:{},
       subContentStyling:{
         sub:{}
       },
@@ -130,6 +133,34 @@ export default {
         }
       }
     },
+    saveLayoutLink(targetId){
+      debugger;
+      var urlBase = this.$store.getters.getUrlBase;
+      var targetUrl = urlBase+targetId;
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+      axios.post(apiPath+'api/shan/createNewLink?XDEBUG_SESSION_START=17516', {
+
+//      axios.post('http://localhost:8000/api/shan/createNewLink?XDEBUG_SESSION_START=17516', {
+        org_id: this.$store.getters.getOrgId,
+        layout_id: this.$store.getters.getCurrentLayoutId,
+        card_instance_id:this.cardId,
+        is_external:0,
+        layout_link_to:targetId,
+        linkUrl:targetUrl,
+        type:'U'
+      }).then(response=>
+      {
+        console.log(response);
+        if(response.data=='ok'){
+          this.mode=this.DIALOG_OFF;
+          this.$emit('configSelected',['reload']);
+        }
+      }).catch(function(error) {
+        console.log(error);
+      });
+
+    }
 
 
 
