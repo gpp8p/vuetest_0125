@@ -1,5 +1,6 @@
 <template>
-  <span>
+  <span class="fileSelectorCss">
+    <span class="uploadLabel">Upload Image:</span>
     <file-upload :fileRole="this.fileRole" :pType="this.fileRole" :currentValues="currentValues"  @fileAlreadySelected="fileAlreadySelected" @selectedValue="fileSelected"></file-upload>
   </span>
 </template>
@@ -37,5 +38,15 @@ name: "imageCardEditor",
 </script>
 
 <style scoped>
+  .fileSelectorCss {
+    display: grid;
+    grid-template-columns: 30% 70%;
+    font-family: Geneva;
+    font-size:medium;
+    color: blue;
+  }
+  .uploadLabel {
+    padding-top: 10px;
+  }
 
 </style>
