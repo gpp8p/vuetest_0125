@@ -28,7 +28,9 @@ name: "imageCardEditor",
   },
   methods:{
     fileSelected(msg){
+      debugger;
       console.log('image file selected-', msg);
+      this.$emit('configSelected', ['imageCardImage',msg[1], 'main']);
     },
     fileAlreadySelecte(msg){
       console.log('image file already selected-', msg);

@@ -345,6 +345,8 @@
               case 'imageCard':{
                 this.cardData = JSON.stringify(msg[0][6]);
                 this.dialogType = this.IMAGE_CARD_EDIT;
+                this.cardDataFunction = msg[0][1];
+
 
               }
             }
@@ -672,7 +674,7 @@
                     }
                     default:{
                       console.log('configSelected in editLayout- default-',msg);
-//                      debugger;
+                      debugger;
                       var cdElement = msg[0];
                       var cData = msg[1];
                       var domElement = msg[2];

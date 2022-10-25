@@ -82,7 +82,10 @@
         <register-restrict v-if="dialogType==this.DIALOG_REGISTER_RESTRICT" :org="this.selectedOrgId" @allowedRegistrantSaved="allowedRegistrantSaved" @childCmd="setChildCmd" @allowedMemberSelected="allowedMemberSelected" ></register-restrict>
         <image-card-editor v-if="dialogType==this.IMAGE_CARD_EDIT"
                :cmd="cmd"
+               @textEdit="textEdit"
                :cmdObjectVersion="cmdObjectVersion"
+                @configSelected="configSelected"
+
         ></image-card-editor>
       </div>
       <div class="dialogComponentFooter">
@@ -160,6 +163,7 @@
             }
             case 'imageCard':{
               this.dialogType=this.DIALOG_CONFIGURE_CARD;
+              this.setTitle('Set Up Card');
               this.currentSelectedMenuOption = 'Appearence';
               mOpts = this.getMenuOpts('imageCardConfig');
               this.currentMenuOpts = mOpts.currentMenuOpts;
@@ -216,6 +220,10 @@
             showError(msg){
               debugger;
               this.setTitle(msg);
+            },
+            textEdit(msg){
+              debugger;
+              this.$emit('editClick', msg);
             },
             cardSaved(msg){
               this.$emit('cardSaved', msg);

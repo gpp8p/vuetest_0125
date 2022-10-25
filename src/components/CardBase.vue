@@ -77,6 +77,13 @@
             this.$emit('cardPropertySet',[backGroundImageReference, cardDataElement]);
             break;
 
+          case 'imageCardImage':{
+            this.content.imageUrl = cardData;
+            this.imgKey++;
+            this.imagePresent=true;
+            break;
+          }
+
           case "fontFamily":
 //            this.$el.style.fontFamily=cardData;
             this.configurationCurrentValues['fontFamily']=cardData;

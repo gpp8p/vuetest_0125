@@ -3,6 +3,9 @@
     <div class="cardHeader" v-if="this.showOptions==true">
       <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
     </div>
+    <span v-if="this.imagePresent==true">
+      <img :src="this.content.imageUrl" :key="this.imgKey"/>
+    </span>
   </span>
 </template>
 
@@ -61,7 +64,7 @@ export default {
           break;
         }
       }
-    }
+    },
   },
   data(){
     return {
@@ -77,6 +80,13 @@ export default {
       subContentStyling:{
         sub:{}
       },
+      imagePresent: false,
+      imgKey:0
+    }
+  },
+  computed: {
+    getImageUrl: function() {
+      return this.content.imageUrl;
     }
   },
   methods:{
