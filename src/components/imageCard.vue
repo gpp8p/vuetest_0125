@@ -63,6 +63,14 @@ export default {
           this.saveLayoutLink(this.cmdObject.linkedLayoutId);
           break;
         }
+        case 'saveImageEdit':{
+          console.log('cmdObjectVersion changed in image card -saveImageEdit', this.cmdObjectVersion);
+          this.content.imageTitle = this.cmdObject.imageTitle;
+          this.content.imageDescription = this.cmdObject.imageDescription;
+          this.content.cardType = "imageCard";
+          this.setCardData(this.content, 'saveCardContent', 'main');
+          break;
+        }
       }
     },
   },

@@ -49,6 +49,7 @@
                  @cardSaved="cardSaved"
                  @cloneSuccessful="cloneSuccessful"
                  :cmd="dialogCmd"
+                 :cmdObject = "cmdObject"
                  :cmdObjectVersion="cmdObjectVersion"
                  v-bind:style='this.dialogStyleObject'
         ></Dialog>
@@ -140,6 +141,7 @@
                 dialogCmd:'',
                 cardCmd:'',
                 rtCmd:'',
+
 
 
 
@@ -288,11 +290,13 @@
                 this.dialogMode=this.LINK_MENU_EDIT;
                 break;
               }
+/*
               case 'imageCard':{
                 this.cardData = JSON.stringify(msg[0][6]);
                 this.dialogMode = this.IMAGE_CARD_EDIT;
                 break;
               }
+*/
             }
           },
           gotoNewPage(msg){
@@ -346,6 +350,7 @@
                 this.cardData = JSON.stringify(msg[0][6]);
                 this.dialogType = this.IMAGE_CARD_EDIT;
                 this.cardDataFunction = msg[0][1];
+                this.dialogCmd = "imageCardEditEntry";
 
 
               }
@@ -671,6 +676,18 @@
 //                      this.insertCard(currentLayoutId, msg[1], msg[2], this.topLeftRow, this.topLeftCol, this.bottomRightRow, this.bottomRightCol);
                       break;
 
+                    }
+                    case 'saveImageEdit':{
+                      debugger;
+                      this.cmdObject={};
+                      this.cmdObject.action = 'saveImageEdit';
+                      this.cmdObject.imageUrl = msg[1];
+                      this.cmdObject.imageTitle = msg[2];
+                      this.cmdObject.imageDescription = msg[3];
+                      this.cmdObjectVersion+=1;
+
+
+                      break;
                     }
                     default:{
                       console.log('configSelected in editLayout- default-',msg);

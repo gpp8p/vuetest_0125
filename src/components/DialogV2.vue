@@ -84,6 +84,7 @@
                :cmd="cmd"
                @textEdit="textEdit"
                :cmdObjectVersion="cmdObjectVersion"
+               :cmdObject= "cmdObject"
                 @configSelected="configSelected"
 
         ></image-card-editor>
@@ -118,85 +119,115 @@
  //   import store from "@/store";
     import RegisterUser from "@/components/registerUser";
     export default {
-        name: "Dialog",
-        components :{RegisterUser, menuOpt, newCardCreate, newLayout, AreYouSure, PermList, organizations, userExists, cardConfigurationSettings, layoutList, insertCardSelect, selectTemplate, cloneTemplate, registerRestrict, imageCardEditor},
-        props:{
-            dialogType:{
-                type: Number,
-                required: true
-            },
-            currentValues:{
-              type: Object,
-              required:true
-            },
-          subElementValues:{
-              type: Object,
-              required: false
-          },
-          dialogKey:{
-            type: Number,
-            required:true
-          },
-          cmd:{
-            type: String,
-            required: true
-          },
-          cmdObjectVersion:{
-            type: Number,
-            required:false
-          },
-          selectedCardConfigurationValues:{
-              type: Object,
-              required: true
-          }
+      name: "Dialog",
+      components: {
+        RegisterUser,
+        menuOpt,
+        newCardCreate,
+        newLayout,
+        AreYouSure,
+        PermList,
+        organizations,
+        userExists,
+        cardConfigurationSettings,
+        layoutList,
+        insertCardSelect,
+        selectTemplate,
+        cloneTemplate,
+        registerRestrict,
+        imageCardEditor
+      },
+      props: {
+        dialogType: {
+          type: Number,
+          required: true
         },
-        mounted(){
-          debugger;
-          console.log('Dialog2 mounted');
-          var mOpts = this.getMenuOpts(this.cmd);
-          switch(this.cmd){
-            case 'createNewLayout':{
-              console.log('createNewLayout invoked via cmd - ', this.cmd);
-              this.setTitle('Set Up New Space');
-              this.clearCmd();
-              break;
-            }
-            case 'imageCard':{
-              this.dialogType=this.DIALOG_CONFIGURE_CARD;
-              this.setTitle('Set Up Card');
-              this.currentSelectedMenuOption = 'Appearence';
-              mOpts = this.getMenuOpts('imageCardConfig');
-              this.currentMenuOpts = mOpts.currentMenuOpts;
-              this.clearCmd();
-              break;
-            }
-          }
-          console.log('mOpts -', mOpts);
-          this.currentMenuOpts = mOpts.currentMenuOpts;
-          this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+        currentValues: {
+          type: Object,
+          required: true
         },
-        watch:{
-          dialogType: function(){
-            console.log('dialogType changed -',this.dialogType);
+        subElementValues: {
+          type: Object,
+          required: false
+        },
+        dialogKey: {
+          type: Number,
+          required: true
+        },
+        cmd: {
+          type: String,
+          required: true
+        },
+        cmdObject: {
+          type: Object,
+          required: false
+        },
+        cmdObjectVersion: {
+          type: Number,
+          required: false
+        },
+        selectedCardConfigurationValues: {
+          type: Object,
+          required: true
+        }
+      },
+      mounted() {
+        debugger;
+        console.log('Dialog2 mounted');
+        var mOpts = this.getMenuOpts(this.cmd);
+        switch (this.cmd) {
+          case 'createNewLayout': {
+            console.log('createNewLayout invoked via cmd - ', this.cmd);
+            this.setTitle('Set Up New Space');
+            this.clearCmd();
+            break;
+          }
+          case 'imageCard': {
+            this.dialogType = this.DIALOG_CONFIGURE_CARD;
+            this.setTitle('Set Up Card');
+            this.currentSelectedMenuOption = 'Appearence';
+            mOpts = this.getMenuOpts('imageCardConfig');
+            this.currentMenuOpts = mOpts.currentMenuOpts;
+            this.clearCmd();
+            break;
+          }
+          case'imageCardEditEntry': {
+            this.setTitle('Edit Card Content');
+            this.currentSelectedMenuOption = 'Cancel';
+            mOpts = this.getMenuOpts('imageCardContentEdit');
+            this.currentMenuOpts = mOpts.currentMenuOpts;
+            this.clearCmd();
+            break;
+          }
+        }
+        console.log('mOpts -', mOpts);
+        this.currentMenuOpts = mOpts.currentMenuOpts;
+        this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+      },
+      watch: {
+        dialogType: function () {
+          console.log('dialogType changed -', this.dialogType);
 
 //            debugger;
 
-            }
+        },
 
-          },
-          cmd: function(){
-            debugger;
-            console.log('Dialog cmd changed:',this.cmd);
-            switch(this.cmd){
-              case 'insertCard':{
-                var mOpts = this.getMenuOpts('insertCard');
-                this.currentMenuOpts = mOpts.currentMenuOpts;
-                this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
-                break;
-              }
+//      },
 
-            }
-/*
+      cmd: function () {
+        debugger;
+        console.log('Dialog cmd changed:', this.cmd);
+        switch (this.cmd) {
+          case 'insertCard': {
+            var mOpts = this.getMenuOpts('insertCard');
+            this.currentMenuOpts = mOpts.currentMenuOpts;
+            this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
+            break;
+          }
+
+        }
+
+        /*
             var cmdElements = this.cmd.split(':');
             switch(cmdElements[0]){
               case 'setMenu':{
@@ -210,7 +241,8 @@
             }
  */
 
-        },
+      },
+    },
       computed: {
         currentCmd: function() {
           return this.cmd;
@@ -483,6 +515,12 @@
                 }
                 case 'deleteAllowedMember':{
                   this.childCmd('deleteAllowedMember');
+                  break;
+                }
+                case 'SaveImageCardContent':{
+                  debugger;
+                  this.cmd='saveImageEdit';
+                  this.cmdObjectVersion=+1;
                   break;
                 }
                 default:{
@@ -900,6 +938,17 @@
                     currentSelectedMenuOption: 'Done'
                   }
                 }
+                case 'imageCardContentEdit':{
+                  return {
+                    currentMenuOpts:[
+                      ['Save','SaveImageCardContent'],
+                      ['Cancel', 'Cancel']
+
+                    ],
+                    currentSelectedMenuOption: 'Cancel'
+                  }
+                }
+
                 case 'imageCardConfig':{
                   return {
                     currentMenuOpts:[
