@@ -348,9 +348,12 @@
               }
               case 'imageCard':{
                 this.cardData = JSON.stringify(msg[0][6]);
-                this.dialogType = this.IMAGE_CARD_EDIT;
                 this.cardDataFunction = msg[0][1];
                 this.dialogCmd = "imageCardEditEntry";
+                this.cmdObject = msg[0][6];
+                this.cmdObject.cardId = this.selectedCardId;
+                this.dialogType = this.IMAGE_CARD_EDIT;
+//                this.cmdObjectVersion++;
 
 
               }
@@ -684,6 +687,8 @@
                       this.cmdObject.imageUrl = msg[1];
                       this.cmdObject.imageTitle = msg[2];
                       this.cmdObject.imageDescription = msg[3];
+                      this.cmdObject.cardFormat = msg[4];
+                      this.cmdObject.imageCardId = msg[5];
                       this.cmdObjectVersion+=1;
 
 

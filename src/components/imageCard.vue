@@ -1,11 +1,11 @@
 <template>
-  <span>
+  <span class="carWrapper">
     <div class="cardHeader" v-if="this.showOptions==true">
       <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
     </div>
-    <span v-if="this.imagePresent==true">
-      <img :src="this.content.imageUrl" :key="this.imgKey"/>
-    </span>
+    <div class="center">
+      {{this.cardContent.imageTitle}}
+    </div>
   </span>
 </template>
 
@@ -64,11 +64,15 @@ export default {
           break;
         }
         case 'saveImageEdit':{
-          console.log('cmdObjectVersion changed in image card -saveImageEdit', this.cmdObjectVersion);
-          this.content.imageTitle = this.cmdObject.imageTitle;
-          this.content.imageDescription = this.cmdObject.imageDescription;
-          this.content.cardType = "imageCard";
-          this.setCardData(this.content, 'saveCardContent', 'main');
+          debugger;
+          if(this.cmdObject.imageCardId == this.cardId){
+            console.log('cmdObjectVersion changed in image card -saveImageEdit', this.cmdObjectVersion);
+            this.content.imageTitle = this.cmdObject.imageTitle;
+            this.content.imageDescription = this.cmdObject.imageDescription;
+            this.content.cardFormat = this.cmdObject.cardFormat;
+            this.content.cardType = "imageCard";
+            this.setCardData(this.content, 'saveCardContent', 'main');
+          }
           break;
         }
       }
@@ -110,7 +114,7 @@ export default {
     editClicked(){
       debugger;
       this.loadCardConfiguration(this.cardId);
-      this.$emit('textEditor', [this.cardKey, this.setCardData,this.configurationCurrentValues, this.cardData, this.cardId, 'imageCard', this.cardContent]);
+      this.$emit('textEditor', [this.cardKey, this.setCardData,this.configurationCurrentValues, this.cardData, this.cardId, 'imageCard', this.cardContent, this.cardId]);
     },
     menuOptSelected(msg){
       console.log('menuOptSelected in imageCard -', msg);
@@ -187,7 +191,10 @@ export default {
 </script>
 
 <style scoped>
-
+.imageOnly{
+  max-width: 100%;
+  max-height:100%;
+}
 .cardHeader {
   display: flex;
   justify-content: space-evenly;
@@ -201,4 +208,14 @@ export default {
   font-style: normal;
   font-weight: bold;
 }
+.center {
+  margin-top: 40%;
+  margin-bottom: auto;
+}
+.cardWrapper {
+  height: 100%;
+  width:100%;
+}
+
+
 </style>
