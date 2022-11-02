@@ -59,19 +59,19 @@ export default {
         case 'addLink':{
  //         var mOpts = this.getMenuOpts('insertLink');
  //         this.currentMenuOpts = mOpts.currentMenuOpts;
+          debugger;
           this.layoutLink = this.cmdObject.linkedLayoutId;
-          this.saveLayoutLink(this.cmdObject.linkedLayoutId);
+          this.setCardData(this.layoutLink, 'imageLink', 'main');
           break;
         }
         case 'saveImageEdit':{
           debugger;
           if(this.cmdObject.imageCardId == this.cardId){
+            debugger;
             console.log('cmdObjectVersion changed in image card -saveImageEdit', this.cmdObjectVersion);
             this.content.imageTitle = this.cmdObject.imageTitle;
-            this.content.imageDescription = this.cmdObject.imageDescription;
-            this.content.cardFormat = this.cmdObject.cardFormat;
             this.content.cardType = "imageCard";
-            this.setCardData(this.content, 'saveCardContent', 'main');
+            this.saveLayoutLink(this.layoutLink);
           }
           break;
         }
@@ -161,9 +161,7 @@ export default {
       var targetUrl = urlBase+targetId;
       var apiPath = this.$store.getters.getApiBase;
       console.log('apiPath - ',apiPath);
-      axios.post(apiPath+'api/shan/createNewLink?XDEBUG_SESSION_START=17516', {
-
-//      axios.post('http://localhost:8000/api/shan/createNewLink?XDEBUG_SESSION_START=17516', {
+      axios.post(apiPath+'api/shan/addUpdateLink?XDEBUG_SESSION_START=17516', {
         org_id: this.$store.getters.getOrgId,
         layout_id: this.$store.getters.getCurrentLayoutId,
         card_instance_id:this.cardId,
@@ -175,8 +173,8 @@ export default {
       {
         console.log(response);
         if(response.data=='ok'){
-          this.mode=this.DIALOG_OFF;
-          this.$emit('configSelected',['reload']);
+          console.log('link added');
+
         }
       }).catch(function(error) {
         console.log(error);

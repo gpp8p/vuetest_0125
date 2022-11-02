@@ -30,6 +30,11 @@
             this.content.title = "title:"+cardData;
             delete this.styling.title;
             break;
+          case 'imageHeadline':{
+            this.cardContent.imageTitle = cardData;
+            this.configurationCurrentValues['imageHeadline']=cardData;
+            break;
+          }
           case "cardText":
             this.cardData=cardData;
             this.content.cardText = "cardText:"+cardData;
@@ -77,10 +82,8 @@
             this.$emit('cardPropertySet',[backGroundImageReference, cardDataElement]);
             break;
 
-          case 'imageCardImage':{
-            this.content.imageUrl = cardData;
-            this.imgKey++;
-            this.imagePresent=true;
+          case 'imageLink':{
+            this.content.imageLink = data;
             break;
           }
 
@@ -710,6 +713,7 @@
           this.setCardData,
           this.cardConfiguration,
           this.configurationCurrentValues,
+          this.cardId
         ]);
 
 

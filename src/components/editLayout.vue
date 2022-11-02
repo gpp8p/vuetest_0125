@@ -626,10 +626,19 @@
                       this.$emit('tabSelected', 'Exit');
                       break;
                     }
-
+                    case 'imageLinkSaved':{
+                      this.dialogType = 0;
+                      break;
+                    }
                     case 'save':{
                       this.dialogType=0;
                       this.cardDataFunction("", "saveConfiguration","main");
+                      break;
+                    }
+                    case 'saveImageCard':{
+                      debugger;
+                      this.cardDataFunction("", "saveConfiguration","main");
+                      this.cardDataFunction("", "saveCardContent","main");
                       break;
                     }
                     case 'layoutList':{
@@ -684,21 +693,25 @@
                       debugger;
                       this.cmdObject={};
                       this.cmdObject.action = 'saveImageEdit';
-                      this.cmdObject.imageUrl = msg[1];
-                      this.cmdObject.imageTitle = msg[2];
-                      this.cmdObject.imageDescription = msg[3];
-                      this.cmdObject.cardFormat = msg[4];
-                      this.cmdObject.imageCardId = msg[5];
+                      this.cmdObject.imageTitle = msg[1];
+                      this.cmdObject.imageCardId = msg[2];
                       this.cmdObjectVersion+=1;
 
 
                       break;
                     }
+                    case 'imageHeadline':{
+                      console.log('configSelected in editLayout',msg);
+                      var cdElement = msg[0];
+                      var cData = msg[1];
+                      this.cardDataFunction(cData, cdElement, 'main');
+                      break;
+                    }
                     default:{
                       console.log('configSelected in editLayout- default-',msg);
                       debugger;
-                      var cdElement = msg[0];
-                      var cData = msg[1];
+                      cdElement = msg[0];
+                      cData = msg[1];
                       var domElement = msg[2];
                       this.cardDataFunction(cData, cdElement, domElement);
 
@@ -784,7 +797,8 @@
                       screenElementBeingConfigured: msg[0][4],
                       cardDataFunction: msg[0][3],
                       cardConfigurationElements:msg[0][4],
-                      cardCurrentConfigurationValues:msg[0][5]
+                      cardCurrentConfigurationValues:msg[0][5],
+                      cardId:msg[0][6]
                     }
                     this.dialogType=this.DIALOG_CONFIGURE_CARD;
                     this.dialogCmd=msg[0][2];

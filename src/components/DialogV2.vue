@@ -80,14 +80,7 @@
                         :sourceTemplateId = "this.selectedTemplateId"
         ></clone-template>
         <register-restrict v-if="dialogType==this.DIALOG_REGISTER_RESTRICT" :org="this.selectedOrgId" @allowedRegistrantSaved="allowedRegistrantSaved" @childCmd="setChildCmd" @allowedMemberSelected="allowedMemberSelected" ></register-restrict>
-        <image-card-editor v-if="dialogType==this.IMAGE_CARD_EDIT"
-               :cmd="cmd"
-               @textEdit="textEdit"
-               :cmdObjectVersion="cmdObjectVersion"
-               :cmdObject= "cmdObject"
-                @configSelected="configSelected"
 
-        ></image-card-editor>
       </div>
       <div class="dialogComponentFooter">
           <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -113,7 +106,7 @@
     import selectTemplate from "../components/selectTemplate.vue";
     import cloneTemplate from "./cloneTemplate.vue";
     import registerRestrict from "./registerRestrict.vue";
-    import imageCardEditor from "./imageCardEditor";
+
 
 
  //   import store from "@/store";
@@ -134,8 +127,7 @@
         insertCardSelect,
         selectTemplate,
         cloneTemplate,
-        registerRestrict,
-        imageCardEditor
+        registerRestrict
       },
       props: {
         dialogType: {
@@ -272,6 +264,7 @@
             },
             configSelected(msg){
                 this.dialogDataChanged = true;
+                console.log('configSelected in DialogV2', msg);
                 this.$emit('configSelected', msg);
             },
             handleDragStart(evt){
@@ -397,6 +390,11 @@
                   this.$emit('configSelected', ['save']);
                   break;
                 }
+                case 'saveImageCard':{
+                  debugger;
+                  this.$emit('configSelected', ['saveImageEdit', this.currentValues.imageHeadline, this.selectedCardConfigurationValues.cardId]);
+                  break;
+                }
                 case 'SaveOrganization':{
                   this.cmd = 'newOrg';
                   break;
@@ -517,12 +515,28 @@
                   this.childCmd('deleteAllowedMember');
                   break;
                 }
+/*
                 case 'SaveImageCardContent':{
                   debugger;
                   this.cmd='saveImageEdit';
                   this.cmdObjectVersion=+1;
                   break;
                 }
+*/
+/*
+                case 'imageCardLink':{
+                  debugger;
+                  this.dialogType = this.DIALOG_LAYOUT_LIST;
+//                  this.$emit('clearCmd');
+                  break;
+                }
+                case 'imageCardHeadline':{
+                  debugger;
+                  this.dialogType = this.IMAGE_CARD_EDIT;
+//                  this.$emit('clearCmd');
+                  break;
+                }
+*/
                 default:{
                   this.currentSelectedMenuOption = msg;
                   this.cmd = msg;
@@ -952,11 +966,11 @@
                 case 'imageCardConfig':{
                   return {
                     currentMenuOpts:[
-                      ['Appearence','Appearence'],
-                      ['Headline Text', 'Text'] ,
-                      ['Sub Text', 'SubText'],
-                      ['Save','SaveConfiguration'],
-                      ['Image', 'imageStyle'],
+                      ['Card Appearence','Appearence'],
+                      ['Font Setup', 'Text'] ,
+                      ['Headline', 'imageCardHeadline'],
+                      ['Save','saveImageCard'],
+                      ['Link', 'imageCardLink'],
                       ['Cancel', 'Cancel']
 
                     ],
