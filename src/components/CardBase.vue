@@ -83,7 +83,7 @@
             break;
 
           case 'imageLink':{
-            this.content.imageLink = data;
+            this.content.imageLink = cardData;
             break;
           }
 

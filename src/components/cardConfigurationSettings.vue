@@ -96,6 +96,9 @@ import layoutList from "../components/layoutList.vue";
       configSelected(msg){
         console.log('configSelected in cardConfigurationSettings', msg);
         this.$emit('configSelected', msg);
+      },
+      spaceSelected(msg){
+        this.$emit('configSelected', ['layoutSelected', msg]);
       }
     }
 

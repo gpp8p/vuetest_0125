@@ -65,7 +65,7 @@
                        @clearCmd="clearCmd"
                        @registrationSaved="registrationSaved"
             ></organizations>
-        <layout-list v-if="dialogType==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected"></layout-list>
+        <layout-list v-if="dialogType==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected" ></layout-list>
         <insert-card-select :cmd = "cmd" v-if="dialogType==this.DIALOG_INSERT_CARD" @cardSaved="cardSaved"></insert-card-select>
         <select-template :cmd = "cmd" v-if="dialogType==this.DIALOG_SELECT_TEMPLATE" @templateSelected="templateSelected" ></select-template>
         <clone-template :cmd = "dialogCmd"
@@ -263,6 +263,7 @@
                 this.$emit('configSelected', ['save']);
             },
             configSelected(msg){
+              debugger;
                 this.dialogDataChanged = true;
                 console.log('configSelected in DialogV2', msg);
                 this.$emit('configSelected', msg);
@@ -272,6 +273,8 @@
                 this.$emit('dragStart',[evt.screenX, evt.screenY])
             },
             spaceSelected(msg){
+              console.log('spaceSelected happened');
+              debugger;
               this.$emit('configSelected', ['layoutSelected',msg])
             },
             layoutData(msg){

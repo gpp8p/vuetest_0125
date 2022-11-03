@@ -59,9 +59,12 @@ export default {
         case 'addLink':{
  //         var mOpts = this.getMenuOpts('insertLink');
  //         this.currentMenuOpts = mOpts.currentMenuOpts;
-          debugger;
-          this.layoutLink = this.cmdObject.linkedLayoutId;
-          this.setCardData(this.layoutLink, 'imageLink', 'main');
+          if(this.cmdObject.imageCardId == this.cardId){
+            debugger;
+            this.layoutLink = this.cmdObject.linkedLayoutId;
+            this.setCardData(this.layoutLink, 'imageLink', 'main');
+          }
+
           break;
         }
         case 'saveImageEdit':{
@@ -71,6 +74,7 @@ export default {
             console.log('cmdObjectVersion changed in image card -saveImageEdit', this.cmdObjectVersion);
             this.content.imageTitle = this.cmdObject.imageTitle;
             this.content.cardType = "imageCard";
+            this.content.layoutLink = this.layoutLink;
             this.saveLayoutLink(this.layoutLink);
           }
           break;
@@ -174,6 +178,7 @@ export default {
         console.log(response);
         if(response.data=='ok'){
           console.log('link added');
+          this.setData(this.content, 'saveCardContent', 'main');
 
         }
       }).catch(function(error) {

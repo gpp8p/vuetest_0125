@@ -597,6 +597,7 @@
                       this.cmdObject = {};
                       this.cmdObject.action = 'addLink';
                       this.cmdObject.linkedLayoutId = msg[1];
+                      this.cmdObject.imageCardId = this.selectedCardConfigurationValues.cardId;
                       this.cmdObjectVersion+=1;
                       this.dialogType = 0;
 //                      this.cardCmd = JSON.stringify(cmdObject);
