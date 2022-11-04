@@ -10,7 +10,7 @@
       <LinkMenuConfiguration :currentValues="subElementValues" :domElement="subDomElement" :dialogKey="dialogKey" @configSelected="configSelected"></LinkMenuConfiguration>
     </span>
     <span>
-      <layout-list v-if="selectedMenuOption=='imageCardLink'" :cmd="cmd" @spaceSelected="spaceSelected"></layout-list>
+      <layout-list v-if="selectedMenuOption=='imageCardLink'" :cmd="cmd" :selectedRow="selectedLayoutRow" @spaceSelected="spaceSelected"></layout-list>
     </span>
     <span>
       <image-card-headline v-if="selectedMenuOption=='imageCardHeadline'" :currentValues="currentValues" :domElement="mainDomElement" :dialogKey="dialogKey" @configSelected="configSelected"></image-card-headline>
@@ -33,9 +33,8 @@ import layoutList from "../components/layoutList.vue";
         checkboxCustom: 'Yes',
         isClicked: false,
         mainDomElement: 'main',
-        subDomElement: 'sub'
-//        menuOptions: ['Appearence', 'Text', 'Save', 'Cancel' ],
-//        openMenuOption:'Appearence'
+        subDomElement: 'sub',
+        selectedLayoutRow:{}
       }
     },
     mounted(){
@@ -76,6 +75,7 @@ import layoutList from "../components/layoutList.vue";
         required: false
       },
     },
+
     watch:{
       selectedMenuOption: function(){
         this.openMenuOption = this.selectedMenuOption;
@@ -98,6 +98,9 @@ import layoutList from "../components/layoutList.vue";
         this.$emit('configSelected', msg);
       },
       spaceSelected(msg){
+        debugger;
+        console.log('imageLinkSelected', msg);
+        this.selectedLayoutRow = msg;
         this.$emit('configSelected', ['imageLinkSelected', msg]);
       }
     }

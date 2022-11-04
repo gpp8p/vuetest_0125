@@ -588,8 +588,10 @@
                       debugger;
                       this.cmdObject = {};
                       this.cmdObject.action = 'addLink';
-                      this.cmdObject.linkedLayoutId = msg[1];
+                      this.cmdObject.linkedLayoutId = msg[1].id;
+                      this.cmdObject.selectedRow = msg[1];
                       this.cmdObject.imageCardId = this.selectedCardConfigurationValues.cardId;
+                      console.log('at editlayout imageLink cmdObject-', this.cmdObject);
                       this.cmdObjectVersion+=1;
                       break;
                     }

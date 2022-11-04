@@ -1,8 +1,9 @@
 <template>
-  <section class="myspaceWrapper">
+  <section class="myspaceWrapper" >
+    <span v-if="this.rowHasBeenSelected==false">
     <o-table :data="data"
              :columns="columns"
-             :selected.sync="selected"
+             :selected.sync="selectedRow"
              :paginated="isPaginated"
              :per-page="perPage"
              :current-page.sync="currentPage"
@@ -14,6 +15,11 @@
              aria-current-label="Current page"
              @update:selected="spaceSelected"
              focusable> </o-table>
+    </span>
+    <span v-if="this.rowHasBeenSelected==true" class="alreadySelected">
+      <span>Layout AlreadySelected</span><span>{{selectedRow.description}}</span><span><button @click="selectAgain">Select Another</button></span>
+    </span>
+
   </section>
 </template>
 
@@ -30,6 +36,10 @@ export default {
     linesPerPage:{
       type: Number,
       required: false
+    },
+    selectedRow:{
+      type: Object,
+      required: false
     }
   },
   mounted(){
@@ -41,32 +51,49 @@ export default {
       this.perPage = this.linesPerPage;
     }
     debugger;
-    var apiPath = this.$store.getters.getApiBase;
-    console.log('apiPath - ',apiPath);
+    if(this.isEmpty(this.selectedRow)){
+      this.loadLayouts();
+    }else{
+      this.rowHasBeenSelected=true;
+    }
 
-    axios.get(apiPath+'api/shan/getMySpaces?XDEBUG_SESSION_START=15122"', {
-//    axios.get('http://localhost:8000/api/shan/getMySpaces?XDEBUG_SESSION_START=15122"', {
-      params:{
-        orgId:this.$store.getters.getOrgId,
-        userId: this.$store.getters.getLoggedInUserId,
-      }
-    }).then(response=> {
-      console.log('getMySpaces',response);
-      this.data=response.data;
-    }).catch(e=>{
-      console.log(e);
-    });
+
   },
   methods:{
     spaceSelected(msg){
       debugger;
-      this.$emit('spaceSelected', msg.id);
+      console.log('selected-', msg);
+      this.$emit('spaceSelected', msg);
       this.$emit('layoutSelected', msg);
+    },
+    isEmpty(obj){
+      return JSON.stringify(obj) === '{}';
+    },
+    selectAgain(){
+      this.rowHasBeenSelected=false;
+      this.loadLayouts();
+    },
+    loadLayouts(){
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+      axios.get(apiPath+'api/shan/getMySpaces?XDEBUG_SESSION_START=15122"', {
+//    axios.get('http://localhost:8000/api/shan/getMySpaces?XDEBUG_SESSION_START=15122"', {
+        params:{
+          orgId:this.$store.getters.getOrgId,
+          userId: this.$store.getters.getLoggedInUserId,
+        }
+      }).then(response=> {
+        console.log('getMySpaces',response);
+        this.data=response.data;
+      }).catch(e=>{
+        console.log(e);
+      });
     }
   },
   data(){
     return {
       data:[],
+      rowHasBeenSelected:false,
       isPaginated: true,
       isPaginationSimple: false,
       paginationPosition: 'bottom',
@@ -108,5 +135,9 @@ export default {
   font-size: 14px;
   font-style: normal;
   font-weight: bold;
+}
+.alreadySelected {
+  display:grid;
+  grid-template-columns: 30% 40% 30%;
 }
 </style>

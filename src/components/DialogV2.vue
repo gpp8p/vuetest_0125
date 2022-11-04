@@ -204,6 +204,7 @@
           cmdObjectVersion: function(){
             console.log('cmdObjectVersion changed in Dialog2');
             console.log(this.cmdObject);
+            console.log('selectedCardConfigurationValues-',this.selectedCardConfigurationValues);
             debugger;
             if(this.cmdObject.action=='addLink'){
               this.currentSelectedMenuOption='Appearence';
