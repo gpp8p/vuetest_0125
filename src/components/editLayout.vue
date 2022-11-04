@@ -584,6 +584,15 @@
                       this.dialogType = 0;
                       break;
                     }
+                    case 'imageLinkSelected':{
+                      debugger;
+                      this.cmdObject = {};
+                      this.cmdObject.action = 'addLink';
+                      this.cmdObject.linkedLayoutId = msg[1];
+                      this.cmdObject.imageCardId = this.selectedCardConfigurationValues.cardId;
+                      this.cmdObjectVersion+=1;
+                      break;
+                    }
                     case 'layoutSelected':{
                       debugger;
 /*

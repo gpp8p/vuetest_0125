@@ -197,12 +197,18 @@
         this.currentSelectedMenuOption = mOpts.currentSelectedMenuOption;
       },
       watch: {
-        dialogType: function () {
-          console.log('dialogType changed -', this.dialogType);
-
+          dialogType: function () {
+            console.log('dialogType changed -', this.dialogType);
 //            debugger;
-
-        },
+          },
+          cmdObjectVersion: function(){
+            console.log('cmdObjectVersion changed in Dialog2');
+            console.log(this.cmdObject);
+            debugger;
+            if(this.cmdObject.action=='addLink'){
+              this.currentSelectedMenuOption='Appearence';
+            }
+          },
 
 //      },
 

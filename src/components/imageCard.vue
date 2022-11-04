@@ -54,7 +54,8 @@ export default {
   },
   watch :{
     cmdObjectVersion: function(){
-      debugger;
+//      debugger;
+      console.log('wach triggered -  cmdObjectVersion -',this.cmdObject.action);
       switch(this.cmdObject.action){
         case 'addLink':{
  //         var mOpts = this.getMenuOpts('insertLink');

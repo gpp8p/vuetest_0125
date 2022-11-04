@@ -221,7 +221,7 @@
     },
     watch: {
       cmdObjectVersion: function () {
-//        console.log(this.cmdObject.cardId,'-',this.cardId);
+//        console.log('in geneic card- ',this.cmdObject.cardId,'-',this.cardId);
         if(this.cardId!=this.cmdObject.cardId){
           return;
         }

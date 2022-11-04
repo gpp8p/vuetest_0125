@@ -98,7 +98,7 @@ import layoutList from "../components/layoutList.vue";
         this.$emit('configSelected', msg);
       },
       spaceSelected(msg){
-        this.$emit('configSelected', ['layoutSelected', msg]);
+        this.$emit('configSelected', ['imageLinkSelected', msg]);
       }
     }
 
