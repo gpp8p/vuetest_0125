@@ -20,6 +20,10 @@ name: "imageCardHeadline",
     domElement:{
       type: String,
       required: true
+    },
+    cardContent:{
+      type: Object,
+      required: true
     }
   },
   data(){
@@ -34,7 +38,7 @@ name: "imageCardHeadline",
     }
   },
   mounted(){
-    this.imageHeadline = this.currentValues['imageHeadline'];
+    this.imageHeadline = this.cardContent['imageTitle'];
   }
 }
 </script>

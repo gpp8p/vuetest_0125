@@ -86,6 +86,10 @@
             this.content.imageLink = cardData;
             break;
           }
+          case 'imageLinkDescription':{
+            this.content.imageLinkDescription = cardData;
+            break;
+          }
 
           case "fontFamily":
 //            this.$el.style.fontFamily=cardData;
@@ -467,17 +471,16 @@
       },
 
       loadCardConfiguration(cardId){
-//        debugger;
+        debugger;
         var apiPath = this.$store.getters.getApiBase;
         console.log('apiPath - ',apiPath);
 
 
         axios
           .get(apiPath+"api/shan/getCardDataById?cardId=" + cardId+"&&XDEBUG_SESSION_START=15122")
-//            .get("http://localhost:8000/api/shan/getCardDataById?cardId=" + cardId+"&&XDEBUG_SESSION_START=15122")
           .then(response => {
             // JSON responses are automatically parsed.
-//          debugger;
+          debugger;
             console.log('CardBase lodCardConfiguration returns response:', response);
             this.cardConfigParams = response.data[0];
             this.cardContent = response.data[1];
@@ -698,7 +701,7 @@
             });
       },
       configureClicked(cardType) {
-//      debugger;
+      debugger;
         this.styling={};
         this.loadCardConfiguration(this.cardId);
         this.dialog=true;
@@ -713,7 +716,8 @@
           this.setCardData,
           this.cardConfiguration,
           this.configurationCurrentValues,
-          this.cardId
+          this.cardId,
+          this.cardContent
         ]);
 
 

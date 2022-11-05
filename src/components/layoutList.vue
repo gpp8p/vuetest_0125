@@ -17,7 +17,7 @@
              focusable> </o-table>
     </span>
     <span v-if="this.rowHasBeenSelected==true" class="alreadySelected">
-      <span>Layout AlreadySelected</span><span>{{selectedRow.description}}</span><span><button @click="selectAgain">Select Another</button></span>
+      <span>Layout AlreadySelected</span><span>{{selectedRow.imageLinkDescription}}</span><span><button @click="selectAgain">Select Another</button></span>
     </span>
 
   </section>

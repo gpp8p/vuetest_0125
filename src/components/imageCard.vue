@@ -64,6 +64,7 @@ export default {
             debugger;
             this.layoutLink = this.cmdObject.linkedLayoutId;
             this.setCardData(this.layoutLink, 'imageLink', 'main');
+            this.setCardData(this.cmdObject.imageLinkDescription, 'imageLinkDescription', 'main')
           }
 
           break;

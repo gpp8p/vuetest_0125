@@ -13,7 +13,7 @@
       <layout-list v-if="selectedMenuOption=='imageCardLink'" :cmd="cmd" :selectedRow="selectedLayoutRow" @spaceSelected="spaceSelected"></layout-list>
     </span>
     <span>
-      <image-card-headline v-if="selectedMenuOption=='imageCardHeadline'" :currentValues="currentValues" :domElement="mainDomElement" :dialogKey="dialogKey" @configSelected="configSelected"></image-card-headline>
+      <image-card-headline v-if="selectedMenuOption=='imageCardHeadline'" :currentValues="currentValues" :cardContent="selectedCardConfigurationValues.cardContent" :domElement="mainDomElement" :dialogKey="dialogKey" @configSelected="configSelected"></image-card-headline>
     </span>
   </span>
 </template>
@@ -40,6 +40,7 @@ import layoutList from "../components/layoutList.vue";
     mounted(){
       console.log('cardConfigurationSettings mounted',this.currentValues);
       this.$emit("componentSettingsMounted",[this.menuOptions,this.openMenuOption])
+      this.selectedLayoutRow = this.selectedCardConfigurationValues.cardContent;
     },
     props:{
       selectedMenuOption: {

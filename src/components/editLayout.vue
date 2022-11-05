@@ -589,6 +589,7 @@
                       this.cmdObject = {};
                       this.cmdObject.action = 'addLink';
                       this.cmdObject.linkedLayoutId = msg[1].id;
+                      this.cmdObject.imageLinkDescription = msg[1].description;
                       this.cmdObject.selectedRow = msg[1];
                       this.cmdObject.imageCardId = this.selectedCardConfigurationValues.cardId;
                       console.log('at editlayout imageLink cmdObject-', this.cmdObject);
@@ -810,7 +811,8 @@
                       cardDataFunction: msg[0][3],
                       cardConfigurationElements:msg[0][4],
                       cardCurrentConfigurationValues:msg[0][5],
-                      cardId:msg[0][6]
+                      cardId:msg[0][6],
+                      cardContent:msg[0][7],
                     }
                     this.dialogType=this.DIALOG_CONFIGURE_CARD;
                     this.dialogCmd=msg[0][2];
