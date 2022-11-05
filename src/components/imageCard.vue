@@ -76,7 +76,8 @@ export default {
             this.content.imageTitle = this.cmdObject.imageTitle;
             this.content.cardType = "imageCard";
             this.content.layoutLink = this.layoutLink;
-            this.saveLayoutLink(this.layoutLink);
+            var linkReference = 'Link to:'+this.content.imageTitle;
+            this.saveLayoutLink(this.layoutLink, linkReference);
           }
           break;
         }
@@ -160,7 +161,7 @@ export default {
         }
       }
     },
-    saveLayoutLink(targetId){
+    saveLayoutLink(targetId, linkDescription){
       debugger;
       var urlBase = this.$store.getters.getUrlBase;
       var targetUrl = urlBase+targetId;
@@ -172,14 +173,17 @@ export default {
         card_instance_id:this.cardId,
         is_external:0,
         layout_link_to:targetId,
+        description: linkDescription,
         linkUrl:targetUrl,
-        type:'U'
+        type:'U',
+        cardType:'imageCard'
       }).then(response=>
       {
-        console.log(response);
+        debugger;
+        console.log('response imageCard saved', response);
         if(response.data=='ok'){
           console.log('link added');
-          this.setData(this.content, 'saveCardContent', 'main');
+          this.setCardData(this.content, 'saveCardContent', 'main');
 
         }
       }).catch(function(error) {
