@@ -108,6 +108,7 @@
                   @configurationHasBeenSaved="configurationHasBeenSaved"
                   @cardPropertySet="cardPropertySet"
                   @cardDataLoaded="cardDataLoaded"
+                  @linkSelected="linkSelected"
                   ref="cardKey"
         ></image-card>
 
@@ -238,6 +239,7 @@
         debugger;
         if(this.hasChildern(this.$refs)){
           console.log('hasChildern is true');
+          this.$refs.cardKey.imageHasBeenClicked();
         }else{
           console.log('no childern');
           console.log('generic card recieved a click:'+msg);
@@ -298,7 +300,7 @@
         this.$emit('linkHelperRequested');
       },
       linkSelected(msg){
-//        console.log('link selected', msg);
+        console.log('link selected', msg);
         this.$emit('linkSelected', msg);
       },
       setCardBackground(newBackground){

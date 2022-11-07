@@ -435,6 +435,7 @@ export default {
     },
     linkSelected(msg){
 //            console.log('link selected', msg);
+      debugger;
       this.$emit('linkSelected', msg);
     },
     cloneSuccessful(msg){

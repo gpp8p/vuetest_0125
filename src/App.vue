@@ -363,7 +363,7 @@ export default {
     },
     layoutSelected(msg){
       console.log('layoutSelected',msg);
-
+      debugger;
       store.commit('setCurrentLayoutId', msg);
       this.$router.push({
         name: 'displayLayout',

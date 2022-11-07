@@ -1,5 +1,5 @@
 <template>
-  <span class="carWrapper">
+  <span class="carWrapper" >
     <div class="cardHeader" v-if="this.showOptions==true">
       <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
     </div>
@@ -27,7 +27,8 @@ export default {
     }
     var mOpts = this.getMenuOpts('imageEntry');
     this.currentMenuOpts = mOpts.currentMenuOpts;
-    console.log('image card mounted');
+//    console.log('image card mounted');
+    this.cardLinkUrl = '';
 
   },
   props:{
@@ -73,11 +74,12 @@ export default {
           debugger;
           if(this.cmdObject.imageCardId == this.cardId){
             debugger;
-            console.log('cmdObjectVersion changed in image card -saveImageEdit', this.cmdObjectVersion);
-            this.content.imageTitle = this.cmdObject.imageTitle;
+            console.log('cmdObjectVersion changed in image card -saveImageEdit', this.cmdObjectVersion, this.content);
+            this.content.imageTitle = this.cardContent.imageTitle;
             this.content.cardType = "imageCard";
             this.content.layoutLink = this.layoutLink;
-            var linkReference = 'Link to:'+this.content.imageTitle;
+            var linkReference = 'Link from:'+this.content.imageTitle;
+            this.setCardData(this.content, 'saveCardContent', 'main');
             this.saveLayoutLink(this.layoutLink, linkReference);
           }
           break;
@@ -100,7 +102,8 @@ export default {
         sub:{}
       },
       imagePresent: false,
-      imgKey:0
+      imgKey:0,
+      cardLinkUrl:''
     }
   },
   computed: {
@@ -109,6 +112,15 @@ export default {
     }
   },
   methods:{
+    imageHasBeenClicked(){
+      console.log('image has been clicked in imageLink has been run');
+      if(this.showOptions!=true){
+        debugger;
+        this.$emit('linkSelected', this.cardContent.imageLink);
+      }
+
+    },
+/*
     childCmd(parentCommand){
       console.log('parentCommand = ', parentCommand);
       debugger;
@@ -118,10 +130,20 @@ export default {
         }
       }
     },
+
+ */
     editClicked(){
       debugger;
       this.loadCardConfiguration(this.cardId);
       this.$emit('textEditor', [this.cardKey, this.setCardData,this.configurationCurrentValues, this.cardData, this.cardId, 'imageCard', this.cardContent, this.cardId]);
+    },
+    linkSelected(msg){
+      console.log('link selected', msg);
+      debugger;
+      this.$emit('linkSelected', msg);
+    },
+    imageClicked(){
+      console.log('image has been clicked');
     },
     menuOptSelected(msg){
       console.log('menuOptSelected in imageCard -', msg);
@@ -183,8 +205,9 @@ export default {
         debugger;
         console.log('response imageCard saved', response);
         if(response.data=='ok'){
-          console.log('link added');
-          this.setCardData(this.content, 'saveCardContent', 'main');
+          debugger;
+          console.log('link added',this.content);
+
 
         }
       }).catch(function(error) {
