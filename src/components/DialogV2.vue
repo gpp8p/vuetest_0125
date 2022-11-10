@@ -402,7 +402,11 @@
                 }
                 case 'saveImageCard':{
                   debugger;
-                  this.$emit('configSelected', ['saveImageEdit', this.currentValues.imageHeadline, this.selectedCardConfigurationValues.cardId]);
+                  if(typeof(this.currentValues.imageHeadline)=='undefined'){
+                    this.$emit('configSelected', ['saveImageEdit', this.selectedCardConfigurationValues.cardContent.imageTitle, this.selectedCardConfigurationValues.cardId]);
+                  }else{
+                    this.$emit('configSelected', ['saveImageEdit', this.currentValues.imageHeadline, this.selectedCardConfigurationValues.cardId]);
+                  }
                   break;
                 }
                 case 'SaveOrganization':{

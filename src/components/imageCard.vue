@@ -29,6 +29,7 @@ export default {
     this.currentMenuOpts = mOpts.currentMenuOpts;
 //    console.log('image card mounted');
     this.cardLinkUrl = '';
+    console.log('cardContent imageCard-', this.cardContent);
 
   },
   props:{
@@ -74,12 +75,20 @@ export default {
           debugger;
           if(this.cmdObject.imageCardId == this.cardId){
             debugger;
-            console.log('cmdObjectVersion changed in image card -saveImageEdit', this.cmdObjectVersion, this.content);
+            console.log('cmdObjectVersion changed in image card -saveImageEdit', this.cmdObjectVersion);
+            console.log('content-', this.content);
+            console.log('cardContent-', this.cardContent);
+            console.log('cmdObject-',this.cmdObject);
+            debugger;
+            this.cardContent.imageTitle = this.cmdObject.imageTitle;
             this.content.imageTitle = this.cardContent.imageTitle;
+//            this.content.imageTitle = this.cmdObject.imageTitle;
             this.content.cardType = "imageCard";
             this.content.layoutLink = this.layoutLink;
             var linkReference = 'Link from:'+this.content.imageTitle;
+            console.log('saving imageCard-', this.content);
             this.setCardData(this.content, 'saveCardContent', 'main');
+            this.$emit('configSelected', ['save']);
             this.saveLayoutLink(this.layoutLink, linkReference);
           }
           break;

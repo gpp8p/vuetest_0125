@@ -51,11 +51,16 @@ export default {
       this.perPage = this.linesPerPage;
     }
     debugger;
-    if(this.isEmpty(this.selectedRow)){
+    if(typeof(this.selectedRow)=='undefined'){
       this.loadLayouts();
     }else{
-      this.rowHasBeenSelected=true;
+      if(this.isEmpty(this.selectedRow)){
+        this.loadLayouts();
+      }else{
+        this.rowHasBeenSelected=true;
+      }
     }
+
 
 
   },
@@ -67,7 +72,13 @@ export default {
       this.$emit('layoutSelected', msg);
     },
     isEmpty(obj){
-      return JSON.stringify(obj) === '{}';
+      debugger;
+      var objAsJson = JSON.stringify(obj);
+      if(objAsJson === '{}'){
+        return false;
+      }else{
+        return true;
+      }
     },
     selectAgain(){
       this.rowHasBeenSelected=false;

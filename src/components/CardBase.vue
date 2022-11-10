@@ -33,6 +33,7 @@
           case 'imageHeadline':{
             this.cardContent.imageTitle = cardData;
             this.configurationCurrentValues['imageHeadline']=cardData;
+
             break;
           }
           case "cardText":

@@ -717,6 +717,7 @@
                       console.log('configSelected in editLayout',msg);
                       var cdElement = msg[0];
                       var cData = msg[1];
+                      debugger;
                       this.cardDataFunction(cData, cdElement, 'main');
                       break;
                     }
