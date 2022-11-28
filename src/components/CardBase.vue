@@ -1066,11 +1066,9 @@
           case 'imageEntry':{
             return {
               currentMenuOpts:[
-                ['Configure', 'Configure'],
+                ['Setup', 'Configure'],
                 ['Resize/Move', 'Resize'],
                 ['Del', 'DeleteCard'],
-                ['Edit','editImage'],
-                ['Link', 'linkImage']
               ],
               currentMenuSelection: 'Configure'
             }

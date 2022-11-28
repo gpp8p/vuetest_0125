@@ -250,8 +250,9 @@ export default {
   font-weight: bold;
 }
 .center {
-  margin-top: 40%;
-  margin-bottom: auto;
+  display:grid;
+  grid-template-columns: 100%;
+  grid-template-rows: auto auto;
 }
 .cardWrapper {
   height: 100%;

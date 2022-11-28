@@ -62,11 +62,13 @@ export default {
       store.commit('setApiBase', 'http://localhost:8000/');
       store.commit('setHelpUrl', 'http://localhost/spaces/2/54.html')
     }else{
-      store.commit('setUrlBase', 'http://sptests.org:8080/');
-      store.commit('setApiBase', 'http://sptests.org:8000/');
-      store.commit('setHelpUrl','http://sptests.org/spaces/2/3.html');
+      store.commit('setUrlBase', 'https://sptests.org:8080/');
+      store.commit('setApiBase', 'https://sptests.org:8000/');
+      store.commit('setHelpUrl','https://sptests.org/spaces/2/3.html');
     }
-
+    console.log('urlBase is - ', this.$store.getters.getUrlBase);
+    console.log('apiBase is - ', this.$store.getters.getApiBase);
+    console.log('helpUrl is -', this.$store.getters.getHelpUrl);
     var pathArray=this.$route.path.substring(1).split('/');
     if(pathArray.length==3 && pathArray[0]=='target'){
       console.log('this is a protected page link from static html');
