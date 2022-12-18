@@ -235,6 +235,7 @@ name: "orgMembership",
       if(this.restrict){
         restrictValue = 1;
       }
+      console.log('at setOrgRestrict');
       axios.get(apiPath+'api/shan/setOrgRestrict?XDEBUG_SESSION_START=14668', {
 //      axios.get('http://localhost:8000/api/shan/orgUsers?XDEBUG_SESSION_START=14668', {
         params: {

@@ -170,7 +170,7 @@ export default {
       }else{
         this.showOptions=true;
       }
-      var mOpts = this.getMenuOpts('entryMenuAdd');
+      var mOpts = this.getMenuOpts('entryMenuAddEdit');
       this.currentMenuOpts = mOpts.currentMenuOpts;
       debugger;
       var availableSubcontentStyles = this.subStyle.split(';');
@@ -378,6 +378,27 @@ export default {
             currentMenuSelection: 'Configure'
           }
         }
+        case'entryMenuSetup':{
+          return {
+            currentMenuOpts:[
+              ['Add/Edit', 'addEditNavM'],
+              ['Appearence', 'Configure'],
+              ['Resize/Move', 'Resize'],
+              ['Del','DeleteCard'],
+            ],
+            currentMenuSelection: 'Configure'
+          }
+        }
+        case'entryMenuAddEdit':{
+          return {
+            currentMenuOpts:[
+              ['Card Setuo', 'setupNavM'],
+              ['Edit', 'Edit'],
+              ['New','NewLayout']
+            ],
+            currentMenuSelection: 'Edit'
+          }
+        }
         case 'deleteChoice':{
           return {
             currentMenuOpts :[
@@ -444,6 +465,16 @@ export default {
       var apiPath = this.$store.getters.getApiBase;
       console.log('apiPath - ',apiPath);
       switch(msg){
+        case 'addEditNavM':{
+          var mOpts = this.getMenuOpts('entryMenuAddEdit');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          break;
+        }
+        case 'setupNavM':{
+          mOpts = this.getMenuOpts('entryMenuSetup');
+          this.currentMenuOpts = mOpts.currentMenuOpts;
+          break;
+        }
         case 'Cancel':{
           mOpts = this.getMenuOpts('entryMenu');
           this.currentMenuOpts = mOpts.currentMenuOpts;
@@ -472,7 +503,7 @@ export default {
           break;
         }
         case 'DeleteCard':{
-          var mOpts = this.getMenuOpts('deleteChoice');
+          mOpts = this.getMenuOpts('deleteChoice');
           this.currentMenuOpts = mOpts.currentMenuOpts;
           break;
         }
