@@ -226,7 +226,7 @@
                     }else if(this.topPerm==this.AUTHOR_PERM){
                       return ['Edit','Delete', 'Publish','Access'];
                     }else if((this.topPerm==this.ADMIN_PERM)){
-                      return ['Edit','Delete', 'Publish', 'Create', 'Access','My Spaces','Sites'];
+                      return ['Edit','Delete', 'Publish', 'Create', 'Access'];
                     }
                   }
                 }else if(this.viewContext==this.VIEW_EDITING){
