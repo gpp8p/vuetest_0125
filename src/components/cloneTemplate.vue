@@ -30,10 +30,10 @@
         </span>
        <span>
           <o-radio v-model="permType" name="imageType"  native-value="default">
-          Use Defaults
+          Open Access
           </o-radio>
           <o-radio v-model="permType" name="imageType"  native-value="template">
-          Use Permissions from this page
+          Restricted
           </o-radio>
        </span>
      </span>

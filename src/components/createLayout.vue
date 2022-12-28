@@ -46,10 +46,10 @@
         </span>
        <span>
           <o-radio v-model="permType" name="permType"  native-value="default">
-          Use Defaults
+          Open Access
           </o-radio>
           <o-radio v-model="permType" name="permType"  native-value="template">
-          Use Permissions from this page
+          Restricted
           </o-radio>
        </span>
      </span>

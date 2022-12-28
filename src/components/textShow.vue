@@ -419,8 +419,14 @@ export default {
           if (!textHasBeenSelected) {
             this.titleMsg = 'Please select some text!';
           } else {
+            debugger;
             var urlBase = this.$store.getters.getUrlBase;
-            this.forwardToUrl = urlBase + 'displayLayout/'+ this.layoutLink;
+            if(typeof(this.layoutLink.id)=='undefined'){
+              this.forwardToUrl = urlBase + 'displayLayout/'+ this.layoutLink;
+            }else{
+              this.forwardToUrl = urlBase + 'displayLayout/'+ this.layoutLink.id;
+            }
+
             this.editorInstance.execute('link', this.forwardToUrl);
             //                  this.currentMenuOpts = ['Cancel', 'Link to Another Space',  'Save'];
             mOpts = this.getMenuOpts('richTextOpen');
