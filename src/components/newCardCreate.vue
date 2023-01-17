@@ -8,11 +8,6 @@
       <span>
         <select-picker :pType="cardPtypeReference" :dialogKey="this.dKey" :label="cardTypeLabel" :options="cardTypeOptions" :currentValues="currentValues" @configSelected="configSelected"></select-picker>
       </span>
-      <span class="labelPlusInput">
-        <span>Restricted:</span>
-        <input v-model="restricted" type="checkbox"/>
-      </span>
-
     </span>
   </span>
 </template>
