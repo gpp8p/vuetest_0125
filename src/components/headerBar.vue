@@ -224,7 +224,7 @@
                     if(this.topPerm==this.VIEW_PERM){
                       return [];
                     }else if(this.topPerm==this.AUTHOR_PERM){
-                      return ['Edit','Delete', 'Publish','Access'];
+                      return ['Edit','Delete', 'Publish'];
                     }else if((this.topPerm==this.ADMIN_PERM)){
                       return ['Edit','Delete', 'Publish', 'Create', 'Access'];
                     }

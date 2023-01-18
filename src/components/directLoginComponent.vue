@@ -157,7 +157,7 @@
             },
             register(){
  //               debugger;
-                console.log('register clicked');
+                console.log('directLoginComponent - register clicked');
 //                store.commit('setRegister', true);
                 this.$emit('register');
             },

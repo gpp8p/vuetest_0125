@@ -4,10 +4,10 @@
    <form>
     <span class="labelPlusInput">
          <span>
-            Email:
+            Email Addr:
          </span>
          <span>
-            <input type="text" v-model="userEmail" ref="email" size="60" class="inputStyle"  placeholder="Email" @blur="focusChangedUserEmail"/>
+            <input type="text" v-model="userEmail" ref="email" size="50" maxlength="60" class="inputStyle"  placeholder="Email" @blur="focusChangedUserEmail"/>
          </span>
      </span>
      <span class="labelPlusInput">
@@ -68,6 +68,7 @@ name: "registerUser",
     }
   },
   mounted(){
+  console.log('registerUser mounted');
     debugger;
     if(typeof(this.selectedOrgId)=='undefined' || this.selectedOrgId<1){
       this.orgId = this.$store.getters.getOrgId;
@@ -333,7 +334,7 @@ name: "registerUser",
 .labelPlusInput {
   display:grid;
   margin-top: 3px;
-  grid-template-columns: 30% 70%;
+  grid-template-columns: 30% 60%;
   font-family: Arial;
   font-size: medium;
   color: #0a3aff;
