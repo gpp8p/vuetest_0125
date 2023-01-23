@@ -1198,6 +1198,8 @@
         height:400px;
         width:750px;
         position: relative;
+        top:30%;
+        left:30%;
         background-color: #ab97ff;
         border: 2px solid blue;
         border-radius: 8px;

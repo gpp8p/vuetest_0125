@@ -1,5 +1,18 @@
 <template>
   <div v-bind:style="gridParamDefinition"  class="gridSection" id="layoutDiv">
+    <Dialog v-if="this.dialogType>0"
+            :dialog-type="dialogType"
+            :key="dialogKey"
+            :currentValues=this.currentValues
+            :dialogKey = "this.dialogKey"
+            :cmd = "this.dialogCmd"
+            @dragStart="dragStart"
+            @moved="dialogMoved"
+            @configSelected = "configSelected"
+            @cloneSuccessful="cloneSuccessful"
+            @clearCmd="clearCmd"
+            v-bind:style='this.styleObject'
+    ></Dialog>
     <generic-card
         v-for="(instance, index) in cardInstances"
         :key="index"
@@ -22,19 +35,7 @@
         @linkSelected="linkSelected"
         ref="key"
     ></generic-card>
-    <Dialog v-if="this.dialogType>0"
-            :dialog-type="dialogType"
-            :key="dialogKey"
-            :currentValues=this.currentValues
-            :dialogKey = "this.dialogKey"
-            :cmd = "this.dialogCmd"
-            @dragStart="dragStart"
-            @moved="dialogMoved"
-            @configSelected = "configSelected"
-            @cloneSuccessful="cloneSuccessful"
-            @clearCmd="clearCmd"
-            v-bind:style='this.styleObject'
-    ></Dialog>
+
   </div>
 </template>
 
@@ -156,8 +157,10 @@ export default {
       dragStartX:0,
       dragStartY:0,
       styleObject: {
-        top: '200px',
-        left: '400px',
+        top: '20vh',
+        left: '20vw',
+        height: '60vh',
+        width: '50vw'
       }
 
     }
