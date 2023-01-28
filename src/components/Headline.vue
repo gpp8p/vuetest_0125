@@ -18,7 +18,8 @@
                        :key="index"
                        :description="link.description"
                        :target="link.layout_link_to"
-                       :is_external="link.is_external"
+                       :is_external="link.isExternal"
+                       :link_url="link.link_url"
                        @linkSelected="linkSelected"
             />
       </span>
@@ -109,6 +110,7 @@ name: "Headline",
     this.headlineStyle = hd.slice(0,-1);
     var mOpts = this.getMenuOpts('entryMenu_headline');
     this.currentMenuOpts = mOpts.currentMenuOpts;
+
   },
   data(){
     return {

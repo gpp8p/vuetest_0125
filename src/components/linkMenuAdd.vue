@@ -3,19 +3,19 @@
     <hr/>
     <span class="linkRow">
       <span>
-        <o-radio v-model="linkChoice" name="linkType" @input="linkChoiceMade" native-value="extSelected">External Link</o-radio>
+        <o-radio v-model="linkChoice" name="linkType" @input="linkChoiceMade" native-value="extSelected">Ext. Link</o-radio>
       </span>
       <span v-if="this.mode==this.SHOW_EXTERNAL_LINK">
         Menu Label:
       </span>
       <span v-if="this.mode==this.SHOW_EXTERNAL_LINK">
-        <input type="text" v-model="extLinkMenuLabel" size="30" />
+        <input type="text" v-model="extLinkMenuLabel" size="15"  maxlength="40"/>
       </span>
       <span v-if="this.mode==this.SHOW_EXTERNAL_LINK">
         Url:
       </span>
       <span v-if="this.mode==this.SHOW_EXTERNAL_LINK">
-        <input type="text" v-model="extLinkDescription" size="50" />
+        <input type="text" v-model="extLinkDescription" size="30" maxlength="50" />
       </span>
     </span>
     <span class="linkRow">
@@ -65,6 +65,7 @@ name: "linkMenuAdd",
       console.log('createLayout cmd changed - ', this.cmd);
       switch(this.cmd){
         case 'addExtToMenu':{
+          debugger;
           var newLink = {};
           newLink.description = this.extLinkDescription;
           newLink.isExternal = 1;
@@ -125,7 +126,7 @@ name: "linkMenuAdd",
 .linkRow {
   margin-left: 10px;
   display: grid;
-  grid-template-columns: 10% 10% 30% 5% 5% 30%;
+  grid-template-columns: 10% 5% 25% 5% 5% 10%;
   font-family: Arial;
   font-size: medium;
   color: #0a3aff;

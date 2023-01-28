@@ -477,8 +477,14 @@
         console.log('apiPath - ',apiPath);
 
 
-        axios
-          .get(apiPath+"api/shan/getCardDataById?cardId=" + cardId+"&&XDEBUG_SESSION_START=15122")
+//        axios
+//          .get(apiPath+"api/shan/getCardDataById?cardId=" + cardId+"&&XDEBUG_SESSION_START=15122")
+        axios.get(apiPath+'api/shan/getCardDataById?XDEBUG_SESSION_START=14668', {
+          params:{
+            cardId:cardId,
+            layoutId:this.$store.getters.getCurrentLayoutId
+          }
+        })
           .then(response => {
             // JSON responses are automatically parsed.
           debugger;

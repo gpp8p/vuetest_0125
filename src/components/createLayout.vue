@@ -49,7 +49,7 @@
           Open Access
           </o-radio>
           <o-radio v-model="permType" name="permType"  native-value="template">
-          Restricted
+          Copy Page Permissions
           </o-radio>
        </span>
      </span>
@@ -80,6 +80,7 @@ import backgroundPicker from "@/components/backgroundPicker";
 export default {
 name: "createLayout",
   components: {backgroundPicker},
+
   mounted(){
     this.updatedColor = this.currentValues['backgroundColor'];
     console.log('cmdObjectVersion is', this.cmdObjectVersion);

@@ -9,7 +9,7 @@
       </span>
     </span>
     <span v-if="this.is_external==1">
-      <li><a v-bind:href="link_url" target="_blank" >{{description}}</a></li>
+      <li><a v-bind:href="extLink" target="_blank" >{{description}}</a></li>
     </span>
 
   </span>
@@ -38,6 +38,9 @@ mounted(){
     this.linkIsSelected=false;
     root.style.setProperty('--liColor', 'color:blue;' );
   }
+  if(typeof(link_url)!=undefined){
+    this.extLink='http://'+this.link_url;
+  }
 
 },
   props:{
@@ -61,7 +64,8 @@ mounted(){
   data(){
     return {
       linkIsSelected:false,
-      displayStyle:'color:green;'
+      displayStyle:'color:green;',
+      extLink:''
     }
   },
   methods:{

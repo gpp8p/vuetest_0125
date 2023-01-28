@@ -27,7 +27,8 @@ export default new Vuex.Store({
             urlBase:'',
             apiBase:'',
 //            helpUrl:'http://localhost/spaces/2/54.html'
-            helpUrl:''
+            helpUrl:'',
+            isLayoutGroup:0
 
         }
     },
@@ -91,13 +92,16 @@ export default new Vuex.Store({
         },
         getHelpUrl(state){
             return state.credentials.helpUrl
-        }
+        },
 /*
         getRegister(state){
             return state.credentials.register
         }
 
  */
+        getIsLayoutGroup(state){
+            return state.credentials.isLayoutGroup;
+        }
     },
     mutations:{
         setBearerToken(state, token){
@@ -159,6 +163,9 @@ export default new Vuex.Store({
         },
         setHelpUrl(state, helpUrl){
             state.credentials.helpUrl = helpUrl;
+        },
+        setIsLayoutGroup(state, isLayoutGroup){
+            state.credentials.isLayoutGroup = isLayoutGroup;
         }
 /*
         setRegister(state, registerState){

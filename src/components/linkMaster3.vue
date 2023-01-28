@@ -459,7 +459,7 @@ export default {
       this.currentCmd='';
     },
     menuOptSelected(msg) {
-      console.log(msg);
+      console.log('menu opt - linkMaster3-',msg);
       this.currentCmd = '';
 //      debugger;
       switch(msg){
@@ -1115,7 +1115,7 @@ export default {
 <style scoped>
 .dialogComponent {
   height:530px;
-  width:1025px;
+  width:70vw;
   display: grid;
   grid-template-rows: 10% 80% 10%;
   position: relative;

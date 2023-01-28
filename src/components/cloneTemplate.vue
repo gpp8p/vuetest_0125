@@ -29,12 +29,15 @@
           Permissions::
         </span>
        <span>
-          <o-radio v-model="permType" name="imageType"  native-value="default">
+          <o-radio  v-model="permType" name="imageType"  native-value="default">
           Open Access
           </o-radio>
-          <o-radio v-model="permType" name="imageType"  native-value="template">
-          Restricted
+          <o-radio v-if="this.parentFound==1" v-model="permType" name="imageType"  native-value="template">
+          Copy Page Permissions
           </o-radio>
+        <div v-if="this.parentFound==0" >
+            Cannot copy permissions - no parent.
+          </div>
        </span>
      </span>
 
@@ -44,9 +47,10 @@
 
 <script>
 import axios from "axios";
-
+import store from "@/store";
 export default {
   name: "cloneTemplate",
+  store,
   data(){
     return {
       description: '',
@@ -54,8 +58,12 @@ export default {
       entriesOk:false,
       menu_label_entered:false,
       description_entered: false,
-      permType: 'default'
+      permType: 'default',
+      parentFound:0
     }
+  },
+  created(){
+    this.parentFound = this.$store.getters.getIsLayoutGroup;
   },
   methods:{
 
@@ -196,4 +204,5 @@ export default {
   margin-top: 10px;
   margin-left: 10px;
 }
+
 </style>

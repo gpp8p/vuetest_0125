@@ -32,7 +32,8 @@
     data(){
       return {
         available_fonts:['Arial', 'Times New Roman', 'Helvetica','Times','Courier New','Verdana','Courier','Arial Narrow','Candara','Geneva','Calibri','Optima','Cambria','Garamond','Perpetua','Monaco','Didot','Brush Script MT','Lucida Bright','Copperplate'],
-        focused_font:''
+        focused_font:'',
+        default_font: 'Candara'
       }
     },
     mounted(){
@@ -51,9 +52,14 @@
         this.$emit('configSelected', [this.pType, this.$refs.fontSelect.value]);
       },
       getCurrentValue(){
-//        debugger;
+        debugger;
+        if(typeof(this.currentValues)=='undefined'){
+          this.$emit('configSelected', [this.pType, this.default_font]);
+          return this.default_font;
+        }
         if(typeof(this.currentValues['fontFamily'])=='undefined'){
-          return '';
+          this.$emit('configSelected', [this.pType, this.default_font]);
+          return this.default_font;
         }else{
           return this.currentValues['fontFamily'];
 //          var currentValuesEntriesParts = this.currentValues[this.configElement.element].split(":");
