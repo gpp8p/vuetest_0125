@@ -10,7 +10,7 @@
       <LinkMenuConfiguration :currentValues="subElementValues" :domElement="subDomElement" :dialogKey="dialogKey" @configSelected="configSelected"></LinkMenuConfiguration>
     </span>
     <span>
-      <layout-list v-if="selectedMenuOption=='imageCardLink'" :cmd="cmd" :selectedRow="selectedLayoutRow" @spaceSelected="spaceSelected"></layout-list>
+      <layout-list v-if="selectedMenuOption=='imageCardLink'" :cmd="cmd" :selectedRow="selectedLayoutRow" @spaceSelected="spaceSelected" :linesPerPage="8"></layout-list>
     </span>
     <span>
       <image-card-headline v-if="selectedMenuOption=='imageCardHeadline'" :currentValues="currentValues" :cardContent="selectedCardConfigurationValues.cardContent" :domElement="mainDomElement" :dialogKey="dialogKey" @configSelected="configSelected"></image-card-headline>

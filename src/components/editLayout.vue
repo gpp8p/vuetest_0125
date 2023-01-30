@@ -712,6 +712,8 @@ export default {
           this.cmdObject.action = 'saveImageEdit';
           this.cmdObject.imageTitle = msg[1];
           this.cmdObject.imageCardId = msg[2];
+          this.cmdObject.layoutLink = msg[3];
+          this.cmdObject.imageLink = msg[3];
           this.cmdObjectVersion+=1;
 
 

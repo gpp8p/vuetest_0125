@@ -84,7 +84,8 @@ export default {
             this.content.imageTitle = this.cardContent.imageTitle;
 //            this.content.imageTitle = this.cmdObject.imageTitle;
             this.content.cardType = "imageCard";
-            this.content.layoutLink = this.layoutLink;
+            this.content.layoutLink = this.cmdObject.layoutLink;
+            this.content.imageLink = this.cmdObject.imageLink;
             var linkReference = 'Link from:'+this.content.imageTitle;
             console.log('saving imageCard-', this.content);
             this.setCardData(this.content, 'saveCardContent', 'main');

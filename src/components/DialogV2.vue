@@ -65,7 +65,7 @@
                        @clearCmd="clearCmd"
                        @registrationSaved="registrationSaved"
             ></organizations>
-        <layout-list v-if="dialogType==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected" ></layout-list>
+        <layout-list v-if="dialogType==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected" :linesPerPage="8"></layout-list>
         <insert-card-select :cmd = "cmd" v-if="dialogType==this.DIALOG_INSERT_CARD" @cardSaved="cardSaved"></insert-card-select>
         <select-template :cmd = "cmd" v-if="dialogType==this.DIALOG_SELECT_TEMPLATE" @templateSelected="templateSelected" ></select-template>
         <clone-template :cmd = "dialogCmd"
@@ -401,11 +401,23 @@
                   break;
                 }
                 case 'saveImageCard':{
+                  console.log('at saveImageCard in DialogV2', this.selectedCardConfigurationValues);
                   debugger;
-                  if(typeof(this.currentValues.imageHeadline)=='undefined'){
-                    this.$emit('configSelected', ['saveImageEdit', this.selectedCardConfigurationValues.cardContent.imageTitle, this.selectedCardConfigurationValues.cardId]);
+                  var linkToAddress;
+                  if(typeof (this.selectedCardConfigurationValues.cardContent.availableLinks[0])=='undefined'){
+                     linkToAddress = this.$store.getters.getCurrentLayoutId;
+                  }else if(typeof (this.selectedCardConfigurationValues.cardContent.availableLinks[0].layout_link_to)!='undefined'){
+                    linkToAddress = this.selectedCardConfigurationValues.cardContent.availableLinks[0].layout_link_to;                     
+                  }else if(typeof (this.selectedCardConfigurationValues.cardContent.layoutLink)!='undefined') {
+                    linkToAddress = this.selectedCardConfigurationValues.cardContent.layoutLink;
                   }else{
-                    this.$emit('configSelected', ['saveImageEdit', this.currentValues.imageHeadline, this.selectedCardConfigurationValues.cardId]);
+                    linkToAddress = 0;
+                  }
+                  if(typeof(this.currentValues.imageHeadline)=='undefined'){
+                    this.$emit('configSelected', ['saveImageEdit', this.selectedCardConfigurationValues.cardContent.imageTitle, this.selectedCardConfigurationValues.cardId, linkToAddress]);
+                  }else{
+
+                    this.$emit('configSelected', ['saveImageEdit', this.currentValues.imageHeadline, this.selectedCardConfigurationValues.cardId, linkToAddress]);
                   }
                   break;
                 }
