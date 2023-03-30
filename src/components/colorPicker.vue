@@ -49,7 +49,7 @@
             getCurrentValue(){
                 //debugger;
                 if(typeof(this.currentValues[this.pType])=='undefined'){
-                    return '#FFFFFF';
+                    return '#0509f5';
                 }else{
                     return this.currentValues[this.pType];
                 }

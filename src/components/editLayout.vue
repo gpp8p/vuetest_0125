@@ -129,14 +129,14 @@ export default {
       dialogStyleObject:{
         top: '-80vh',
         left: '20vw',
-        height: '60vh',
+        height: '75vh',
         width: '50vw'
 
       },
       styleObject: {
         top: '-80vh',
         left: '20vw',
-        height: '60vh',
+        height: '75vh',
         width: '50vw'
 
       },

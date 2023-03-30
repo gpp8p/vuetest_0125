@@ -112,7 +112,7 @@ export default {
       sortIcon: 'arrow-up',
       sortIconSize: 'small',
       currentPage: 1,
-      perPage: 0,
+      perPage: 4,
       nxtPage: 'Next Page',
       selected:'',
       columns: [

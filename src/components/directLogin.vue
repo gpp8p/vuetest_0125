@@ -72,7 +72,7 @@ name: "directLogin",
 .directLoginPage {
   display:grid;
   grid-template-columns: 35% 40% 35%;
-  grid-template-rows: 40% 40% 20%;
+  grid-template-rows: 10% 40% 20%;
   height: 600px;
 
 }

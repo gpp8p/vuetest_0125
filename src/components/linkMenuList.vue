@@ -72,7 +72,7 @@ name: "linkMenuList",
       sortIcon: 'arrow-up',
       sortIconSize: 'small',
       currentPage: 1,
-      perPage: 8,
+      perPage: 5,
       nxtPage: 'Next Page',
       selected:'',
       orient:''

@@ -159,7 +159,7 @@ export default {
       styleObject: {
         top: '20vh',
         left: '20vw',
-        height: '60vh',
+        height: '75vh',
         width: '50vw'
       }
 

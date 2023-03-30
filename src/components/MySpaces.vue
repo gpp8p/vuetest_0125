@@ -120,7 +120,7 @@ name: "MySpaces",
       sortIcon: 'arrow-up',
       sortIconSize: 'small',
       currentPage: 1,
-      perPage: 15,
+      perPage: 12,
       nxtPage: 'Next Page',
       selected:'',
       columns: [

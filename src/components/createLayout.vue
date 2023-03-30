@@ -49,7 +49,7 @@
           Open Access
           </o-radio>
           <o-radio v-model="permType" name="permType"  native-value="template">
-          Copy Page Permissions
+          Copy Page Permissions (Restricted)
           </o-radio>
        </span>
      </span>

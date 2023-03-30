@@ -640,7 +640,7 @@ export default {
 
 .cardHeader {
   color: blue;
-  height: 10%;
+  height: 6%;
   background-color: #fff722;
   font-family: Geneva;
   font-size: 12px;

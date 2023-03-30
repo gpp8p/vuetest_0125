@@ -254,7 +254,7 @@
     }
     .login {
         display: grid;
-        grid-template-columns: 30% 40% 20%;
+        grid-template-columns: 20% 40% 20%;
         grid-template-rows: 40% 40% 20% 20%;
         row-gap: 3px;
         justify-items: left;
@@ -274,7 +274,7 @@
     .cmdLineWrapper {
       display: flex;
       margin-top: 10%;
-      margin-left: 100%;
+      margin-left: 75%;
 
     }
     .loginCmdLine {
@@ -309,7 +309,7 @@
     .loginField {
         background-color: #dbddd0;
       margin-left: 100%;
-      width: 200%;
+      width: 125%;
     }
 
 

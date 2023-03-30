@@ -67,7 +67,10 @@
         ></change-link-label>
       </span>
   </span>
-    <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
+    <span class="linkMasterLabel">
+         <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
+    </span>
+
   </span>
 </div>
 
@@ -1114,7 +1117,7 @@ export default {
 
 <style scoped>
 .dialogComponent {
-  height:530px;
+  height:700px;
   width:70vw;
   display: grid;
   grid-template-rows: 10% 80% 10%;
@@ -1181,7 +1184,7 @@ export default {
 .linkMasterWrapper {
   display:grid;
   grid-template-rows: 10% 90%;
-  height:100%;
+  height:75%;
   width:100%;
   position: relative;
   background-color: #ab97ff;
@@ -1198,6 +1201,9 @@ export default {
 .orient {
   display: grid;
   grid-template-columns: 40% 60%;
+}
+.linkMasterLabel{
+  margin-top: 65px;
 }
 .titleField {
 

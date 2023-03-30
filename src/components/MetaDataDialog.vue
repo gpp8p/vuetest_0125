@@ -3,7 +3,7 @@
       <span class="labelPlusInput">
         <span>{{this.inputFieldLabel}}</span><input type="text" v-model="cardName" size="40" maxlen="80" />
       </span>
-      <span>
+      <span style="margin-top: 3px;">
         <date-field field :pType="dateTypeReference" :dialogKey="this.dKey" :label="dateLabel" :currentValues="this.cardContent" :backgroundColor = "metaBackgrouond" @configSelected="configSelected"></date-field>
       </span>
       <span>

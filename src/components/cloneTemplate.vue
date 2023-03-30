@@ -33,7 +33,7 @@
           Open Access
           </o-radio>
           <o-radio v-if="this.parentFound==1" v-model="permType" name="imageType"  native-value="template">
-          Copy Page Permissions
+          Copy Page Permissions (Restricted)
           </o-radio>
         <div v-if="this.parentFound==0" >
             Cannot copy permissions - no parent.

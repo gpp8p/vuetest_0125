@@ -407,7 +407,7 @@
                   if(typeof (this.selectedCardConfigurationValues.cardContent.availableLinks[0])=='undefined'){
                      linkToAddress = this.$store.getters.getCurrentLayoutId;
                   }else if(typeof (this.selectedCardConfigurationValues.cardContent.availableLinks[0].layout_link_to)!='undefined'){
-                    linkToAddress = this.selectedCardConfigurationValues.cardContent.availableLinks[0].layout_link_to;                     
+                    linkToAddress = this.selectedCardConfigurationValues.cardContent.availableLinks[0].layout_link_to;
                   }else if(typeof (this.selectedCardConfigurationValues.cardContent.layoutLink)!='undefined') {
                     linkToAddress = this.selectedCardConfigurationValues.cardContent.layoutLink;
                   }else{

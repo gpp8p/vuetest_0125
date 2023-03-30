@@ -1,6 +1,5 @@
 <template>
 <span class="addLinkWrapper">
-    <hr/>
     <span class="linkRow">
       <span>
         <o-radio v-model="linkChoice" name="linkType" @input="linkChoiceMade" native-value="extSelected">Ext. Link</o-radio>
@@ -27,8 +26,8 @@
       <span>
       </span>
     </span>
-    <span v-if="this.mode==this.SHOW_INTERNAL_LINKS" class=".linkTable">
-      <layout-list :cmd="this.layoutListCmd" @layoutSelected="layoutSelected" :linesPerPage="6" ></layout-list>
+    <span v-if="this.mode==this.SHOW_INTERNAL_LINKS" class="linkTable">
+      <layout-list :cmd="this.layoutListCmd" @layoutSelected="layoutSelected" :linesPerPage="4" ></layout-list>
     </span>
 </span>
 </template>
@@ -117,6 +116,7 @@ name: "linkMenuAdd",
   display:grid;
   grid-template-rows: 15% 15% 70%;
   grid-template-columns: 100%;
+  height:250px;
 }
 .extLinkArea {
   display : grid;
